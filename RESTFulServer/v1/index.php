@@ -14,7 +14,7 @@ $user_id = NULL;
 $staff_id = NULL;
 //Restricted user field
 $restricted_user_field = array('user_id', 'email', 'api_key', 'created_at', 'status');
-
+$restricted_customer_field = array('customer_id', 'email', 'api_key', 'created_at', 'status');
 
 /**
  * Adding Middle Layer to authenticate User every request
@@ -33,7 +33,8 @@ function authenticateUser(\Slim\Route $route) {
         // get the api key
         $api_key = $headers['Authorization'];
         // validating api key
-        if (!$db->isValidApiKey($api_key,"user") || $db->isLockUser($api_key)) {
+        //if (!$db->isValidApiKey($api_key,"customer") || $db->isLockUser($api_key)) {
+        if (!$db->isValidApiKey($api_key,"customer")) {
             // api key is not present in users table
             $response["error"] = true;
             $response["message"] = "Access Denied.";
@@ -42,7 +43,7 @@ function authenticateUser(\Slim\Route $route) {
         } else {
             global $user_id;
             // get user primary key id
-            $user_id = $db->getUserId($api_key);
+            $user_id = $db->getCustomerId($api_key);
         }
     } else {
         // api key is missing in header
@@ -91,12 +92,12 @@ function authenticateStaff(\Slim\Route $route) {
 }
 
 /**
- * User Registration
+ * Customer Registration
  * url - /user
  * method - POST
  * params - email, password
  */
-$app->post('/user', function() use ($app) {
+$app->post('/customer', function() use ($app) {
             // check for required params
             verifyRequiredParams(array('email', 'password'));
 
@@ -112,11 +113,11 @@ $app->post('/user', function() use ($app) {
             validatePassword($password);
 
             $db = new DbHandler();
-            $res = $db->createUser($email, $password);
+            $res = $db->createCustomer($email, $password);
 
             if ($res == USER_CREATED_SUCCESSFULLY) {
-                $user = $db->getUserByEmail($email);
-                $activation_code = $user["api_key"];
+                $customer = $db->getCustomerByEmail($email);
+                $activation_code = $customer["api_key"];
 
                 $content_mail = "Chao ban,<br>
                                 Vui long nhan vao duong link sau de kich hoat tai khoan:
@@ -183,19 +184,19 @@ $app->post('/user/login', function() use ($app) {
             // check for correct email and password
             if ($res == LOGIN_SUCCESSFULL) {
                 // get the user by email
-                $user = $db->getUserByEmail($email);
+                $user = $db->getCustomerByEmail($email);
 
                 if ($user != NULL) {
                     $response["error"] = false;
                     $response['apiKey'] = $user['api_key'];
                     $response['customer_status'] = $user['status'];
 
-                    $user_id = $db->getUserId($user['api_key']);
+                    $user_id = $db->getCustomerId($user['api_key']);
 
-                    $driver_status = $db->getDriverByField($user_id, 'status');
-                    $response['driver_status'] = $driver_status;
+                    //$driver_status = $db->getDriverByField($user_id, 'status');
+                    //$response['driver_status'] = $driver_status;
 
-                    $response['driver'] = $db->isDriver($user_id);
+                    //$response['driver'] = $db->isDriver($user_id);
                 } else {
                     // unknown error occurred
                     $response['error'] = true;
@@ -225,7 +226,7 @@ $app->get('/forgotpass/:email', function($email) {
             $db = new DbHandler();
 
             if ($db->isUserExists($email)) {
-                $res = $db->getUserByEmail($email);
+                $res = $db->getCustomerByEmail($email);
 
                 if (isset($res)) {
                     $content_mail = "Chao ban,<br>
@@ -260,7 +261,7 @@ $app->get('/user', 'authenticateUser', function() {
             $db = new DbHandler();
 
             // fetch task
-            $result = $db->getUserByUserID($user_id);
+            $result = $db->getCustomerByID($user_id);
 
             if ($result != NULL) {
                 $response['error'] = false;
@@ -269,11 +270,9 @@ $app->get('/user', 'authenticateUser', function() {
                 $response['fullname'] = $result['fullname'];
                 $response['phone'] = $result['phone'];
                 $response['personalID'] = $result['personalID'];
-                $response['personalID_img'] = $result['personalID_img'];
-                $response['link_avatar'] = $result['link_avatar'];
+                $response['customer_avatar'] = $result['customer_avatar'];
                 $response['created_at'] = $result['created_at'];
                 $response['status'] = $result['status'];
-                $response['locked'] = $result['locked'];
                 echoRespnse(200, $response);
             } else {
                 $response['error'] = true;
@@ -569,493 +568,7 @@ $app->delete('/driver', 'authenticateUser', function() {
             echoRespnse(200, $response);
         });
 
-/**
- * Staff Registration
- * url - /staff
- * method - POST
- * params - email, password
- */
-$app->post('/staff', function() use ($app) {
-            // check for required params
-            verifyRequiredParams(array('email'));
 
-            $response = array();
-
-            // reading post params
-            $role = $app->request->post('role');
-            $email = $app->request->post('email');
-            $fullname = $app->request->post('fullname');
-            $personalID = $app->request->post('personalID');
-
-            // validating email address
-            validateEmail($email);
-
-            $db = new DbHandler();
-            $res = $db->createStaff($role, $email, $fullname, $personalID);
-
-            if ($res == STAFF_CREATED_SUCCESSFULLY) {
-                $response["error"] = false;
-                $response["message"] = "Tạo nhân viên mới thành công!";
-            } else if ($res == STAFF_ALREADY_EXISTED) {
-                $response["error"] = true;
-                $response["message"] = "Xin lỗi! email bạn đăng kí đã tồn tại.";
-            } else if ($res == STAFF_CREATE_FAILED) {
-                $response["error"] = true;
-                $response["message"] = "Xin lỗi! Có lỗi xảy ra trong quá trình đăng kí.";
-            }
-            // echo json response
-            echoRespnse(201, $response);
-        });
-
-/**
- * User Login
- * url - /user
- * method - POST
- * params - email, password
- */
-$app->post('/staff/login', function() use ($app) {
-            // check for required params
-            verifyRequiredParams(array('email', 'password'));
-
-            // reading post params
-            $email = $app->request()->post('email');
-            $password = $app->request()->post('password');
-            $response = array();
-
-            $db = new DbHandler();
-
-            $res = $db->checkLoginStaff($email, $password);
-            // check for correct email and password
-            if ($res == LOGIN_SUCCESSFULL) {
-                // get the user by email
-                $staff = $db->getStaffByEmail($email);
-
-                if ($staff != NULL) {
-                    $response["error"] = false;
-                    $response['apiKey'] = $staff['api_key'];
-                } else {
-                    // unknown error occurred
-                    $response['error'] = true;
-                    $response['message'] = "Có lỗi xảy ra! Vui lòng thử lại.";
-                }
-            } elseif ($res == WRONG_PASSWORD || $res == STAFF_NOT_REGISTER) {
-                $response['error'] = true;
-                $response['message'] = "Sai email hoặc mật khẩu!";
-            }
-
-            echoRespnse(200, $response);
-        });
-
-/**
- * Get all user information
- * method GET
- * url /user
- */
-$app->get('/staff', 'authenticateStaff', function() {
-            global $staff_id;
-
-            $response = array();
-            $db = new DbHandler();
-
-            // fetch task
-            $result = $db->getStaffByStaffID($staff_id);
-
-            if ($result != NULL) {
-                $response["error"] = false;
-                $response['role'] = $result['role'];
-                $response['email'] = $result['email'];
-                $response['apiKey'] = $result['api_key'];
-                $response['fullname'] = $result['fullname'];
-                $response['personalID'] = $result['personalID'];
-                $response['created_at'] = $result['created_at'];
-                echoRespnse(200, $response);
-            } else {
-                $response["error"] = true;
-                $response["message"] = "Đường dẫn bạn yêu cầu không tồn tại!";
-                echoRespnse(404, $response);
-            }
-        });
-
-/**
- * Get all user information
- * method GET
- * url /user
- */
-$app->get('/staff/user', 'authenticateStaff', function() {
-            $response = array();
-            $db = new DbHandler();
-
-            $response['error'] = false;
-            $response['users'] = array();
-
-            // fetch task
-            $result = $db->getListUser();
-
-            while ($user = $result->fetch_assoc()) {
-                array_push($response['users'], $user);               
-            }
-
-            echoRespnse(200, $response);
-        });
-
-/**
- * Get user information
- * method GET
- * url /staff/user
- */
-$app->get('/staff/user/:user_id', 'authenticateStaff', function($user_id) {
-            $response = array();
-            $db = new DbHandler();
-
-            // fetch task
-            $result = $db->getUserByUserID($user_id);
-
-            if ($result != NULL) {
-                $response["error"] = false;
-                $response['email'] = $result['email'];
-                $response['apiKey'] = $result['api_key'];
-                $response['fullname'] = $result['fullname'];
-                $response['phone'] = $result['phone'];
-                $response['personalID'] = $result['personalID'];
-                $response['personalID_img'] = $result['personalID_img'];
-                $response['link_avatar'] = $result['link_avatar'];
-                $response['created_at'] = $result['created_at'];
-                $response['status'] = $result['status'];
-                $response['locked'] = $result['locked'];
-                echoRespnse(200, $response);
-            } else {
-                $response["error"] = true;
-                $response["message"] = "The requested resource doesn't exists";
-                echoRespnse(404, $response);
-            }
-        });
-
-/**
- * Get user information
- * method GET
- * url /user
- */
-$app->get('/staff/user/:user_id/:field', 'authenticateStaff', function($user_id, $field) {
-            $response = array();
-            $db = new DbHandler();
-
-            // fetch task
-            $result = $db->getUserByField($user_id, $field);
-
-            if ($result != NULL) {
-                $response["error"] = false;
-                $response[$field] = $result;
-                echoRespnse(200, $response);
-            } else {
-                $response["error"] = true;
-                $response["message"] = "Đường dẫn bạn yêu cầu không tồn tại!";
-                echoRespnse(404, $response);
-            }
-        });
-
-/**
- * Updating user
- * method PUT
- * params task, status
- * url - /user
- */
-$app->put('/staff/user/:user_id', 'authenticateStaff', function($user_id) use($app) {
-            // check for required params
-            verifyRequiredParams(array('status', 'locked'));
-        
-            $status = $app->request->put('status');
-            $locked = $app->request->put('locked');
-
-            $db = new DbHandler();
-            $response = array();
-
-            // updating task
-            $result = $db->updateUser1($user_id, $status, $locked);
-            if ($result) {
-                // task updated successfully
-                $response["error"] = false;
-                $response["message"] = "Cập nhật thông tin thành công!";
-            } else {
-                // task failed to update
-                $response["error"] = true;
-                $response["message"] = "Cập nhật thông tin thất bại. Vui lòng thử lại!";
-            }
-            echoRespnse(200, $response);
-        });
-
-/**
- * Update user information
- * method PUT
- * url /user
- */
-$app->put('/staff/user/:user_id/:field', 'authenticateStaff', function($user_id, $field) use($app) {
-            global $restricted_user_field;
-
-            if (!in_array($field, $restricted_user_field)) {
-                // check for required params
-                verifyRequiredParams(array('value'));
-
-                $value = $app->request->put('value');
-
-                $response = array();
-                $db = new DbHandler();
-
-                if ($field == 'password') {
-                    validatePassword($value);
-
-                    $result = $db->changePassword($user_id, $value);
-                } else {
-                    // fetch user
-                    $result = $db->updateUserField($user_id, $field, $value);
-                }
-
-                if ($result) {
-                    // user updated successfully
-                    $response["error"] = false;
-                    $response["message"] = "Cập nhật thông tin thành công!";
-                } else {
-                    // user failed to update
-                    $response["error"] = true;
-                    $response["message"] = "Cập nhật thông tin thất bại. Vui lòng thử lại!";
-                }
-            } else {
-                $response["error"] = true;
-                $response["message"] = "Cập nhật thông tin thất bại. Vui lòng thử lại!";
-            }
-            
-            echoRespnse(200, $response);
-        });
-
-/**
- * Deleting user.
- * method DELETE
- * url /staff/user
- */
-$app->delete('/staff/user/:user_id', 'authenticateStaff', function($user_id) {
-
-            $db = new DbHandler();
-            $response = array();
-
-            $result = $db->deleteUser($user_id);
-
-            if ($result) {
-                // user deleted successfully
-                $response["error"] = false;
-                $response["message"] = "Xóa người dùng thành công!";
-            } else {
-                // task failed to delete
-                $response["error"] = true;
-                $response["message"] = "Xóa người dùng thất bại. Vui lòng thử lại!";
-            }
-            echoRespnse(200, $response);
-        });
-
-/**
- * Listing all itineraries of particual user
- * method GET
- * url /itineraries          
- */
-$app->get('/staff/itineraries', 'authenticateStaff', function() {
-            global $staff_id;
-            $response = array();
-            $db = new DbHandler();
-
-            // fetching all user tasks
-            $result = $db->getAllItinerariesWithDriverInfo();
-
-            $response["error"] = false;
-            $response["itineraries"] = array();
-
-            // looping through result and preparing tasks array
-            while ($itinerary = $result->fetch_assoc()) {
-                $tmp = array();
-
-                //itinerary info
-                $tmp["itinerary_id"] = $itinerary["itinerary_id"];
-                $tmp["driver_id"] = $itinerary["driver_id"];
-                $tmp["customer_id"] = $itinerary["customer_id"];
-                $tmp["start_address"] = $itinerary["start_address"];
-                $tmp["start_address_lat"] = $itinerary["start_address_lat"];
-                $tmp["start_address_long"] = $itinerary["start_address_long"];
-                $tmp["pick_up_address"] = $itinerary["pick_up_address"];
-                $tmp["pick_up_address_lat"] = $itinerary["pick_up_address_lat"];
-                $tmp["pick_up_address_long"] = $itinerary["pick_up_address_long"];
-                $tmp["drop_address"] = $itinerary["drop_address"];
-                $tmp["drop_address_lat"] = $itinerary["drop_address_lat"];
-                $tmp["drop_address_long"] = $itinerary["drop_address_long"];
-                $tmp["end_address"] = $itinerary["end_address"];
-                $tmp["end_address_lat"] = $itinerary["end_address_lat"];
-                $tmp["end_address_long"] = $itinerary["end_address_long"];
-                $tmp["leave_date"] = $itinerary["leave_date"];
-                $tmp["duration"] = $itinerary["duration"];
-                $tmp["distance"] = $itinerary["distance"];
-                $tmp["cost"] = $itinerary["cost"];
-                $tmp["description"] = $itinerary["description"];
-                $tmp["status"] = $itinerary["status"];
-                $tmp["created_at"] = $itinerary["created_at"];
-
-                //driver info
-                $tmp["driver_license"] = $itinerary["driver_license"];
-                $tmp["driver_license_img"] = $itinerary["driver_license_img"];
-                
-                //user info
-                $tmp["user_id"] = $itinerary["user_id"];
-                $tmp["email"] = $itinerary["email"];
-                $tmp["fullname"] = $itinerary["fullname"];
-                $tmp["phone"] = $itinerary["phone"];
-                $tmp["personalID"] = $itinerary["personalID"];
-                $tmp["link_avatar"] = $itinerary["link_avatar"];
-
-                //rating
-                $tmp["average_rating"] = $db->getAverageRatingofDriver($itinerary["user_id"]);
-                array_push($response["itineraries"], $tmp);
-            }
-
-            //print_r($response);
-
-            //echo $response;
-            echoRespnse(200, $response);
-
-        });
-
-
-$app->get('staff/itinerary/:id', function($itinerary_id) {
-            $response = array();
-            $db = new DbHandler();
-
-            // fetch task
-            $result = $db->getItinerary($itinerary_id);
-
-            if ($result != NULL) {
-                $response["error"] = false;
-                $response["itinerary_id"] = $result["itinerary_id"];
-                $response["driver_id"] = $result["driver_id"];
-                $response["customer_id"] = $result["customer_id"];
-                $response["start_address"] = $result["start_address"];
-                $response["start_address_lat"] = $result["start_address_lat"];
-                $response["start_address_long"] = $result["start_address_long"];
-                $response["pick_up_address"] = $result["pick_up_address"];
-                $response["pick_up_address_lat"] = $result["pick_up_address_lat"];
-                $response["pick_up_address_long"] = $result["pick_up_address_long"];
-                $response["drop_address"] = $result["drop_address"];
-                $response["drop_address_lat"] = $result["drop_address_lat"];
-                $response["drop_address_long"] = $result["drop_address_long"];
-                $response["end_address"] = $result["end_address"];
-                $response["end_address_lat"] = $result["end_address_lat"];
-                $response["end_address_long"] = $result["end_address_long"];
-                $response["leave_date"] = $result["leave_date"];
-                $response["duration"] = $result["duration"];
-                $response["distance"] = $result["distance"];
-                $response["cost"] = $result["cost"];
-                $response["description"] = $result["description"];
-                $response["status"] = $result["status"];
-                $response["created_at"] = $result["created_at"];
-                echoRespnse(200, $response);
-            } else {
-                $response["error"] = true;
-                $response["message"] = "The requested resource doesn't exists";
-                echoRespnse(404, $response);
-            }
-        });
-
-$app->put('staff/itinerary/:id', 'authenticateStaff', function($itinerary_id) use($app) {
-            // check for required params
-            //verifyRequiredParams(array('task', 'status'));
-
-            global $staff_id;
-            $itinerary_fields = array();
-
-            $request_params = array();
-            $request_params = $_REQUEST;
-            // Handling PUT request params
-            if ($_SERVER['REQUEST_METHOD'] == 'PUT') {
-                $app = \Slim\Slim::getInstance();
-                parse_str($app->request()->getBody(), $request_params);
-            }
-
-            $db = new DbHandler();
-            $response = array();
-            // updating task
-            $result = $db->updateItinerary2($request_params, $itinerary_id);
-            if ($result) {
-                // task updated successfully
-                $response["error"] = false;
-                $response["message"] = "Itinerary updated successfully";
-            } else {
-                // task failed to update
-                $response["error"] = true;
-                $response["message"] = "Itinerary failed to update. Please try again!";
-            }
-            echoRespnse(200, $response);
-        });
-
-$app->delete('/staff/itinerary/:id', function($itinerary_id) use($app) {
-            //global $staff_id;
-            echo "quay len";
-            $db = new DbHandler();
-            $response = array();
-            $result = $db->deleteItinerary($itinerary_id);
-            if ($result) {
-                // itinerary deleted successfully
-                $response["error"] = false;
-                $response["message"] = "Itinerary deleted succesfully";
-            } else {
-                // itinerary failed to delete
-                $response["error"] = true;
-                $response["message"] = "Itinerary failed to delete. Please try again!";
-            }
-            echoRespnse(200, $response);
-        });
-
-//Route itinerary
-//
-//
-$app->post('/itinerary', 'authenticateUser', function() use ($app) {
-            // check for required params
-            verifyRequiredParams(array('start_address','start_address_lat','start_address_long','end_address',
-                'end_address_lat','end_address_long','leave_date','duration','cost', 'distance'));
-
-            $response = array();
-            
-            $start_address = $app->request->post('start_address');
-            $start_address_lat = $app->request->post('start_address_lat');
-            $start_address_long = $app->request->post('start_address_long');
-            $end_address = $app->request->post('end_address');
-            $end_address_lat = $app->request->post('end_address_lat');
-            $end_address_long = $app->request->post('end_address_long');
-            $pick_up_address = $app->request->post('pick_up_address');
-            $pick_up_address_lat = $app->request->post('pick_up_address_lat');
-            $pick_up_address_long = $app->request->post('pick_up_address_long');
-            $drop_address = $app->request->post('drop_address');
-            $drop_address_lat = $app->request->post('drop_address_lat');
-            $drop_address_long = $app->request->post('drop_address_long');
-            $leave_date = $app->request->post('leave_date');
-            $duration = $app->request->post('duration');
-            $cost = $app->request->post('cost');
-            $description = $app->request->post('description');
-            $distance = $app->request->post('distance');
-
-            //echo $start_address;
-
-            global $user_id;
-            $db = new DbHandler();
-
-            // creating new itinerary
-            $itinerary_id = $db->createItinerary($user_id, $start_address, $start_address_lat,$start_address_long,
-             $end_address, $end_address_lat, $end_address_long, $pick_up_address, $pick_up_address_lat, $pick_up_address_long,
-             $drop_address, $drop_address_lat, $drop_address_long, $leave_date, $duration, $cost, $description, $distance);
-
-            if ($itinerary_id != NULL) {
-                $response["error"] = false;
-                $response["message"] = "Itinerary created successfully";
-                $response["itinerary_id"] = $itinerary_id;
-                echoRespnse(201, $response);
-            } else {
-                $response["error"] = true;
-                $response["message"] = "Failed to create itinerary. Please try again";
-                echoRespnse(200, $response);
-            }            
-        });
 
 /**
  * Listing single task of particual user
@@ -1079,12 +592,6 @@ $app->get('/itinerary/:id', function($itinerary_id) {
                 $response["start_address"] = $result["start_address"];
                 $response["start_address_lat"] = $result["start_address_lat"];
                 $response["start_address_long"] = $result["start_address_long"];
-                $response["pick_up_address"] = $result["pick_up_address"];
-                $response["pick_up_address_lat"] = $result["pick_up_address_lat"];
-                $response["pick_up_address_long"] = $result["pick_up_address_long"];
-                $response["drop_address"] = $result["drop_address"];
-                $response["drop_address_lat"] = $result["drop_address_lat"];
-                $response["drop_address_long"] = $result["drop_address_long"];
                 $response["end_address"] = $result["end_address"];
                 $response["end_address_lat"] = $result["end_address_lat"];
                 $response["end_address_long"] = $result["end_address_long"];
@@ -1130,12 +637,6 @@ $app->get('/itineraries', 'authenticateUser', function() {
                 $tmp["start_address"] = $itinerary["start_address"];
                 $tmp["start_address_lat"] = $itinerary["start_address_lat"];
                 $tmp["start_address_long"] = $itinerary["start_address_long"];
-                $tmp["pick_up_address"] = $itinerary["pick_up_address"];
-                $tmp["pick_up_address_lat"] = $itinerary["pick_up_address_lat"];
-                $tmp["pick_up_address_long"] = $itinerary["pick_up_address_long"];
-                $tmp["drop_address"] = $itinerary["drop_address"];
-                $tmp["drop_address_lat"] = $itinerary["drop_address_lat"];
-                $tmp["drop_address_long"] = $itinerary["drop_address_long"];
                 $tmp["end_address"] = $itinerary["end_address"];
                 $tmp["end_address_lat"] = $itinerary["end_address_lat"];
                 $tmp["end_address_long"] = $itinerary["end_address_long"];
@@ -1147,9 +648,6 @@ $app->get('/itineraries', 'authenticateUser', function() {
                 $tmp["status"] = $itinerary["status"];
                 $tmp["created_at"] = $itinerary["created_at"];
 
-                //driver info
-                $tmp["driver_license"] = $itinerary["driver_license"];
-                $tmp["driver_license_img"] = $itinerary["driver_license_img"];
                 
                 //user info
                 $tmp["user_id"] = $itinerary["user_id"];
@@ -1157,7 +655,7 @@ $app->get('/itineraries', 'authenticateUser', function() {
                 $tmp["fullname"] = $itinerary["fullname"];
                 $tmp["phone"] = $itinerary["phone"];
                 $tmp["personalID"] = $itinerary["personalID"];
-                $tmp["link_avatar"] = $itinerary["link_avatar"];
+                $tmp["customer_avatar"] = $itinerary["customer_avatar"];
 
                 //rating
                 $tmp["average_rating"] = $db->getAverageRatingofDriver($itinerary["user_id"]);
@@ -1199,12 +697,6 @@ $app->get('/itineraries/driver/:order', 'authenticateUser', function($order) {
                 $tmp["start_address"] = $itinerary["start_address"];
                 $tmp["start_address_lat"] = $itinerary["start_address_lat"];
                 $tmp["start_address_long"] = $itinerary["start_address_long"];
-                $tmp["pick_up_address"] = $itinerary["pick_up_address"];
-                $tmp["pick_up_address_lat"] = $itinerary["pick_up_address_lat"];
-                $tmp["pick_up_address_long"] = $itinerary["pick_up_address_long"];
-                $tmp["drop_address"] = $itinerary["drop_address"];
-                $tmp["drop_address_lat"] = $itinerary["drop_address_lat"];
-                $tmp["drop_address_long"] = $itinerary["drop_address_long"];
                 $tmp["end_address"] = $itinerary["end_address"];
                 $tmp["end_address_lat"] = $itinerary["end_address_lat"];
                 $tmp["end_address_long"] = $itinerary["end_address_long"];
@@ -1263,12 +755,6 @@ $app->get('/itineraries/customer/:order', 'authenticateUser', function($order) {
                 $tmp["start_address"] = $itinerary["start_address"];
                 $tmp["start_address_lat"] = $itinerary["start_address_lat"];
                 $tmp["start_address_long"] = $itinerary["start_address_long"];
-                $tmp["pick_up_address"] = $itinerary["pick_up_address"];
-                $tmp["pick_up_address_lat"] = $itinerary["pick_up_address_lat"];
-                $tmp["pick_up_address_long"] = $itinerary["pick_up_address_long"];
-                $tmp["drop_address"] = $itinerary["drop_address"];
-                $tmp["drop_address_lat"] = $itinerary["drop_address_lat"];
-                $tmp["drop_address_long"] = $itinerary["drop_address_long"];
                 $tmp["end_address"] = $itinerary["end_address"];
                 $tmp["end_address_lat"] = $itinerary["end_address_lat"];
                 $tmp["end_address_long"] = $itinerary["end_address_long"];
@@ -1477,6 +963,58 @@ $app->delete('/itinerary/:id', 'authenticateUser', function($itinerary_id) use($
             }
             echoRespnse(200, $response);
         });
+
+
+
+/**
+ * Listing all itineraries of particual user
+ * method GET
+ * url /itineraries          
+ */
+$app->get('/drivers', 'authenticateUser', function() {
+            global $user_id;
+            $response = array();
+            $db = new DbHandler();
+
+            // fetching all user tasks
+            $result = $db->getAllDrivers();
+
+            $response["error"] = false;
+            $response["drivers"] = array();
+
+            // looping through result and preparing tasks array
+            while ($driver = $result->fetch_assoc()) {
+                $tmp = array();
+
+                //itinerary info
+                $tmp["driver_id"] = $result["driver_id"];
+                $tmp['email'] = $result['email'];
+                $tmp['fullname'] = $result['fullname'];
+                $tmp['phone'] = $result['phone'];
+                $tmp['driver_lat'] = $result['driver_lat'];
+                $tmp['driver_long'] = $result['driver_long'];
+                $tmp['created_at'] = $result['created_at'];
+                $tmp['status'] = $result['status'];
+                $tmp["driver_avatar"] = $result["driver_avatar"];
+                //rating
+                $driver_id = $tmp["driver_id"];
+                $tmp["average_rating"] = $db->getAverageRatingofDriver($driver_id);
+                array_push($response["drivers"], $tmp);
+            }
+
+            //print_r($response);
+
+            //echo $response;
+            echoRespnse(200, $response);
+
+        });
+
+
+
+
+
+
+
 
 $app->post('/feedback', function() use ($app) {
             // check for required params

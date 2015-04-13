@@ -26,18 +26,18 @@ class DbHandler {
      * @param String $email User login email id
      * @param String $password User login password
      */
-    public function createUser($email, $password) {
+    public function createCustomer($email, $password) {
         require_once 'PassHash.php';
 
         // First check if user already existed in db
-        if (!$this->isUserExists($email)) {
+        if (!$this->isCustomerExists($email)) {
             // Generating password hash
             $password_hash = PassHash::hash($password);
 
             // Generating API key
             $api_key = $this->generateApiKey();
 
-            $sql_query = "INSERT INTO user(email, password, api_key, status) values(?, ?, ?, ". USER_NOT_ACTIVATE. ")";
+            $sql_query = "INSERT INTO customer(email, password, api_key, status) values(?, ?, ?, ". USER_NOT_ACTIVATE. ")";
 
             // insert query
             if ($stmt = $this->conn->prepare($sql_query)) {
@@ -120,13 +120,13 @@ class DbHandler {
      */
     public function checkLogin($email, $password) {
         // fetching user by email
-        $stmt = $this->conn->prepare("SELECT password, status, locked FROM user WHERE email = ?");
+        $stmt = $this->conn->prepare("SELECT password, status FROM customer WHERE email = ?");
 
         $stmt->bind_param("s", $email);
 
         $stmt->execute();
 
-        $stmt->bind_result($password_hash, $status, $locked);
+        $stmt->bind_result($password_hash, $status);
 
         $stmt->store_result();
 
@@ -140,9 +140,8 @@ class DbHandler {
 
             if ($status <= 1) {
                 return USER_NOT_ACTIVATE;
-            } elseif ($locked) {
-                return USER_LOCKED;
-            } elseif (PassHash::check_password($password_hash, $password)) {
+            } 
+            elseif (PassHash::check_password($password_hash, $password)) {
                 return LOGIN_SUCCESSFULL;
             } else {
                 return WRONG_PASSWORD;
@@ -159,8 +158,8 @@ class DbHandler {
      * @param String $email email to check in db
      * @return boolean
      */
-    public function isUserExists($email) {
-        $stmt = $this->conn->prepare("SELECT user_id from user WHERE email = ?");
+    public function isCustomerExists($email) {
+        $stmt = $this->conn->prepare("SELECT customer_id from customer WHERE email = ?");
         $stmt->bind_param("s", $email);
         $stmt->execute();
         $stmt->store_result();
@@ -173,14 +172,14 @@ class DbHandler {
      * Fetching user by email
      * @param String $email User email id
      */
-    public function getUserByEmail($email) {
+    public function getCustomerByEmail($email) {
         $stmt = $this->conn->prepare("SELECT email, api_key, fullname, phone, personalID, 
-                                        personalID_img, link_avatar, status, created_at, locked FROM user WHERE email = ?");
+                                         customer_avatar, status, created_at FROM customer WHERE email = ?");
         $stmt->bind_param("s", $email);
         if ($stmt->execute()) {
             // $user = $stmt->get_result()->fetch_assoc();
-            $stmt->bind_result($email, $api_key, $fullname, $phone, $personalID, $personalID_img,
-                                    $link_avatar, $status, $created_at, $locked);
+            $stmt->bind_result($email, $api_key, $fullname, $phone, $personalID,
+                                    $customer_avatar, $status, $created_at);
             $stmt->fetch();
             $user = array();
             $user["email"] = $email;
@@ -188,11 +187,9 @@ class DbHandler {
             $user["fullname"] = $fullname;
             $user["phone"] = $phone;
             $user["personalID"] = $personalID;
-            $user["personalID_img"] = $personalID_img;
-            $user["link_avatar"] = $link_avatar;
+            $user["customer_avatar"] = $customer_avatar;
             $user["status"] = $status;
             $user["created_at"] = $created_at;
-            $user["locked"] = $locked;
             $stmt->close();
             return $user;
         } else {
@@ -204,14 +201,14 @@ class DbHandler {
      * Fetching user by email
      * @param String $email User email id
      */
-    public function getUserByUserID($user_id) {
+    public function getCustomerByID($user_id) {
         $stmt = $this->conn->prepare("SELECT email, api_key, fullname, phone, personalID, 
-                                        personalID_img, link_avatar, status, created_at, locked FROM user WHERE user_id = ?");
+                                        customer_avatar, status, created_at FROM customer WHERE customer_id = ?");
         $stmt->bind_param("s", $user_id);
         if ($stmt->execute()) {
             // $user = $stmt->get_result()->fetch_assoc();
-            $stmt->bind_result($email, $api_key, $fullname, $phone, $personalID, $personalID_img,
-                                    $link_avatar, $status, $created_at, $locked);
+            $stmt->bind_result($email, $api_key, $fullname, $phone, $personalID,
+                                    $customer_avatar, $status, $created_at, $locked);
             $stmt->fetch();
             $user = array();
             $user["email"] = $email;
@@ -219,11 +216,9 @@ class DbHandler {
             $user["fullname"] = $fullname;
             $user["phone"] = $phone;
             $user["personalID"] = $personalID;
-            $user["personalID_img"] = $personalID_img;
-            $user["link_avatar"] = $link_avatar;
+            $user["customer_avatar"] = $customer_avatar;
             $user["status"] = $status;
             $user["created_at"] = $created_at;
-            $user["locked"] = $locked;
             $stmt->close();
             return $user;
         } else {
@@ -291,16 +286,16 @@ class DbHandler {
      * Fetching user id by api key
      * @param String $api_key user api key
      */
-    public function getUserId($api_key) {
-        $stmt = $this->conn->prepare("SELECT user_id FROM user WHERE api_key = ?");
+    public function getCustomerId($api_key) {
+        $stmt = $this->conn->prepare("SELECT customer_id FROM customer WHERE api_key = ?");
         $stmt->bind_param("s", $api_key);
         if ($stmt->execute()) {
-            $stmt->bind_result($user_id);
+            $stmt->bind_result($customer_id);
             $stmt->fetch();
             // TODO
             // $user_id = $stmt->get_result()->fetch_assoc();
             $stmt->close();
-            return $user_id;
+            return $customer_id;
         } else {
             return NULL;
         }
@@ -312,14 +307,14 @@ class DbHandler {
      * @param String $user_id id of user
      * @param String $password Password
      */
-    public function changePassword($user_id, $password) {
+    public function changePassword($customer_id, $password) {
 
         // Generating password hash
         $password_hash = PassHash::hash($password);
 
-        $stmt = $this->conn->prepare("UPDATE user set password = ?
-                                        WHERE user_id = ?");
-        $stmt->bind_param("si", $password_hash, $user_id);
+        $stmt = $this->conn->prepare("UPDATE customer set password = ?
+                                        WHERE customer_id = ?");
+        $stmt->bind_param("si", $password_hash, $customer_id);
         $stmt->execute();
         $num_affected_rows = $stmt->affected_rows;
         $stmt->close();
@@ -401,9 +396,9 @@ class DbHandler {
      * Delete user
      * @param String $user_id id of user
      */
-    public function deleteUser($user_id) {
-        $stmt = $this->conn->prepare("DELETE FROM user WHERE user_id = ?");
-        $stmt->bind_param("i", $user_id);
+    public function deleteCustomer($customer_id) {
+        $stmt = $this->conn->prepare("DELETE FROM customer WHERE customer_id = ?");
+        $stmt->bind_param("i", $customer_id);
         $stmt->execute();
         $num_affected_rows = $stmt->affected_rows;
         $stmt->close();
@@ -621,177 +616,25 @@ class DbHandler {
         return $num_rows > 0;
     }
 
-    /* ------------- `staff` table method ------------------ */
 
+
+    //not finished yet
     /**
-     * Creating new staff
-     * @param String $fullname Staff full name
-     * @param String $email Staff login email id
-     * @param String $personalID Staff personal ID
+     * Fetching all itineraries
      */
-    public function createStaff($role, $email, $fullname, $personalID) {
-        require_once 'PassHash.php';
-
-        // First check if user already existed in db
-        if (!$this->isStaffExists($email)) {
-            // Generating password hash
-            $password_hash = PassHash::hash($email);
-
-            // Generating API key
-            $api_key = $this->generateApiKey();
-
-            $sql_query = "INSERT INTO staff(email, password, api_key, role, fullname, personalID) 
-                            values(?, ?, ?, ?, ?, ?)";
-
-            // insert query
-            if ($stmt = $this->conn->prepare($sql_query)) {
-                $stmt->bind_param("sssiss", $email, $password_hash, $api_key, $role==NULL?ROLE_STAFF:$role,
-                                    $fullname==NULL?' ':$fullname, $personalID==NULL?' ':$personalID);
-                $result = $stmt->execute();
-            } else {
-                var_dump($this->conn->error);
-            }
-
-            $stmt->close();
-
-            // Check for successful insertion
-            if ($result) {
-                // User successfully inserted
-                return STAFF_CREATED_SUCCESSFULLY;
-            } else {
-                // Failed to create user
-                return STAFF_CREATE_FAILED;
-            }
-        } else {
-            // User with same email already existed in the db
-            return STAFF_ALREADY_EXISTED;
-        }
-    }
-
-    /**
-     * Checking staff login
-     * @param String $email staff login email id
-     * @param String $password staff login password
-     * @return boolean User login status success/fail
-     */
-    public function checkLoginStaff($email, $password) {
-        // fetching staff by email
-        $stmt = $this->conn->prepare("SELECT password, role FROM staff WHERE email = ?");
-
-        $stmt->bind_param("s", $email);
-
+    public function getAllDrivers() {
+        $q = "SELECT * FROM driver";
+        $stmt = $this->conn->prepare($q);
         $stmt->execute();
-
-        $stmt->bind_result($password_hash, $role);
-
-        $stmt->store_result();
-
-        if ($stmt->num_rows > 0) {
-            // Found user with the email
-            // Now verify the password
-
-            $stmt->fetch();
-
-            $stmt->close();
-
-            if (PassHash::check_password($password_hash, $password)) {
-                return LOGIN_SUCCESSFULL;
-            } else {
-                // staff password is incorrect
-                return WRONG_PASSWORD;
-            }
-        } else {
-            $stmt->close();
-            // staff not existed with the email
-            return STAFF_NOT_REGISTER;
-        }
-    }
-
-    /**
-     * Fetching staff by email
-     * @param String $email Staff email id
-     */
-    public function getStaffByEmail($email) {
-        $stmt = $this->conn->prepare("SELECT role, email, api_key, fullname, personalID, created_at 
-                                        FROM staff WHERE email = ?");
-        $stmt->bind_param("s", $email);
-        if ($stmt->execute()) {
-            // $user = $stmt->get_result()->fetch_assoc();
-            $stmt->bind_result($role, $email, $api_key, $fullname,$personalID, $created_at);
-            $stmt->fetch();
-            $staff = array();
-            $staff["role"] = $role;
-            $staff["email"] = $email;
-            $staff["api_key"] = $api_key;
-            $staff["fullname"] = $fullname;
-            $staff["personalID"] = $personalID;
-            $staff["created_at"] = $created_at;
-            $stmt->close();
-            return $staff;
-        } else {
-            return NULL;
-        }
-    }
-
-    /**
-     * Fetching staff by staff id
-     * @param String $staff_id Staff id
-     */
-    public function getStaffByStaffID($staff_id) {
-        $stmt = $this->conn->prepare("SELECT role, email, api_key, fullname, personalID, created_at 
-                                        FROM staff WHERE staff_id = ?");
-        $stmt->bind_param("s", $staff_id);
-        if ($stmt->execute()) {
-            // $user = $stmt->get_result()->fetch_assoc();
-            $stmt->bind_result($role, $email, $api_key, $fullname,$personalID, $created_at);
-            $stmt->fetch();
-            $staff = array();
-            $staff["role"] = $role;
-            $staff["email"] = $email;
-            $staff["api_key"] = $api_key;
-            $staff["fullname"] = $fullname;
-            $staff["personalID"] = $personalID;
-            $staff["created_at"] = $created_at;
-            $stmt->close();
-            return $staff;
-        } else {
-            return NULL;
-        }
-    }
-
-    /**
-     * Checking for duplicate user by email address
-     * @param String $email email to check in db
-     * @return boolean
-     */
-    private function isStaffExists($email) {
-        $stmt = $this->conn->prepare("SELECT staff_id from staff WHERE email = ?");
-        $stmt->bind_param("s", $email);
-        $stmt->execute();
-        $stmt->store_result();
-        $num_rows = $stmt->num_rows;
+        $itineraries = $stmt->get_result();
         $stmt->close();
-        return $num_rows > 0;
+        return $itineraries;
     }
 
-    /**
-     * Fetching staff id by api key
-     * @param String $api_key staff api key
-     */
-    public function getStaffId($api_key) {
-        $stmt = $this->conn->prepare("SELECT staff_id FROM staff WHERE api_key = ?");
-        $stmt->bind_param("s", $api_key);
-        if ($stmt->execute()) {
-            $stmt->bind_result($staff_id);
-            $stmt->fetch();
-            // TODO
-            // $user_id = $stmt->get_result()->fetch_assoc();
-            $stmt->close();
-            return $staff_id;
-        } else {
-            return NULL;
-        }
-    }
+
+
+
+
 
     /* ------------- `itinerary` table method ------------------ */
 
@@ -905,7 +748,7 @@ class DbHandler {
     }
 
     public function getAverageRatingofDriver($driver_id){
-        $q = "SELECT AVG(rating) AS average_rating FROM rating WHERE user_id = ?";
+        $q = "SELECT AVG(rating) AS average_rating FROM rating WHERE driver_id = ?";
         $stmt = $this->conn->prepare($q);
         $stmt->bind_param("i",$driver_id);
         $stmt->execute();
