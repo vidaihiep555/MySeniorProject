@@ -633,9 +633,6 @@ class DbHandler {
 
 
 
-
-
-
     /* ------------- `itinerary` table method ------------------ */
 
     //not finished yet
@@ -645,19 +642,19 @@ class DbHandler {
      * @param String $start_address, $end_address, $leave_day, $duration, $cost, $description are itinerary's properties
      */
     public function createItinerary($driver_id, $start_address, $start_address_lat,$start_address_long,
-             $end_address, $end_address_lat, $end_address_long, $leave_date, $duration, $cost, $description, $distance) {
-        $q = "INSERT INTO itinerary(driver_id, start_address, start_address_lat, start_address_long, 
-            end_address, end_address_lat, end_address_long, leave_date, duration, cost, description, distance, status) ";
-                $q .= " VALUES(?,?,?,?,?,?,?,?,?,?,?,?,". ITINERARY_STATUS_CREATED.")";
+             $end_address, $end_address_lat, $end_address_long, $time, $description, $distance) {
+        $q = "INSERT INTO itinerary(customer_id, start_address, start_address_lat, start_address_long, 
+            end_address, end_address_lat, end_address_long, time, description, distance, status) ";
+                $q .= " VALUES(?,?,?,?,?,?,?,?,?,?,". ITINERARY_STATUS_CREATED.")";
         $stmt = $this->conn->prepare($q);
 		
-        $stmt->bind_param("isddsddsidsd",
+        $stmt->bind_param("isddsddssd",
             $driver_id, $start_address, $start_address_lat, $start_address_long, 
-            $end_address, $end_address_lat, $end_address_long, $leave_date, $duration, $cost, $description, $distance);
+            $end_address, $end_address_lat, $end_address_long, $time, $description, $distance);
         
         $result = $stmt->execute();
         $stmt->close();
-
+        //echo $end_address;
         if ($result) {
             $new_itinerary_id = $this->conn->insert_id;
             
@@ -680,6 +677,37 @@ class DbHandler {
 
     }
 
+    public function createSimpleItinerary($customer_id, $driver_id, $start_address, $start_address_lat, $start_address_long){
+        $q = "INSERT INTO itinerary(customer_id, driver_id, start_address, start_address_lat, start_address_long, status) ";
+        $q .= " VALUES(?,?,?,?,?,". ITINERARY_STATUS_ONGOING.")";
+
+        $stmt = $this->conn->prepare($q);
+        $stmt->bind_param("iisdd", $customer_id, $driver_id,$start_address, $start_address_lat, $start_address_long);
+
+        $result = $stmt->execute();
+        $stmt->close();
+
+        if ($result) {
+            $new_itinerary_id = $this->conn->insert_id;
+            
+            // Itinerary successfully inserted
+            return $new_itinerary_id;
+            
+        } else {
+            //echo $q;
+            return NULL;
+        }
+        // Check for successful insertion
+        if ($result) {
+            // Itinerary successfully inserted
+            return ITINERARY_CREATED_SUCCESSFULLY;
+        } else {
+            // Failed to create itinerary
+            return ITINERARY_CREATE_FAILED;
+        }
+        
+    }
+
     //not finished yet
     /**
      * Fetching single itinerary
@@ -692,10 +720,8 @@ class DbHandler {
         if ($stmt->execute()) {
             $res = array();
             $stmt->bind_result($itinerary_id, $driver_id, $customer_id, $start_address, $start_address_lat, $start_address_long,
-                $pick_up_address, $pick_up_address_lat, $pick_up_address_long,
-                $drop_address, $drop_address_lat, $drop_address_long,
                 $end_address, $end_address_lat, $end_address_long,
-                $leave_date, $duration, $distance, $cost, $description, $status, $created_at);
+                $time, $distance, $description, $status, $created_at);
             // TODO
             // $task = $stmt->get_result()->fetch_assoc();
             $stmt->fetch();
@@ -705,15 +731,11 @@ class DbHandler {
             $res["start_address"] = $start_address;
             $res["start_address_lat"] = $start_address_lat;
             $res["start_address_long"] = $start_address_long;
-
-
             $res["end_address"] = $end_address;
             $res["end_address_lat"] = $end_address_lat;
             $res["end_address_long"] = $end_address_long;
-            $res["leave_date"] = $leave_date;
-            $res["duration"] = $duration;
+            $res["time"] = $time;
             $res["distance"] = $distance;
-            $res["cost"] = $cost;
             $res["description"] = $description;
             $res["status"] = $status;
             $res["created_at"] = $created_at;
@@ -722,7 +744,6 @@ class DbHandler {
         } else {
             return NULL;
         }
-
     }
 
     //not finished yet
@@ -796,15 +817,17 @@ class DbHandler {
      * @param Integer $customer_id id of the customer
      */
     public function getCustomerItineraries($customer_id, $order) {
-        $q = "SELECT itinerary_id, i.driver_id, i.customer_id, start_address, start_address_lat, start_address_long,
+        /*$q = "SELECT itinerary_id, i.driver_id, i.customer_id, start_address, start_address_lat, start_address_long,
             end_address, end_address_lat, end_address_long, leave_date, duration, distance, cost, description, i.status as itnerary_status, i.created_at,
             driver_license, driver_license_img, u.user_id, u.email, u.fullname, u.phone, personalID, link_avatar ";
         $q .=    "FROM itinerary as i, driver as d, user as u ";
-        $q .=     "WHERE i.driver_id = d.user_id AND d.user_id = u.user_id AND customer_id = ? ";
+        $q .=     "WHERE i.driver_id = d.user_id AND d.user_id = u.user_id AND customer_id = ? ";*/
+        //echo $customer_id;
+        $q = "SELECT * FROM itinerary WHERE customer_id = ? ";
         if(isset($order)){
             $q .= "ORDER BY " .$order;
         } else {
-            $q .= "ORDER BY itinerary_status";
+            $q .= "ORDER BY status";
         }
         $stmt = $this->conn->prepare($q);
         $stmt->bind_param("i",$customer_id);
@@ -859,7 +882,7 @@ class DbHandler {
 
         $stmt = $this->conn->prepare($nq);
 
-        print_r($nq);
+        //print_r($nq);
         
         $stmt->execute();
         $num_affected_rows = $stmt->affected_rows;

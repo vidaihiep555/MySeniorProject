@@ -91,6 +91,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="AccountInfo.xaml.cs">
+      <DependentUpon>AccountInfo.xaml</DependentUpon>
+    </Compile>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
@@ -152,6 +155,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </ApplicationDefinition>
+    <Page Include="AccountInfo.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Customer\AdvancePostItinerary.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -222,8 +229,12 @@
     <Content Include="Assets\AppBar\ic_map.png" />
     <Content Include="Assets\AppBar\ic_router.png" />
     <Content Include="Assets\AppBar\ic_search.png" />
+    <Content Include="Assets\avatar\email-blue-icon.png" />
     <Content Include="Assets\avatar\ic_author_vidal.png" />
     <Content Include="Assets\avatar\ic_logo.png" />
+    <Content Include="Assets\avatar\Personal.png" />
+    <Content Include="Assets\avatar\phone.png" />
+    <Content Include="Assets\avatar\Postcard.png" />
     <Content Include="Assets\marker\ic_marker_driver.png" />
     <Content Include="Assets\marker\ic_marker_end.png" />
     <Content Include="Assets\marker\ic_marker_start.png" />

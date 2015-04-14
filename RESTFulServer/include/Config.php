@@ -13,9 +13,9 @@ define('USER_ALREADY_EXISTED', 2);
 
 //Itinerary status
 define('ITINERARY_STATUS_CREATED', 1);//luc tao hanh trinh
-define('ITINERARY_STATUS_CUSTOMER_ACCEPTED', 2);//co nguoi dk nhung driver chua accept
-define('ITINERARY_STATUS_DRIVER_ACCEPTED', 3);//driver accept
-define('ITINERARY_STATUS_ACCEPTED', 4);//hanh trinh da ket thuc
+define('ITINERARY_STATUS_ACCEPTED', 2);//co nguoi dk nhung driver chua accept
+define('ITINERARY_STATUS_ONGOING', 3);//driver accept
+define('ITINERARY_STATUS_FINISHED', 4);//hanh trinh da ket thuc
 
 define('ITINERARY_CREATED_SUCCESSFULLY', 5);
 define('ITINERARY_CREATE_FAILED', 6);

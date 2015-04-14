@@ -59,7 +59,7 @@ namespace UberRiding.Customer
             postData.Add("start_address", txtbStart.Text.Trim());
             postData.Add("end_address", txtbEnd.Text.Trim());
             postData.Add("description", txtbDescription.Text.Trim());
-            postData.Add("cost", txtbCost.Text.Trim());
+            //postData.Add("cost", txtbCost.Text.Trim());
             postData.Add("distance", txtbDistance.Text.Trim());
             postData.Add("start_address_lat", start_lat.Trim());
             postData.Add("start_address_long", start_long.Trim());
@@ -69,8 +69,8 @@ namespace UberRiding.Customer
             string date = datePicker.Value.ToString();
             string time = timePicker.Value.ToString();
 
-            postData.Add("leave_date", "2011-07-07 04:04:04");
-            postData.Add("duration", txtbCost.Text.Trim());
+            postData.Add("time", "2011-07-07 04:04:04");
+            //postData.Add("duration", txtbDistance.Text.Trim());
             HttpFormUrlEncodedContent content =
                 new HttpFormUrlEncodedContent(postData);
 
@@ -81,7 +81,7 @@ namespace UberRiding.Customer
             MessageBox.Show(jsonObject.Value<string>("message"));
 
             //back to trang dau tien
-
+            NavigationService.Navigate(new Uri("/Customer/CustomerItineraryManagement.xaml", UriKind.RelativeOrAbsolute));
         }
     }
 }

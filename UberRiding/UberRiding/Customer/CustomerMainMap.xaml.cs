@@ -36,7 +36,7 @@ namespace UberRiding.Customer
         {
             base.OnNavigatedTo(e);
             InitCurrentLocationInfo();
-            getItinerary();
+            getDrivers();
         }
 
         public async void InitCurrentLocationInfo()
@@ -72,7 +72,7 @@ namespace UberRiding.Customer
             return myGeoCoordinate;
         }
 
-        public async void getItinerary()
+        public async void getDrivers()
         {
             mainMapLayer = new MapLayer();
             var result = await Request.RequestToServer.sendGetRequest("drivers");
@@ -86,26 +86,27 @@ namespace UberRiding.Customer
             //Convert json to object
             root = JsonConvert.DeserializeObject<DriverRootObject>(result);
 
-            foreach (Driver i in root.drivers)
+            foreach (Global.Driver i in root.drivers)
             {
                 Global.GlobalData.driverList.Add(new Driver2
                 {
                     
                     driver_id = i.driver_id,
-                   
+                    driver_lat = i.driver_lat,
+                    driver_long = i.driver_long,
                     status = i.status,
                     
                     email = i.email,
                     fullname = i.fullname,
                     phone = i.phone,
-                    
-                    //convert base64 to image
-                    driver_avatar = ImageConvert.convertBase64ToImage(i.driver_avatar),
+                    personalID = i.personalID,
+                    //personalID_img = ImageConvert.convertBase64ToImage(i.personalID_img),                   
+                    //driver_avatar = ImageConvert.convertBase64ToImage(i.driver_avatar),
                     average_rating = i.average_rating
                 });
                 MapOverlay overlay = new MapOverlay();
-                overlay = MarkerDraw.DrawItineraryMarker(new GeoCoordinate(Convert.ToDouble(i.driver_lat),
-                    Convert.ToDouble(i.driver_long)), Global.GlobalData.itinearyList.Last());
+                overlay = MarkerDraw.DrawDriverMarker(new GeoCoordinate(Convert.ToDouble(i.driver_lat),
+                    Convert.ToDouble(i.driver_long)), Global.GlobalData.driverList.Last());
                 //chua su dung
                 //listMainMapOvelay.Add(overlay);
 
@@ -123,6 +124,16 @@ namespace UberRiding.Customer
             Global.GlobalData.selectedDriver = selectedItem;
             //navigate sang details
             NavigationService.Navigate(new Uri("/Customer/CallDriver.xaml", UriKind.Relative));
+        }
+
+        private void menuPostItinerary_Click(object sender, EventArgs e)
+        {
+            NavigationService.Navigate(new Uri("/Customer/PostItinerary.xaml", UriKind.Relative));
+        }
+
+        private void menuManage_Click(object sender, EventArgs e)
+        {
+            NavigationService.Navigate(new Uri("/Customer/CustomerItineraryManagement.xaml", UriKind.Relative));
         }
     }
 }

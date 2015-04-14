@@ -538,8 +538,7 @@ $app->put('/driver/:field', 'authenticateUser', function($field) use($app) {
                 // user failed to update
                 $response["error"] = true;
                 $response["message"] = "Cập nhật thông tin thất bại. Vui lòng thử lại!";
-            }
-            
+            }          
             echoRespnse(200, $response);
         });
 
@@ -570,6 +569,78 @@ $app->delete('/driver', 'authenticateUser', function() {
 
 
 
+$app->post('/itinerary', 'authenticateUser', function() use ($app) {
+            // check for required params
+            verifyRequiredParams(array('start_address','start_address_lat','start_address_long','end_address',
+                'end_address_lat','end_address_long','time', 'distance', 'description'));
+
+            $response = array();
+            
+            $start_address = $app->request->post('start_address');
+            $start_address_lat = $app->request->post('start_address_lat');
+            $start_address_long = $app->request->post('start_address_long');
+            $end_address = $app->request->post('end_address');
+            $end_address_lat = $app->request->post('end_address_lat');
+            $end_address_long = $app->request->post('end_address_long');
+            $time = $app->request->post('time');
+            $description = $app->request->post('description');
+            $distance = $app->request->post('distance');
+
+            //echo $start_address;
+
+            global $user_id;
+            $db = new DbHandler();
+
+            // creating new itinerary
+            $itinerary_id = $db->createItinerary($user_id, $start_address, $start_address_lat,$start_address_long,
+             $end_address, $end_address_lat, $end_address_long, $time, $description, $distance);
+
+            if ($itinerary_id != NULL) {
+                $response["error"] = false;
+                $response["message"] = "Itinerary created successfully";
+                $response["itinerary_id"] = $itinerary_id;
+                echoRespnse(201, $response);
+            } else {
+                $response["error"] = true;
+                $response["message"] = "Failed to create itinerary. Please try again";
+                echoRespnse(200, $response);
+            }            
+        });
+
+$app->post('/itinerary/simple', 'authenticateUser', function() use ($app) {
+            // check for required params
+            verifyRequiredParams(array('driver_id','start_address','start_address_lat','start_address_long'));
+
+            $response = array();
+            
+            $start_address = $app->request->post('start_address');
+            $start_address_lat = $app->request->post('start_address_lat');
+            $start_address_long = $app->request->post('start_address_long');
+            $driver_id = $app->request->post('driver_id');
+            //$time = $app->request->post('time');
+
+            //echo $start_address;
+
+            global $user_id;
+            $db = new DbHandler();
+
+            // creating new itinerary
+            $itinerary_id = $db->createSimpleItinerary($user_id, $driver_id, $start_address, $start_address_lat,$start_address_long);
+
+            if ($itinerary_id != NULL) {
+                $response["error"] = false;
+                $response["message"] = "Itinerary created successfully";
+                $response["itinerary_id"] = $itinerary_id;
+                echoRespnse(201, $response);
+            } else {
+                $response["error"] = true;
+                $response["message"] = "Failed to create itinerary. Please try again";
+                echoRespnse(200, $response);
+            }            
+        });
+
+
+
 /**
  * Listing single task of particual user
  * method GET
@@ -595,7 +666,7 @@ $app->get('/itinerary/:id', function($itinerary_id) {
                 $response["end_address"] = $result["end_address"];
                 $response["end_address_lat"] = $result["end_address_lat"];
                 $response["end_address_long"] = $result["end_address_long"];
-                $response["leave_date"] = $result["leave_date"];
+                $response["time"] = $result["time"];
                 $response["duration"] = $result["duration"];
                 $response["distance"] = $result["distance"];
                 $response["cost"] = $result["cost"];
@@ -640,25 +711,15 @@ $app->get('/itineraries', 'authenticateUser', function() {
                 $tmp["end_address"] = $itinerary["end_address"];
                 $tmp["end_address_lat"] = $itinerary["end_address_lat"];
                 $tmp["end_address_long"] = $itinerary["end_address_long"];
-                $tmp["leave_date"] = $itinerary["leave_date"];
-                $tmp["duration"] = $itinerary["duration"];
+                $tmp["time"] = $itinerary["time"];
                 $tmp["distance"] = $itinerary["distance"];
                 $tmp["cost"] = $itinerary["cost"];
                 $tmp["description"] = $itinerary["description"];
                 $tmp["status"] = $itinerary["status"];
                 $tmp["created_at"] = $itinerary["created_at"];
 
-                
-                //user info
-                $tmp["user_id"] = $itinerary["user_id"];
-                $tmp["email"] = $itinerary["email"];
-                $tmp["fullname"] = $itinerary["fullname"];
-                $tmp["phone"] = $itinerary["phone"];
-                $tmp["personalID"] = $itinerary["personalID"];
-                $tmp["customer_avatar"] = $itinerary["customer_avatar"];
-
                 //rating
-                $tmp["average_rating"] = $db->getAverageRatingofDriver($itinerary["user_id"]);
+                //$tmp["average_rating"] = $db->getAverageRatingofDriver($itinerary["user_id"]);
                 array_push($response["itineraries"], $tmp);
             }
 
@@ -680,7 +741,7 @@ $app->get('/itineraries/driver/:order', 'authenticateUser', function($order) {
             $db = new DbHandler();
 
             // fetching all user tasks
-            $result = $db->getDriverItineraries($user_id, $order);
+            $result = $db->getCustomerItineraries($user_id, $order);
 
             $response["error"] = false;
             $response["itineraries"] = array();
@@ -700,25 +761,13 @@ $app->get('/itineraries/driver/:order', 'authenticateUser', function($order) {
                 $tmp["end_address"] = $itinerary["end_address"];
                 $tmp["end_address_lat"] = $itinerary["end_address_lat"];
                 $tmp["end_address_long"] = $itinerary["end_address_long"];
-                $tmp["leave_date"] = $itinerary["leave_date"];
-                $tmp["duration"] = $itinerary["duration"];
+                $tmp["time"] = $itinerary["leave_date"];
                 $tmp["distance"] = $itinerary["distance"];
                 $tmp["cost"] = $itinerary["cost"];
                 $tmp["description"] = $itinerary["description"];
                 $tmp["status"] = $itinerary["itinerary_status"];
                 $tmp["created_at"] = $itinerary["created_at"];
 
-                //driver info
-                $tmp["driver_license"] = $itinerary["driver_license"];
-                $tmp["driver_license_img"] = $itinerary["driver_license_img"];
-                
-                //user info
-                $tmp["user_id"] = $itinerary["user_id"];
-                $tmp["email"] = $itinerary["email"];
-                $tmp["fullname"] = $itinerary["fullname"];
-                $tmp["phone"] = $itinerary["phone"];
-                $tmp["personalID"] = $itinerary["personalID"];
-                $tmp["link_avatar"] = $itinerary["link_avatar"];
                 array_push($response["itineraries"], $tmp);
                 //print_r($itinerary);
                 //echoRespnse(200, $itinerary);
@@ -758,29 +807,15 @@ $app->get('/itineraries/customer/:order', 'authenticateUser', function($order) {
                 $tmp["end_address"] = $itinerary["end_address"];
                 $tmp["end_address_lat"] = $itinerary["end_address_lat"];
                 $tmp["end_address_long"] = $itinerary["end_address_long"];
-                $tmp["leave_date"] = $itinerary["leave_date"];
-                $tmp["duration"] = $itinerary["duration"];
+                $tmp["time"] = $itinerary["time"];
                 $tmp["distance"] = $itinerary["distance"];
-                $tmp["cost"] = $itinerary["cost"];
                 $tmp["description"] = $itinerary["description"];
                 $tmp["status"] = $itinerary["status"];
                 $tmp["created_at"] = $itinerary["created_at"];
-
-                //driver info
-                $tmp["driver_license"] = $itinerary["driver_license"];
-                $tmp["driver_license_img"] = $itinerary["driver_license_img"];
-                
-                //user info
-                $tmp["user_id"] = $itinerary["user_id"];
-                $tmp["email"] = $itinerary["email"];
-                $tmp["fullname"] = $itinerary["fullname"];
-                $tmp["phone"] = $itinerary["phone"];
-                $tmp["personalID"] = $itinerary["personalID"];
-                $tmp["link_avatar"] = $itinerary["link_avatar"];
                 array_push($response["itineraries"], $tmp);
             }
 
-            print_r($response);
+            //print_r($response);
             echoRespnse(200, $response);
         });
 
@@ -987,15 +1022,17 @@ $app->get('/drivers', 'authenticateUser', function() {
                 $tmp = array();
 
                 //itinerary info
-                $tmp["driver_id"] = $result["driver_id"];
-                $tmp['email'] = $result['email'];
-                $tmp['fullname'] = $result['fullname'];
-                $tmp['phone'] = $result['phone'];
-                $tmp['driver_lat'] = $result['driver_lat'];
-                $tmp['driver_long'] = $result['driver_long'];
-                $tmp['created_at'] = $result['created_at'];
-                $tmp['status'] = $result['status'];
-                $tmp["driver_avatar"] = $result["driver_avatar"];
+                $tmp["driver_id"] = $driver["driver_id"];
+                $tmp['email'] = $driver['email'];
+                $tmp['fullname'] = $driver['fullname'];
+                $tmp['phone'] = $driver['phone'];
+                $tmp['driver_lat'] = $driver['driver_lat'];
+                $tmp['driver_long'] = $driver['driver_long'];
+                $tmp['created_at'] = $driver['created_at'];
+                $tmp['status'] = $driver['status'];
+                $tmp['personalID'] = $driver['personalID'];
+                $tmp['personalID_img'] = $driver['personalID_img'];
+                $tmp["driver_avatar"] = $driver["driver_avatar"];
                 //rating
                 $driver_id = $tmp["driver_id"];
                 $tmp["average_rating"] = $db->getAverageRatingofDriver($driver_id);

@@ -86,12 +86,12 @@
                 Margin="0,0,0,0"
                 VerticalAlignment="Center"
                 Grid.Row="6"/>
-        <toolkit:PhoneTextBox x:Name="txtbCost" Width="480" Height="72"
+        <!--<toolkit:PhoneTextBox x:Name="txtbCost" Width="480" Height="72"
                  HorizontalAlignment="Center" 
                  Margin="0,0,0,0" 
                  Grid.Row="7" TextWrapping="Wrap" 
                  Hint=" Giá tiền..." VerticalAlignment="Center" 
-                 Background="{StaticResource PhoneTextBoxSelectionForegroundBrush}"/>
+                 Background="{StaticResource PhoneTextBoxSelectionForegroundBrush}"/>-->
 
         <Button x:Name="btnRegister"
             Height="70" 

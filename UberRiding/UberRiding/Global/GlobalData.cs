@@ -32,8 +32,8 @@ namespace UberRiding.Global
         //public static int driver_status = 2;
 
         public const int ITINERARY_STATUS_CREATED = 1;
-        public const int ITINERARY_STATUS_CUSTOMER_ACCEPTED = 2;
-        public const int ITINERARY_STATUS_DRIVER_ACCEPTED = 3;
+        public const int ITINERARY_STATUS_ACCEPTED = 2;
+        public const int ITINERARY_STATUS_ONGOING = 3;
         public const int ITINERARY_STATUS_FINISHED = 4;
     }
 
@@ -45,17 +45,10 @@ namespace UberRiding.Global
         public string start_address { get; set; }
         public double start_address_lat { get; set; }
         public double start_address_long { get; set; }
-        public object pick_up_address { get; set; }
-        public object pick_up_address_lat { get; set; }
-        public object pick_up_address_long { get; set; }
-        public object drop_address { get; set; }
-        public object drop_address_lat { get; set; }
-        public object drop_address_long { get; set; }
         public string end_address { get; set; }
         public double end_address_lat { get; set; }
         public double end_address_long { get; set; }
-        public string leave_date { get; set; }
-        public int duration { get; set; }
+        public string time { get; set; }
         public double distance { get; set; }
         public string cost { get; set; }
         public string description { get; set; }
@@ -80,17 +73,10 @@ namespace UberRiding.Global
         public string start_address { get; set; }
         public double start_address_lat { get; set; }
         public double start_address_long { get; set; }
-        public object pick_up_address { get; set; }
-        public object pick_up_address_lat { get; set; }
-        public object pick_up_address_long { get; set; }
-        public object drop_address { get; set; }
-        public object drop_address_lat { get; set; }
-        public object drop_address_long { get; set; }
         public string end_address { get; set; }
         public double end_address_lat { get; set; }
         public double end_address_long { get; set; }
-        public string leave_date { get; set; }
-        public int duration { get; set; }
+        public string time { get; set; }
         public double distance { get; set; }
         public string cost { get; set; }
         public string description { get; set; }
@@ -119,7 +105,6 @@ namespace UberRiding.Global
     }
 
 
-
     public class Driver
     {
         public int driver_id { get; set; }
@@ -129,6 +114,9 @@ namespace UberRiding.Global
         public string email { get; set; }
         public string fullname { get; set; }
         public string phone { get; set; }
+
+        public string personalID { get; set; }
+        public string personalID_img { get; set; }
         public string driver_avatar { get; set; }
         public int average_rating { get; set; }
     }
@@ -142,6 +130,8 @@ namespace UberRiding.Global
         public string email { get; set; }
         public string fullname { get; set; }
         public string phone { get; set; }
+        public string personalID { get; set; }
+        public BitmapImage personalID_img { get; set; }
         public BitmapImage driver_avatar { get; set; }
         public int average_rating { get; set; }
     }

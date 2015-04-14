@@ -26,14 +26,14 @@ namespace UberRiding.Customer
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
-            getItinerariesOfDriver();
+            getItinerariesOfCustomer();
         }
 
-        public async void getItinerariesOfDriver()
+        public async void getItinerariesOfCustomer()
         {
             //send get request
             string result = null;
-            result = await Request.RequestToServer.sendGetRequest("itineraries/driver/itinerary_status");
+            result = await Request.RequestToServer.sendGetRequest("itineraries/customer/status");
             RootObject root = JsonConvert.DeserializeObject<RootObject>(result);
             //xu ly json
             foreach (Itinerary i in root.itineraries)
@@ -49,29 +49,13 @@ namespace UberRiding.Customer
                     end_address = i.end_address,
                     end_address_lat = i.end_address_lat,
                     end_address_long = i.end_address_long,
-                    pick_up_address = i.pick_up_address,
-                    pick_up_address_lat = i.pick_up_address_lat,
-                    pick_up_address_long = i.pick_up_address_long,
-                    drop_address = i.drop_address,
-                    drop_address_lat = i.drop_address_lat,
-                    drop_address_long = i.drop_address_long,
-                    cost = i.cost,
                     distance = i.distance,
                     description = i.description,
-                    duration = i.duration,
                     status = i.status,
                     created_at = i.created_at,
-                    leave_date = i.leave_date,
-                    driver_license = i.driver_license,
-                    driver_license_img = i.driver_license_img,
-                    user_id = i.user_id,
-                    email = i.email,
-                    fullname = i.fullname,
-                    phone = i.phone,
-                    personalID = i.personalID,
+                    time = i.time,
                     //convert base64 to image
-                    link_avatar = ImageConvert.convertBase64ToImage(i.link_avatar),
-                    average_rating = i.average_rating
+                    //average_rating = i.average_rating
                 };
                 //itinearyList.Add(i2);
                 if (i2.status == 1)
@@ -123,7 +107,7 @@ namespace UberRiding.Customer
             //luu tru tam thoi
             Global.GlobalData.selectedItinerary = selectedItem;
             //navigate sang details
-            NavigationService.Navigate(new Uri("/Driver/DriverItineraryDetails.xaml", UriKind.RelativeOrAbsolute));
+            NavigationService.Navigate(new Uri("/Customer/CustomerItineraryDetails.xaml", UriKind.RelativeOrAbsolute));
         }
 
         private void longlistItinerariesCustomerAccepted_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -133,7 +117,7 @@ namespace UberRiding.Customer
             //luu tru tam thoi
             Global.GlobalData.selectedItinerary = selectedItem;
             //navigate sang details
-            NavigationService.Navigate(new Uri("/Driver/DriverItineraryDetails.xaml", UriKind.RelativeOrAbsolute));
+            NavigationService.Navigate(new Uri("/Customer/CustomerItineraryDetails.xaml", UriKind.RelativeOrAbsolute));
         }
 
         private void longlistItinerariesDriverAccepted_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -143,7 +127,7 @@ namespace UberRiding.Customer
             //luu tru tam thoi
             Global.GlobalData.selectedItinerary = selectedItem;
             //navigate sang details
-            NavigationService.Navigate(new Uri("/Driver/DriverItineraryDetails.xaml", UriKind.RelativeOrAbsolute));
+            NavigationService.Navigate(new Uri("/Customer/CustomerItineraryDetails.xaml", UriKind.RelativeOrAbsolute));
         }
 
         private void longlistItinerariesFinished_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -153,7 +137,7 @@ namespace UberRiding.Customer
             //luu tru tam thoi
             Global.GlobalData.selectedItinerary = selectedItem;
             //navigate sang details
-            NavigationService.Navigate(new Uri("/Driver/DriverItineraryDetails.xaml", UriKind.RelativeOrAbsolute));
+            NavigationService.Navigate(new Uri("/Customer/CustomerItineraryDetails.xaml", UriKind.RelativeOrAbsolute));
         }
     }
 }

@@ -31,12 +31,12 @@
                 IconUri="/Assets/AppBar/ic_search.png"  
                 Text="Search" 
                 />
-            <shell:ApplicationBarIconButton 
+            <shell:ApplicationBarIconButton x:Name="menuPostItinerary" 
                 IconUri="/Assets/AppBar/ic_map.png" 
-                Text="StartPoint" />
-            <shell:ApplicationBarIconButton 
+                Text="Post Itinerary" Click="menuPostItinerary_Click" />
+            <shell:ApplicationBarIconButton x:Name="menuManage"
                 IconUri="/Assets/AppBar/ic_router.png" 
-                Text="EndPoint"/>
+                Text="EndPoint" Click="menuManage_Click"/>
         </shell:ApplicationBar>
     </phone:PhoneApplicationPage.ApplicationBar>
     <!--LayoutRoot is the root grid where all page content is placed-->
@@ -86,11 +86,11 @@
                                 <!--Replace rectangle with image-->
                                 <Border BorderThickness="3" Width="99" Height="99" BorderBrush="#FFFFC700" >
                                     <!-- Background="#FFFFC700"-->
-                                    <Image Source="{Binding link_avatar}"  Width="99" Height="99" MinWidth="99" MinHeight="99" />
+                                    <Image Source="{Binding driver_avatar}"  Width="99" Height="99" MinWidth="99" MinHeight="99" />
                                 </Border>
                                 <StackPanel Width="311" Margin="8,-7,0,0">
-                                    <TextBlock Text="{Binding start_address}" TextWrapping="Wrap" Margin="10,0" Style="{StaticResource PhoneTextExtraLargeStyle}" FontSize="{StaticResource PhoneFontSizeLarge}" />
-                                    <TextBlock Text="{Binding end_address}" TextWrapping="Wrap" Margin="10,-2,10,0" Style="{StaticResource PhoneTextSubtleStyle}" />
+                                    <TextBlock Text="{Binding fullname}" TextWrapping="Wrap" Margin="10,0" Style="{StaticResource PhoneTextExtraLargeStyle}" FontSize="{StaticResource PhoneFontSizeLarge}" />
+                                    <TextBlock Text="{}" TextWrapping="Wrap" Margin="10,-2,10,0" Style="{StaticResource PhoneTextSubtleStyle}" />
                                 </StackPanel>
                             </StackPanel>
                         </DataTemplate>

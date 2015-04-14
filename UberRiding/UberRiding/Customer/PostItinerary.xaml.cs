@@ -222,7 +222,7 @@ namespace UberRiding.Customer
 
         private void btnXn_Click(object sender, RoutedEventArgs e)
         {
-            NavigationService.Navigate(new Uri("/Driver/AdvancePostItinerary.xaml?start=" + txtboxStart.Text
+            NavigationService.Navigate(new Uri("/Customer/AdvancePostItinerary.xaml?start=" + txtboxStart.Text
                 + "&end=" + txtboxEnd.Text + "&s_lat=" + startPointOverlay.GeoCoordinate.Latitude
                 + "&s_long=" + startPointOverlay.GeoCoordinate.Longitude
                 + "&e_lat=" + endPointOverlay.GeoCoordinate.Latitude

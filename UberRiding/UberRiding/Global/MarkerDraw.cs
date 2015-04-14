@@ -51,6 +51,85 @@ namespace UberRiding.Global
             return overlay;
         }
 
+        public static MapOverlay DrawDriverMarker(GeoCoordinate point, Driver2 i)
+        {
+            UCCustomPushPin _tooltip = new UCCustomPushPin();
+            _tooltip.Description = "jhk";
+            _tooltip.DataContext = i;
+            _tooltip.Menuitem.Click += MenuitemDriver_Click;
+            _tooltip.imgmarker.Tap += _tooltipDriver_Tapimg;
+            MapOverlay overlay = new MapOverlay();
+            overlay.Content = _tooltip;
+            overlay.GeoCoordinate = point;
+            overlay.PositionOrigin = new Point(0.0, 1.0);
+
+            return overlay;
+        }
+
+        private static void MenuitemDriver_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                MenuItem menuItem = (MenuItem)sender;
+                string selecteditem = menuItem.Tag.ToString().Trim();
+                var selectedparkdata = Global.GlobalData.driverList.Where(s => s.driver_id.ToString().Equals(selecteditem)).ToList();
+                if (selectedparkdata.Count > 0)
+                {
+                    foreach (var item in selectedparkdata)
+                    {
+                        //storage data
+                        /*if (Settings.FileExists("LocationDetailItem"))
+                        {
+                            Settings.DeleteFile("LocationDetailItem");
+                        }
+                        using (IsolatedStorageFileStream fileStream = Settings.OpenFile("LocationDetailItem", FileMode.Create))
+                        {
+                            DataContractSerializer serializer = new DataContractSerializer(typeof(LocationDetail));
+                            serializer.WriteObject(fileStream, items);
+
+                        }*/
+                        //luu tru tam thoi
+                        Global.GlobalData.selectedDriver = item;
+                        //navigate to Details page
+                        (Application.Current.RootVisual as PhoneApplicationFrame).Navigate(new Uri("/Customer/CallDriver.xaml", UriKind.RelativeOrAbsolute));
+                        //NavigationService.Navigate(new Uri("/Customer/ItineraryDetails.xaml", UriKind.RelativeOrAbsolute));
+                        break;
+                    }
+                }
+            }
+            catch
+            {
+            }
+        }
+
+        private static void _tooltipDriver_Tapimg(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+            try
+            {
+                Image item = (Image)sender;
+                string selecteditem = item.Tag.ToString();
+                var selectedparkdata = Global.GlobalData.driverList.Where(s => s.driver_id.ToString().Equals(selecteditem)).ToList();
+
+                if (selectedparkdata.Count > 0)
+                {
+                    foreach (var items in selectedparkdata)
+                    {
+                        ContextMenu contextMenu =
+                        ContextMenuService.GetContextMenu(item);
+                        contextMenu.DataContext = items;
+                        if (contextMenu.Parent == null)
+                        {
+                            contextMenu.IsOpen = true;
+                        }
+                        break;
+                    }
+                }
+            }
+            catch
+            {
+            }
+        }
+
         private static void Menuitem_Click(object sender, RoutedEventArgs e)
         {
             try

@@ -40,22 +40,22 @@ namespace UberRiding.Customer
             {
                 //create button update hanh trinh
                 Button btnUpdate = new Button();
-                btnUpdate.Content = "Cập Nhật";
+                btnUpdate.Content = "Update";
                 btnUpdate.Click += btnUpdate_Click;
                 gridInfo.Children.Add(btnUpdate);
                 Grid.SetRow(btnUpdate, 5);
 
                 //create button huy hanh trinh
                 Button btnDelete = new Button();
-                btnDelete.Content = "Xóa";
+                btnDelete.Content = "Delete";
                 btnDelete.Click += btnDelete_Click;
                 gridInfo.Children.Add(btnDelete);
                 Grid.SetRow(btnDelete, 6);
             }
             //dang doi driver accept
-            else if (GlobalData.selectedItinerary.status.Equals(Global.GlobalData.ITINERARY_STATUS_CUSTOMER_ACCEPTED))
+            else if (GlobalData.selectedItinerary.status.Equals(Global.GlobalData.ITINERARY_STATUS_ACCEPTED))
             {
-                //tao button accept va button huy customer accept
+                /*//tao button accept va button huy customer accept
                 //create button accept hanh trinh
                 Button btnAccept = new Button();
                 btnAccept.Content = "Chấp Nhận";
@@ -68,10 +68,10 @@ namespace UberRiding.Customer
                 btnReject.Content = "Từ Chối";
                 btnReject.Click += btnReject_Click;
                 gridInfo.Children.Add(btnReject);
-                Grid.SetRow(btnReject, 6);
+                Grid.SetRow(btnReject, 6);*/
             }
             //driver da accepted
-            else if (GlobalData.selectedItinerary.status.Equals(Global.GlobalData.ITINERARY_STATUS_DRIVER_ACCEPTED))
+            else if (GlobalData.selectedItinerary.status.Equals(Global.GlobalData.ITINERARY_STATUS_ONGOING))
             {
                 // 
             }
@@ -113,10 +113,10 @@ namespace UberRiding.Customer
 
             txtbDistance.Text = GlobalData.selectedItinerary.distance.ToString();
             txtbDescription.Text = GlobalData.selectedItinerary.description;
-            txtbCost.Text = GlobalData.selectedItinerary.cost;
+            //txtbCost.Text = GlobalData.selectedItinerary.cost;
 
             //xu ly ngay thang
-            string datetimeString = GlobalData.selectedItinerary.leave_date.Trim();
+            string datetimeString = GlobalData.selectedItinerary.time.Trim();
 
             DateTime datetime = DatetimeConvert.convertDateTimeFromString(datetimeString);
 
@@ -268,7 +268,7 @@ namespace UberRiding.Customer
             postData.Add("start_address", txtboxStart.Text.Trim());
             postData.Add("end_address", txtboxEnd.Text.Trim());
             postData.Add("description", txtbDescription.Text.Trim());
-            postData.Add("cost", txtbCost.Text.Trim());
+            //postData.Add("cost", txtbCost.Text.Trim());
             postData.Add("distance", txtbDistance.Text.Trim());
             postData.Add("start_address_lat", startPointOverlay.GeoCoordinate.Latitude.ToString().Trim());
             postData.Add("start_address_long", startPointOverlay.GeoCoordinate.Longitude.ToString().Trim());
@@ -282,7 +282,7 @@ namespace UberRiding.Customer
             string date2 = datePicker.Value.Value.Year + "-" + datePicker.Value.Value.Month + "-" + datePicker.Value.Value.Day;
             string time2 = timePicker.Value.Value.Hour + ":" + timePicker.Value.Value.Minute + ":00";
 
-            postData.Add("leave_date", date2.Trim() + " " + time2.Trim());
+            postData.Add("time", date2.Trim() + " " + time2.Trim());
             //datePicker.Value.Value.
             HttpFormUrlEncodedContent content =
                 new HttpFormUrlEncodedContent(postData);
