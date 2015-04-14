@@ -115,6 +115,9 @@
     <Compile Include="Customer\PostItinerary.xaml.cs">
       <DependentUpon>PostItinerary.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Driver\DriverItineraryDetails.xaml.cs">
+      <DependentUpon>DriverItineraryDetails.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Driver\DriverItineraryManagement.xaml.cs">
       <DependentUpon>DriverItineraryManagement.xaml</DependentUpon>
     </Compile>
@@ -183,6 +186,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Driver\DriverItineraryDetails.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Driver\DriverItineraryManagement.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -231,7 +238,10 @@
     <Content Include="Assets\AppBar\ic_search.png" />
     <Content Include="Assets\avatar\email-blue-icon.png" />
     <Content Include="Assets\avatar\ic_author_vidal.png" />
+    <Content Include="Assets\avatar\ic_edit.png" />
+    <Content Include="Assets\avatar\ic_image2.png" />
     <Content Include="Assets\avatar\ic_logo.png" />
+    <Content Include="Assets\avatar\ic_upload.png" />
     <Content Include="Assets\avatar\Personal.png" />
     <Content Include="Assets\avatar\phone.png" />
     <Content Include="Assets\avatar\Postcard.png" />

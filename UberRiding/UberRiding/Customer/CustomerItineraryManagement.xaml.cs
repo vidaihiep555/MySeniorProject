@@ -94,11 +94,6 @@ namespace UberRiding.Customer
             NavigationService.Navigate(new Uri("/Driver/PostItinerary.xaml", UriKind.RelativeOrAbsolute));
         }
 
-        private void menuCustomer_Click(object sender, EventArgs e)
-        {
-            //navigate sang details
-            NavigationService.Navigate(new Uri("/Customer/MainMap.xaml", UriKind.RelativeOrAbsolute));
-        }
 
         private void longlistItinerariesCreated_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -107,7 +102,7 @@ namespace UberRiding.Customer
             //luu tru tam thoi
             Global.GlobalData.selectedItinerary = selectedItem;
             //navigate sang details
-            NavigationService.Navigate(new Uri("/Customer/CustomerItineraryDetails.xaml", UriKind.RelativeOrAbsolute));
+            NavigationService.Navigate(new Uri("/Driver/DriverItineraryDetails.xaml", UriKind.RelativeOrAbsolute));
         }
 
         private void longlistItinerariesCustomerAccepted_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -117,7 +112,7 @@ namespace UberRiding.Customer
             //luu tru tam thoi
             Global.GlobalData.selectedItinerary = selectedItem;
             //navigate sang details
-            NavigationService.Navigate(new Uri("/Customer/CustomerItineraryDetails.xaml", UriKind.RelativeOrAbsolute));
+            NavigationService.Navigate(new Uri("/Driver/DriverItineraryDetails.xaml", UriKind.RelativeOrAbsolute));
         }
 
         private void longlistItinerariesDriverAccepted_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -127,7 +122,7 @@ namespace UberRiding.Customer
             //luu tru tam thoi
             Global.GlobalData.selectedItinerary = selectedItem;
             //navigate sang details
-            NavigationService.Navigate(new Uri("/Customer/CustomerItineraryDetails.xaml", UriKind.RelativeOrAbsolute));
+            NavigationService.Navigate(new Uri("/Driver/DriverItineraryDetails.xaml", UriKind.RelativeOrAbsolute));
         }
 
         private void longlistItinerariesFinished_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -137,7 +132,23 @@ namespace UberRiding.Customer
             //luu tru tam thoi
             Global.GlobalData.selectedItinerary = selectedItem;
             //navigate sang details
-            NavigationService.Navigate(new Uri("/Customer/CustomerItineraryDetails.xaml", UriKind.RelativeOrAbsolute));
+            NavigationService.Navigate(new Uri("/Driver/DriverItineraryDetails.xaml", UriKind.RelativeOrAbsolute));
+        }
+
+
+        private void menuPostItinerary_Click(object sender, EventArgs e)
+        {
+            NavigationService.Navigate(new Uri("/Customer/PostItinerary.xaml", UriKind.Relative));
+        }
+
+        private void menuManage_Click(object sender, EventArgs e)
+        {
+            NavigationService.Navigate(new Uri("/Customer/CustomerItineraryManagement.xaml", UriKind.Relative));
+        }
+
+        private void menuMainmap_Click(object sender, EventArgs e)
+        {
+            NavigationService.Navigate(new Uri("/Customer/CustomerMainMap.xaml", UriKind.Relative));
         }
     }
 }

@@ -13,20 +13,122 @@
     SupportedOrientations="Portrait"  Orientation="Portrait"
     shell:SystemTray.IsVisible="True">
 
+    <phone:PhoneApplicationPage.ApplicationBar>
+        <shell:ApplicationBar IsVisible="True" IsMenuEnabled="True" BackgroundColor="#3DA5E1">
+
+            <shell:ApplicationBar.MenuItems>
+                <shell:ApplicationBarMenuItem Text="Zoom In"/>
+                <shell:ApplicationBarMenuItem Text="Zoom Out"/>
+            </shell:ApplicationBar.MenuItems>
+
+            <shell:ApplicationBarIconButton 
+                x:Name="menuCustomer"
+                IconUri="/Assets/AppBar/ic_home.png"  
+                Text="Home" Click="menuCustomer_Click"              
+                />
+
+            <shell:ApplicationBarIconButton 
+                IconUri="/Assets/AppBar/ic_search.png"  
+                Text="Search" 
+                />
+            <shell:ApplicationBarIconButton
+                x:FieldModifier="menuPostItinerary"
+                IconUri="/Assets/AppBar/ic_map.png" 
+                Text="Itinerary"
+                Click="ApplicationBarIconButton_Click"/>
+            <shell:ApplicationBarIconButton 
+                IconUri="/Assets/AppBar/ic_router.png" 
+                Text="EndPoint"/>
+        </shell:ApplicationBar>
+    </phone:PhoneApplicationPage.ApplicationBar>
     <!--LayoutRoot is the root grid where all page content is placed-->
     <Grid x:Name="LayoutRoot" Background="Transparent">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Row="0" Canvas.ZIndex="999"
+			Margin="0,0,0,0" 
+			Background="#FF20E017"
+			Height="Auto">
+            <TextBlock 
+				Margin="0,0,0,0"
+				HorizontalAlignment="Left"
+				Style="{StaticResource PhoneTextTitle1Style}"
+				Text="Ride Sharing Application" FontSize="22"/>
+        </StackPanel>
         <!--Pivot Control-->
-        <phone:Pivot Title="MY APPLICATION">
+        <phone:Pivot Grid.Row="1" Margin="0,-30,0,0" Background="#3DA5E1">
             <!--Pivot item one-->
-            <phone:PivotItem Header="item1">
-                <Grid/>
-            </phone:PivotItem>
 
             <!--Pivot item two-->
-            <phone:PivotItem Header="item2">
-                <Grid/>
+            <!--Pivot item three-->
+            <phone:PivotItem Header="Accepted">
+                <!--Double line list with image placeholder and text wrapping using a floating header that scrolls with the content-->
+                <phone:LongListSelector x:Name="longlistItinerariesCustomerAccepted" Margin="0,-38,-22,2" SelectionChanged="longlistItinerariesCustomerAccepted_SelectionChanged">
+
+                    <phone:LongListSelector.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal" Margin="12,2,0,4" Height="105" Width="432">
+                                <!--Replace rectangle with image-->
+                                <Border BorderThickness="3" Width="99" Height="99" BorderBrush="#FFFFC700" >
+                                    <!-- Background="#FFFFC700"-->
+                                    <Image Source="{Binding link_avatar}"  Width="99" Height="99" MinWidth="99" MinHeight="99" />
+                                </Border>
+                                <StackPanel Width="311" Margin="8,-7,0,0">
+                                    <TextBlock Text="{Binding start_address}" TextWrapping="Wrap" Margin="10,0" Style="{StaticResource PhoneTextExtraLargeStyle}" FontSize="{StaticResource PhoneFontSizeLarge}" />
+                                    <TextBlock Text="{Binding end_address}" TextWrapping="Wrap" Margin="10,-2,10,0" Style="{StaticResource PhoneTextSubtleStyle}" />
+                                </StackPanel>
+                            </StackPanel>
+                        </DataTemplate>
+                    </phone:LongListSelector.ItemTemplate>
+                </phone:LongListSelector>
+            </phone:PivotItem>
+            <!--Pivot item four-->
+            <phone:PivotItem Header="OnGoing">
+                <!--Double line list with image placeholder and text wrapping using a floating header that scrolls with the content-->
+                <phone:LongListSelector x:Name="longlistItinerariesDriverAccepted" Margin="0,-38,-22,2" SelectionChanged="longlistItinerariesDriverAccepted_SelectionChanged" >
+
+                    <phone:LongListSelector.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal" Margin="12,2,0,4" Height="105" Width="432">
+                                <!--Replace rectangle with image-->
+                                <Border BorderThickness="3" Width="99" Height="99" BorderBrush="#FFFFC700" >
+                                    <!-- Background="#FFFFC700"-->
+                                    <Image Source="{Binding link_avatar}"  Width="99" Height="99" MinWidth="99" MinHeight="99" />
+                                </Border>
+                                <StackPanel Width="311" Margin="8,-7,0,0">
+                                    <TextBlock Text="{Binding start_address}" TextWrapping="Wrap" Margin="10,0" Style="{StaticResource PhoneTextExtraLargeStyle}" FontSize="{StaticResource PhoneFontSizeLarge}" />
+                                    <TextBlock Text="{Binding end_address}" TextWrapping="Wrap" Margin="10,-2,10,0" Style="{StaticResource PhoneTextSubtleStyle}" />
+                                </StackPanel>
+                            </StackPanel>
+                        </DataTemplate>
+                    </phone:LongListSelector.ItemTemplate>
+                </phone:LongListSelector>
+            </phone:PivotItem>
+            <!--Pivot item five-->
+            <phone:PivotItem Header="Finished">
+                <!--Double line list with image placeholder and text wrapping using a floating header that scrolls with the content-->
+                <phone:LongListSelector x:Name="longlistItinerariesFinished" Margin="0,-38,-22,2" SelectionChanged="longlistItinerariesFinished_SelectionChanged">
+
+                    <phone:LongListSelector.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal" Margin="12,2,0,4" Height="105" Width="432">
+                                <!--Replace rectangle with image-->
+                                <Border BorderThickness="3" Width="99" Height="99" BorderBrush="#FFFFC700" >
+                                    <!-- Background="#FFFFC700"-->
+                                    <Image Source="{Binding link_avatar}"  Width="99" Height="99" MinWidth="99" MinHeight="99" />
+                                </Border>
+                                <StackPanel Width="311" Margin="8,-7,0,0">
+                                    <TextBlock Text="{Binding start_address}" TextWrapping="Wrap" Margin="10,0" Style="{StaticResource PhoneTextExtraLargeStyle}" FontSize="{StaticResource PhoneFontSizeLarge}" />
+                                    <TextBlock Text="{Binding end_address}" TextWrapping="Wrap" Margin="10,-2,10,0" Style="{StaticResource PhoneTextSubtleStyle}" />
+                                </StackPanel>
+                            </StackPanel>
+                        </DataTemplate>
+                    </phone:LongListSelector.ItemTemplate>
+                </phone:LongListSelector>
             </phone:PivotItem>
         </phone:Pivot>
     </Grid>
-    
+
 </phone:PhoneApplicationPage>

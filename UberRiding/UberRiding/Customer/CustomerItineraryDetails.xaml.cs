@@ -34,10 +34,13 @@ namespace UberRiding.Customer
         public CustomerItineraryDetails()
         {
             InitializeComponent();
-
+            
+            
+            //show status
             //hanh trinh chua ai dang ki
             if (GlobalData.selectedItinerary.status.Equals(Global.GlobalData.ITINERARY_STATUS_CREATED))
             {
+                txtItineraryInfo.Text = "Itinerary Just Created";
                 //create button update hanh trinh
                 Button btnUpdate = new Button();
                 btnUpdate.Content = "Update";
@@ -55,6 +58,7 @@ namespace UberRiding.Customer
             //dang doi driver accept
             else if (GlobalData.selectedItinerary.status.Equals(Global.GlobalData.ITINERARY_STATUS_ACCEPTED))
             {
+                txtItineraryInfo.Text = "Itinerary Accepted";
                 /*//tao button accept va button huy customer accept
                 //create button accept hanh trinh
                 Button btnAccept = new Button();
@@ -73,12 +77,13 @@ namespace UberRiding.Customer
             //driver da accepted
             else if (GlobalData.selectedItinerary.status.Equals(Global.GlobalData.ITINERARY_STATUS_ONGOING))
             {
+                txtItineraryInfo.Text = "Itinerary Ongoing";
                 // 
             }
             //hanh trinh da ket thuc
             else if (GlobalData.selectedItinerary.status.Equals(Global.GlobalData.ITINERARY_STATUS_FINISHED))
             {
-
+                txtItineraryInfo.Text = "Itinerary Finished";
             }
 
             //draw 2 points on map
@@ -315,6 +320,21 @@ namespace UberRiding.Customer
             geoQ.GeoCoordinate = asd;
 
             geoQ.QueryAsync();
+        }
+
+        private void menuPostItinerary_Click(object sender, EventArgs e)
+        {
+            NavigationService.Navigate(new Uri("/Customer/PostItinerary.xaml", UriKind.Relative));
+        }
+
+        private void menuManage_Click(object sender, EventArgs e)
+        {
+            NavigationService.Navigate(new Uri("/Customer/CustomerItineraryManagement.xaml", UriKind.Relative));
+        }
+
+        private void menuMainmap_Click(object sender, EventArgs e)
+        {
+            NavigationService.Navigate(new Uri("/Customer/CustomerMainMap.xaml", UriKind.Relative));
         }
     }
 }

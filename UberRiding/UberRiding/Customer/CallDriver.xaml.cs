@@ -53,6 +53,8 @@ namespace UberRiding.Customer
             txtbEmail.Text = Global.GlobalData.selectedDriver.email;
             txtbPersonalID.Text = Global.GlobalData.selectedDriver.personalID;
             txtbEmail.Text = Global.GlobalData.selectedDriver.email;
+
+            imgDriver.Source = Global.GlobalData.selectedDriver.driver_avatar;
             
         }
 
@@ -165,6 +167,22 @@ namespace UberRiding.Customer
         private void txtboxEnd_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
         {
 
+        }
+
+
+        private void menuPostItinerary_Click(object sender, EventArgs e)
+        {
+            NavigationService.Navigate(new Uri("/Customer/PostItinerary.xaml", UriKind.Relative));
+        }
+
+        private void menuManage_Click(object sender, EventArgs e)
+        {
+            NavigationService.Navigate(new Uri("/Customer/CustomerItineraryManagement.xaml", UriKind.Relative));
+        }
+
+        private void menuMainmap_Click(object sender, EventArgs e)
+        {
+            NavigationService.Navigate(new Uri("/Customer/CustomerMainMap.xaml", UriKind.Relative));
         }
     }
 }

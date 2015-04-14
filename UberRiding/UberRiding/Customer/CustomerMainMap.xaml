@@ -23,8 +23,10 @@
             </shell:ApplicationBar.MenuItems>
 
             <shell:ApplicationBarIconButton 
+                x:Name="menuMainmap"
                 IconUri="/Assets/AppBar/ic_home.png"  
                 Text="Home" 
+                Click="menuMainmap_Click"
                 />
 
             <shell:ApplicationBarIconButton 
@@ -74,7 +76,7 @@
                                     <RowDefinition Height="Auto"/>
                                     <RowDefinition Height="*"/>
                                 </Grid.RowDefinitions>
-                                <TextBlock Text="second item"
+                                <TextBlock Text="List of Drivers"
                                            Style="{StaticResource PanoramaItemHeaderTextStyle}"
                                            Grid.Row="0"/>
                             </Grid>

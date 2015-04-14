@@ -100,8 +100,8 @@ namespace UberRiding.Customer
                     fullname = i.fullname,
                     phone = i.phone,
                     personalID = i.personalID,
-                    //personalID_img = ImageConvert.convertBase64ToImage(i.personalID_img),                   
-                    //driver_avatar = ImageConvert.convertBase64ToImage(i.driver_avatar),
+                    personalID_img = ImageConvert.convertBase64ToImage(i.personalID_img),                   
+                    driver_avatar = ImageConvert.convertBase64ToImage(i.driver_avatar),
                     average_rating = i.average_rating
                 });
                 MapOverlay overlay = new MapOverlay();
@@ -134,6 +134,11 @@ namespace UberRiding.Customer
         private void menuManage_Click(object sender, EventArgs e)
         {
             NavigationService.Navigate(new Uri("/Customer/CustomerItineraryManagement.xaml", UriKind.Relative));
+        }
+
+        private void menuMainmap_Click(object sender, EventArgs e)
+        {
+            NavigationService.Navigate(new Uri("/Customer/CustomerMainMap.xaml", UriKind.Relative));
         }
     }
 }

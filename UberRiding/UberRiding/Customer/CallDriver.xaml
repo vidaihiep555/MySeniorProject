@@ -16,7 +16,7 @@
     shell:SystemTray.IsVisible="True">
 
     <phone:PhoneApplicationPage.ApplicationBar>
-        <shell:ApplicationBar IsVisible="True" IsMenuEnabled="True" BackgroundColor="#3DA5E1">
+        <shell:ApplicationBar x:Name="appBarMainMap"  IsVisible="True" IsMenuEnabled="True" BackgroundColor="#3DA5E1">
 
             <shell:ApplicationBar.MenuItems>
                 <shell:ApplicationBarMenuItem Text="Zoom In"/>
@@ -24,20 +24,22 @@
             </shell:ApplicationBar.MenuItems>
 
             <shell:ApplicationBarIconButton 
+                x:Name="menuMainmap"
                 IconUri="/Assets/AppBar/ic_home.png"  
                 Text="Home" 
+                Click="menuMainmap_Click"
                 />
 
             <shell:ApplicationBarIconButton 
                 IconUri="/Assets/AppBar/ic_search.png"  
                 Text="Search" 
                 />
-            <shell:ApplicationBarIconButton 
+            <shell:ApplicationBarIconButton x:Name="menuPostItinerary" 
                 IconUri="/Assets/AppBar/ic_map.png" 
-                Text="StartPoint" />
-            <shell:ApplicationBarIconButton 
+                Text="Post Itinerary" Click="menuPostItinerary_Click" />
+            <shell:ApplicationBarIconButton x:Name="menuManage"
                 IconUri="/Assets/AppBar/ic_router.png" 
-                Text="EndPoint"/>
+                Text="EndPoint" Click="menuManage_Click"/>
         </shell:ApplicationBar>
     </phone:PhoneApplicationPage.ApplicationBar>
     <!--LayoutRoot is the root grid where all page content is placed-->
@@ -80,14 +82,23 @@
                              Width="480" KeyDown="txtboxStart_KeyDown"/>
                     </Grid>
 
-                    <Grid Grid.Row="2" HorizontalAlignment="Center" Width="480">
+                    <Button x:Name="btnCallDriver"
+                        Height="70" 
+                        Content="Call Driver" 
+                        HorizontalAlignment="Center" 
+                        Margin="0,0,0,0" Grid.Row="5" 
+                        VerticalAlignment="Top" 
+                        Width="480" 
+                        Background="#FF2D90F5" BorderThickness="0" Click="btnCallDriver_Click" />
+
+                    <!--<Grid Grid.Row="2" HorizontalAlignment="Center" Width="480">
                         <toolkit:PhoneTextBox x:Name="txtboxEnd"    
                             HorizontalAlignment="Center" 
                             Height="Auto" Margin="0,0,0,0" 
                             TextWrapping="Wrap" 
                             Hint="Nơi đến" VerticalAlignment="Top" 
                             Width="480" KeyDown="txtboxEnd_KeyDown"/>
-                    </Grid>
+                    </Grid>-->
                 </Grid>
             </phone:PivotItem>
 
@@ -143,14 +154,14 @@
                          Grid.Row="4" TextWrapping="Wrap" 
                          Hint=" Giá tiền..." VerticalAlignment="Center" 
                          Background="{StaticResource PhoneTextBoxSelectionForegroundBrush}"/>
-                    <Button x:Name="btnCallDriver"
+                    <!--<Button x:Name="btnCallDriver"
                         Height="70" 
                         Content="Call Driver" 
                         HorizontalAlignment="Center" 
                         Margin="0,0,0,0" Grid.Row="5" 
                         VerticalAlignment="Top" 
                         Width="480" 
-                        Background="#FF2D90F5" BorderThickness="0" Click="btnCallDriver_Click" />
+                        Background="#FF2D90F5" BorderThickness="0" Click="btnCallDriver_Click" />-->
                 </Grid>
             </phone:PivotItem>
             <!--Pivot item three-->
@@ -191,7 +202,7 @@
                         </Grid>
 
 
-                        <Image Source="Assets/avatar/ic_author_harold.png" Grid.Row="0"  >
+                        <Image x:Name="imgDriver" Source="Assets/avatar/ic_author_harold.png" Grid.Row="0"  >
                             <Image.Clip>
                                 <EllipseGeometry Center="80,80" RadiusX="80" RadiusY="80"/>
                             </Image.Clip>
