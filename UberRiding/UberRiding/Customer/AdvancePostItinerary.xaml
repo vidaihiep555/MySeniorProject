@@ -46,7 +46,7 @@
                  Margin="0,0,0,0"
                  Width="480" Height="72"
                  Grid.Row="1" TextWrapping="Wrap" 
-                 Hint="Mô tả hành trình..." 
+                 Hint="Description..." 
                  VerticalAlignment="Center" 
                  Background="{StaticResource PhoneTextBoxEditBackgroundBrush}"/>
         <toolkit:PhoneTextBox x:Name="txtbStart" 
@@ -55,7 +55,7 @@
                  Margin="0,0,0,0" 
                  Grid.Row="2" 
                  TextWrapping="Wrap" 
-                 Hint="Điểm đi..." 
+                 Hint="Start..." 
                  VerticalAlignment="Center" 
                  Background="{StaticResource PhoneTextBoxSelectionForegroundBrush}"/>
         <toolkit:PhoneTextBox x:Name="txtbEnd"
@@ -63,7 +63,7 @@
                  Margin="0,0,0,0" 
                  Grid.Row="3" 
                  TextWrapping="Wrap" 
-                 Hint="Điểm đến..." 
+                 Hint="End..." 
                  VerticalAlignment="Center" 
                  Width="480" Height="72"
                  Background="{StaticResource PhoneTextBoxSelectionForegroundBrush}"/>
@@ -71,7 +71,7 @@
                  HorizontalAlignment="Center" 
                  Grid.Row="4" 
                  TextWrapping="Wrap" 
-                 Hint="Quãng đường đi..." 
+                 Hint="Distance..." 
                  VerticalAlignment="Center" 
                  Width="480" Height="72"
                  Background="{StaticResource PhoneTextBoxSelectionForegroundBrush}"/>

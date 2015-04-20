@@ -125,5 +125,22 @@ namespace UberRiding.Driver
             //navigate sang details
             NavigationService.Navigate(new Uri("/Customer/CustomerItineraryDetails.xaml", UriKind.RelativeOrAbsolute));
         }
+
+        private void menuAccountInfo_Click(object sender, EventArgs e)
+        {
+            NavigationService.Navigate(new Uri("/AccountInfo.xaml", UriKind.RelativeOrAbsolute));
+        }
+
+        private void menuAboutUs_Click(object sender, EventArgs e)
+        {
+            NavigationService.Navigate(new Uri("/AboutUs.xaml", UriKind.RelativeOrAbsolute));
+        }
+
+        private void menuLogOut_Click(object sender, EventArgs e)
+        {
+            //xoa csdl luu tru ve driver
+            Logout.deleteDriverInfoBeforeLogout();
+            NavigationService.Navigate(new Uri("/LoginPage.xaml", UriKind.RelativeOrAbsolute));
+        }
     }
 }

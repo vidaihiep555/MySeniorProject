@@ -91,6 +91,8 @@ function authenticateStaff(\Slim\Route $route) {
     }
 }
 
+///////////////////////////////////////// CUSTOMER ///////////////////////////////////////////////////
+
 /**
  * Customer Registration
  * url - /user
@@ -401,6 +403,12 @@ $app->delete('/user', 'authenticateUser', function() {
             echoRespnse(200, $response);
         });
 
+
+
+
+
+/////////////////////////////////////// DRIVER ////////////////////////////////////////////////////////////
+
 /**
  * Driver Registration
  * url - /driver
@@ -482,6 +490,52 @@ $app->get('/driver/:field', 'authenticateUser', function($field) {
             }
         });
 
+
+/**
+ * Listing all itineraries of particual user
+ * method GET
+ * url /itineraries          
+ */
+$app->get('/drivers', 'authenticateUser', function() {
+            global $user_id;
+            $response = array();
+            $db = new DbHandler();
+
+            // fetching all user tasks
+            $result = $db->getAllDrivers();
+
+            $response["error"] = false;
+            $response["drivers"] = array();
+
+            // looping through result and preparing tasks array
+            while ($driver = $result->fetch_assoc()) {
+                $tmp = array();
+
+                //itinerary info
+                $tmp["driver_id"] = $driver["driver_id"];
+                $tmp['email'] = $driver['email'];
+                $tmp['fullname'] = $driver['fullname'];
+                $tmp['phone'] = $driver['phone'];
+                $tmp['driver_lat'] = $driver['driver_lat'];
+                $tmp['driver_long'] = $driver['driver_long'];
+                $tmp['created_at'] = $driver['created_at'];
+                $tmp['status'] = $driver['status'];
+                $tmp['personalID'] = $driver['personalID'];
+                $tmp['personalID_img'] = $driver['personalID_img'];
+                $tmp["driver_avatar"] = $driver["driver_avatar"];
+                //rating
+                $driver_id = $tmp["driver_id"];
+                $tmp["average_rating"] = $db->getAverageRatingofDriver($driver_id);
+                array_push($response["drivers"], $tmp);
+            }
+
+            //print_r($response);
+
+            //echo $response;
+            echoRespnse(200, $response);
+
+        });
+
 /**
  * Updating user
  * method PUT
@@ -558,7 +612,7 @@ $app->delete('/driver', 'authenticateUser', function() {
             if ($result) {
                 // user deleted successfully
                 $response["error"] = false;
-                $response["message"] = "Xóa tài xế thành công!";
+                $response["message"] = "Successfully Deleted Driver";
             } else {
                 // task failed to delete
                 $response["error"] = true;
@@ -566,6 +620,13 @@ $app->delete('/driver', 'authenticateUser', function() {
             }
             echoRespnse(200, $response);
         });
+
+
+
+
+
+/////////////////////////////////// ITINERARY /////////////////////////////////////////////////////////
+
 
 
 
@@ -772,8 +833,6 @@ $app->get('/itineraries/driver/:order', 'authenticateUser', function($order) {
                 //print_r($itinerary);
                 //echoRespnse(200, $itinerary);
             }
-            
-
             //print_r($response);
 
             echoRespnse(200, $response);
@@ -868,14 +927,6 @@ $app->put('/customer_accept_itinerary/:id', 'authenticateUser', function($itiner
 
             global $user_id;
             //$itinerary_fields = array();           
-
-            //$request_params = array();
-            //$request_params = $_REQUEST;
-            // Handling PUT request params
-            /*if ($_SERVER['REQUEST_METHOD'] == 'PUT') {
-                $app = \Slim\Slim::getInstance();
-                parse_str($app->request()->getBody(), $request_params);
-            }*/
 
             $db = new DbHandler();
             $response = array();
@@ -1001,53 +1052,8 @@ $app->delete('/itinerary/:id', 'authenticateUser', function($itinerary_id) use($
 
 
 
-/**
- * Listing all itineraries of particual user
- * method GET
- * url /itineraries          
- */
-$app->get('/drivers', 'authenticateUser', function() {
-            global $user_id;
-            $response = array();
-            $db = new DbHandler();
 
-            // fetching all user tasks
-            $result = $db->getAllDrivers();
-
-            $response["error"] = false;
-            $response["drivers"] = array();
-
-            // looping through result and preparing tasks array
-            while ($driver = $result->fetch_assoc()) {
-                $tmp = array();
-
-                //itinerary info
-                $tmp["driver_id"] = $driver["driver_id"];
-                $tmp['email'] = $driver['email'];
-                $tmp['fullname'] = $driver['fullname'];
-                $tmp['phone'] = $driver['phone'];
-                $tmp['driver_lat'] = $driver['driver_lat'];
-                $tmp['driver_long'] = $driver['driver_long'];
-                $tmp['created_at'] = $driver['created_at'];
-                $tmp['status'] = $driver['status'];
-                $tmp['personalID'] = $driver['personalID'];
-                $tmp['personalID_img'] = $driver['personalID_img'];
-                $tmp["driver_avatar"] = $driver["driver_avatar"];
-                //rating
-                $driver_id = $tmp["driver_id"];
-                $tmp["average_rating"] = $db->getAverageRatingofDriver($driver_id);
-                array_push($response["drivers"], $tmp);
-            }
-
-            //print_r($response);
-
-            //echo $response;
-            echoRespnse(200, $response);
-
-        });
-
-
-
+///////////////////////////// FEEDBACK - COMMENT - RATING /////////////////////////////////////
 
 
 
@@ -1079,6 +1085,26 @@ $app->post('/feedback', function() use ($app) {
             }
             // echo json response
             echoRespnse(201, $response);
+        });
+
+$app->get('/comment/:user_id', 'authenticateUser', function($user_id) {
+            $response = array();
+            $db = new DbHandler();
+
+            if ($db->isUserExists1($user_id)) {
+                $response['error'] = false;
+                $response['comments'] = array();
+                $result = $db->getListCommentOfUser($user_id);
+                while ($comment = $result->fetch_assoc()) {
+                    array_push($response['comment'], $comment);
+                }
+                echoRespnse(200, $response);
+
+            } else {
+                $response['error'] = true;
+                $response['message'] = 'Đường dẫn bạn yêu cầu không tồn tại!';
+                echoRespnse(404, $response);
+            }
         });
 
 /**

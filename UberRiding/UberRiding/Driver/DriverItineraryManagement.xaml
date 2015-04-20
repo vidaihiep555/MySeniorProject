@@ -14,31 +14,40 @@
     shell:SystemTray.IsVisible="True">
 
     <phone:PhoneApplicationPage.ApplicationBar>
-        <shell:ApplicationBar IsVisible="True" IsMenuEnabled="True" BackgroundColor="#3DA5E1">
+        <shell:ApplicationBar x:Name="appBarMainMap"  IsVisible="True" IsMenuEnabled="True" BackgroundColor="#3DA5E1">
 
             <shell:ApplicationBar.MenuItems>
-                <shell:ApplicationBarMenuItem Text="Zoom In"/>
-                <shell:ApplicationBarMenuItem Text="Zoom Out"/>
+                <shell:ApplicationBarMenuItem 
+                    x:Name="menuAccountInfo" 
+                    Text="Account Info"
+                    Click="menuAccountInfo_Click"/>
+                <shell:ApplicationBarMenuItem 
+                    x:Name="menuAboutUs" 
+                    Text="About Us"
+                    Click="menuAboutUs_Click"/>
+                <shell:ApplicationBarMenuItem 
+                    x:Name="menuLogOut" 
+                    Text="Log Out"
+                    Click="menuLogOut_Click"/>
             </shell:ApplicationBar.MenuItems>
 
             <shell:ApplicationBarIconButton 
-                x:Name="menuCustomer"
+                x:Name="menuMainmap"
                 IconUri="/Assets/AppBar/ic_home.png"  
-                Text="Home" Click="menuCustomer_Click"              
+                Text="Home" 
+                Click="menuMainmap_Click"
                 />
 
             <shell:ApplicationBarIconButton 
                 IconUri="/Assets/AppBar/ic_search.png"  
                 Text="Search" 
                 />
-            <shell:ApplicationBarIconButton
-                x:FieldModifier="menuPostItinerary"
+            <shell:ApplicationBarIconButton x:Name="menuPostItinerary" 
                 IconUri="/Assets/AppBar/ic_map.png" 
-                Text="Itinerary"
-                Click="ApplicationBarIconButton_Click"/>
-            <shell:ApplicationBarIconButton 
-                IconUri="/Assets/AppBar/ic_router.png" 
-                Text="EndPoint"/>
+                Text="Post Itinerary" Click="menuPostItinerary_Click" />
+            <shell:ApplicationBarIconButton x:Name="menuManage"
+                IconUri="/Assets/AppBar/ic_ItiMana.png" 
+                Text="management" Click="menuManage_Click"/>
         </shell:ApplicationBar>
     </phone:PhoneApplicationPage.ApplicationBar>
     <!--LayoutRoot is the root grid where all page content is placed-->

@@ -91,6 +91,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="AboutUs.xaml.cs">
+      <DependentUpon>AboutUs.xaml</DependentUpon>
+    </Compile>
     <Compile Include="AccountInfo.xaml.cs">
       <DependentUpon>AccountInfo.xaml</DependentUpon>
     </Compile>
@@ -115,11 +118,17 @@
     <Compile Include="Customer\PostItinerary.xaml.cs">
       <DependentUpon>PostItinerary.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Driver\DriverAccInfo.xaml.cs">
+      <DependentUpon>DriverAccInfo.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Driver\DriverItineraryDetails.xaml.cs">
       <DependentUpon>DriverItineraryDetails.xaml</DependentUpon>
     </Compile>
     <Compile Include="Driver\DriverItineraryManagement.xaml.cs">
       <DependentUpon>DriverItineraryManagement.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Driver\DriverRating.xaml.cs">
+      <DependentUpon>DriverRating.xaml</DependentUpon>
     </Compile>
     <Compile Include="ForgotPassword.xaml.cs">
       <DependentUpon>ForgotPassword.xaml</DependentUpon>
@@ -128,6 +137,7 @@
     <Compile Include="Global\DatetimeConvert.cs" />
     <Compile Include="Global\GlobalData.cs" />
     <Compile Include="Global\ImageConvert.cs" />
+    <Compile Include="Global\Logout.cs" />
     <Compile Include="Global\MarkerDraw.cs" />
     <Compile Include="LocalizedStrings.cs" />
     <Compile Include="Login.xaml.cs">
@@ -137,6 +147,9 @@
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RefreshPage.xaml.cs">
+      <DependentUpon>RefreshPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Request\RequestToBingMap.cs" />
     <Compile Include="Request\RequestToServer.cs" />
     <Compile Include="Resources\AppResources.Designer.cs">
@@ -158,6 +171,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </ApplicationDefinition>
+    <Page Include="AboutUs.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="AccountInfo.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -186,11 +203,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Driver\DriverAccInfo.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Driver\DriverItineraryDetails.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Driver\DriverItineraryManagement.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Driver\DriverRating.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -210,6 +235,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </DesignData>
+    <Page Include="RefreshPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="UserControls\UCCurrentPushPin.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -233,6 +262,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Assets\AppBar\ic_home.png" />
+    <Content Include="Assets\AppBar\ic_ItiMana.png" />
     <Content Include="Assets\AppBar\ic_map.png" />
     <Content Include="Assets\AppBar\ic_router.png" />
     <Content Include="Assets\AppBar\ic_search.png" />

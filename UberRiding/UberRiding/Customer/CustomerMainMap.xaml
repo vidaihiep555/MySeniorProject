@@ -18,8 +18,18 @@
         <shell:ApplicationBar x:Name="appBarMainMap"  IsVisible="True" IsMenuEnabled="True" BackgroundColor="#3DA5E1">
 
             <shell:ApplicationBar.MenuItems>
-                <shell:ApplicationBarMenuItem Text="Zoom In"/>
-                <shell:ApplicationBarMenuItem Text="Zoom Out"/>
+                <shell:ApplicationBarMenuItem 
+                    x:Name="menuAccountInfo" 
+                    Text="Account Info"
+                    Click="menuAccountInfo_Click"/>
+                <shell:ApplicationBarMenuItem 
+                    x:Name="menuAboutUs" 
+                    Text="About Us"
+                    Click="menuAboutUs_Click"/>
+                <shell:ApplicationBarMenuItem 
+                    x:Name="menuLogOut" 
+                    Text="Log Out"
+                    Click="menuLogOut_Click"/>
             </shell:ApplicationBar.MenuItems>
 
             <shell:ApplicationBarIconButton 
@@ -37,8 +47,8 @@
                 IconUri="/Assets/AppBar/ic_map.png" 
                 Text="Post Itinerary" Click="menuPostItinerary_Click" />
             <shell:ApplicationBarIconButton x:Name="menuManage"
-                IconUri="/Assets/AppBar/ic_router.png" 
-                Text="EndPoint" Click="menuManage_Click"/>
+                IconUri="/Assets/AppBar/ic_ItiMana.png" 
+                Text="management" Click="menuManage_Click"/>
         </shell:ApplicationBar>
     </phone:PhoneApplicationPage.ApplicationBar>
     <!--LayoutRoot is the root grid where all page content is placed-->

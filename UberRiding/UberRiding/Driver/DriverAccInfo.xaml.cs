@@ -7,28 +7,24 @@ using System.Windows.Controls;
 using System.Windows.Navigation;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
+using Windows.Web.Http;
+using UberRiding.Global;
 using Newtonsoft.Json.Linq;
 using UberRiding.Request;
-using Windows.Web.Http;
 using Microsoft.Phone.Tasks;
-using UberRiding.Global;
 
-namespace UberRiding
+namespace UberRiding.Driver
 {
-    public partial class AccountInfo : PhoneApplicationPage
+    public partial class DriverAccInfo : PhoneApplicationPage
     {
         PhotoChooserTask photoChooserTask;
         CameraCaptureTask cameraCaptureTask;
 
-        public AccountInfo()
+        public DriverAccInfo()
         {
             InitializeComponent();
 
-            //xet co phai driver ko
-
-            //send request
             getUserInfo();
-            
         }
 
         public async void getUserInfo()

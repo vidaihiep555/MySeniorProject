@@ -37,6 +37,8 @@ namespace UberRiding.Global
         public const int ITINERARY_STATUS_FINISHED = 4;
     }
 
+    
+
     public class Itinerary
     {
         public int itinerary_id { get; set; }
