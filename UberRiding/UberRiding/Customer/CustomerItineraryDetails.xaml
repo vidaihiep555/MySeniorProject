@@ -82,6 +82,22 @@
                     <!--ContentPanel - place additional content here-->
                     <Grid x:Name="ContentPanel" Grid.Row="0" Margin="0,0,0,0" Background="{StaticResource PhoneForegroundBrush}">
                         <maps:Map x:Name="mapItineraryDetails" Tap="mapItineraryDetails_Tap"/>
+                        <Canvas>
+                            <Button x:Name="btnZoomIn" Padding="5,5,5,5" BorderBrush="Black" Width="70" Height="70" Canvas.Left="410" Canvas.Top="250" Click="btnZoomIn_Click">
+                                <Image  Stretch="Fill">
+                                    <Image.Source>
+                                        <BitmapImage UriSource="/Assets/marker/ZoomIn.png"/>
+                                    </Image.Source>
+                                </Image>
+                            </Button>
+                            <Button x:Name="btnZoomOut" Padding="5,5,5,5" Width="70"  BorderBrush="Black" BorderThickness="3" Height="70" Canvas.Left="410" Canvas.Top="200" Click="btnZoomOut_Click">
+                                <Image  Stretch="Fill">
+                                    <Image.Source>
+                                        <BitmapImage UriSource="/Assets/marker/ZoomOut.png"/>
+                                    </Image.Source>
+                                </Image>
+                            </Button>
+                        </Canvas>
                     </Grid>
                     <Grid Grid.Row="1" HorizontalAlignment="Center" Width="480">
                         <toolkit:PhoneTextBox x:Name="txtboxStart"    

@@ -142,5 +142,20 @@ namespace UberRiding.Driver
             Logout.deleteDriverInfoBeforeLogout();
             NavigationService.Navigate(new Uri("/LoginPage.xaml", UriKind.RelativeOrAbsolute));
         }
+
+        private void menuMainmap_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void menuPostItinerary_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void menuManage_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

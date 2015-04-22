@@ -71,8 +71,27 @@
         <phone:Pivot Grid.Row="1" Margin="0,-30,0,0" Background="#3DA5E1">
             <!--Pivot item one-->
             <phone:PivotItem Header="Map" Margin="0,0,0,0">
-                <maps:Map x:Name="mapMain"/>
-
+                <Grid>
+                    <maps:Map x:Name="mapMain"/>
+                    <Canvas>
+                        <Button x:Name="btnZoomIn" Padding="5,5,5,5" BorderBrush="Black" Width="70" Height="70" Canvas.Left="410" Canvas.Top="250" Click="btnZoomIn_Click">
+                            <Image  Stretch="Fill">
+                                <Image.Source>
+                                    <BitmapImage UriSource="/Assets/marker/ZoomIn.png"/>
+                                </Image.Source>
+                            </Image>
+                        </Button>
+                        <Button x:Name="btnZoomOut" Padding="5,5,5,5" Width="70"  BorderBrush="Black" BorderThickness="3" Height="70" Canvas.Left="410" Canvas.Top="200" Click="btnZoomOut_Click">
+                            <Image  Stretch="Fill">
+                                <Image.Source>
+                                    <BitmapImage UriSource="/Assets/marker/ZoomOut.png"/>
+                                </Image.Source>
+                            </Image>
+                        </Button>
+                    </Canvas>
+                </Grid>
+                
+                
             </phone:PivotItem>
 
             <!--Pivot item two-->

@@ -228,5 +228,26 @@ namespace UberRiding.Customer
                 + "&e_lat=" + endPointOverlay.GeoCoordinate.Latitude
                 + "&e_long=" + endPointOverlay.GeoCoordinate.Longitude, UriKind.RelativeOrAbsolute));
         }
+
+        private void btnZoomIn_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                mapPostItinerary.ZoomLevel = mapPostItinerary.ZoomLevel + 1;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        private void btnZoomOut_Click(object sender, RoutedEventArgs e)
+        {
+            if (mapPostItinerary.ZoomLevel > 1)
+            {
+                mapPostItinerary.ZoomLevel = mapPostItinerary.ZoomLevel - 1;
+            }
+        }
     }
 }

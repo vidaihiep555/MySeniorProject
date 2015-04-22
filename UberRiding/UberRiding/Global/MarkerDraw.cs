@@ -36,6 +36,22 @@ namespace UberRiding.Global
             return overlay;
         }
 
+        public static MapOverlay DrawEndMarker(GeoCoordinate point)
+        {    
+            UCEndPushPin _tooltip = new UCEndPushPin();
+           
+            _tooltip.Description = "";
+            _tooltip.DataContext = "";
+            //_tooltip.Menuitem.Click += Menuitem_Click;
+            //_tooltip.imgmarker.Tap += _tooltip_Tapimg;
+            MapOverlay overlay = new MapOverlay();
+            overlay.Content = _tooltip;
+            overlay.GeoCoordinate = point;
+            overlay.PositionOrigin = new Point(0.0, 1.0);
+
+            return overlay;
+        }
+
         public static MapOverlay DrawItineraryMarker(GeoCoordinate point, Itinerary2 i)
         {
             UCCustomPushPin _tooltip = new UCCustomPushPin();

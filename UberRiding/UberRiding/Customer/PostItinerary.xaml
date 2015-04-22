@@ -35,11 +35,19 @@
         <Grid x:Name="ContentPanel" Grid.Row="1" Margin="0,0,0,0" Background="{StaticResource PhoneForegroundBrush}">
             <maps:Map x:Name="mapPostItinerary" Tap="mapPostItinerary_Tap"/>
             <Canvas>
-                <Button Background="Aqua" x:Name="btnStart" BorderThickness="5" Height="100" Width="100"  Canvas.Left="380" Canvas.Top="400">
-                    <Image Stretch="Fill" Source="Assets/drawmap/whiteStart.png"/>
+                <Button x:Name="btnZoomIn" Padding="5,5,5,5" BorderBrush="Black" Width="70" Height="70" Canvas.Left="410" Canvas.Top="250" Click="btnZoomIn_Click">
+                    <Image  Stretch="Fill">
+                        <Image.Source>
+                            <BitmapImage UriSource="/Assets/marker/ZoomIn.png"/>
+                        </Image.Source>
+                    </Image>
                 </Button>
-                <Button Background="Aqua" x:Name="btnEnd" BorderThickness="5" Height="100" Width="100"  Canvas.Left="380" Canvas.Top="330">
-                    <Image Stretch="Fill" Source="Assets/drawmap/blackEnd.png"/>
+                <Button x:Name="btnZoomOut" Padding="5,5,5,5" Width="70"  BorderBrush="Black" BorderThickness="3" Height="70" Canvas.Left="410" Canvas.Top="200" Click="btnZoomOut_Click">
+                    <Image  Stretch="Fill">
+                        <Image.Source>
+                            <BitmapImage UriSource="/Assets/marker/ZoomOut.png"/>
+                        </Image.Source>
+                    </Image>
                 </Button>
             </Canvas>
         </Grid>

@@ -353,5 +353,26 @@ namespace UberRiding.Customer
             Logout.deleteDriverInfoBeforeLogout();
             NavigationService.Navigate(new Uri("/LoginPage.xaml", UriKind.RelativeOrAbsolute));
         }
+
+        private void btnZoomIn_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                mapItineraryDetails.ZoomLevel = mapItineraryDetails.ZoomLevel + 1;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        private void btnZoomOut_Click(object sender, RoutedEventArgs e)
+        {
+            if (mapItineraryDetails.ZoomLevel > 1)
+            {
+                mapItineraryDetails.ZoomLevel = mapItineraryDetails.ZoomLevel - 1;
+            }
+        }
     }
 }

@@ -158,5 +158,27 @@ namespace UberRiding.Customer
             NavigationService.Navigate(new Uri("/LoginPage.xaml", UriKind.RelativeOrAbsolute));
         }
 
+        private void btnZoomIn_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                mapMain.ZoomLevel = mapMain.ZoomLevel + 1;
+            }
+            catch (Exception)
+            {
+                
+                throw;
+            }
+        }
+
+        private void btnZoomOut_Click(object sender, RoutedEventArgs e)
+        {
+            if (mapMain.ZoomLevel > 1)
+            {
+                mapMain.ZoomLevel = mapMain.ZoomLevel - 1;
+            }
+            
+        }
+
     }
 }
