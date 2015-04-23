@@ -282,6 +282,8 @@
     <Content Include="Assets\avatar\Personal.png" />
     <Content Include="Assets\avatar\phone.png" />
     <Content Include="Assets\avatar\Postcard.png" />
+    <Content Include="Assets\marker\blackEnd.png" />
+    <Content Include="Assets\marker\blackStart.png" />
     <Content Include="Assets\marker\ic_marker_driver.png" />
     <Content Include="Assets\marker\ic_marker_end.png" />
     <Content Include="Assets\marker\ic_marker_start.png" />

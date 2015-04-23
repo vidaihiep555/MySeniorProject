@@ -15,6 +15,7 @@ using System.Windows.Input;
 using Microsoft.Phone.Maps.Services;
 using Windows.Devices.Geolocation;
 using Microsoft.Phone.Maps.Controls;
+using System.Windows.Media;
 
 namespace UberRiding.Customer
 {
@@ -29,7 +30,9 @@ namespace UberRiding.Customer
         MapLayer myLocationLayer = null;
         string nameOfTxtbox = "Start";
 
-        bool isSetEndPoint = false;
+        bool isGetCurrent = true;
+        bool isSetEndPoint = true;
+
         public PostItinerary()
         {
             InitializeComponent();
@@ -113,14 +116,21 @@ namespace UberRiding.Customer
                 //showString = showString + "\n" + e.Result[0].Information.Description.ToString();
 
                 //MessageBox.Show(showString);
-                if (nameOfTxtbox.Equals("Start"))
+                if (isGetCurrent)
                 {
                     txtboxStart.Text = showString;
-                    nameOfTxtbox = "End";
+                    isGetCurrent = false;
                 }
                 else
                 {
-                    txtboxEnd.Text = showString;
+                    if (isSetEndPoint)
+                    {
+                        txtboxEnd.Text = showString;
+                    }
+                    else
+                    {
+                        txtboxStart.Text = showString;
+                    }
                 }
                 //txtboxStart.Text = showString;
                 //return showString;
@@ -134,27 +144,54 @@ namespace UberRiding.Customer
         private void mapPostItinerary_Tap(object sender, System.Windows.Input.GestureEventArgs e)
         {
 
-            if (endPointOverlay != null)
+            if (isSetEndPoint)
             {
-                myLocationLayer.Remove(endPointOverlay);
+                if (endPointOverlay != null)
+                {
+                    myLocationLayer.Remove(endPointOverlay);
+                }
+                GeoCoordinate asd = this.mapPostItinerary.ConvertViewportPointToGeoCoordinate(e.GetPosition(this.mapPostItinerary));
+                //MessageBox.Show("lat: " + asd.Latitude + "; long: " + asd.Longitude);
+
+                //dat pushpin
+                endPointOverlay = MarkerDraw.DrawEndMarker(asd);
+                // Create a MapLayer to contain the MapOverlay.
+                myLocationLayer.Add(endPointOverlay);
+
+                // Add the MapLayer to the Map.
+                mapPostItinerary.Layers.Remove(myLocationLayer);
+                mapPostItinerary.Layers.Add(myLocationLayer);
+
+                //mapPostItinerary.Layers.Remove()
+                //hien thi thong tin diem den tren textbox
+                geoQ.GeoCoordinate = asd;
+
+                geoQ.QueryAsync();
             }
-            GeoCoordinate asd = this.mapPostItinerary.ConvertViewportPointToGeoCoordinate(e.GetPosition(this.mapPostItinerary));
-            //MessageBox.Show("lat: " + asd.Latitude + "; long: " + asd.Longitude);
+            else
+            {
+                if (startPointOverlay != null)
+                {
+                    myLocationLayer.Remove(startPointOverlay);
+                }
+                GeoCoordinate asd = this.mapPostItinerary.ConvertViewportPointToGeoCoordinate(e.GetPosition(this.mapPostItinerary));
+                //MessageBox.Show("lat: " + asd.Latitude + "; long: " + asd.Longitude);
 
-            //dat pushpin
-            endPointOverlay = MarkerDraw.DrawCurrentMapMarker(asd);
-            // Create a MapLayer to contain the MapOverlay.
-            myLocationLayer.Add(endPointOverlay);
+                //dat pushpin
+                startPointOverlay = MarkerDraw.DrawCurrentMapMarker(asd);
+                // Create a MapLayer to contain the MapOverlay.
+                myLocationLayer.Add(startPointOverlay);
 
-            // Add the MapLayer to the Map.
-            mapPostItinerary.Layers.Remove(myLocationLayer);
-            mapPostItinerary.Layers.Add(myLocationLayer);
+                // Add the MapLayer to the Map.
+                mapPostItinerary.Layers.Remove(myLocationLayer);
+                mapPostItinerary.Layers.Add(myLocationLayer);
 
-            //mapPostItinerary.Layers.Remove()
-            //hien thi thong tin diem den tren textbox
-            geoQ.GeoCoordinate = asd;
+                //mapPostItinerary.Layers.Remove()
+                //hien thi thong tin diem den tren textbox
+                geoQ.GeoCoordinate = asd;
 
-            geoQ.QueryAsync();
+                geoQ.QueryAsync();
+            }
 
         }
 
@@ -247,6 +284,36 @@ namespace UberRiding.Customer
             if (mapPostItinerary.ZoomLevel > 1)
             {
                 mapPostItinerary.ZoomLevel = mapPostItinerary.ZoomLevel - 1;
+            }
+        }
+
+        private void btnEnd_Click(object sender, RoutedEventArgs e)
+        {
+            if (!isSetEndPoint)
+            {
+                btnEnd.Background = new SolidColorBrush(Colors.Gray);
+                btnStart.Background = new SolidColorBrush(Colors.White);
+                isSetEndPoint = true;
+            }
+
+            if (endPointOverlay.GeoCoordinate != null)
+            {
+                mapPostItinerary.Center = endPointOverlay.GeoCoordinate;
+            }
+        }
+
+        private void btnStart_Click(object sender, RoutedEventArgs e)
+        {
+            if (isSetEndPoint)
+            {
+                btnEnd.Background = new SolidColorBrush(Colors.White);
+                btnStart.Background = new SolidColorBrush(Colors.Gray);
+                isSetEndPoint = false;
+            }
+
+            if (startPointOverlay.GeoCoordinate != null)
+            {
+                mapPostItinerary.Center = startPointOverlay.GeoCoordinate;
             }
         }
     }

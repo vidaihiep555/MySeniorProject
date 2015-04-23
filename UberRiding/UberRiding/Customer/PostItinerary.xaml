@@ -52,21 +52,36 @@
             </Canvas>
         </Grid>
         <Grid Grid.Row="2" HorizontalAlignment="Center" Width="480">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="5*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
             <toolkit:PhoneTextBox x:Name="txtboxStart"    
                  HorizontalAlignment="Center" 
                  Height="Auto" Margin="0,0,0,0" 
                  TextWrapping="Wrap" 
                  Hint="Nơi bắt đầu" VerticalAlignment="Top" 
-                 Width="480" KeyDown="txtboxStart_KeyDown"/>
+                 Width="400" KeyDown="txtboxStart_KeyDown"/>
+            <Button Grid.Column="1" Background="White" x:Name="btnStart" BorderBrush="Black" BorderThickness="2" Height="80" Width="80"  Canvas.Left="380" Canvas.Top="400" Click="btnStart_Click">
+                <Image x:Name="imgStart" Stretch="Fill" Source="/Assets/marker/blackstart.png"/>
+            </Button>
+            
         </Grid>
 
         <Grid Grid.Row="3" HorizontalAlignment="Center" Width="480">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="5*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
             <toolkit:PhoneTextBox x:Name="txtboxEnd"    
                 HorizontalAlignment="Center" 
                 Height="Auto" Margin="0,0,0,0" 
                 TextWrapping="Wrap" 
                 Hint="Nơi đến" VerticalAlignment="Top" 
-                Width="480" KeyDown="txtboxEnd_KeyDown"/>
+                Width="400" KeyDown="txtboxEnd_KeyDown"/>
+            <Button x:Name="btnEnd" Grid.Column="1" Background="White" BorderBrush="Black" BorderThickness="2" Height="80" Width="80"  Canvas.Left="380" Canvas.Top="400" Click="btnEnd_Click">
+                <Image x:Name="imgEnd" Stretch="Fill" Source="/Assets/marker/blackend.png" Width="22"/>
+            </Button>
         </Grid>
         <Grid Grid.Row="4">
             <Button x:Name="btnXn"

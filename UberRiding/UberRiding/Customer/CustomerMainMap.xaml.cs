@@ -39,7 +39,7 @@ namespace UberRiding.Customer
             getDrivers();
         }
 
-        public async void InitCurrentLocationInfo()
+        public void InitCurrentLocationInfo()
         {
             Task<GeoCoordinate> x = ShowMyCurrentLocationOnTheMap();
         }
