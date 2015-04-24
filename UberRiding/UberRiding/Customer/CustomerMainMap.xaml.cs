@@ -35,6 +35,24 @@ namespace UberRiding.Customer
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
+            // check neu customer status  < 3  va isDisplayMessageBox = false  ==> hien thi messagebox
+            // neu ko thi ko hien thi
+            /*if (GlobalData.customer_status < GlobalData.USER_ACCEPT_UPDATED_PROFILE && GlobalData.isDisplayMessageBox == false)
+            {
+                MessageBoxResult result =
+                MessageBox.Show("You need to update your information to use this app!",
+               "Update Account", MessageBoxButton.OKCancel);
+
+                if (result == MessageBoxResult.OK)
+                {
+                    GlobalData.isDisplayMessageBox = true;
+                    NavigationService.Navigate(new Uri("/AccountInfo.xaml", UriKind.Relative));
+                }
+                else
+                {
+                    GlobalData.isDisplayMessageBox = true;
+                }
+            }*/
             InitCurrentLocationInfo();
             getDrivers();
         }
@@ -178,6 +196,73 @@ namespace UberRiding.Customer
                 mapMain.ZoomLevel = mapMain.ZoomLevel - 1;
             }
             
+        }
+
+        private void menuSearch_Click(object sender, EventArgs e)
+        {
+            //display search
+            StackPanel panel = new StackPanel();
+
+            TextBox txtbStart = new TextBox();
+            TextBlock b1 = new TextBlock(); b1.Text = "Password: ";
+
+            TextBox txtbEnd = new TextBox();
+            TextBlock b2 = new TextBlock(); b1.Text = "Password: ";
+
+            Button btnAdvanceSearch = new Button(); btnAdvanceSearch.Content = "Advance Search";
+            btnAdvanceSearch.Click += btnAdvanceSearch_Click;
+
+            panel.Children.Add(b1);
+            panel.Children.Add(txtbStart);
+            panel.Children.Add(b2);
+            panel.Children.Add(txtbEnd);
+            panel.Children.Add(btnAdvanceSearch);
+
+            CustomMessageBox messageBox = new CustomMessageBox()
+            {
+                //set the properties
+                Caption = "Search",
+                Message = "",
+
+                LeftButtonContent = "Find",
+                RightButtonContent = "Cancel"
+            };
+
+            messageBox.Content = panel;
+            //messageBox.Content = b2;
+
+            //Add the dismissed event handler
+            messageBox.Dismissed += (s1, e1) =>
+            {
+                switch (e1.Result)
+                {
+                    case CustomMessageBoxResult.LeftButton:
+                        //add the task you wish to perform when user clicks on yes button here
+                        //goi ham search
+                        //
+                        var result = Request.RequestToServer.sendGetRequest("");
+
+
+                        break;
+                    case CustomMessageBoxResult.RightButton:
+                        //add the task you wish to perform when user clicks on no button here
+
+                        break;
+                    case CustomMessageBoxResult.None:
+                        // Do something.
+                        break;
+                    default:
+                        break;
+                }
+            };
+
+            //add the show method
+            messageBox.Show();
+        }
+
+        private void btnAdvanceSearch_Click(object sender, RoutedEventArgs e)
+        {
+            NavigationService.Navigate(new Uri("/AdvanceSearch.xamll", UriKind.RelativeOrAbsolute));
         }
 
     }

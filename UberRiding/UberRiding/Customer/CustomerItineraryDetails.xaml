@@ -81,7 +81,7 @@
 
 					<!--ContentPanel - place additional content here-->
 					<Grid x:Name="ContentPanel" Grid.Row="0" Margin="0,0,0,0" Background="{StaticResource PhoneForegroundBrush}">
-						<maps:Map x:Name="mapItineraryDetails" Tap="mapItineraryDetails_Tap"/>
+						<maps:Map x:Name="mapItineraryDetails"/>
 						<Canvas>
 							<Button x:Name="btnZoomIn" Padding="5,5,5,5" BorderBrush="Black" Width="70" Height="70" Canvas.Left="410" Canvas.Top="250" Click="btnZoomIn_Click">
 								<Image  Stretch="Fill">
@@ -105,16 +105,16 @@
 							 Height="Auto" Margin="0,0,0,0" 
 							 TextWrapping="Wrap" 
 							 Hint="Nơi bắt đầu" VerticalAlignment="Top" 
-							 Width="480" KeyDown="txtboxStart_KeyDown"/>
+							 Width="480"/>
 					</Grid>
 
 					<Grid Grid.Row="2" HorizontalAlignment="Center" Width="480">
 						<toolkit:PhoneTextBox x:Name="txtboxEnd"    
 							HorizontalAlignment="Center" 
 							Height="Auto" Margin="0,0,0,0" 
-	 						TextWrapping="Wrap" 
+							TextWrapping="Wrap" 
 							Hint="Nơi đến" VerticalAlignment="Top" 
-							Width="480" KeyDown="txtboxStart_KeyDown"/>
+							Width="480"/>
 					</Grid>
 				</Grid>
 			</phone:PivotItem>
@@ -165,13 +165,13 @@
 						Margin="0,0,0,0"
 						VerticalAlignment="Center"
 						Grid.Row="3"/>
-					<toolkit:PhoneTextBox x:Name="txtbCost" Width="480" Height="72"
+					<!--<toolkit:PhoneTextBox x:Name="txtbCost" Width="480" Height="72"
 						 HorizontalAlignment="Center" 
 						 Margin="0,0,0,0" 
 						 Grid.Row="4" TextWrapping="Wrap" 
 						 Hint=" Giá tiền..." VerticalAlignment="Center" 
 						 Background="{StaticResource PhoneTextBoxSelectionForegroundBrush}"/>
-					<!--<Button x:Name="btnUpdate"
+					<Button x:Name="btnUpdate"
 						Height="70" 
 						Content="Cập Nhật" 
 						HorizontalAlignment="Center" 

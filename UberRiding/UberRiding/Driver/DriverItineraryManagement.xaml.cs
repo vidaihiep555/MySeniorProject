@@ -15,8 +15,8 @@ namespace UberRiding.Driver
     public partial class DriverItineraryManagement : PhoneApplicationPage
     {
         //ItineraryList itinearyCreatedList = new ItineraryList();
-        ItineraryList itinearyCustomerAcceptedList = new ItineraryList();
-        ItineraryList itinearyDriverAcceptedList = new ItineraryList();
+        ItineraryList itinearyAcceptedList = new ItineraryList();
+        ItineraryList itinearyOnGoingList = new ItineraryList();
         ItineraryList itinearyFinishedList = new ItineraryList();
 
         public DriverItineraryManagement()
@@ -59,15 +59,15 @@ namespace UberRiding.Driver
                     //average_rating = i.average_rating
                 };
                 //itinearyList.Add(i2);
-                if (i2.status == 2)
+                if (i2.status == GlobalData.ITINERARY_STATUS_ACCEPTED)
                 {
-                    itinearyCustomerAcceptedList.Add(i2);
+                    itinearyAcceptedList.Add(i2);
                 }
-                else if (i2.status == 3)
+                else if (i2.status == GlobalData.ITINERARY_STATUS_ONGOING)
                 {
-                    itinearyDriverAcceptedList.Add(i2);
+                    itinearyOnGoingList.Add(i2);
                 }
-                else if (i2.status == 4)
+                else if (i2.status == GlobalData.ITINERARY_STATUS_FINISHED)
                 {
                     itinearyFinishedList.Add(i2);
                 }
@@ -79,8 +79,8 @@ namespace UberRiding.Driver
             //binding vao list
 
             //longlistItineraries.ItemsSource = itinearyList;
-            longlistItinerariesCustomerAccepted.ItemsSource = itinearyCustomerAcceptedList;
-            longlistItinerariesDriverAccepted.ItemsSource = itinearyDriverAcceptedList;
+            longlistItinerariesAccepted.ItemsSource = itinearyAcceptedList;
+            longlistItinerariesOnGoing.ItemsSource = itinearyOnGoingList;
             longlistItinerariesFinished.ItemsSource = itinearyFinishedList;
         }
 
@@ -98,7 +98,7 @@ namespace UberRiding.Driver
 
         private void longlistItinerariesCustomerAccepted_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            Itinerary2 selectedItem = (Itinerary2)longlistItinerariesCustomerAccepted.SelectedItem;
+            Itinerary2 selectedItem = (Itinerary2)longlistItinerariesAccepted.SelectedItem;
             MessageBox.Show("ss: " + selectedItem.itinerary_id);
             //luu tru tam thoi
             Global.GlobalData.selectedItinerary = selectedItem;
@@ -108,7 +108,7 @@ namespace UberRiding.Driver
 
         private void longlistItinerariesDriverAccepted_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            Itinerary2 selectedItem = (Itinerary2)longlistItinerariesDriverAccepted.SelectedItem;
+            Itinerary2 selectedItem = (Itinerary2)longlistItinerariesOnGoing.SelectedItem;
             MessageBox.Show("ss: " + selectedItem.itinerary_id);
             //luu tru tam thoi
             Global.GlobalData.selectedItinerary = selectedItem;
@@ -145,7 +145,7 @@ namespace UberRiding.Driver
 
         private void menuMainmap_Click(object sender, EventArgs e)
         {
-
+            //NavigationService.Navigate(new Uri("/LoginPage.xaml", UriKind.RelativeOrAbsolute));
         }
 
         private void menuPostItinerary_Click(object sender, EventArgs e)
@@ -155,7 +155,7 @@ namespace UberRiding.Driver
 
         private void menuManage_Click(object sender, EventArgs e)
         {
-
+            NavigationService.Navigate(new Uri("/RefreshPage.xaml", UriKind.RelativeOrAbsolute));
         }
     }
 }

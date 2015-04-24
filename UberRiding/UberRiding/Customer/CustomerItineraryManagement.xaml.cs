@@ -15,8 +15,8 @@ namespace UberRiding.Customer
     public partial class CustomerItineraryManagement : PhoneApplicationPage
     {
         ItineraryList itinearyCreatedList = new ItineraryList();
-        ItineraryList itinearyCustomerAcceptedList = new ItineraryList();
-        ItineraryList itinearyDriverAcceptedList = new ItineraryList();
+        ItineraryList itinearyAcceptedList = new ItineraryList();
+        ItineraryList itinearyOnGoingList = new ItineraryList();
         ItineraryList itinearyFinishedList = new ItineraryList();
         public CustomerItineraryManagement()
         {
@@ -58,19 +58,19 @@ namespace UberRiding.Customer
                     //average_rating = i.average_rating
                 };
                 //itinearyList.Add(i2);
-                if (i2.status == 1)
+                if (i2.status == GlobalData.ITINERARY_STATUS_CREATED)
                 {
                     itinearyCreatedList.Add(i2);
                 }
-                else if (i2.status == 2)
+                else if (i2.status == GlobalData.ITINERARY_STATUS_ACCEPTED)
                 {
-                    itinearyCustomerAcceptedList.Add(i2);
+                    itinearyAcceptedList.Add(i2);
                 }
-                else if (i2.status == 3)
+                else if (i2.status == GlobalData.ITINERARY_STATUS_ONGOING)
                 {
-                    itinearyDriverAcceptedList.Add(i2);
+                    itinearyOnGoingList.Add(i2);
                 }
-                else if (i2.status == 4)
+                else if (i2.status == GlobalData.ITINERARY_STATUS_FINISHED)
                 {
                     itinearyFinishedList.Add(i2);
                 }
@@ -83,8 +83,8 @@ namespace UberRiding.Customer
 
             //longlistItineraries.ItemsSource = itinearyList;
             longlistItinerariesCreated.ItemsSource = itinearyCreatedList;
-            longlistItinerariesCustomerAccepted.ItemsSource = itinearyCustomerAcceptedList;
-            longlistItinerariesDriverAccepted.ItemsSource = itinearyDriverAcceptedList;
+            longlistItinerariesAccepted.ItemsSource = itinearyAcceptedList;
+            longlistItinerariesOnGoing.ItemsSource = itinearyOnGoingList;
             longlistItinerariesFinished.ItemsSource = itinearyFinishedList;
         }
 
@@ -107,7 +107,7 @@ namespace UberRiding.Customer
 
         private void longlistItinerariesCustomerAccepted_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            Itinerary2 selectedItem = (Itinerary2)longlistItinerariesCustomerAccepted.SelectedItem;
+            Itinerary2 selectedItem = (Itinerary2)longlistItinerariesAccepted.SelectedItem;
             MessageBox.Show("ss: " + selectedItem.itinerary_id);
             //luu tru tam thoi
             Global.GlobalData.selectedItinerary = selectedItem;
@@ -117,7 +117,7 @@ namespace UberRiding.Customer
 
         private void longlistItinerariesDriverAccepted_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            Itinerary2 selectedItem = (Itinerary2)longlistItinerariesDriverAccepted.SelectedItem;
+            Itinerary2 selectedItem = (Itinerary2)longlistItinerariesOnGoing.SelectedItem;
             MessageBox.Show("ss: " + selectedItem.itinerary_id);
             //luu tru tam thoi
             Global.GlobalData.selectedItinerary = selectedItem;
@@ -143,7 +143,8 @@ namespace UberRiding.Customer
 
         private void menuManage_Click(object sender, EventArgs e)
         {
-            NavigationService.Navigate(new Uri("/Customer/CustomerItineraryManagement.xaml", UriKind.Relative));
+            NavigationService.Navigate(new Uri("/RefreshPage.xaml", UriKind.RelativeOrAbsolute));
+            //NavigationService.Navigate(new Uri("/Customer/CustomerItineraryManagement.xaml", UriKind.Relative));
         }
 
         private void menuMainmap_Click(object sender, EventArgs e)
@@ -166,6 +167,11 @@ namespace UberRiding.Customer
             //xoa csdl luu tru ve driver
             Logout.deleteDriverInfoBeforeLogout();
             NavigationService.Navigate(new Uri("/LoginPage.xaml", UriKind.RelativeOrAbsolute));
+        }
+
+        private void menuSearch_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

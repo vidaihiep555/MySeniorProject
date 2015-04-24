@@ -23,6 +23,8 @@ namespace UberRiding
 
             txtbEmail.Text = "vidaihiep555@yahoo.com.vn";
             txtbPassword.Text = "shenlong1909";
+
+            //Auto login
             /*Loaded += (s, e) =>
             {
                 // Some login-password check condition

@@ -8,19 +8,13 @@ using System.Windows.Navigation;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 
-namespace UberRiding
+namespace UberRiding.Customer
 {
-    public partial class ForgotPassword : PhoneApplicationPage
+    public partial class RatingPage : PhoneApplicationPage
     {
-        public ForgotPassword()
+        public RatingPage()
         {
             InitializeComponent();
-        }
-
-        private void btnForgotPass_Click(object sender, RoutedEventArgs e)
-        {
-            //send request to server
-            
         }
     }
 }

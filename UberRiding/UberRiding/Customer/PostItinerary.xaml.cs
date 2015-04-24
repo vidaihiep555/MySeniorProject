@@ -64,13 +64,13 @@ namespace UberRiding.Customer
             // Get my current location.
             Geolocator myGeolocator = new Geolocator();
             Geoposition myGeoposition = await myGeolocator.GetGeopositionAsync();
+
             myGeocoordinate = myGeoposition.Coordinate;
 
             wayPoints.Add(new GeoCoordinate(myGeocoordinate.Latitude, myGeocoordinate.Longitude));
             //GeoCoordinate myxGeocoordinate = new GeoCoordinate(47.6785619, -122.1311156);
 
-            myGeoCoordinate =
-                CoordinateConverter.ConvertGeocoordinate(myGeocoordinate);
+            myGeoCoordinate = CoordinateConverter.ConvertGeocoordinate(myGeocoordinate);
 
             // Make my current location the center of the Map.
             this.mapPostItinerary.Center = myGeoCoordinate;

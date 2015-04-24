@@ -138,20 +138,29 @@ namespace UberRiding.Customer
             postData.Add("start_address_long", startPointOverlay.GeoCoordinate.Longitude.ToString().Trim());
             postData.Add("driver_id", Global.GlobalData.selectedDriver.driver_id.ToString().Trim());
 
+            postData.Add("status", GlobalData.ITINERARY_STATUS_ONGOING.ToString());
+
             //string date = datePicker.Value.ToString();
             //string time = timePicker.Value.ToString();
             //postData.Add("time", "2011-07-07 04:04:04");
             //postData.Add("duration", txtbDistance.Text.Trim());
             HttpFormUrlEncodedContent content =
                 new HttpFormUrlEncodedContent(postData);
-
+            //tao 1 itinerary ongoing
             var result = await RequestToServer.sendPostRequest("itinerary/simple", content);
 
             JObject jsonObject = JObject.Parse(result);
-            MessageBox.Show(jsonObject.Value<string>("message"));
 
-            //back to trang dau tien
-            NavigationService.Navigate(new Uri("/Customer/CustomerItineraryManagement.xaml", UriKind.RelativeOrAbsolute));
+            if (jsonObject.Value<bool>("error"))
+            {
+                MessageBox.Show(jsonObject.Value<string>("message"));
+            }
+            else
+            {
+                MessageBox.Show(jsonObject.Value<string>("message"));
+                //back to trang dau tien
+                NavigationService.Navigate(new Uri("/Customer/CustomerItineraryManagement.xaml", UriKind.RelativeOrAbsolute));
+            }                       
         }
 
         private void mapItineraryDetails_Tap(object sender, System.Windows.Input.GestureEventArgs e)

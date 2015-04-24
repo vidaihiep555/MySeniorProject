@@ -24,20 +24,20 @@ namespace UberRiding.Customer
         MapOverlay startPointOverlay = new MapOverlay();
         MapOverlay endPointOverlay = new MapOverlay();
         MapLayer mapLayer = new MapLayer();
-        Geocoordinate myGeocoordinate = null;
-        GeoCoordinate myGeoCoordinate = null;
+        //Geocoordinate myGeocoordinate = null;
+        //GeoCoordinate myGeoCoordinate = null;
         ReverseGeocodeQuery geoQ = null;
 
         RouteQuery routeQuery = null;
         List<GeoCoordinate> wayPoints = new List<GeoCoordinate>();
-        string nameOfTxtbox = "Start";
+        //string nameOfTxtbox = "Start";
         public CustomerItineraryDetails()
         {
             InitializeComponent();
             
             
             //show status
-            //hanh trinh chua ai dang ki
+            //hanh trinh moi dc khoi tao
             if (GlobalData.selectedItinerary.status.Equals(Global.GlobalData.ITINERARY_STATUS_CREATED))
             {
                 txtItineraryInfo.Text = "Itinerary Just Created";
@@ -54,8 +54,10 @@ namespace UberRiding.Customer
                 btnDelete.Click += btnDelete_Click;
                 gridInfo.Children.Add(btnDelete);
                 Grid.SetRow(btnDelete, 6);
+
+                //chinh sua tren map
             }
-            //dang doi driver accept
+            //hanh trinh da dc accept
             else if (GlobalData.selectedItinerary.status.Equals(Global.GlobalData.ITINERARY_STATUS_ACCEPTED))
             {
                 txtItineraryInfo.Text = "Itinerary Accepted";
@@ -74,7 +76,7 @@ namespace UberRiding.Customer
                 gridInfo.Children.Add(btnReject);
                 Grid.SetRow(btnReject, 6);*/
             }
-            //driver da accepted
+            //hanh trinh ongoing
             else if (GlobalData.selectedItinerary.status.Equals(Global.GlobalData.ITINERARY_STATUS_ONGOING))
             {
                 txtItineraryInfo.Text = "Itinerary Ongoing";
@@ -145,7 +147,7 @@ namespace UberRiding.Customer
             }
         }
 
-        void geoQ_QueryCompleted(object sender, QueryCompletedEventArgs<IList<MapLocation>> e)
+        /*void geoQ_QueryCompleted(object sender, QueryCompletedEventArgs<IList<MapLocation>> e)
         {
             if (e.Result.Count() > 0)
             {
@@ -167,9 +169,9 @@ namespace UberRiding.Customer
 
             }
             mapItineraryDetails.IsEnabled = true;
-        }
+        }*/
 
-        public async void txtboxEnd_KeyDown(object sender, KeyEventArgs e)
+        /*public async void txtboxEnd_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key.Equals(Key.Enter))
             {
@@ -229,7 +231,7 @@ namespace UberRiding.Customer
 
                 this.Focus();
             }
-        }
+        }*/
 
         private async void btnReject_Click(object sender, RoutedEventArgs e)
         {
@@ -244,7 +246,7 @@ namespace UberRiding.Customer
 
         }
 
-        private async void btnAccept_Click(object sender, RoutedEventArgs e)
+        /*private async void btnAccept_Click(object sender, RoutedEventArgs e)
         {
             Dictionary<string, string> postData = new Dictionary<string, string>();
             HttpFormUrlEncodedContent content =
@@ -254,7 +256,7 @@ namespace UberRiding.Customer
             MessageBox.Show(jsonObject.Value<string>("message"));
             //do something
 
-        }
+        }*/
 
         private async void btnDelete_Click(object sender, RoutedEventArgs e)
         {
@@ -293,11 +295,21 @@ namespace UberRiding.Customer
                 new HttpFormUrlEncodedContent(postData);
             var result = await Request.RequestToServer.sendPutRequest("itinerary/" + GlobalData.selectedItinerary.itinerary_id, content);
             JObject jsonObject = JObject.Parse(result);
-            MessageBox.Show(jsonObject.Value<string>("message"));
 
+            if (jsonObject.Value<bool>("error"))
+            {
+                MessageBox.Show(jsonObject.Value<string>("message"));
+            }
+            else
+            {
+                //Global.GlobalData.isDriver = true;
+                MessageBox.Show(jsonObject.Value<string>("message"));
+                // refresh lai trang
+                NavigationService.Navigate(new Uri("/RefreshPage.xaml", UriKind.RelativeOrAbsolute));
+            }
         }
 
-        private void mapItineraryDetails_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+        /*private void mapItineraryDetails_Tap(object sender, System.Windows.Input.GestureEventArgs e)
         {
             if (endPointOverlay != null)
             {
@@ -320,7 +332,7 @@ namespace UberRiding.Customer
             geoQ.GeoCoordinate = asd;
 
             geoQ.QueryAsync();
-        }
+        }*/
 
         private void menuPostItinerary_Click(object sender, EventArgs e)
         {
@@ -362,8 +374,6 @@ namespace UberRiding.Customer
             }
             catch (Exception)
             {
-
-                throw;
             }
         }
 

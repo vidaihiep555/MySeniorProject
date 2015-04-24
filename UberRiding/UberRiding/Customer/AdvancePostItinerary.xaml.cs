@@ -45,7 +45,7 @@ namespace UberRiding.Customer
             }
             else
             {
-                //roll back
+                NavigationService.GoBack();
             }
 
         }
