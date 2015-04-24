@@ -28,7 +28,6 @@ namespace UberRiding.Customer
         List<GeoCoordinate> wayPoints = new List<GeoCoordinate>();
         ReverseGeocodeQuery geoQ = null;
         MapLayer myLocationLayer = null;
-        string nameOfTxtbox = "Start";
 
         bool isGetCurrent = true;
         bool isSetEndPoint = true;
@@ -89,13 +88,6 @@ namespace UberRiding.Customer
 
             return myGeoCoordinate;
         }
-
-        public void RevCoding(GeoCoordinate point)
-        {
-
-        }
-
-
 
         void geoQ_QueryCompleted(object sender, QueryCompletedEventArgs<IList<MapLocation>> e)
         {
