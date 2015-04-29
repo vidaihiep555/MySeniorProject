@@ -807,8 +807,6 @@ $app->get('/itineraries/driver/:order', 'authenticateUser', function($order) {
             $response["error"] = false;
             $response["itineraries"] = array();
 
-            //print_r($result);
-
             // looping through result and preparing tasks array
             while ($itinerary = $result->fetch_assoc()) {
                 $tmp = array();
@@ -830,10 +828,9 @@ $app->get('/itineraries/driver/:order', 'authenticateUser', function($order) {
                 $tmp["created_at"] = $itinerary["created_at"];
 
                 array_push($response["itineraries"], $tmp);
-                //print_r($itinerary);
+
                 //echoRespnse(200, $itinerary);
             }
-            //print_r($response);
 
             echoRespnse(200, $response);
         });
@@ -921,7 +918,7 @@ $app->put('/itinerary/:id', 'authenticateUser', function($itinerary_id) use($app
  * params 
  * url - /accept_itinerary/:id
  */
-$app->put('/customer_accept_itinerary/:id', 'authenticateUser', function($itinerary_id) use($app) {
+$app->put('/update_accept_itinerary/:id', 'authenticateUser', function($itinerary_id) use($app) {
             // check for required params
             //verifyRequiredParams(array('task', 'status'));
 
@@ -931,15 +928,15 @@ $app->put('/customer_accept_itinerary/:id', 'authenticateUser', function($itiner
             $db = new DbHandler();
             $response = array();
             // updating task
-            $result = $db->updateCustomerAcceptedItinerary($itinerary_id, $user_id);
+            $result = $db->updateAcceptedItinerary($itinerary_id, $user_id);
             if ($result) {
                 // task updated successfully
                 $response["error"] = false;
-                $response["message"] = "Customer accepted itinerary successfully";
+                $response["message"] = "Itinerary accepted successfully";
             } else {
                 // task failed to update
                 $response["error"] = true;
-                $response["message"] = "Itinerary failed to accepted by customer. Please try again!";
+                $response["message"] = "Itinerary failed to accepted. Please try again!";
             }
             echoRespnse(200, $response);
         });
@@ -950,7 +947,7 @@ $app->put('/customer_accept_itinerary/:id', 'authenticateUser', function($itiner
  * params 
  * url - /accept_itinerary/:id
  */
-$app->put('/customer_reject_itinerary/:id', 'authenticateUser', function($itinerary_id) use($app) {
+$app->put('/update_ongoing_itinerary/:id', 'authenticateUser', function($itinerary_id) use($app) {
             // check for required params
             //verifyRequiredParams(array('task', 'status'));
 
@@ -958,15 +955,15 @@ $app->put('/customer_reject_itinerary/:id', 'authenticateUser', function($itiner
             $db = new DbHandler();
             $response = array();
             // updating task
-            $result = $db->updateCustomerRejectedItinerary($itinerary_id);
+            $result = $db->updateOngoingItinerary($itinerary_id);
             if ($result) {
                 // task updated successfully
                 $response["error"] = false;
-                $response["message"] = "Customer rejected itinerary successfully";
+                $response["message"] = "Itinerary ongoing successfully";
             } else {
                 // task failed to update
                 $response["error"] = true;
-                $response["message"] = "Itinerary failed to rejected by customer. Please try again!";
+                $response["message"] = "Itinerary failed updated to ongoing. Please try again!";
             }
             echoRespnse(200, $response);
         });
@@ -977,7 +974,7 @@ $app->put('/customer_reject_itinerary/:id', 'authenticateUser', function($itiner
  * params 
  * url - /accept_itinerary/:id
  */
-$app->put('/driver_accept_itinerary/:id', 'authenticateUser', function($itinerary_id) use($app) {
+$app->put('/update_finished_itinerary/:id', 'authenticateUser', function($itinerary_id) use($app) {
             // check for required params
             //verifyRequiredParams(array('task', 'status'));
 
@@ -985,46 +982,19 @@ $app->put('/driver_accept_itinerary/:id', 'authenticateUser', function($itinerar
             $db = new DbHandler();
             $response = array();
             // updating task
-            $result = $db->updateDriverAcceptedItinerary($itinerary_id);
+            $result = $db->updateFinishedItinerary($itinerary_id);
             if ($result) {
                 // task updated successfully
                 $response["error"] = false;
-                $response["message"] = "Driver accepted itinerary successfully";
+                $response["message"] = "Itinerary finished";
             } else {
                 // task failed to update
                 $response["error"] = true;
-                $response["message"] = "Itinerary failed to accepted by driver. Please try again!";
+                $response["message"] = "Itinerary failed to finish. Please try again!";
             }
             echoRespnse(200, $response);
         });
 
-/**
- * Updating when itinerary is rejected by driver
- * method PUT
- * params 
- * url - /accept_itinerary/:id
- */
-$app->put('/driver_reject_itinerary/:id', 'authenticateUser', function($itinerary_id) use($app) {
-            // check for required params
-            //verifyRequiredParams(array('task', 'status'));
-
-            global $user_id;
-
-            $db = new DbHandler();
-            $response = array();
-            // updating task
-            $result = $db->updateDrivereRectedItinerary($itinerary_id);
-            if ($result) {
-                // task updated successfully
-                $response["error"] = false;
-                $response["message"] = "Driver rejected successfully";
-            } else {
-                // task failed to update
-                $response["error"] = true;
-                $response["message"] = "Itinerary failed to rejected by driver. Please try again!";
-            }
-            echoRespnse(200, $response);
-        });
 //not finished 
 //not finished yet: bi phat sau khi delete khi da duoc accepted
 /**
@@ -1106,6 +1076,94 @@ $app->get('/comment/:user_id', 'authenticateUser', function($user_id) {
                 echoRespnse(404, $response);
             }
         });
+///////////////////////////////////// STATISTICS ////////////////////////////////////////////////
+
+//Staticstic for admin
+$app->get('/statistic/:field', 'authenticateStaff', function($field) {
+            $response = array();
+            $db = new DbHandler();
+
+            if ($field == 'user'){
+                $result = $db->statisticUserBy("123");
+            } else if ($field == 'itinerary'){
+                $result = $db->statisticItineraryBy("123");
+            } else if ($field == 'total_money'){
+                $result = $db->statisticMoneyBy("123");
+            } else {
+
+            }
+
+            if (isset($result)) {
+                $response['error'] = false;
+                $response['stats'] = $result;
+
+                echoRespnse(200, $response);
+
+            } else {
+                $response['error'] = true;
+                $response['message'] = $lang['ERR_LINK_REQUEST'];
+                echoRespnse(404, $response);
+            }
+        });
+
+
+//staticstic for customer
+$app->get('/statistic_customer/:field', 'authenticateUser', function($field) {
+            global $user_id;
+
+            $response = array();
+            $db = new DbHandler();
+
+            if ($field == 'itinerary'){
+                $result = $db->statisticCustomerItineraryBy("123", $user_id);
+            } else if ($field == 'total_money'){
+                $result = $db->statisticCustomerMoneyBy("123", $user_id);
+            } else {
+
+            }
+
+            if (isset($result)) {
+                $response['error'] = false;
+                $response['stats'] = $result;
+
+                echoRespnse(200, $response);
+
+            } else {
+                $response['error'] = true;
+                $response['message'] = $lang['ERR_LINK_REQUEST'];
+                echoRespnse(404, $response);
+            }
+        });
+
+$app->get('/statistic_driver/:field', 'authenticateUser', function($field) {
+            global $user_id;
+
+            $response = array();
+            $db = new DbHandler();
+
+            if ($field == 'itinerary'){
+                $result = $db->statisticDriverItineraryBy("123", $user_id);
+            } else if ($field == 'total_money'){
+                $result = $db->statisticDriverMoneyBy("123", $user_id);
+            } else {
+
+            }
+
+            if (isset($result)) {
+                $response['error'] = false;
+                $response['stats'] = $result;
+
+                echoRespnse(200, $response);
+
+            } else {
+                $response['error'] = true;
+                $response['message'] = $lang['ERR_LINK_REQUEST'];
+                echoRespnse(404, $response);
+            }
+        });
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
+
 
 /**
  * Verifying required params posted or not

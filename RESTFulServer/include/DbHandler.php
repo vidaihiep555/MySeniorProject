@@ -876,8 +876,7 @@ class DbHandler {
                 $q .= "{$key} = '{$value}', ";
             } else {
                 $q .= "{$key} = {$value}, ";
-            }
-            
+            }            
         }
 
         $q = trim(($q));
@@ -886,10 +885,7 @@ class DbHandler {
 
         $nq .= " WHERE itinerary_id = {$itinerary_id} LIMIT 1";
 
-        $stmt = $this->conn->prepare($nq);
-
-        //print_r($nq);
-        
+        $stmt = $this->conn->prepare($nq);       
         $stmt->execute();
         $num_affected_rows = $stmt->affected_rows;
         $stmt->close();
@@ -917,13 +913,13 @@ class DbHandler {
      * @param Aray $itinerary_fields properties of the itinerary
      * @param Integer $itinerary_id id of the itinerary
      */
-    public function updateCustomerAcceptedItinerary($itinerary_id, $customer_id) {
+    public function updateAcceptedItinerary($itinerary_id, $driver_id) {
         //ITINERARY_STATUS_CUSTOMER_ACCEPTED
-        $q = "UPDATE itinerary set customer_id = ?, status = 2 
+        $q = "UPDATE itinerary set driver_id = ?, status = 2 
                 WHERE itinerary_id = ?";
         $stmt = $this->conn->prepare($q);
-        echo $customer_id;
-        $stmt->bind_param("ii",$customer_id, $itinerary_id);
+        echo $driver_id;
+        $stmt->bind_param("ii",$driver_id, $itinerary_id);
         $stmt->execute();
         $num_affected_rows = $stmt->affected_rows;
         $stmt->close();
@@ -935,8 +931,8 @@ class DbHandler {
      * @param Aray $itinerary_fields properties of the itinerary
      * @param Integer $itinerary_id id of the itinerary
      */
-    public function updateCustomerRejectedItinerary($itinerary_id) {
-        $q = "UPDATE itinerary set customer_id = null, status = 1 
+    public function updateOngoingItinerary($itinerary_id) {
+        $q = "UPDATE itinerary set status = 3 
                 WHERE itinerary_id = ?";
         $stmt = $this->conn->prepare($q);
         $stmt->bind_param("i", $itinerary_id);
@@ -951,8 +947,8 @@ class DbHandler {
      * @param Aray $itinerary_fields properties of the itinerary
      * @param Integer $itinerary_id id of the itinerary
      */
-    public function updateDriverAcceptedItinerary($itinerary_id) {
-        $q = "UPDATE itinerary set status = 3 
+    public function updateFinishedItinerary($itinerary_id) {
+        $q = "UPDATE itinerary set status = 4 
                 WHERE itinerary_id = ?";
         $stmt = $this->conn->prepare($q);
         $stmt->bind_param("i", $itinerary_id);
@@ -962,21 +958,6 @@ class DbHandler {
         return $num_affected_rows > 0;
     }
 
-    /**
-     * Updating rejected itinerary by driver
-     * @param Aray $itinerary_fields properties of the itinerary
-     * @param Integer $itinerary_id id of the itinerary
-     */
-    public function updateDrivereRectedItinerary($itinerary_id) {
-        $q = "UPDATE itinerary set customer_id = null, status = 1 
-                WHERE itinerary_id = ?";
-        $stmt = $this->conn->prepare($q);
-        $stmt->bind_param("i", $itinerary_id);
-        $stmt->execute();
-        $num_affected_rows = $stmt->affected_rows;
-        $stmt->close();
-        return $num_affected_rows > 0;
-    }
 
     //not finished yet
     /**
@@ -1016,6 +997,196 @@ class DbHandler {
             return USER_CREATE_FEEDBACK_FAILED;
         }
     }
+
+
+    /* ------------- Statistic ------------------ */
+
+    //number of users created per month
+    public function statisticUserBy($field) {
+        $q = "SELECT DATE_FORMAT(created_at,'%Y-%m') as month, COUNT(DATE_FORMAT(created_at,'%Y-%m')) as number 
+                FROM user GROUP BY DATE_FORMAT(created_at,'%Y-%m')";
+        
+        $stmt = $this->conn->prepare($q);
+        //$stmt->bind_param("i",$customer_id);
+        $stmt->execute();
+        $results = $stmt->get_result();
+
+        $stats = array();
+        // looping through result and preparing tasks array
+        while ($stat = $results->fetch_assoc()) {
+            $tmp = array();
+
+            $tmp["month"] = $stat["month"];
+            $tmp["number"] = $stat["number"];
+
+            array_push($stats, $tmp);
+        }
+
+        $stmt->close();
+        return $stats;
+    }
+
+    //number of itineraries creted per month
+    public function statisticItineraryBy($field) {
+        $q = "SELECT DATE_FORMAT(created_at,'%Y-%m') as month, COUNT(DATE_FORMAT(created_at,'%Y-%m')) as number 
+                FROM itinerary GROUP BY DATE_FORMAT(created_at,'%Y-%m')";
+        
+        $stmt = $this->conn->prepare($q);
+        //$stmt->bind_param("i",$customer_id);
+        $stmt->execute();
+        $results = $stmt->get_result();
+
+        $stats = array();
+        // looping through result and preparing tasks array
+        while ($stat = $results->fetch_assoc()) {
+            $tmp = array();
+
+            $tmp["month"] = $stat["month"];
+            $tmp["number"] = $stat["number"];
+
+            array_push($stats, $tmp);
+        }
+
+        $stmt->close();
+        return $stats;
+    }
+
+    //total money come frome itineraries per month
+    public function statisticMoneyBy($field) {
+        $q = "SELECT DATE_FORMAT(created_at,'%Y-%m') as month, SUM(cost) as total_money 
+                FROM itinerary GROUP BY DATE_FORMAT(created_at,'%Y-%m')";
+        
+        $stmt = $this->conn->prepare($q);
+        //$stmt->bind_param("i",$customer_id);
+        $stmt->execute();
+        $results = $stmt->get_result();
+
+        $stats = array();
+        // looping through result and preparing tasks array
+        while ($stat = $results->fetch_assoc()) {
+            $tmp = array();
+
+            $tmp["month"] = $stat["month"];
+            $tmp["total_money"] = $stat["total_money"];
+
+            array_push($stats, $tmp);
+        }
+
+        $stmt->close();
+        return $stats;
+    }
+
+
+    //Customer staticstic 
+    //number of itineraries creted per month
+    public function statisticCustomerItineraryBy($field, $customer_id) {
+        $q = "SELECT DATE_FORMAT(created_at,'%Y-%m') as month, COUNT(DATE_FORMAT(created_at,'%Y-%m')) as number 
+                FROM (SELECT * FROM itinerary WHERE customer_id = ?) as i GROUP BY DATE_FORMAT(created_at,'%Y-%m')";
+        echo $customer_id;
+        $stmt = $this->conn->prepare($q);
+        if ($stmt->bind_param("i",$customer_id)) {
+            $stmt->execute();
+        } else {
+            var_dump($this->db->error);
+        }
+
+        $results = $stmt->get_result();
+
+        $stats = array();
+        // looping through result and preparing tasks array
+        while ($stat = $results->fetch_assoc()) {
+            $tmp = array();
+
+            $tmp["month"] = $stat["month"];
+            $tmp["number"] = $stat["number"];
+
+            array_push($stats, $tmp);
+        }
+
+        $stmt->close();
+        return $stats;
+    }
+
+    //total money come frome itineraries per month
+    public function statisticCustomerMoneyBy($field, $customer_id) {
+        $q = "SELECT DATE_FORMAT(created_at,'%Y-%m') as month, SUM(cost) as total_money 
+                FROM (SELECT * FROM itinerary WHERE customer_id = ?) as i GROUP BY DATE_FORMAT(created_at,'%Y-%m') ";
+        
+        $stmt = $this->conn->prepare($q);
+        if ($stmt->bind_param("i",$customer_id)) {
+            $stmt->execute();
+        } else {
+            var_dump($this->db->error);
+        }
+        
+        $results = $stmt->get_result();
+
+        $stats = array();
+        // looping through result and preparing tasks array
+        while ($stat = $results->fetch_assoc()) {
+            $tmp = array();
+
+            $tmp["month"] = $stat["month"];
+            $tmp["total_money"] = $stat["total_money"];
+
+            array_push($stats, $tmp);
+        }
+
+        $stmt->close();
+        return $stats;
+    }
+
+    //Driver Staticstic
+    //number of itineraries creted per month
+    public function statisticDriverItineraryBy($field, $driver_id) {
+        $q = "SELECT DATE_FORMAT(created_at,'%Y-%m') as month, COUNT(DATE_FORMAT(created_at,'%Y-%m')) as number 
+                FROM (SELECT * FROM itinerary WHERE driver_id = ?) as i GROUP BY DATE_FORMAT(created_at,'%Y-%m')";
+        
+        $stmt = $this->conn->prepare($q);
+        $stmt->bind_param("i",$driver_id);
+        $stmt->execute();
+        $results = $stmt->get_result();
+
+        $stats = array();
+        // looping through result and preparing tasks array
+        while ($stat = $results->fetch_assoc()) {
+            $tmp = array();
+
+            $tmp["month"] = $stat["month"];
+            $tmp["number"] = $stat["number"];
+
+            array_push($stats, $tmp);
+        }
+
+        $stmt->close();
+        return $stats;
+    }
+
+    //total money come frome itineraries per month
+    public function statisticDriverMoneyBy($field, $driver_id) {
+        $q = "SELECT DATE_FORMAT(created_at,'%Y-%m') as month, SUM(cost) as total_money 
+                FROM (SELECT * FROM itinerary WHERE driver_id = ?) as i GROUP BY DATE_FORMAT(created_at,'%Y-%m')";
+        
+        $stmt = $this->conn->prepare($q);
+        $stmt->bind_param("i",$driver_id);
+        $stmt->execute();
+        $results = $stmt->get_result();
+
+        $stats = array();
+        // looping through result and preparing tasks array
+        while ($stat = $results->fetch_assoc()) {
+            $tmp = array();
+
+            $tmp["month"] = $stat["month"];
+            $tmp["total_money"] = $stat["total_money"];
+
+            array_push($stats, $tmp);
+        }
+
+        $stmt->close();
+        return $stats;
+    }
+
 
     /* ------------- Utility method ------------------ */
 
