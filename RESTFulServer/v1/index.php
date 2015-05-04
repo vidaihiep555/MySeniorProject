@@ -1162,6 +1162,669 @@ $app->get('/statistic_driver/:field', 'authenticateUser', function($field) {
             }
         });
 
+/////////////////////////////////////// VEHICLE /////////////////////////////////////////////////
+
+
+/**
+ * Vehicle Registration
+ * url - /vehicle
+ * method - POST
+ * params - vehicle
+ */
+$app->post('/vehicle', 'authenticateUser', function() use ($app) {
+            verifyRequiredParams(array('user_id', 'type', 'license_plate', 
+                                        'reg_certificate', 'license_plate_img', 'vehicle_img', 'motor_insurance_img'), $language);
+            global $user_id;
+
+            $response = array();
+
+            // reading post params
+            $user_id = $app->request->post('user_id');
+            $type = $app->request->post('type');
+            $license_plate = $app->request->post('license_plate');
+            $license_plate_img = $app->request->post('license_plate_img');
+            $reg_certificate = $app->request->post('reg_certificate');
+            $vehicle_img = $app->request->post('vehicle_img');
+            $motor_insurance_img = $app->request->post('motor_insurance_img');
+
+            $db = new DbHandler();
+            $res = $db->createVehicle($user_id, $type, $license_plate, $license_plate_img, $reg_certificate,
+                                        $vehicle_img, $motor_insurance_img);
+
+            if ($res == VEHICLE_CREATED_SUCCESSFULLY) {
+                $response["error"] = false;
+                $response["message"] = $lang['REGISTER_SUCCESS'];
+            } else if ($res == VEHICLE_ALREADY_EXISTED) {
+                $response["error"] = true;
+                $response["message"] = $lang['REGISTER_VEHICLE'];
+            } else if ($res == VEHICLE_CREATE_FAILED) {
+                $response["error"] = true;
+                $response["message"] = $lang['ERR_REGISTER'];
+            }
+            // echo json response
+            echoRespnse(201, $response);
+        });
+
+/**
+ * Get driver information
+ * method GET
+ * url /driver
+ */
+$app->get('/vehicles', 'authenticateUser', function() {
+            global $user_id;
+
+            $response = array();
+            $db = new DbHandler();
+
+            // fetch task
+            $result = $db->getVehiclesByDriver($user_id);
+
+            if ($result != NULL) {
+                $response["error"] = false;
+                $response['driver_license'] = $result['driver_license'];
+                $response['driver_license_img'] = $result['driver_license_img'];
+                echoRespnse(200, $response);
+            } else {
+                $response["error"] = true;
+                $response["message"] = $lang['ERR_LINK_REQUEST'];
+                echoRespnse(404, $response);
+            }
+        });
+
+
+/**
+ * Updating user
+ * method PUT
+ * params task, status
+ * url - /user
+ */
+$app->put('/vehicle', 'authenticateUser', function() use($app) {
+            // check for required params
+            verifyRequiredParams(array('driver_license', 'driver_license_img'), $language);
+
+            global $user_id;   
+
+            $driver_license = $app->request->put('driver_license');
+            $driver_license_img = $app->request->put('driver_license_img');
+
+            $db = new DbHandler();
+            $response = array();
+
+            // updating task
+            $result = $db->updateVehicle($user_id, $driver_license, $driver_license_img);
+            if ($result) {
+                // task updated successfully
+                $response["error"] = false;
+                $response["message"] = $lang['ALERT_UPDATE'];
+            } else {
+                // task failed to update
+                $response["error"] = true;
+                $response["message"] = $lang['ERR_UPDATE'];
+            }
+            echoRespnse(200, $response);
+        });
+
+/**
+ * Update user information
+ * method PUT
+ * url /user
+ */
+$app->put('/vehicle/:field', 'authenticateUser', function($field) use($app) {
+            // check for required params
+            verifyRequiredParams(array('value'), $language);
+            global $user_id;
+
+            $value = $app->request->put('value');
+
+            $response = array();
+            $db = new DbHandler();
+
+            // fetch user
+            $result = $db->updateDriverField($user_id, $field, $value);
+
+            if ($result) {
+                // user updated successfully
+                $response["error"] = false;
+                $response["message"] = $lang['ALERT_UPDATE'];
+            } else {
+                // user failed to update
+                $response["error"] = true;
+                $response["message"] = $lang['ERR_UPDATE'];
+            }
+            
+            echoRespnse(200, $response);
+        });
+
+/**
+ * Deleting user.
+ * method DELETE
+ * url /user
+ */
+$app->delete('/vehicle', 'authenticateUser', function() {
+            global $user_id;
+
+            $db = new DbHandler();
+            $response = array();
+
+            $result = $db->deleteDriver($user_id);
+
+            if ($result) {
+                // user deleted successfully
+                $response["error"] = false;
+                $response["message"] = $lang['DRIVER_DELETE_SUCCESS'];
+            } else {
+                // task failed to delete
+                $response["error"] = true;
+                $response["message"] = $lang['DRIVER_DELETE_FAILURE'];
+            }
+            echoRespnse(200, $response);
+        });
+
+
+
+
+/////////////////////////////////////// ADMIN ///////////////////////////////////////////////////
+
+
+/**
+ * Staff Registration
+ * url - /staff
+ * method - POST
+ * params - email, password
+ */
+$app->post('/staff', function() use ($app) {
+
+            // check for required params
+            verifyRequiredParams(array('email'), $language);
+
+            $response = array();
+
+            // reading post params
+            $role = $app->request->post('role');
+            $email = $app->request->post('email');
+            $fullname = $app->request->post('fullname');
+            $personalID = $app->request->post('personalID');
+
+            // validating email address
+            validateEmail($email, $language);
+
+            $db = new DbHandler();
+            $res = $db->createStaff($role, $email, $fullname, $personalID);
+
+            if ($res == STAFF_CREATED_SUCCESSFULLY) {
+                $response["error"] = false;
+                $response["message"] = $lang['CREATE_STAFF_SUCCESS'];
+            } else if ($res == STAFF_ALREADY_EXISTED) {
+                $response["error"] = true;
+                $response["message"] = $lang['ERR_EMAIL_EXIST'];
+            } else if ($res == STAFF_CREATE_FAILED) {
+                $response["error"] = true;
+                $response["message"] = $lang['ERR_REGISTER'];
+            }
+            // echo json response
+            echoRespnse(201, $response);
+        });
+
+/**
+ * User Login
+ * url - /user
+ * method - POST
+ * params - email, password
+ */
+$app->post('/staff/login', function() use ($app) {
+
+            // check for required params
+            verifyRequiredParams(array('email', 'password'), $language);
+
+            // reading post params
+            $email = $app->request()->post('email');
+            $password = $app->request()->post('password');
+            $response = array();
+
+            $db = new DbHandler();
+
+            $res = $db->checkLoginStaff($email, $password);
+            // check for correct email and password
+            if ($res == LOGIN_SUCCESSFULL) {
+                // get the user by email
+                $staff = $db->getStaffByEmail($email);
+
+                if ($staff != NULL) {
+                    $response["error"] = false;
+                    $response['apiKey'] = $staff['api_key'];
+                    $response['email'] = $staff['email'];
+                    $response['fullname'] = $staff['fullname'];
+                    $response['personalID'] = $staff['personalID'];
+                    $response['created_at'] = $staff['created_at'];
+                    $response['link_avatar'] = $staff['link_avatar'];
+                    $response['staff_id'] = $staff['staff_id'];
+                } else {
+                    // unknown error occurred
+                    $response['error'] = true;
+                    $response['message'] = $lang['ERR_LOGIN'];
+                }
+            } elseif ($res == WRONG_PASSWORD || $res == STAFF_NOT_REGISTER) {
+                $response['error'] = true;
+                $response['message'] = $lang['ERR_EMAIL_PASS'];
+            }
+
+            echoRespnse(200, $response);
+        });
+
+/**
+ * Get all user information
+ * method GET
+ * url /user
+ */
+$app->get('/staff', 'authenticateStaff', function() {
+            global $staff_id;
+
+            $response = array();
+            $db = new DbHandler();
+
+            // fetch task
+            $result = $db->getStaffByStaffID($staff_id);
+
+            if ($result != NULL) {
+                $response["error"] = false;
+                $response['role'] = $result['role'];
+                $response['email'] = $result['email'];
+                $response['apiKey'] = $result['api_key'];
+                $response['fullname'] = $result['fullname'];
+                $response['personalID'] = $result['personalID'];
+                $response['created_at'] = $result['created_at'];
+                echoRespnse(200, $response);
+            } else {
+                $response["error"] = true;
+                $response["message"] = $lang['ERR_LINK_REQUEST'];
+                echoRespnse(404, $response);
+            }
+        });
+
+$app->get('/staffs', 'authenticateStaff', function() {
+            $db = new DbHandler();
+
+            // fetch task
+            $result = $db->getListStaff();
+
+            if ($result != NULL) {
+                $response['error'] = false;
+                $response['staffs'] = array();
+
+                while ($staff = $result->fetch_assoc()) {
+                    array_push($response['staffs'], $staff);               
+                }
+
+                echoRespnse(200, $response);
+            } else {
+                $response["error"] = true;
+                $response["message"] = $lang['ERR_LINK_REQUEST'];
+                echoRespnse(404, $response);
+            }
+        });
+
+$app->get('/staffs/:staff_id', 'authenticateStaff', function($staff_id) {
+            $response = array();
+            $db = new DbHandler();
+
+            // fetch task
+            $result = $db->getStaffByStaffID($staff_id);
+
+            if ($result != NULL) {
+                $response["error"] = false;
+                $response['email'] = $result['email'];
+                $response['apiKey'] = $result['api_key'];
+                $response['fullname'] = $result['fullname'];
+                $response['personalID'] = $result['personalID'];
+                $response['link_avatar'] = $result['link_avatar'];
+                $response['created_at'] = $result['created_at'];
+                echoRespnse(200, $response);
+            } else {
+                $response["error"] = true;
+                $response["message"] = $lang['ERR_LINK_REQUEST'];
+                echoRespnse(404, $response);
+            }
+        });
+
+$app->put('/staffs/:staff_id', 'authenticateStaff', function($staff_id) use($app) {
+        
+            $fullname = $app->request->put('fullname');
+            $email = $app->request->put('email');
+            $personalID = $app->request->put('personalID');
+            $link_avatar = $app->request->put('link_avatar');
+
+            $db = new DbHandler();
+            $response = array();
+
+            // updating task
+            $result = $db->updateStaff($staff_id, $fullname, $email, $personalID, $link_avatar);
+            if ($result) {
+                // task updated successfully
+                $response["error"] = false;
+                $response["message"] = $lang['ALERT_UPDATE'];
+            } else {
+                // task failed to update
+                $response["error"] = true;
+                $response["message"] = $lang['ERR_UPDATE'];
+            }
+            echoRespnse(200, $response);
+        });
+
+/**
+ * Deleting user.
+ * method DELETE
+ * url /staff/user
+ */
+$app->delete('/staffs/:staff_id', 'authenticateStaff', function($staff_id) {
+
+            $db = new DbHandler();
+            $response = array();
+
+            $result = $db->deleteStaff($staff_id);
+
+            if ($result) {
+                // user deleted successfully
+                $response["error"] = false;
+                $response["message"] = $lang['STAFF_DELETE_SUCCESS'];
+            } else {
+                // task failed to delete
+                $response["error"] = true;
+                $response["message"] = $lang['STAFF_DELETE_FAILURE'];
+            }
+            echoRespnse(200, $response);
+        });
+
+/**
+ * Get all user information
+ * method GET
+ * url /user
+ */
+$app->get('/staff/user', 'authenticateStaff', function() {
+
+            $response = array();
+            $db = new DbHandler();
+
+            $response['error'] = false;
+            $response['users'] = array();
+
+            // fetch task
+            $result = $db->getListUser();
+
+            while ($user = $result->fetch_assoc()) {
+                array_push($response['users'], $user);               
+            }
+
+            echoRespnse(200, $response);
+        });
+
+/**
+ * Get user information
+ * method GET
+ * url /staff/user
+ */
+$app->get('/staff/user/:user_id', 'authenticateStaff', function($user_id) {
+
+            $response = array();
+            $db = new DbHandler();
+
+            // fetch task
+            $result = $db->getUserByUserID($user_id);
+
+            if ($result != NULL) {
+                $response["error"] = false;
+                $response['email'] = $result['email'];
+                $response['apiKey'] = $result['api_key'];
+                $response['fullname'] = $result['fullname'];
+                $response['phone'] = $result['phone'];
+                $response['personalID'] = $result['personalID'];
+                $response['personalID_img'] = $result['personalID_img'];
+                $response['link_avatar'] = $result['link_avatar'];
+                $response['created_at'] = $result['created_at'];
+                $response['status'] = $result['status'];
+                $response['locked'] = $result['locked'];
+                echoRespnse(200, $response);
+            } else {
+                $response["error"] = true;
+                $response["message"] = "The requested resource doesn't exists";
+                echoRespnse(404, $response);
+            }
+        });
+
+/**
+ * Get user information
+ * method GET
+ * url /user
+ */
+$app->get('/staff/user/:user_id/:field', 'authenticateStaff', function($user_id, $field) {
+
+            $response = array();
+            $db = new DbHandler();
+
+            // fetch task
+            $result = $db->getUserByField($user_id, $field);
+
+            if ($result != NULL) {
+                $response["error"] = false;
+                $response[$field] = $result;
+                echoRespnse(200, $response);
+            } else {
+                $response["error"] = true;
+                $response["message"] = $lang['ERR_LINK_REQUEST'];
+                echoRespnse(404, $response);
+            }
+        });
+
+/**
+ * Updating user
+ * method PUT
+ * params task, status
+ * url - /user
+ */
+$app->put('/staff/user/:user_id', 'authenticateStaff', function($user_id) use($app) {
+
+            // check for required params
+            verifyRequiredParams(array('status', 'locked'), $language);
+        
+            $status = $app->request->put('status');
+            $locked = $app->request->put('locked');
+
+            $db = new DbHandler();
+            $response = array();
+
+            // updating task
+            $result = $db->updateUser1($user_id, $status, $locked);
+            if ($result) {
+                // task updated successfully
+                $response["error"] = false;
+                $response["message"] = $lang['ALERT_UPDATE'];
+            } else {
+                // task failed to update
+                $response["error"] = true;
+                $response["message"] = $lang['ERR_UPDATE'];
+            }
+            echoRespnse(200, $response);
+        });
+
+/**
+ * Update user information
+ * method PUT
+ * url /user
+ */
+$app->put('/staff/user/:user_id/:field', 'authenticateStaff', function($user_id, $field) use($app) {
+            global $restricted_user_field;
+
+            if (!in_array($field, $restricted_user_field)) {
+                // check for required params
+                verifyRequiredParams(array('value'), $language);
+
+                $value = $app->request->put('value');
+
+                $response = array();
+                $db = new DbHandler();
+
+                if ($field == 'password') {
+                    validatePassword($value, $language);
+
+                    $result = $db->changePassword($user_id, $value);
+                } else {
+                    // fetch user
+                    $result = $db->updateUserField($user_id, $field, $value);
+                }
+
+                if ($result) {
+                    // user updated successfully
+                    $response["error"] = false;
+                    $response["message"] = $lang['ALERT_UPDATE'];
+                } else {
+                    // user failed to update
+                    $response["error"] = true;
+                    $response["message"] = $lang['ERR_UPDATE'];
+                }
+            } else {
+                $response["error"] = true;
+                $response["message"] = $lang['ERR_UPDATE'];
+            }
+            
+            echoRespnse(200, $response);
+        });
+
+/**
+ * Deleting user.
+ * method DELETE
+ * url /staff/user
+ */
+$app->delete('/staff/user/:user_id', 'authenticateStaff', function($user_id) {
+
+            $db = new DbHandler();
+            $response = array();
+
+            $result = $db->deleteUser($user_id);
+
+            if ($result) {
+                // user deleted successfully
+                $response["error"] = false;
+                $response["message"] = $lang['USER_DELETE_SUCCESS'];
+            } else {
+                // task failed to delete
+                $response["error"] = true;
+                $response["message"] = $lang['USER_DELETE_FAILURE'];
+            }
+            echoRespnse(200, $response);
+        });
+
+/**
+ * Listing all itineraries of particual user
+ * method GET
+ * url /itineraries          
+ */
+$app->get('/staff/itineraries', 'authenticateStaff', function() {
+            global $staff_id;
+
+            $response = array();
+            $db = new DbHandler();
+            // fetching all user tasks
+            $result = $db->getAllItinerariesWithDriverInfo($staff_id);
+
+            $response["error"] = false;
+            $response["itineraries"] = $result;
+
+            echoRespnse(200, $response);
+
+        });
+
+
+$app->get('staff/itinerary/:id', function($itinerary_id) {
+
+            $response = array();
+            $db = new DbHandler();
+
+            // fetch task
+            $result = $db->getItinerary($itinerary_id);
+
+            if ($result != NULL) {
+                $response["error"] = false;
+                $response["itinerary_id"] = $result["itinerary_id"];
+                $response["driver_id"] = $result["driver_id"];
+                $response["customer_id"] = $result["customer_id"];
+                $response["start_address"] = $result["start_address"];
+                $response["start_address_lat"] = $result["start_address_lat"];
+                $response["start_address_long"] = $result["start_address_long"];
+                $response["pick_up_address"] = $result["pick_up_address"];
+                $response["pick_up_address_lat"] = $result["pick_up_address_lat"];
+                $response["pick_up_address_long"] = $result["pick_up_address_long"];
+                $response["drop_address"] = $result["drop_address"];
+                $response["drop_address_lat"] = $result["drop_address_lat"];
+                $response["drop_address_long"] = $result["drop_address_long"];
+                $response["end_address"] = $result["end_address"];
+                $response["end_address_lat"] = $result["end_address_lat"];
+                $response["end_address_long"] = $result["end_address_long"];
+                $response["leave_date"] = $result["leave_date"];
+                $response["duration"] = $result["duration"];
+                $response["distance"] = $result["distance"];
+                $response["cost"] = $result["cost"];
+                $response["description"] = $result["description"];
+                $response["status"] = $result["status"];
+                $response["created_at"] = $result["created_at"];
+                echoRespnse(200, $response);
+            } else {
+                $response["error"] = true;
+                $response["message"] = $lang['ERR_REQUEST_ITINERARY'];
+                echoRespnse(404, $response);
+            }
+        });
+
+$app->put('staff/itinerary/:id', 'authenticateStaff', function($itinerary_id) use($app) {
+            // check for required params
+            //verifyRequiredParams(array('task', 'status'));
+            global $staff_id;
+
+            $itinerary_fields = array();
+
+            $request_params = array();
+            $request_params = $_REQUEST;
+            // Handling PUT request params
+            if ($_SERVER['REQUEST_METHOD'] == 'PUT') {
+                $app = \Slim\Slim::getInstance();
+                parse_str($app->request()->getBody(), $request_params);
+            }
+
+            $db = new DbHandler();
+            $response = array();
+            // updating task
+            $result = $db->updateItinerary2($request_params, $itinerary_id);
+            if ($result) {
+                // task updated successfully
+                $response["error"] = false;
+                $response["message"] = $lang['UPDATE_ITINERARY_SUCCESS'];
+            } else {
+                // task failed to update
+                $response["error"] = true;
+                $response["message"] = $lang['UPDATE_ITINERARY_FAILURE'];
+            }
+            echoRespnse(200, $response);
+        });
+
+$app->delete('/staff/itinerary/:id', function($itinerary_id) use($app) {
+            //global $staff_id;
+
+            $db = new DbHandler();
+            $response = array();
+            $result = $db->deleteItinerary($itinerary_id);
+            if ($result) {
+                // itinerary deleted successfully
+                $response["error"] = false;
+                $response["message"] = $lang['DELETE_ITINERARY_SUCCESS'];
+            } else {
+                // itinerary failed to delete
+                $response["error"] = true;
+                $response["message"] = $lang['DELETE_ITINERARY_FAILURE'];
+            }
+            echoRespnse(200, $response);
+        });
+
+
+
+
 /////////////////////////////////////////////////////////////////////////////////////////////////
 
 

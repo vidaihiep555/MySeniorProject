@@ -1187,6 +1187,291 @@ class DbHandler {
         return $stats;
     }
 
+    /* ------------- `Vehicle` table method ------------------ */
+
+    public function createVehicle($user_id, $type, $license_plate, $license_plate_img, $reg_certificate,
+                                        $vehicle_img, $motor_insurance_img) {
+        // First check if user already existed in db
+        if (!$this->isDriverExists($user_id)) {
+
+            $sql_query = "INSERT INTO driver(user_id, driver_license, driver_license_img) values(?, ?, ?)";
+
+            // insert query
+            if ($stmt = $this->conn->prepare($sql_query)) {
+                $stmt->bind_param("iss", $user_id, $driver_license==NULL?'':$driver_license, $driver_license_img==NULL?'':$driver_license_img);
+                $result = $stmt->execute();
+            } else {
+                var_dump($this->conn->error);
+            }
+
+
+            $stmt->close();
+
+            // Check for successful insertion
+            if ($result) {
+                // User successfully inserted
+                return VEHICLE_CREATED_SUCCESSFULLY;
+            } else {
+                // Failed to create user
+                return VEHICLE_CREATE_FAILED;
+            }
+        } else {
+            // User with same email already existed in the db
+            return VEHICLE_ALREADY_EXISTED;
+        }
+    }
+
+
+    /* ------------- `staff` table method ------------------ */
+
+    /**
+     * Creating new staff
+     * @param String $fullname Staff full name
+     * @param String $email Staff login email id
+     * @param String $personalID Staff personal ID
+     */
+    public function createStaff($role, $email, $fullname, $personalID) {
+        require_once 'PassHash.php';
+
+        // First check if user already existed in db
+        if (!$this->isStaffExists($email)) {
+            // Generating password hash
+            $password_hash = PassHash::hash($email);
+
+            // Generating API key
+            $api_key = $this->generateApiKey();
+
+            $sql_query = "INSERT INTO staff(email, password, api_key, role, fullname, personalID) 
+                            values(?, ?, ?, ?, ?, ?)";
+
+            // insert query
+            if ($stmt = $this->conn->prepare($sql_query)) {
+                $stmt->bind_param("sssiss", $email, $password_hash, $api_key, $role==NULL?ROLE_STAFF:$role,
+                                    $fullname==NULL?' ':$fullname, $personalID==NULL?' ':$personalID);
+                $result = $stmt->execute();
+            } else {
+                var_dump($this->conn->error);
+            }
+
+            $stmt->close();
+
+            // Check for successful insertion
+            if ($result) {
+                // User successfully inserted
+                return STAFF_CREATED_SUCCESSFULLY;
+            } else {
+                // Failed to create user
+                return STAFF_CREATE_FAILED;
+            }
+        } else {
+            // User with same email already existed in the db
+            return STAFF_ALREADY_EXISTED;
+        }
+    }
+
+    /**
+     * Checking staff login
+     * @param String $email staff login email id
+     * @param String $password staff login password
+     * @return boolean User login status success/fail
+     */
+    public function checkLoginStaff($email, $password) {
+        // fetching staff by email
+        $stmt = $this->conn->prepare("SELECT password, role FROM staff WHERE email = ?");
+
+        $stmt->bind_param("s", $email);
+
+        $stmt->execute();
+
+        $stmt->bind_result($password_hash, $role);
+
+        $stmt->store_result();
+
+        if ($stmt->num_rows > 0) {
+            // Found user with the email
+            // Now verify the password
+
+            $stmt->fetch();
+
+            $stmt->close();
+
+            if (PassHash::check_password($password_hash, $password)) {
+                return LOGIN_SUCCESSFULL;
+            } else {
+                // staff password is incorrect
+                return WRONG_PASSWORD;
+            }
+        } else {
+            $stmt->close();
+            // staff not existed with the email
+            return STAFF_NOT_REGISTER;
+        }
+    }
+
+    /**
+     * Fetching user by email
+     * @param String $email User email id
+     */
+    public function getListStaff() {
+        $stmt = $this->conn->prepare("SELECT staff_id, email, api_key, fullname, personalID, 
+                                        link_avatar, created_at FROM staff");
+        if ($stmt->execute()) {
+            // $user = $stmt->get_result()->fetch_assoc();
+            $staffs = $stmt->get_result();
+            $stmt->close();
+            return $staffs;
+        } else {
+            return NULL;
+        }
+    }
+
+    /**
+     * Fetching staff by email
+     * @param String $email Staff email id
+     */
+    public function getStaffByEmail($email) {
+        $stmt = $this->conn->prepare("SELECT role, email, api_key, fullname, personalID, created_at, link_avatar, staff_id   
+                                        FROM staff WHERE email = ?");
+        $stmt->bind_param("s", $email);
+        if ($stmt->execute()) {
+            // $user = $stmt->get_result()->fetch_assoc();
+            $stmt->bind_result($role, $email, $api_key, $fullname,$personalID, $created_at, $link_avatar, $staff_id);
+            $stmt->fetch();
+            $staff = array();
+            $staff["role"] = $role;
+            $staff["email"] = $email;
+            $staff["api_key"] = $api_key;
+            $staff["fullname"] = $fullname;
+            $staff["personalID"] = $personalID;
+            $staff["created_at"] = $created_at;
+            $staff["link_avatar"] = $link_avatar;
+            $staff["staff_id"] = $staff_id;
+            $stmt->close();
+            return $staff;
+        } else {
+            return NULL;
+        }
+    }
+
+    /**
+     * Fetching staff by staff id
+     * @param String $staff_id Staff id
+     */
+    public function getStaffByStaffID($staff_id) {
+        $stmt = $this->conn->prepare("SELECT role, email, api_key, fullname, personalID, created_at, link_avatar 
+                                        FROM staff WHERE staff_id = ?");
+        $stmt->bind_param("s", $staff_id);
+        if ($stmt->execute()) {
+            // $user = $stmt->get_result()->fetch_assoc();
+            $stmt->bind_result($role, $email, $api_key, $fullname,$personalID, $created_at, $link_avatar);
+            $stmt->fetch();
+            $staff = array();
+            $staff["role"] = $role;
+            $staff["email"] = $email;
+            $staff["api_key"] = $api_key;
+            $staff["fullname"] = $fullname;
+            $staff["personalID"] = $personalID;
+            $staff["link_avatar"] = $link_avatar;
+            $staff["created_at"] = $created_at;
+            $stmt->close();
+            return $staff;
+        } else {
+            return NULL;
+        }
+    }
+
+    /**
+     * Checking for duplicate user by email address
+     * @param String $email email to check in db
+     * @return boolean
+     */
+    private function isStaffExists($email) {
+        $stmt = $this->conn->prepare("SELECT staff_id from staff WHERE email = ?");
+        $stmt->bind_param("s", $email);
+        $stmt->execute();
+        $stmt->store_result();
+        $num_rows = $stmt->num_rows;
+        $stmt->close();
+        return $num_rows > 0;
+    }
+
+    /**
+     * Fetching staff id by api key
+     * @param String $api_key staff api key
+     */
+    public function getStaffId($api_key) {
+        $stmt = $this->conn->prepare("SELECT staff_id FROM staff WHERE api_key = ?");
+        $stmt->bind_param("s", $api_key);
+        if ($stmt->execute()) {
+            $stmt->bind_result($staff_id);
+            $stmt->fetch();
+            // TODO
+            // $user_id = $stmt->get_result()->fetch_assoc();
+            $stmt->close();
+            return $staff_id;
+        } else {
+            return NULL;
+        }
+    }
+
+    public function updateStaff($staff_id, $fullname, $email, $personalID, $link_avatar) {
+        require_once '/Config.php';
+        $conn2 = new PDO("mysql:host=".DB_HOST.";dbname=".DB_NAME.";charset=utf8", DB_USERNAME, DB_PASSWORD);
+        // set the PDO error mode to exception
+        $conn2->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+        $qry = "UPDATE staff set";
+        $param = array();
+
+        if (isset($fullname)) { 
+            $qry .= " fullname = :fullname"; 
+        }
+        if (isset($email)) { 
+            $qry .= ", email = :email"; 
+        }
+        if (isset($personalID)) { 
+            $qry .= ", personalID = :personalID"; 
+        }
+        if (isset($link_avatar)) { 
+            $qry .= ", link_avatar = :link_avatar"; 
+        }
+
+        $qry .= " WHERE staff_id = :staff_id"; 
+
+        $stmt = $conn2->prepare($qry);
+
+        if (isset($fullname)) { 
+            $stmt->bindParam(':fullname', $fullname);
+        }
+        if (isset($email)) { 
+            $stmt->bindParam(':email', $email);
+        }
+        if (isset($personalID)) {  
+            $stmt->bindParam(':personalID', $personalID);
+        }
+        if (isset($link_avatar)) { 
+            $stmt->bindParam(':link_avatar', $link_avatar);
+        }
+        $stmt->bindParam(':staff_id', $staff_id);
+        $stmt->execute();
+        $num_affected_rows = $stmt->rowCount();
+        $conn2 = null;
+        return $num_affected_rows > 0;
+    }
+
+    /**
+     * Delete staff
+     * @param String $staff_id id of staff
+     */
+    public function deleteStaff($staff_id) {
+        $stmt = $this->conn->prepare("DELETE FROM staff WHERE staff_id = ?");
+        $stmt->bind_param("i", $staff_id);
+        $stmt->execute();
+        $num_affected_rows = $stmt->affected_rows;
+        $stmt->close();
+        return $num_affected_rows > 0;
+    }
+
 
     /* ------------- Utility method ------------------ */
 
