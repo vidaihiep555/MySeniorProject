@@ -109,6 +109,9 @@
     <Compile Include="Customer\CustomerHistory.xaml.cs">
       <DependentUpon>CustomerHistory.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Customer\CustomerInfo.xaml.cs">
+      <DependentUpon>CustomerInfo.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Customer\CustomerItineraryDetails.xaml.cs">
       <DependentUpon>CustomerItineraryDetails.xaml</DependentUpon>
     </Compile>
@@ -117,6 +120,9 @@
     </Compile>
     <Compile Include="Customer\CustomerMainMap.xaml.cs">
       <DependentUpon>CustomerMainMap.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Customer\CustomerReport.xaml.cs">
+      <DependentUpon>CustomerReport.xaml</DependentUpon>
     </Compile>
     <Compile Include="Customer\PostItinerary.xaml.cs">
       <DependentUpon>PostItinerary.xaml</DependentUpon>
@@ -135,6 +141,9 @@
     </Compile>
     <Compile Include="Driver\DriverRating.xaml.cs">
       <DependentUpon>DriverRating.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Driver\DriverReport.xaml.cs">
+      <DependentUpon>DriverReport.xaml</DependentUpon>
     </Compile>
     <Compile Include="ForgotPassword.xaml.cs">
       <DependentUpon>ForgotPassword.xaml</DependentUpon>
@@ -200,6 +209,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Customer\CustomerInfo.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Customer\CustomerItineraryDetails.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -209,6 +222,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Customer\CustomerMainMap.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Customer\CustomerReport.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -233,6 +250,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Driver\DriverRating.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Driver\DriverReport.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
