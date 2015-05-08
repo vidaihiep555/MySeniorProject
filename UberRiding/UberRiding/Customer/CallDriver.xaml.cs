@@ -21,6 +21,7 @@ namespace UberRiding.Customer
 {
     public partial class CallDriver : PhoneApplicationPage
     {
+        
         MapOverlay startPointOverlay = new MapOverlay();
         //MapOverlay endPointOverlay = new MapOverlay();
         MapLayer mapLayer = new MapLayer();

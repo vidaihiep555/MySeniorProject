@@ -148,4 +148,29 @@ namespace UberRiding.Global
     {
 
     }
+
+
+    public class Stat
+    {
+        public string month { get; set; }
+        public int number { get; set; }
+    }
+
+    public class RootStat
+    {
+        public bool error { get; set; }
+        public List<Stat> stats { get; set; }
+    }
+
+
+#region Chart 
+
+    public class LineChart
+    {
+        public string label { get; set; }
+        public double val1 { get; set; }
+        public double val2 { get; set; }
+        public decimal val3 { get; set; }
+    }
+#endregion 
 }
