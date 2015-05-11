@@ -121,18 +121,18 @@ $app->post('/customer', function() use ($app) {
                 $customer = $db->getCustomerByEmail($email);
                 $activation_code = $customer["api_key"];
 
-                $content_mail = "Chao ban,<br>
-                                Vui long nhan vao duong link sau de kich hoat tai khoan:
+                $content_mail = "Hi,<br>
+                                Please click on the link below to active your account:
                                 <a href='http://192.168.10.74/WebApp/controller/register.php?active_key=". $activation_code.
-                                "'>Kich hoat tai khoan</a>";
+                                "'>Acctive account</a>";
 
                 sendMail($email, $content_mail);
 
                 $response["error"] = false;
-                $response["message"] = "Đăng kí thành công. Vui lòng kích hoạt tài khoản qua email bạn vừa đăng kí!";
+                $response["message"] = "Register success. Please activate your account via email!";
             } else if ($res == USER_ALREADY_EXISTED) {
                 $response["error"] = true;
-                $response["message"] = "Xin lỗi! email bạn đăng kí đã tồn tại.";
+                $response["message"] = "Sorry! Your email registration is existing.";
             } else if ($res == USER_CREATE_FAILED) {
                 $response["error"] = true;
                 $response["message"] = "Xin lỗi! Có lỗi xảy ra trong quá trình đăng kí.";
@@ -155,10 +155,10 @@ $app->get('/active/:activation_code', function($activation_code) {
 
             if ($res == USER_ACTIVATED_SUCCESSFULLY) {
                 $response["error"] = false;
-                $response["message"] = "Bạn đã kích hoạt tài khoản thành công.";
+                $response["message"] = "Activate your account is successful!";
             } else if ($res == USER_ACTIVATE_FAILED) {
                 $response["error"] = true;
-                $response["message"] = "Xin lỗi! Kích hoạt tài khoản thất bại.";
+                $response["message"] = "Activate your account is missing!";
             } 
 
             // echo json response
@@ -283,7 +283,8 @@ $app->get('/user', 'authenticateUser', function() {
             }
         });
 
-$app->get('/user/:field', 'authenticateUser', function($field) {
+
+/*$app->get('/user/:field', 'authenticateUser', function($field) {
             global $user_id;
             $response = array();
             $db = new DbHandler();
@@ -300,7 +301,7 @@ $app->get('/user/:field', 'authenticateUser', function($field) {
                 $response["message"] = "Đường dẫn bạn yêu cầu không tồn tại!";
                 echoRespnse(404, $response);
             }
-        });
+        });*/
 
 /**
  * Updating user
@@ -341,7 +342,7 @@ $app->put('/user', 'authenticateUser', function() use($app) {
  * method PUT
  * url /user
  */
-$app->put('/user/:field', 'authenticateUser', function($field) use($app) {
+/*$app->put('/user/:field', 'authenticateUser', function($field) use($app) {
             global $restricted_user_field;
             if (!in_array($field, $restricted_user_field)) {
                 // check for required params
@@ -376,7 +377,7 @@ $app->put('/user/:field', 'authenticateUser', function($field) use($app) {
             }
             
             echoRespnse(200, $response);
-        });
+        });*/
 
 /**
  * Deleting user.
@@ -402,9 +403,6 @@ $app->delete('/user', 'authenticateUser', function() {
             }
             echoRespnse(200, $response);
         });
-
-
-
 
 
 /////////////////////////////////////// DRIVER ////////////////////////////////////////////////////////////
@@ -471,7 +469,7 @@ $app->get('/driver', 'authenticateUser', function() {
  * method GET
  * url /user
  */
-$app->get('/driver/:field', 'authenticateUser', function($field) {
+/*$app->get('/driver/:field', 'authenticateUser', function($field) {
             global $user_id;
             $response = array();
             $db = new DbHandler();
@@ -488,7 +486,7 @@ $app->get('/driver/:field', 'authenticateUser', function($field) {
                 $response["message"] = "Đường dẫn bạn yêu cầu không tồn tại!";
                 echoRespnse(200, $response);
             }
-        });
+        });*/
 
 
 /**
@@ -558,11 +556,11 @@ $app->put('/driver', 'authenticateUser', function() use($app) {
             if ($result) {
                 // task updated successfully
                 $response["error"] = false;
-                $response["message"] = "Cập nhật thông tin thành công!";
+                $response["message"] = "Your update is successful!";
             } else {
                 // task failed to update
                 $response["error"] = true;
-                $response["message"] = "Cập nhật thông tin thất bại. Vui lòng thử lại!";
+                $response["message"] = "Your update is not successful! Please try again.";
             }
             echoRespnse(200, $response);
         });
@@ -572,7 +570,7 @@ $app->put('/driver', 'authenticateUser', function() use($app) {
  * method PUT
  * url /user
  */
-$app->put('/driver/:field', 'authenticateUser', function($field) use($app) {
+/*$app->put('/driver/:field', 'authenticateUser', function($field) use($app) {
             // check for required params
             verifyRequiredParams(array('value'));
             global $user_id;
@@ -594,7 +592,7 @@ $app->put('/driver/:field', 'authenticateUser', function($field) use($app) {
                 $response["message"] = "Cập nhật thông tin thất bại. Vui lòng thử lại!";
             }          
             echoRespnse(200, $response);
-        });
+        });*/
 
 /**
  * Deleting user.
@@ -616,7 +614,7 @@ $app->delete('/driver', 'authenticateUser', function() {
             } else {
                 // task failed to delete
                 $response["error"] = true;
-                $response["message"] = "Xóa tài xế thất bại. Vui lòng thử lại!";
+                $response["message"] = "Delete driver is failure! Please try again!";
             }
             echoRespnse(200, $response);
         });
@@ -1023,9 +1021,7 @@ $app->delete('/itinerary/:id', 'authenticateUser', function($itinerary_id) use($
 
 
 
-///////////////////////////// FEEDBACK - COMMENT - RATING /////////////////////////////////////
-
-
+///////////////////////////// FEEDBACK - COMMENT /////////////////////////////////////
 
 
 
@@ -1076,6 +1072,123 @@ $app->get('/comment/:user_id', 'authenticateUser', function($user_id) {
                 echoRespnse(404, $response);
             }
         });
+
+
+///////////////////////////////////// RATING ////////////////////////////////////////////////////
+
+
+$app->get('/rating/:user_id/:rating_user_id', 'authenticateUser', function($user_id, $rating_user_id) {
+            $language = "en";
+
+            $response = array();
+            $db = new DbHandler();
+
+            if ($db->isUserExists1($user_id)) {
+                $response['error'] = false;
+                $rating = $db->getRating($user_id, $rating_user_id);
+                
+                if ($rating != NULL) {
+                    $response['rating'] = $rating["rating"];;
+                    echoRespnse(200, $response);
+                } else {
+                    $response["message"] = $lang['ERR_LINK_REQUEST'];
+                    echoRespnse(404, $response);
+                }
+                echoRespnse(200, $response);
+
+            } else {
+                $response['error'] = true;
+                $response['message'] = $lang['ERR_LINK_REQUEST'];
+                echoRespnse(404, $response);
+            }
+        });
+
+/**
+ * Get driver information
+ * method GET
+ * url /driver
+ */
+$app->get('/average_rating/:user_id', 'authenticateUser', function($user_id) {
+
+            $language = "en";
+
+            $response = array();
+            $db = new DbHandler();
+
+            // fetch task
+            $average_rating = $db->getAverageRatingofDriver($user_id);
+
+            if ($average_rating != NULL) {
+                $response["error"] = false;
+                $response['average_rating'] = $average_rating["average_rating"];;
+                echoRespnse(200, $response);
+            } else {
+                $response["error"] = true;
+                $response["message"] = $lang['ERR_LINK_REQUEST'];
+                echoRespnse(404, $response);
+            }
+        });
+
+
+/**
+ * Comment creation
+ * url - /comment
+ * method - POST
+ * params - 
+ */
+$app->post('/rating', 'authenticateUser', function() use ($app) {
+            global $user_id;
+
+            verifyRequiredParams(array('rating', 'rating_user_id'), $language);
+
+            $response = array();
+
+            $rating = $app->request->post('rating');
+            $rating_user_id = $app->request->post('rating_user_id');
+
+            $db = new DbHandler();
+            $res = $db->createRating($user_id, $rating, $rating_user_id);
+
+            if ($res == c) {
+                $response["error"] = false;
+                $response["message"] = $lang['REGISTER_SUCCESS'];
+            } else if ($res == RATING_CREATE_FAILED) {
+                $response["error"] = true;
+                $response["message"] = $lang['ERR_REGISTER'];
+            }
+            // echo json response
+            echoRespnse(201, $response);
+        });
+
+
+/**
+ * Deleting user.
+ * method DELETE
+ * url /user
+ */
+$app->delete('/rating/:rating_id', 'authenticateUser', function($rating_id) {
+            global $user_id;
+
+
+            $db = new DbHandler();
+            $response = array();
+
+            $result = $db->deleteRating($rating_id);
+
+            if ($result) {
+                // user deleted successfully
+                $response["error"] = false;
+                $response["message"] = $lang['VEHICLE_DELETE_SUCCESS'];
+            } else {
+                // task failed to delete
+                $response["error"] = true;
+                $response["message"] = $lang['VEHICLE_DELETE_FAILURE'];
+            }
+            echoRespnse(200, $response);
+        });
+
+
+
 ///////////////////////////////////// STATISTICS ////////////////////////////////////////////////
 
 //Staticstic for admin
@@ -1172,14 +1285,14 @@ $app->get('/statistic_driver/:field', 'authenticateUser', function($field) {
  * params - vehicle
  */
 $app->post('/vehicle', 'authenticateUser', function() use ($app) {
-            verifyRequiredParams(array('user_id', 'type', 'license_plate', 
-                                        'reg_certificate', 'license_plate_img', 'vehicle_img', 'motor_insurance_img'), $language);
             global $user_id;
+
+
+            verifyRequiredParams(array('type', 'license_plate', 
+                                        'reg_certificate', 'license_plate_img', 'vehicle_img', 'motor_insurance_img'));
 
             $response = array();
 
-            // reading post params
-            $user_id = $app->request->post('user_id');
             $type = $app->request->post('type');
             $license_plate = $app->request->post('license_plate');
             $license_plate_img = $app->request->post('license_plate_img');
@@ -1193,16 +1306,40 @@ $app->post('/vehicle', 'authenticateUser', function() use ($app) {
 
             if ($res == VEHICLE_CREATED_SUCCESSFULLY) {
                 $response["error"] = false;
-                $response["message"] = $lang['REGISTER_SUCCESS'];
+                $response["message"] = "You have registered this vehicle!";
             } else if ($res == VEHICLE_ALREADY_EXISTED) {
                 $response["error"] = true;
-                $response["message"] = $lang['REGISTER_VEHICLE'];
+                $response["message"] = "Vehicle is already existed";
             } else if ($res == VEHICLE_CREATE_FAILED) {
                 $response["error"] = true;
-                $response["message"] = $lang['ERR_REGISTER'];
+                $response["message"] = "Vehicle Registration Failed";
             }
             // echo json response
             echoRespnse(201, $response);
+        });
+
+$app->get('/vehicles', 'authenticateUser', function() {
+            global $user_id;
+
+            $db = new DbHandler();
+
+            // fetch task
+            $result = $db->getListVehicle($user_id);
+
+            if ($result != NULL) {
+                $response['error'] = false;
+                $response['vehicles'] = array();
+
+                while ($vehicle = $result->fetch_assoc()) {
+                    array_push($response['vehicles'], $vehicle);               
+                }
+
+                echoRespnse(200, $response);
+            } else {
+                $response["error"] = true;
+                $response["message"] = "";
+                echoRespnse(404, $response);
+            }
         });
 
 /**
@@ -1210,27 +1347,33 @@ $app->post('/vehicle', 'authenticateUser', function() use ($app) {
  * method GET
  * url /driver
  */
-$app->get('/vehicles', 'authenticateUser', function() {
-            global $user_id;
+$app->get('/vehicle/:vehicle_id', 'authenticateUser', function($vehicle_id) {
 
             $response = array();
             $db = new DbHandler();
 
             // fetch task
-            $result = $db->getVehiclesByDriver($user_id);
+            $vehicle = $db->getVehicle($vehicle_id);
 
-            if ($result != NULL) {
+            if ($vehicle != NULL) {
                 $response["error"] = false;
-                $response['driver_license'] = $result['driver_license'];
-                $response['driver_license_img'] = $result['driver_license_img'];
+                $response['vehicle_id'] = $vehicle["vehicle_id"];
+                $response['user_id'] = $vehicle["user_id"];
+                $response['type'] = $vehicle["type"];
+                $response['license_plate'] = $vehicle["license_plate"];
+                $response['reg_certificate'] = $vehicle["reg_certificate"];
+                $response['license_plate_img'] = $vehicle["license_plate_img"];
+                $response['vehicle_img'] = $vehicle["vehicle_img"];
+                $response['motor_insurance_img'] = $vehicle["motor_insurance_img"];
+                $response['status'] = $vehicle["status"];
+                $response['created_at'] = $vehicle["created_at"];
                 echoRespnse(200, $response);
             } else {
                 $response["error"] = true;
-                $response["message"] = $lang['ERR_LINK_REQUEST'];
+                $response["message"] = "";
                 echoRespnse(404, $response);
             }
         });
-
 
 /**
  * Updating user
@@ -1238,20 +1381,20 @@ $app->get('/vehicles', 'authenticateUser', function() {
  * params task, status
  * url - /user
  */
-$app->put('/vehicle', 'authenticateUser', function() use($app) {
-            // check for required params
-            verifyRequiredParams(array('driver_license', 'driver_license_img'), $language);
+$app->put('/vehicle/:vehicle_id', 'authenticateUser', function($vehicle_id) use($app) { 
 
-            global $user_id;   
-
-            $driver_license = $app->request->put('driver_license');
-            $driver_license_img = $app->request->put('driver_license_img');
+            $type = $app->request->put('type');
+            $license_plate = $app->request->put('license_plate');
+            $reg_certificate = $app->request->put('reg_certificate');
+            $license_plate_img = $app->request->put('license_plate_img');
+            $vehicle_img = $app->request->put('vehicle_img');
+            $motor_insurance_img = $app->request->put('motor_insurance_img');
 
             $db = new DbHandler();
             $response = array();
 
             // updating task
-            $result = $db->updateVehicle($user_id, $driver_license, $driver_license_img);
+            $result = $db->updateVehicle($vehicle_id, $type, $license_plate, $reg_certificate, $license_plate_img, $vehicle_img, $motor_insurance_img);
             if ($result) {
                 // task updated successfully
                 $response["error"] = false;
@@ -1265,62 +1408,28 @@ $app->put('/vehicle', 'authenticateUser', function() use($app) {
         });
 
 /**
- * Update user information
- * method PUT
- * url /user
- */
-$app->put('/vehicle/:field', 'authenticateUser', function($field) use($app) {
-            // check for required params
-            verifyRequiredParams(array('value'), $language);
-            global $user_id;
-
-            $value = $app->request->put('value');
-
-            $response = array();
-            $db = new DbHandler();
-
-            // fetch user
-            $result = $db->updateDriverField($user_id, $field, $value);
-
-            if ($result) {
-                // user updated successfully
-                $response["error"] = false;
-                $response["message"] = $lang['ALERT_UPDATE'];
-            } else {
-                // user failed to update
-                $response["error"] = true;
-                $response["message"] = $lang['ERR_UPDATE'];
-            }
-            
-            echoRespnse(200, $response);
-        });
-
-/**
  * Deleting user.
  * method DELETE
  * url /user
  */
-$app->delete('/vehicle', 'authenticateUser', function() {
-            global $user_id;
+$app->delete('/vehicle/:vehicle_id', 'authenticateUser', function($vehicle_id) {
 
             $db = new DbHandler();
             $response = array();
 
-            $result = $db->deleteDriver($user_id);
+            $result = $db->deleteVehicle($vehicle_id);
 
             if ($result) {
                 // user deleted successfully
                 $response["error"] = false;
-                $response["message"] = $lang['DRIVER_DELETE_SUCCESS'];
+                $response["message"] = "";
             } else {
                 // task failed to delete
                 $response["error"] = true;
-                $response["message"] = $lang['DRIVER_DELETE_FAILURE'];
+                $response["message"] = "";
             }
             echoRespnse(200, $response);
         });
-
-
 
 
 /////////////////////////////////////// ADMIN ///////////////////////////////////////////////////
@@ -1364,6 +1473,64 @@ $app->post('/staff', function() use ($app) {
             // echo json response
             echoRespnse(201, $response);
         });
+
+/**
+ * Get list of staff
+ * method GET
+ * url /user
+ */
+$app->get('/staffs', 'authenticateStaff', function() {
+            $db = new DbHandler();
+
+            // fetch task
+            $result = $db->getListStaff();
+
+            if ($result != NULL) {
+                $response['error'] = false;
+                $response['staffs'] = array();
+
+                while ($staff = $result->fetch_assoc()) {
+                    array_push($response['staffs'], $staff);               
+                }
+
+                echoRespnse(200, $response);
+            } else {
+                $response["error"] = true;
+                $response["message"] = $lang['ERR_LINK_REQUEST'];
+                echoRespnse(404, $response);
+            }
+        });
+
+
+/**
+ * Get one staff's ìnormation
+ * method GET
+ * url /user
+ */
+$app->get('/staffs/:staff_id', 'authenticateStaff', function($staff_id) {
+            $response = array();
+            $db = new DbHandler();
+
+            // fetch task
+            $result = $db->getStaffByStaffID($staff_id);
+
+            if ($result != NULL) {
+                $response["error"] = false;
+                $response['email'] = $result['email'];
+                $response['apiKey'] = $result['api_key'];
+                $response['fullname'] = $result['fullname'];
+                $response['personalID'] = $result['personalID'];
+                $response['link_avatar'] = $result['link_avatar'];
+                $response['created_at'] = $result['created_at'];
+                echoRespnse(200, $response);
+            } else {
+                $response["error"] = true;
+                $response["message"] = $lang['ERR_LINK_REQUEST'];
+                echoRespnse(404, $response);
+            }
+        });
+
+                //-----------------------------------------------------------//
 
 /**
  * User Login
@@ -1412,7 +1579,7 @@ $app->post('/staff/login', function() use ($app) {
         });
 
 /**
- * Get all user information
+ * Get all staff's information
  * method GET
  * url /user
  */
@@ -1441,51 +1608,12 @@ $app->get('/staff', 'authenticateStaff', function() {
             }
         });
 
-$app->get('/staffs', 'authenticateStaff', function() {
-            $db = new DbHandler();
 
-            // fetch task
-            $result = $db->getListStaff();
-
-            if ($result != NULL) {
-                $response['error'] = false;
-                $response['staffs'] = array();
-
-                while ($staff = $result->fetch_assoc()) {
-                    array_push($response['staffs'], $staff);               
-                }
-
-                echoRespnse(200, $response);
-            } else {
-                $response["error"] = true;
-                $response["message"] = $lang['ERR_LINK_REQUEST'];
-                echoRespnse(404, $response);
-            }
-        });
-
-$app->get('/staffs/:staff_id', 'authenticateStaff', function($staff_id) {
-            $response = array();
-            $db = new DbHandler();
-
-            // fetch task
-            $result = $db->getStaffByStaffID($staff_id);
-
-            if ($result != NULL) {
-                $response["error"] = false;
-                $response['email'] = $result['email'];
-                $response['apiKey'] = $result['api_key'];
-                $response['fullname'] = $result['fullname'];
-                $response['personalID'] = $result['personalID'];
-                $response['link_avatar'] = $result['link_avatar'];
-                $response['created_at'] = $result['created_at'];
-                echoRespnse(200, $response);
-            } else {
-                $response["error"] = true;
-                $response["message"] = $lang['ERR_LINK_REQUEST'];
-                echoRespnse(404, $response);
-            }
-        });
-
+/**
+ * Update staff information
+ * method GET
+ * url /user
+ */
 $app->put('/staffs/:staff_id', 'authenticateStaff', function($staff_id) use($app) {
         
             $fullname = $app->request->put('fullname');
@@ -1533,6 +1661,8 @@ $app->delete('/staffs/:staff_id', 'authenticateStaff', function($staff_id) {
             }
             echoRespnse(200, $response);
         });
+
+            //////////////////////////////////////////////////
 
 /**
  * Get all user information
@@ -1733,7 +1863,7 @@ $app->get('/staff/itineraries', 'authenticateStaff', function() {
         });
 
 
-$app->get('staff/itinerary/:id', function($itinerary_id) {
+$app->get('/staff/itinerary/:id', function($itinerary_id) {
 
             $response = array();
             $db = new DbHandler();
@@ -1773,7 +1903,7 @@ $app->get('staff/itinerary/:id', function($itinerary_id) {
             }
         });
 
-$app->put('staff/itinerary/:id', 'authenticateStaff', function($itinerary_id) use($app) {
+$app->put('/staff/itinerary/:id', 'authenticateStaff', function($itinerary_id) use($app) {
             // check for required params
             //verifyRequiredParams(array('task', 'status'));
             global $staff_id;
@@ -1910,10 +2040,10 @@ function sendMail($receiver_mail, $content) {
     $mail->SMTPSecure   = "tls";                 // sets the prefix to the servier
     $mail->Host         = "smtp.gmail.com";      // sets GMAIL as the SMTP server
     $mail->Port         = 587;                   // set the SMTP port for the GMAIL server
-    $mail->Username     = "thanhbkdn92@gmail.com";  // GMAIL username
-    $mail->Password     = "thanhkdt123@";            // GMAIL password
+    $mail->Username     = "letrungvi@outlook.com";  // GMAIL username
+    $mail->Password     = "shenlong1909";            // GMAIL password
 
-    $mail->SetFrom('thanhbkdn92@gmail.com', 'Ride Sharing Verification Team'); //Sender
+    $mail->SetFrom('letrungvi@outlook.com', 'Verification Team'); //Sender
 
     $mail->Subject    = "Activate account"; //Subject
 

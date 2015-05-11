@@ -774,7 +774,7 @@ class DbHandler {
         return $itineraries;
     }
 
-    public function getAverageRatingofDriver($driver_id){
+    /*public function getAverageRatingofDriver($driver_id){
         $q = "SELECT AVG(rating) AS average_rating FROM rating WHERE driver_id = ?";
         $stmt = $this->conn->prepare($q);
         $stmt->bind_param("i",$driver_id);
@@ -788,7 +788,7 @@ class DbHandler {
         } else {
             return $average_rating;
         }
-    }
+    }*/
 
     //not finished yet
     /**
@@ -841,24 +841,6 @@ class DbHandler {
         $itineraries = $stmt->get_result();
         $stmt->close();
         return $itineraries;
-    }
-
-    //not finished yet
-    /**
-     * Updating itinerary before accept
-     * @param Integer $task_id id of the task
-     * @param String $task task text
-     * @param String $status task status
-     */
-    public function updateItinerary($itinerary_id) {
-        $q = "UPDATE itinerary set start_address = ?, end_address = ?, leave_day = ?, duration = ?, cost = ?, description = ? 
-                WHERE itinerary_id = ?";
-        $stmt = $this->conn->prepare();
-        $stmt->bind_param("sssidsi", $itinerary_id);
-        $stmt->execute();
-        $num_affected_rows = $stmt->affected_rows;
-        $stmt->close();
-        return $num_affected_rows > 0;
     }
 
     //not finished yet
@@ -1192,18 +1174,20 @@ class DbHandler {
     public function createVehicle($user_id, $type, $license_plate, $license_plate_img, $reg_certificate,
                                         $vehicle_img, $motor_insurance_img) {
         // First check if user already existed in db
-        if (!$this->isDriverExists($user_id)) {
+        if (!$this->isVehicleExists($license_plate)) {
 
-            $sql_query = "INSERT INTO driver(user_id, driver_license, driver_license_img) values(?, ?, ?)";
+            $sql_query = "INSERT INTO vehicle(user_id, type, license_plate, license_plate_img, reg_certificate,
+                                        vehicle_img, motor_insurance_img, status) values(?, ?, ?, ?, ?, ?, ?, 1)";
 
             // insert query
             if ($stmt = $this->conn->prepare($sql_query)) {
-                $stmt->bind_param("iss", $user_id, $driver_license==NULL?'':$driver_license, $driver_license_img==NULL?'':$driver_license_img);
+                $stmt->bind_param("issssss", $user_id, $type==NULL?'':$type, $license_plate==NULL?'':$license_plate
+                                    , $license_plate_img==NULL?'':$license_plate_img, $reg_certificate==NULL?'':$reg_certificate
+                                    , $vehicle_img==NULL?'':$vehicle_img, $motor_insurance_img==NULL?'':$motor_insurance_img);
                 $result = $stmt->execute();
             } else {
                 var_dump($this->conn->error);
             }
-
 
             $stmt->close();
 
@@ -1219,6 +1203,225 @@ class DbHandler {
             // User with same email already existed in the db
             return VEHICLE_ALREADY_EXISTED;
         }
+    }
+
+    /**
+     * Fetching user by email
+     * @param String $email User email id
+     */
+    public function getListVehicle($user_id) {
+        $stmt = $this->conn->prepare("SELECT * FROM vehicle WHERE user_id = ?");
+
+        $stmt->bind_param("i", $user_id);
+
+        if ($stmt->execute()) {
+            // $user = $stmt->get_result()->fetch_assoc();
+            $vehicle = $stmt->get_result();
+            $stmt->close();
+            return $vehicle;
+        } else {
+            return NULL;
+        }
+    }
+
+    /**
+     * Fetching user by email
+     * @param String $email User email id
+     */
+    public function getVehicle($vehicle_id) {
+        $stmt = $this->conn->prepare("SELECT vehicle_id, user_id, type, license_plate, reg_certificate,
+                                        license_plate_img, vehicle_img, motor_insurance_img, status, created_at
+                                      FROM vehicle WHERE vehicle_id = ?");
+
+        $stmt->bind_param("i", $vehicle_id);
+
+        if ($stmt->execute()) {
+            // $user = $stmt->get_result()->fetch_assoc();
+            $stmt->bind_result($vehicle_id, $user_id, $type, $license_plate, $reg_certificate, $license_plate_img, $vehicle_img, $motor_insurance_img, $status, $created_at);
+            $stmt->fetch();
+            $vehicle = array();
+            $vehicle["vehicle_id"] = $vehicle_id;
+            $vehicle["user_id"] = $user_id;
+            $vehicle["type"] = $type;
+            $vehicle["license_plate"] = $license_plate;
+            $vehicle["reg_certificate"] = $reg_certificate;
+            $vehicle["license_plate_img"] = $license_plate_img;
+            $vehicle["vehicle_img"] = $vehicle_img;
+            $vehicle["motor_insurance_img"] = $motor_insurance_img;
+            $vehicle["status"] = $status;
+            $vehicle["created_at"] = $created_at;
+            $stmt->close();
+            return $vehicle;
+        } else {
+            return NULL;
+        }
+    }
+
+    public function updateVehicle($vehicle_id, $type, $license_plate, $reg_certificate, $license_plate_img, $vehicle_img, $motor_insurance_img) {
+        require_once '/Config.php';
+        $conn2 = new PDO("mysql:host=".DB_HOST.";dbname=".DB_NAME.";charset=utf8", DB_USERNAME, DB_PASSWORD);
+        // set the PDO error mode to exception
+        $conn2->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+        $qry = "UPDATE vehicle set";
+        $param = array();
+
+        if (isset($type)) { 
+            $qry .= " type = :type,"; 
+        }
+        if (isset($license_plate)) { 
+            $qry .= " license_plate = :license_plate,"; 
+        }
+        if (isset($reg_certificate)) { 
+            $qry .= " reg_certificate = :reg_certificate,"; 
+        }
+        if (isset($license_plate_img)) { 
+            $qry .= " license_plate_img = :license_plate_img,"; 
+        }
+        if (isset($vehicle_img)) { 
+            $qry .= " vehicle_img = :vehicle_img,"; 
+        }
+        if (isset($motor_insurance_img)) { 
+            $qry .= " motor_insurance_img = :motor_insurance_img,"; 
+        }
+
+        $qry .= " status = 1 WHERE vehicle_id = :vehicle_id";
+
+        $stmt = $conn2->prepare($qry);
+
+        if (isset($type)) { 
+            $stmt->bindParam(':type', $type);
+        }
+        if (isset($license_plate)) { 
+            $stmt->bindParam(':license_plate', $license_plate);
+        }
+        if (isset($reg_certificate)) {  
+            $stmt->bindParam(':reg_certificate', $reg_certificate);
+        }
+        if (isset($license_plate_img)) {  
+            $stmt->bindParam(':license_plate_img', $license_plate_img);
+        }
+        if (isset($vehicle_img)) { 
+            $stmt->bindParam(':vehicle_img', $vehicle_img);
+        }
+        if (isset($motor_insurance_img)) { 
+            $stmt->bindParam(':motor_insurance_img', $motor_insurance_img);
+        }
+
+        $stmt->bindParam(':vehicle_id', $vehicle_id);
+        $stmt->execute();
+        $num_affected_rows = $stmt->rowCount();
+        $conn2 = null;
+        return $num_affected_rows > 0;
+    }
+
+    /**
+     * Delete driver
+     * @param String $user_id id of user
+     */
+    public function deleteVehicle($vehicle_id) {
+        $stmt = $this->conn->prepare("DELETE FROM vehicle WHERE vehicle_id = ?");
+        $stmt->bind_param("i", $vehicle_id);
+        $stmt->execute();
+        $num_affected_rows = $stmt->affected_rows;
+        $stmt->close();
+        return $num_affected_rows > 0;
+    }
+
+    /**
+     * Checking for duplicate user by email address
+     * @param String $email email to check in db
+     * @return boolean
+     */
+    private function isVehicleExists($license_plate) {
+        $stmt = $this->conn->prepare("SELECT vehicle_id FROM vehicle WHERE license_plate = ?");
+        $stmt->bind_param("s", $license_plate);
+        $stmt->execute();
+        $stmt->store_result();
+        $num_rows = $stmt->num_rows;
+        $stmt->close();
+        return $num_rows > 0;
+    }
+
+
+    /* ------------- `Rating` table method ------------------ */
+
+    public function createRating($user_id, $rating, $rating_user_id) {
+        // First check if user already existed in db
+
+            $sql_query = "INSERT INTO rating(user_id, rating_user_id, rating) values(?, ?, ?)";
+
+            // insert query
+            if ($stmt = $this->conn->prepare($sql_query)) {
+                $stmt->bind_param("iii", $user_id, $rating_user_id, $rating);
+                $result = $stmt->execute();
+            } else {
+                var_dump($this->conn->error);
+            }
+
+            $stmt->close();
+
+            // Check for successful insertion
+            if ($result) {
+                // User successfully inserted
+                return RATING_CREATED_SUCCESSFULLY;
+            } else {
+                // Failed to create user
+                return RATING_CREATE_FAILED;
+            }
+    }
+
+    public function getAverageRatingofDriver($user_id){
+        $q = "SELECT AVG(rating) AS average_rating FROM rating WHERE user_id = ?";
+        $stmt = $this->conn->prepare($q);
+        $stmt->bind_param("i",$driver_id);
+        $stmt->execute();
+
+        $stmt->bind_result($average_rating);
+            $stmt->close();
+
+        if($average_rating == null){
+            return 0;
+        } else {
+            return $average_rating;
+        }
+    }
+
+    /**
+     * Fetching user by email
+     * @param String $email User email id
+     */
+    public function getRating($user_id, $rating_user_id) {
+        $stmt = $this->conn->prepare("SELECT rating FROM rating WHERE user_id = ? AND rating_user_id = ?");
+
+        $stmt->bind_param("ii", $user_id, $rating_user_id);
+
+        if ($stmt->execute()) {
+
+            $stmt->bind_result($rating);
+            $stmt->close();
+            if($rating == null){
+                return 0;
+            } else {
+                return $rating;
+            }
+        } else {
+            return NULL;
+        }
+    }
+
+
+    /**
+     * Delete driver
+     * @param String $user_id id of user
+     */
+    public function deleteRating($rating_id) {
+        $stmt = $this->conn->prepare("DELETE FROM rating WHERE rating_id = ?");
+        $stmt->bind_param("i", $rating_id);
+        $stmt->execute();
+        $num_affected_rows = $stmt->affected_rows;
+        $stmt->close();
+        return $num_affected_rows > 0;
     }
 
 

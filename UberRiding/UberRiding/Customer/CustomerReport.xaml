@@ -51,11 +51,6 @@
 					<amCharts:SerialChart.Graphs>
 						<amCharts:ColumnGraph ValueMemberPath="val1" Title="Itinerary" Brush="Orange" ColumnWidthAllocation="0.4" />
 					</amCharts:SerialChart.Graphs>
-					<!--<amCharts:SerialChart.Graphs>
-					<amCharts:LineGraph ValueMemberPath="val2" Title="Line #1" Brush="Blue" />
-					<amCharts:ColumnGraph ValueMemberPath="val2" Title="Column #2" Brush="#8000FF00" ColumnWidthAllocation="0.4" />
-					<amCharts:AreaGraph ValueMemberPath="val2" Title="Area #1" Brush="#80FF0000" />
-					</amCharts:SerialChart.Graphs>-->
 				</amCharts:SerialChart>
 			</phone:PivotItem>
 
@@ -76,12 +71,7 @@
 
 					<amCharts:SerialChart.Graphs>
 						<amCharts:ColumnGraph ValueMemberPath="val1" Title="Itinerary" Brush="Orange" ColumnWidthAllocation="0.4" />
-					</amCharts:SerialChart.Graphs>
-					<!--<amCharts:SerialChart.Graphs>
-					<amCharts:LineGraph ValueMemberPath="val2" Title="Line #1" Brush="Blue" />
-					<amCharts:ColumnGraph ValueMemberPath="val2" Title="Column #2" Brush="#8000FF00" ColumnWidthAllocation="0.4" />
-					<amCharts:AreaGraph ValueMemberPath="val2" Title="Area #1" Brush="#80FF0000" />
-					</amCharts:SerialChart.Graphs>-->
+					</amCharts:SerialChart.Graphs> 
 				</amCharts:SerialChart>
 			</phone:PivotItem>
 
@@ -110,3 +100,9 @@
 		</phone:Pivot>
 	</Grid>
 </phone:PhoneApplicationPage>
+
+<!--<amCharts:SerialChart.Graphs>
+					<amCharts:LineGraph ValueMemberPath="val2" Title="Line #1" Brush="Blue" />
+					<amCharts:ColumnGraph ValueMemberPath="val2" Title="Column #2" Brush="#8000FF00" ColumnWidthAllocation="0.4" />
+					<amCharts:AreaGraph ValueMemberPath="val2" Title="Area #1" Brush="#80FF0000" />
+					</amCharts:SerialChart.Graphs>-->
