@@ -153,7 +153,7 @@
         </ListBox>
 
         <StackPanel HorizontalAlignment="Right" Margin="0,5,0,0" Grid.Row="3" Width="246">
-            <Button x:Name="btnUpgrade" Height="68" Content="Upgrade" Margin="-1,0,1,0">
+            <Button x:Name="btnVehicle" Height="68" Content="Vehicle" Margin="-1,0,1,0" Click="btnVehicle_Click">
                 <Button.Background>
                     <ImageBrush Stretch="Fill"/>
                 </Button.Background>

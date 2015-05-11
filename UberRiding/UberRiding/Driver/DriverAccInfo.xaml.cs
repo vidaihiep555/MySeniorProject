@@ -306,5 +306,10 @@ namespace UberRiding.Driver
             //add the show method
             messageBox.Show();
         }
+
+        private void btnVehicle_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

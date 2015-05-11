@@ -145,6 +145,12 @@
     <Compile Include="Driver\DriverReport.xaml.cs">
       <DependentUpon>DriverReport.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Driver\VehicleDetails.xaml.cs">
+      <DependentUpon>VehicleDetails.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Driver\VehicleManagement.xaml.cs">
+      <DependentUpon>VehicleManagement.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ForgotPassword.xaml.cs">
       <DependentUpon>ForgotPassword.xaml</DependentUpon>
     </Compile>
@@ -254,6 +260,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Driver\DriverReport.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Driver\VehicleDetails.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Driver\VehicleManagement.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

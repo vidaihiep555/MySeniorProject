@@ -352,7 +352,7 @@
 											"height": 13,
 											"autoResize": false,
 											"underline": false,
-											"text": "Quản Lý Thành Viên",
+											"text": "Manage Customer",
 											"horizontalAlignment": 2,
 											"verticalAlignment": 5
 										},
@@ -417,7 +417,7 @@
 									"containerExtending": false,
 									"left": 361,
 									"top": 72.5,
-									"width": 140,
+									"width": 139,
 									"height": 25,
 									"autoResize": false,
 									"stereotypeLabel": {
@@ -635,7 +635,7 @@
 											"height": 13,
 											"autoResize": false,
 											"underline": false,
-											"text": "Quản Lý Hành Trình",
+											"text": "Manage Itinerary",
 											"horizontalAlignment": 2,
 											"verticalAlignment": 5
 										},
@@ -700,7 +700,7 @@
 									"containerExtending": false,
 									"left": 336.5,
 									"top": 168.5,
-									"width": 137,
+									"width": 136,
 									"height": 25,
 									"autoResize": false,
 									"stereotypeLabel": {
@@ -918,7 +918,7 @@
 											"height": 13,
 											"autoResize": false,
 											"underline": false,
-											"text": "Quản Lý Feedback",
+											"text": "Manage Feedback",
 											"horizontalAlignment": 2,
 											"verticalAlignment": 5
 										},
@@ -983,7 +983,7 @@
 									"containerExtending": false,
 									"left": 347,
 									"top": 236.5,
-									"width": 129,
+									"width": 128,
 									"height": 25,
 									"autoResize": false,
 									"stereotypeLabel": {
@@ -1457,7 +1457,7 @@
 											"height": 13,
 											"autoResize": false,
 											"underline": false,
-											"text": "Quản Lý Staff",
+											"text": "Manage Staff",
 											"horizontalAlignment": 2,
 											"verticalAlignment": 5
 										},
@@ -1522,7 +1522,7 @@
 									"containerExtending": false,
 									"left": 356,
 									"top": 616.5,
-									"width": 96,
+									"width": 95,
 									"height": 25,
 									"autoResize": false,
 									"stereotypeLabel": {
@@ -1740,7 +1740,7 @@
 											"height": 13,
 											"autoResize": false,
 											"underline": false,
-											"text": "Báo Cáo Thống Kê",
+											"text": "Report",
 											"horizontalAlignment": 2,
 											"verticalAlignment": 5
 										},
@@ -5606,7 +5606,7 @@
 											"height": 13,
 											"autoResize": false,
 											"underline": false,
-											"text": "Quản Lý Tài Xế",
+											"text": "Manage Driver",
 											"horizontalAlignment": 2,
 											"verticalAlignment": 5
 										},
@@ -5671,7 +5671,7 @@
 									"containerExtending": false,
 									"left": 358.5,
 									"top": 308.5,
-									"width": 108,
+									"width": 107,
 									"height": 25,
 									"autoResize": false,
 									"stereotypeLabel": {
@@ -6234,6 +6234,177 @@
 							"headQualifiersCompartment": {
 								"$ref": "AAAAAAFMZpXaEJI5dkw="
 							}
+						},
+						{
+							"_type": "UMLUseCaseSubjectView",
+							"_id": "AAAAAAFNFsT1Vxkz9C8=",
+							"_parent": {
+								"$ref": "AAAAAAFL3+kB7nxzVTw="
+							},
+							"model": {
+								"$ref": "AAAAAAFNFsT1VRkxiVE="
+							},
+							"subViews": [
+								{
+									"_type": "UMLNameCompartmentView",
+									"_id": "AAAAAAFNFsT1WBk0Npk=",
+									"_parent": {
+										"$ref": "AAAAAAFNFsT1Vxkz9C8="
+									},
+									"model": {
+										"$ref": "AAAAAAFNFsT1VRkxiVE="
+									},
+									"subViews": [
+										{
+											"_type": "LabelView",
+											"_id": "AAAAAAFNFsT1WBk1wnQ=",
+											"_parent": {
+												"$ref": "AAAAAAFNFsT1WBk0Npk="
+											},
+											"visible": false,
+											"enabled": true,
+											"lineColor": "#000000",
+											"fillColor": "#ffffff",
+											"fontColor": "#000000",
+											"font": "Arial;13;0",
+											"showShadow": true,
+											"containerChangeable": false,
+											"containerExtending": false,
+											"left": 0,
+											"top": 0,
+											"width": 0,
+											"height": 13,
+											"autoResize": false,
+											"underline": false,
+											"horizontalAlignment": 2,
+											"verticalAlignment": 5
+										},
+										{
+											"_type": "LabelView",
+											"_id": "AAAAAAFNFsT1WBk2BXw=",
+											"_parent": {
+												"$ref": "AAAAAAFNFsT1WBk0Npk="
+											},
+											"visible": true,
+											"enabled": true,
+											"lineColor": "#000000",
+											"fillColor": "#ffffff",
+											"fontColor": "#000000",
+											"font": "Arial;13;1",
+											"showShadow": true,
+											"containerChangeable": false,
+											"containerExtending": false,
+											"left": 173,
+											"top": 23,
+											"width": 391,
+											"height": 13,
+											"autoResize": false,
+											"underline": false,
+											"text": "System",
+											"horizontalAlignment": 2,
+											"verticalAlignment": 5
+										},
+										{
+											"_type": "LabelView",
+											"_id": "AAAAAAFNFsT1WBk3ioM=",
+											"_parent": {
+												"$ref": "AAAAAAFNFsT1WBk0Npk="
+											},
+											"visible": false,
+											"enabled": true,
+											"lineColor": "#000000",
+											"fillColor": "#ffffff",
+											"fontColor": "#000000",
+											"font": "Arial;13;0",
+											"showShadow": true,
+											"containerChangeable": false,
+											"containerExtending": false,
+											"left": 0,
+											"top": 0,
+											"width": 72,
+											"height": 13,
+											"autoResize": false,
+											"underline": false,
+											"text": "(from Model)",
+											"horizontalAlignment": 2,
+											"verticalAlignment": 5
+										},
+										{
+											"_type": "LabelView",
+											"_id": "AAAAAAFNFsT1WBk4ZAU=",
+											"_parent": {
+												"$ref": "AAAAAAFNFsT1WBk0Npk="
+											},
+											"visible": false,
+											"enabled": true,
+											"lineColor": "#000000",
+											"fillColor": "#ffffff",
+											"fontColor": "#000000",
+											"font": "Arial;13;0",
+											"showShadow": true,
+											"containerChangeable": false,
+											"containerExtending": false,
+											"left": 0,
+											"top": 0,
+											"width": 0,
+											"height": 13,
+											"autoResize": false,
+											"underline": false,
+											"horizontalAlignment": 1,
+											"verticalAlignment": 5
+										}
+									],
+									"visible": true,
+									"enabled": true,
+									"lineColor": "#000000",
+									"fillColor": "#ffffff",
+									"fontColor": "#000000",
+									"font": "Arial;13;0",
+									"showShadow": true,
+									"containerChangeable": false,
+									"containerExtending": false,
+									"left": 168,
+									"top": 16,
+									"width": 401,
+									"height": 25,
+									"autoResize": false,
+									"stereotypeLabel": {
+										"$ref": "AAAAAAFNFsT1WBk1wnQ="
+									},
+									"nameLabel": {
+										"$ref": "AAAAAAFNFsT1WBk2BXw="
+									},
+									"namespaceLabel": {
+										"$ref": "AAAAAAFNFsT1WBk3ioM="
+									},
+									"propertyLabel": {
+										"$ref": "AAAAAAFNFsT1WBk4ZAU="
+									}
+								}
+							],
+							"visible": true,
+							"enabled": true,
+							"lineColor": "#000000",
+							"fillColor": "#ffffff",
+							"fontColor": "#000000",
+							"font": "Arial;13;0",
+							"showShadow": true,
+							"containerChangeable": false,
+							"containerExtending": false,
+							"left": 168,
+							"top": 16,
+							"width": 401,
+							"height": 789,
+							"autoResize": false,
+							"stereotypeDisplay": "label",
+							"showVisibility": true,
+							"showNamespace": false,
+							"showProperty": true,
+							"showType": true,
+							"nameCompartment": {
+								"$ref": "AAAAAAFNFsT1WBk0Npk="
+							},
+							"wordWrap": false
 						}
 					]
 				},
@@ -6527,7 +6698,7 @@
 					"_parent": {
 						"$ref": "AAAAAAFF+qBWK6M3Z8Y="
 					},
-					"name": "Quản Lý Thành Viên",
+					"name": "Manage Customer",
 					"visibility": "public",
 					"isAbstract": false,
 					"isFinalSpecialization": false,
@@ -6539,7 +6710,7 @@
 					"_parent": {
 						"$ref": "AAAAAAFF+qBWK6M3Z8Y="
 					},
-					"name": "Quản Lý Hành Trình",
+					"name": "Manage Itinerary",
 					"visibility": "public",
 					"isAbstract": false,
 					"isFinalSpecialization": false,
@@ -6551,7 +6722,7 @@
 					"_parent": {
 						"$ref": "AAAAAAFF+qBWK6M3Z8Y="
 					},
-					"name": "Quản Lý Feedback",
+					"name": "Manage Feedback",
 					"visibility": "public",
 					"isAbstract": false,
 					"isFinalSpecialization": false,
@@ -6693,7 +6864,7 @@
 					"_parent": {
 						"$ref": "AAAAAAFF+qBWK6M3Z8Y="
 					},
-					"name": "Quản Lý Staff",
+					"name": "Manage Staff",
 					"visibility": "public",
 					"isAbstract": false,
 					"isFinalSpecialization": false,
@@ -6705,7 +6876,7 @@
 					"_parent": {
 						"$ref": "AAAAAAFF+qBWK6M3Z8Y="
 					},
-					"name": "Báo Cáo Thống Kê",
+					"name": "Report",
 					"visibility": "public",
 					"isAbstract": false,
 					"isFinalSpecialization": false,
@@ -7066,7 +7237,7 @@
 											"height": 13,
 											"autoResize": false,
 											"underline": false,
-											"text": "Quản Lý Thành Viên",
+											"text": "Manage Customer",
 											"horizontalAlignment": 2,
 											"verticalAlignment": 5
 										},
@@ -7131,7 +7302,7 @@
 									"containerExtending": false,
 									"left": 357,
 									"top": 308.5,
-									"width": 140,
+									"width": 139,
 									"height": 25,
 									"autoResize": false,
 									"stereotypeLabel": {
@@ -7751,13 +7922,13 @@
 											"showShadow": true,
 											"containerChangeable": false,
 											"containerExtending": false,
-											"left": 616,
+											"left": 624,
 											"top": 91.5,
-											"width": 100,
+											"width": 137,
 											"height": 13,
 											"autoResize": false,
 											"underline": false,
-											"text": "Tạo Thành Viên",
+											"text": "Create New Customer",
 											"horizontalAlignment": 2,
 											"verticalAlignment": 5
 										},
@@ -7820,9 +7991,9 @@
 									"showShadow": true,
 									"containerChangeable": false,
 									"containerExtending": false,
-									"left": 611,
+									"left": 619,
 									"top": 84.5,
-									"width": 111,
+									"width": 148,
 									"height": 25,
 									"autoResize": false,
 									"stereotypeLabel": {
@@ -7946,7 +8117,7 @@
 							"containerExtending": false,
 							"left": 588,
 							"top": 80,
-							"width": 156,
+							"width": 209,
 							"height": 35,
 							"autoResize": false,
 							"stereotypeDisplay": "label",
@@ -8034,13 +8205,13 @@
 											"showShadow": true,
 											"containerChangeable": false,
 											"containerExtending": false,
-											"left": 629,
+											"left": 643.5,
 											"top": 231.5,
-											"width": 122,
+											"width": 194,
 											"height": 13,
 											"autoResize": false,
 											"underline": false,
-											"text": "Update Thông Tin",
+											"text": "Update Customer's Information",
 											"horizontalAlignment": 2,
 											"verticalAlignment": 5
 										},
@@ -8103,9 +8274,9 @@
 									"showShadow": true,
 									"containerChangeable": false,
 									"containerExtending": false,
-									"left": 624,
+									"left": 638.5,
 									"top": 224.5,
-									"width": 132,
+									"width": 205,
 									"height": 25,
 									"autoResize": false,
 									"stereotypeLabel": {
@@ -8229,7 +8400,7 @@
 							"containerExtending": false,
 							"left": 596,
 							"top": 220,
-							"width": 188,
+							"width": 289,
 							"height": 35,
 							"autoResize": false,
 							"stereotypeDisplay": "label",
@@ -8317,13 +8488,13 @@
 											"showShadow": true,
 											"containerChangeable": false,
 											"containerExtending": false,
-											"left": 628.5,
+											"left": 629,
 											"top": 315.5,
-											"width": 101,
+											"width": 104,
 											"height": 13,
 											"autoResize": false,
 											"underline": false,
-											"text": "Xóa Thành Viên",
+											"text": "Delete Customer",
 											"horizontalAlignment": 2,
 											"verticalAlignment": 5
 										},
@@ -8386,9 +8557,9 @@
 									"showShadow": true,
 									"containerChangeable": false,
 									"containerExtending": false,
-									"left": 623.5,
+									"left": 624,
 									"top": 308.5,
-									"width": 112,
+									"width": 115,
 									"height": 25,
 									"autoResize": false,
 									"stereotypeLabel": {
@@ -8512,7 +8683,7 @@
 							"containerExtending": false,
 							"left": 600,
 							"top": 304,
-							"width": 158,
+							"width": 162,
 							"height": 35,
 							"autoResize": false,
 							"stereotypeDisplay": "label",
@@ -8569,8 +8740,8 @@
 									"showShadow": true,
 									"containerChangeable": false,
 									"containerExtending": false,
-									"left": 555,
-									"top": 213,
+									"left": 568,
+									"top": 214,
 									"width": 0,
 									"height": 13,
 									"autoResize": false,
@@ -8602,8 +8773,8 @@
 									"showShadow": true,
 									"containerChangeable": false,
 									"containerExtending": false,
-									"left": 529,
-									"top": 179,
+									"left": 544,
+									"top": 180,
 									"width": 53,
 									"height": 13,
 									"autoResize": false,
@@ -8636,8 +8807,8 @@
 									"showShadow": true,
 									"containerChangeable": false,
 									"containerExtending": false,
-									"left": 534,
-									"top": 192,
+									"left": 549,
+									"top": 191,
 									"width": 0,
 									"height": 13,
 									"autoResize": false,
@@ -8668,7 +8839,7 @@
 								"$ref": "AAAAAAFL4CugVUmc9gQ="
 							},
 							"lineStyle": 1,
-							"points": "646:115;445:303",
+							"points": "671:115;447:303",
 							"stereotypeDisplay": "label",
 							"showVisibility": true,
 							"showProperty": true,
@@ -8710,7 +8881,7 @@
 									"showShadow": true,
 									"containerChangeable": false,
 									"containerExtending": false,
-									"left": 561,
+									"left": 586,
 									"top": 287,
 									"width": 0,
 									"height": 13,
@@ -8743,8 +8914,8 @@
 									"showShadow": true,
 									"containerChangeable": false,
 									"containerExtending": false,
-									"left": 538,
-									"top": 247,
+									"left": 565,
+									"top": 248,
 									"width": 53,
 									"height": 13,
 									"autoResize": false,
@@ -8777,7 +8948,7 @@
 									"showShadow": true,
 									"containerChangeable": false,
 									"containerExtending": false,
-									"left": 552,
+									"left": 579,
 									"top": 258,
 									"width": 0,
 									"height": 13,
@@ -8809,7 +8980,7 @@
 								"$ref": "AAAAAAFL4Cv8sUnnEf8="
 							},
 							"lineStyle": 1,
-							"points": "633:255;482:303",
+							"points": "673:255;493:303",
 							"stereotypeDisplay": "label",
 							"showVisibility": true,
 							"showProperty": true,
@@ -9023,13 +9194,13 @@
 											"showShadow": true,
 											"containerChangeable": false,
 											"containerExtending": false,
-											"left": 635.5,
+											"left": 653,
 											"top": 391.5,
-											"width": 96,
+											"width": 181,
 											"height": 13,
 											"autoResize": false,
 											"underline": false,
-											"text": "Xem Thông Tin",
+											"text": "View Customer's Information",
 											"horizontalAlignment": 2,
 											"verticalAlignment": 5
 										},
@@ -9092,9 +9263,9 @@
 									"showShadow": true,
 									"containerChangeable": false,
 									"containerExtending": false,
-									"left": 630.5,
+									"left": 648,
 									"top": 384.5,
-									"width": 107,
+									"width": 192,
 									"height": 25,
 									"autoResize": false,
 									"stereotypeLabel": {
@@ -9218,7 +9389,7 @@
 							"containerExtending": false,
 							"left": 608,
 							"top": 380,
-							"width": 151,
+							"width": 271,
 							"height": 35,
 							"autoResize": false,
 							"stereotypeDisplay": "label",
@@ -9275,7 +9446,7 @@
 									"showShadow": true,
 									"containerChangeable": false,
 									"containerExtending": false,
-									"left": 549,
+									"left": 580,
 									"top": 367,
 									"width": 0,
 									"height": 13,
@@ -9308,8 +9479,8 @@
 									"showShadow": true,
 									"containerChangeable": false,
 									"containerExtending": false,
-									"left": 542,
-									"top": 363,
+									"left": 573,
+									"top": 362,
 									"width": 53,
 									"height": 13,
 									"autoResize": false,
@@ -9342,7 +9513,7 @@
 									"showShadow": true,
 									"containerChangeable": false,
 									"containerExtending": false,
-									"left": 558,
+									"left": 587,
 									"top": 338,
 									"width": 0,
 									"height": 13,
@@ -9374,7 +9545,7 @@
 								"$ref": "AAAAAAFL4DNhGU+KHc8="
 							},
 							"lineStyle": 1,
-							"points": "622:379;487:339",
+							"points": "668:379;501:339",
 							"stereotypeDisplay": "label",
 							"showVisibility": true,
 							"showProperty": true,
@@ -9453,7 +9624,7 @@
 											"height": 13,
 											"autoResize": false,
 											"underline": false,
-											"text": "Tìm Kiếm Thành Viên",
+											"text": "Search Customer",
 											"horizontalAlignment": 2,
 											"verticalAlignment": 5
 										},
@@ -9518,7 +9689,7 @@
 									"containerExtending": false,
 									"left": 615,
 									"top": 476.5,
-									"width": 148,
+									"width": 147,
 									"height": 25,
 									"autoResize": false,
 									"stereotypeLabel": {
@@ -9820,7 +9991,7 @@
 					"_parent": {
 						"$ref": "AAAAAAFF+qBWK6M3Z8Y="
 					},
-					"name": "Tạo Thành Viên",
+					"name": "Create New Customer",
 					"ownedElements": [
 						{
 							"_type": "UMLExtend",
@@ -9848,7 +10019,7 @@
 					"_parent": {
 						"$ref": "AAAAAAFF+qBWK6M3Z8Y="
 					},
-					"name": "Update Thông Tin",
+					"name": "Update Customer's Information",
 					"ownedElements": [
 						{
 							"_type": "UMLExtend",
@@ -9876,7 +10047,7 @@
 					"_parent": {
 						"$ref": "AAAAAAFF+qBWK6M3Z8Y="
 					},
-					"name": "Xóa Thành Viên",
+					"name": "Delete Customer",
 					"ownedElements": [
 						{
 							"_type": "UMLExtend",
@@ -10229,7 +10400,7 @@
 											"height": 13,
 											"autoResize": false,
 											"underline": false,
-											"text": "Quản Lý Hành Trình",
+											"text": "Manage Itinerary",
 											"horizontalAlignment": 2,
 											"verticalAlignment": 5
 										},
@@ -10294,7 +10465,7 @@
 									"containerExtending": false,
 									"left": 288.5,
 									"top": 352.5,
-									"width": 137,
+									"width": 136,
 									"height": 25,
 									"autoResize": false,
 									"stereotypeLabel": {
@@ -10914,13 +11085,13 @@
 											"showShadow": true,
 											"containerChangeable": false,
 											"containerExtending": false,
-											"left": 617.5,
+											"left": 618.5,
 											"top": 315.5,
-											"width": 125,
+											"width": 130,
 											"height": 13,
 											"autoResize": false,
 											"underline": false,
-											"text": "Tạo Mới Hành Trình",
+											"text": "Create New itinerary",
 											"horizontalAlignment": 2,
 											"verticalAlignment": 5
 										},
@@ -10983,9 +11154,9 @@
 									"showShadow": true,
 									"containerChangeable": false,
 									"containerExtending": false,
-									"left": 612.5,
+									"left": 613.5,
 									"top": 308.5,
-									"width": 136,
+									"width": 141,
 									"height": 25,
 									"autoResize": false,
 									"stereotypeLabel": {
@@ -11109,7 +11280,7 @@
 							"containerExtending": false,
 							"left": 584,
 							"top": 304,
-							"width": 192,
+							"width": 199,
 							"height": 35,
 							"autoResize": false,
 							"stereotypeDisplay": "label",
@@ -11197,13 +11368,13 @@
 											"showShadow": true,
 											"containerChangeable": false,
 											"containerExtending": false,
-											"left": 598,
+											"left": 599.5,
 											"top": 399.5,
-											"width": 186,
+											"width": 194,
 											"height": 13,
 											"autoResize": false,
 											"underline": false,
-											"text": "Update Thông Tin Hành Trình",
+											"text": "Update Information of Itinerary",
 											"horizontalAlignment": 2,
 											"verticalAlignment": 5
 										},
@@ -11266,9 +11437,9 @@
 									"showShadow": true,
 									"containerChangeable": false,
 									"containerExtending": false,
-									"left": 593,
+									"left": 594.5,
 									"top": 392.5,
-									"width": 197,
+									"width": 205,
 									"height": 25,
 									"autoResize": false,
 									"stereotypeLabel": {
@@ -11392,7 +11563,7 @@
 							"containerExtending": false,
 							"left": 552,
 							"top": 388,
-							"width": 278,
+							"width": 289,
 							"height": 35,
 							"autoResize": false,
 							"stereotypeDisplay": "label",
@@ -11486,7 +11657,7 @@
 											"height": 13,
 											"autoResize": false,
 											"underline": false,
-											"text": "Xóa Hành Trình",
+											"text": "Delete Itinerary",
 											"horizontalAlignment": 2,
 											"verticalAlignment": 5
 										},
@@ -11551,7 +11722,7 @@
 									"containerExtending": false,
 									"left": 631,
 									"top": 488.5,
-									"width": 109,
+									"width": 108,
 									"height": 25,
 									"autoResize": false,
 									"stereotypeLabel": {
@@ -11763,13 +11934,13 @@
 											"showShadow": true,
 											"containerChangeable": false,
 											"containerExtending": false,
-											"left": 594,
+											"left": 597,
 											"top": 227.5,
-											"width": 166,
+											"width": 181,
 											"height": 13,
 											"autoResize": false,
 											"underline": false,
-											"text": "Xen Thông Tin Hành Trinh",
+											"text": "View Information of Itinerary",
 											"horizontalAlignment": 2,
 											"verticalAlignment": 5
 										},
@@ -11832,9 +12003,9 @@
 									"showShadow": true,
 									"containerChangeable": false,
 									"containerExtending": false,
-									"left": 589,
+									"left": 592,
 									"top": 220.5,
-									"width": 177,
+									"width": 192,
 									"height": 25,
 									"autoResize": false,
 									"stereotypeLabel": {
@@ -11958,7 +12129,7 @@
 							"containerExtending": false,
 							"left": 552,
 							"top": 216,
-							"width": 250,
+							"width": 271,
 							"height": 35,
 							"autoResize": false,
 							"stereotypeDisplay": "label",
@@ -12015,7 +12186,7 @@
 									"showShadow": true,
 									"containerChangeable": false,
 									"containerExtending": false,
-									"left": 521,
+									"left": 526,
 									"top": 306,
 									"width": 0,
 									"height": 13,
@@ -12048,7 +12219,7 @@
 									"showShadow": true,
 									"containerChangeable": false,
 									"containerExtending": false,
-									"left": 501,
+									"left": 506,
 									"top": 320,
 									"width": 53,
 									"height": 13,
@@ -12082,7 +12253,7 @@
 									"showShadow": true,
 									"containerChangeable": false,
 									"containerExtending": false,
-									"left": 510,
+									"left": 515,
 									"top": 279,
 									"width": 0,
 									"height": 13,
@@ -12114,7 +12285,7 @@
 								"$ref": "AAAAAAFL4DKXoE4WBZE="
 							},
 							"lineStyle": 1,
-							"points": "632:251;400:347",
+							"points": "642:251;401:347",
 							"stereotypeDisplay": "label",
 							"showVisibility": true,
 							"showProperty": true,
@@ -12396,7 +12567,7 @@
 								"$ref": "AAAAAAFL4DI/SE2A9qo="
 							},
 							"lineStyle": 1,
-							"points": "551:388;453:377",
+							"points": "551:388;453:376",
 							"stereotypeDisplay": "label",
 							"showVisibility": true,
 							"showProperty": true,
@@ -12616,7 +12787,7 @@
 											"height": 13,
 											"autoResize": false,
 											"underline": false,
-											"text": "Tìm Kiếm Hành Trình",
+											"text": "Search Itinerary",
 											"horizontalAlignment": 2,
 											"verticalAlignment": 5
 										},
@@ -12681,7 +12852,7 @@
 									"containerExtending": false,
 									"left": 602.5,
 									"top": 588.5,
-									"width": 145,
+									"width": 144,
 									"height": 25,
 									"autoResize": false,
 									"stereotypeLabel": {
@@ -12983,7 +13154,7 @@
 					"_parent": {
 						"$ref": "AAAAAAFF+qBWK6M3Z8Y="
 					},
-					"name": "Tạo Mới Hành Trình",
+					"name": "Create New itinerary",
 					"ownedElements": [
 						{
 							"_type": "UMLExtend",
@@ -13011,7 +13182,7 @@
 					"_parent": {
 						"$ref": "AAAAAAFF+qBWK6M3Z8Y="
 					},
-					"name": "Update Thông Tin Hành Trình",
+					"name": "Update Information of Itinerary",
 					"ownedElements": [
 						{
 							"_type": "UMLExtend",
@@ -13039,7 +13210,7 @@
 					"_parent": {
 						"$ref": "AAAAAAFF+qBWK6M3Z8Y="
 					},
-					"name": "Xóa Hành Trình",
+					"name": "Delete Itinerary",
 					"ownedElements": [
 						{
 							"_type": "UMLExtend",
@@ -13067,7 +13238,7 @@
 					"_parent": {
 						"$ref": "AAAAAAFF+qBWK6M3Z8Y="
 					},
-					"name": "Xen Thông Tin Hành Trinh",
+					"name": "View Information of Itinerary",
 					"ownedElements": [
 						{
 							"_type": "UMLExtend",
@@ -13095,7 +13266,7 @@
 					"_parent": {
 						"$ref": "AAAAAAFF+qBWK6M3Z8Y="
 					},
-					"name": "Xem Thông Tin",
+					"name": "View Customer's Information",
 					"ownedElements": [
 						{
 							"_type": "UMLExtend",
@@ -13448,7 +13619,7 @@
 											"height": 13,
 											"autoResize": false,
 											"underline": false,
-											"text": "Quản Lý Feedback",
+											"text": "Manage Feedback",
 											"horizontalAlignment": 2,
 											"verticalAlignment": 5
 										},
@@ -13513,7 +13684,7 @@
 									"containerExtending": false,
 									"left": 343,
 									"top": 292.5,
-									"width": 129,
+									"width": 128,
 									"height": 25,
 									"autoResize": false,
 									"stereotypeLabel": {
@@ -14139,7 +14310,7 @@
 											"height": 13,
 											"autoResize": false,
 											"underline": false,
-											"text": "Xem Feedback",
+											"text": "View Feedback",
 											"horizontalAlignment": 2,
 											"verticalAlignment": 5
 										},
@@ -14204,7 +14375,7 @@
 									"containerExtending": false,
 									"left": 622.5,
 									"top": 192.5,
-									"width": 107,
+									"width": 108,
 									"height": 25,
 									"autoResize": false,
 									"stereotypeLabel": {
@@ -14422,7 +14593,7 @@
 											"height": 13,
 											"autoResize": false,
 											"underline": false,
-											"text": "Gửi Response",
+											"text": "Send Response",
 											"horizontalAlignment": 2,
 											"verticalAlignment": 5
 										},
@@ -14487,7 +14658,7 @@
 									"containerExtending": false,
 									"left": 622.5,
 									"top": 292.5,
-									"width": 107,
+									"width": 108,
 									"height": 25,
 									"autoResize": false,
 									"stereotypeLabel": {
@@ -14705,7 +14876,7 @@
 											"height": 13,
 											"autoResize": false,
 											"underline": false,
-											"text": "Xóa Feedback",
+											"text": "Delete Feedback",
 											"horizontalAlignment": 2,
 											"verticalAlignment": 5
 										},
@@ -14770,7 +14941,7 @@
 									"containerExtending": false,
 									"left": 624.5,
 									"top": 392.5,
-									"width": 116,
+									"width": 117,
 									"height": 25,
 									"autoResize": false,
 									"stereotypeLabel": {
@@ -15354,7 +15525,7 @@
 					"_parent": {
 						"$ref": "AAAAAAFF+qBWK6M3Z8Y="
 					},
-					"name": "Xem Feedback",
+					"name": "View Feedback",
 					"ownedElements": [
 						{
 							"_type": "UMLExtend",
@@ -15382,7 +15553,7 @@
 					"_parent": {
 						"$ref": "AAAAAAFF+qBWK6M3Z8Y="
 					},
-					"name": "Gửi Response",
+					"name": "Send Response",
 					"ownedElements": [
 						{
 							"_type": "UMLExtend",
@@ -15410,7 +15581,7 @@
 					"_parent": {
 						"$ref": "AAAAAAFF+qBWK6M3Z8Y="
 					},
-					"name": "Xóa Feedback",
+					"name": "Delete Feedback",
 					"ownedElements": [
 						{
 							"_type": "UMLExtend",
@@ -16722,7 +16893,7 @@
 											"height": 13,
 											"autoResize": false,
 											"underline": false,
-											"text": "Quản Lý Staff",
+											"text": "Manage Staff",
 											"horizontalAlignment": 2,
 											"verticalAlignment": 5
 										},
@@ -16787,7 +16958,7 @@
 									"containerExtending": false,
 									"left": 272,
 									"top": 312.5,
-									"width": 96,
+									"width": 95,
 									"height": 25,
 									"autoResize": false,
 									"stereotypeLabel": {
@@ -17407,13 +17578,13 @@
 											"showShadow": true,
 											"containerChangeable": false,
 											"containerExtending": false,
-											"left": 510,
+											"left": 514.5,
 											"top": 135.5,
-											"width": 129,
+											"width": 150,
 											"height": 13,
 											"autoResize": false,
 											"underline": false,
-											"text": "Xem Thông Tin Staff",
+											"text": "View Staff's Information",
 											"horizontalAlignment": 2,
 											"verticalAlignment": 5
 										},
@@ -17476,9 +17647,9 @@
 									"showShadow": true,
 									"containerChangeable": false,
 									"containerExtending": false,
-									"left": 505,
+									"left": 509.5,
 									"top": 128.5,
-									"width": 140,
+									"width": 161,
 									"height": 25,
 									"autoResize": false,
 									"stereotypeLabel": {
@@ -17602,7 +17773,7 @@
 							"containerExtending": false,
 							"left": 476,
 							"top": 124,
-							"width": 197,
+							"width": 227,
 							"height": 35,
 							"autoResize": false,
 							"stereotypeDisplay": "label",
@@ -17690,13 +17861,13 @@
 											"showShadow": true,
 											"containerChangeable": false,
 											"containerExtending": false,
-											"left": 513,
+											"left": 517.5,
 											"top": 251.5,
-											"width": 85,
+											"width": 106,
 											"height": 13,
 											"autoResize": false,
 											"underline": false,
-											"text": "Tạo mới Staff",
+											"text": "Create New Staff",
 											"horizontalAlignment": 2,
 											"verticalAlignment": 5
 										},
@@ -17759,9 +17930,9 @@
 									"showShadow": true,
 									"containerChangeable": false,
 									"containerExtending": false,
-									"left": 508,
+									"left": 512.5,
 									"top": 244.5,
-									"width": 96,
+									"width": 117,
 									"height": 25,
 									"autoResize": false,
 									"stereotypeLabel": {
@@ -17885,7 +18056,7 @@
 							"containerExtending": false,
 							"left": 488,
 							"top": 240,
-							"width": 135,
+							"width": 165,
 							"height": 35,
 							"autoResize": false,
 							"stereotypeDisplay": "label",
@@ -17973,13 +18144,13 @@
 											"showShadow": true,
 											"containerChangeable": false,
 											"containerExtending": false,
-											"left": 504.5,
+											"left": 509.5,
 											"top": 339.5,
-											"width": 141,
+											"width": 163,
 											"height": 13,
 											"autoResize": false,
 											"underline": false,
-											"text": "Update thông TIn Staff",
+											"text": "Update Staff's Information",
 											"horizontalAlignment": 2,
 											"verticalAlignment": 5
 										},
@@ -18042,9 +18213,9 @@
 									"showShadow": true,
 									"containerChangeable": false,
 									"containerExtending": false,
-									"left": 499.5,
+									"left": 504.5,
 									"top": 332.5,
-									"width": 152,
+									"width": 174,
 									"height": 25,
 									"autoResize": false,
 									"stereotypeLabel": {
@@ -18168,7 +18339,7 @@
 							"containerExtending": false,
 							"left": 468,
 							"top": 328,
-							"width": 214,
+							"width": 246,
 							"height": 35,
 							"autoResize": false,
 							"stereotypeDisplay": "label",
@@ -18262,7 +18433,7 @@
 											"height": 13,
 											"autoResize": false,
 											"underline": false,
-											"text": "Xóa Staff",
+											"text": "Delete Staff",
 											"horizontalAlignment": 2,
 											"verticalAlignment": 5
 										},
@@ -18327,7 +18498,7 @@
 									"containerExtending": false,
 									"left": 505.5,
 									"top": 424.5,
-									"width": 83,
+									"width": 84,
 									"height": 25,
 									"autoResize": false,
 									"stereotypeLabel": {
@@ -18508,7 +18679,7 @@
 									"showShadow": true,
 									"containerChangeable": false,
 									"containerExtending": false,
-									"left": 454,
+									"left": 462,
 									"top": 239,
 									"width": 0,
 									"height": 13,
@@ -18541,7 +18712,7 @@
 									"showShadow": true,
 									"containerChangeable": false,
 									"containerExtending": false,
-									"left": 419,
+									"left": 428,
 									"top": 203,
 									"width": 53,
 									"height": 13,
@@ -18575,7 +18746,7 @@
 									"showShadow": true,
 									"containerChangeable": false,
 									"containerExtending": false,
-									"left": 437,
+									"left": 445,
 									"top": 214,
 									"width": 0,
 									"height": 13,
@@ -18607,7 +18778,7 @@
 								"$ref": "AAAAAAFL4DaWU1RyKSw="
 							},
 							"lineStyle": 1,
-							"points": "549:159;344:307",
+							"points": "563:159;345:307",
 							"stereotypeDisplay": "label",
 							"showVisibility": true,
 							"showProperty": true,
@@ -18649,7 +18820,7 @@
 									"showShadow": true,
 									"containerChangeable": false,
 									"containerExtending": false,
-									"left": 441,
+									"left": 447,
 									"top": 299,
 									"width": 0,
 									"height": 13,
@@ -18682,7 +18853,7 @@
 									"showShadow": true,
 									"containerChangeable": false,
 									"containerExtending": false,
-									"left": 409,
+									"left": 416,
 									"top": 271,
 									"width": 53,
 									"height": 13,
@@ -18716,7 +18887,7 @@
 									"showShadow": true,
 									"containerChangeable": false,
 									"containerExtending": false,
-									"left": 432,
+									"left": 440,
 									"top": 270,
 									"width": 0,
 									"height": 13,
@@ -18748,7 +18919,7 @@
 								"$ref": "AAAAAAFL4DbEClS92w0="
 							},
 							"lineStyle": 1,
-							"points": "493:275;381:307",
+							"points": "504:275;385:307",
 							"stereotypeDisplay": "label",
 							"showVisibility": true,
 							"showProperty": true,
@@ -18889,7 +19060,7 @@
 								"$ref": "AAAAAAFL4Dbl8lUIZHc="
 							},
 							"lineStyle": 1,
-							"points": "467:337;387:330",
+							"points": "467:336;387:330",
 							"stereotypeDisplay": "label",
 							"showVisibility": true,
 							"showProperty": true,
@@ -19109,7 +19280,7 @@
 											"height": 13,
 											"autoResize": false,
 											"underline": false,
-											"text": "Tìm Kiếm Staff",
+											"text": "Search Staff",
 											"horizontalAlignment": 2,
 											"verticalAlignment": 5
 										},
@@ -19174,7 +19345,7 @@
 									"containerExtending": false,
 									"left": 490,
 									"top": 516.5,
-									"width": 104,
+									"width": 103,
 									"height": 25,
 									"autoResize": false,
 									"stereotypeLabel": {
@@ -19476,7 +19647,7 @@
 					"_parent": {
 						"$ref": "AAAAAAFF+qBWK6M3Z8Y="
 					},
-					"name": "Xem Thông Tin Staff",
+					"name": "View Staff's Information",
 					"ownedElements": [
 						{
 							"_type": "UMLExtend",
@@ -19504,7 +19675,7 @@
 					"_parent": {
 						"$ref": "AAAAAAFF+qBWK6M3Z8Y="
 					},
-					"name": "Tạo mới Staff",
+					"name": "Create New Staff",
 					"ownedElements": [
 						{
 							"_type": "UMLExtend",
@@ -19532,7 +19703,7 @@
 					"_parent": {
 						"$ref": "AAAAAAFF+qBWK6M3Z8Y="
 					},
-					"name": "Update thông TIn Staff",
+					"name": "Update Staff's Information",
 					"ownedElements": [
 						{
 							"_type": "UMLExtend",
@@ -19560,7 +19731,7 @@
 					"_parent": {
 						"$ref": "AAAAAAFF+qBWK6M3Z8Y="
 					},
-					"name": "Xóa Staff",
+					"name": "Delete Staff",
 					"ownedElements": [
 						{
 							"_type": "UMLExtend",
@@ -19913,7 +20084,7 @@
 											"height": 13,
 											"autoResize": false,
 											"underline": false,
-											"text": "Báo Cáo Thống Kê",
+											"text": "Report",
 											"horizontalAlignment": 2,
 											"verticalAlignment": 5
 										},
@@ -20970,7 +21141,7 @@
 					"_parent": {
 						"$ref": "AAAAAAFF+qBWK6M3Z8Y="
 					},
-					"name": "Tìm Kiếm Thành Viên",
+					"name": "Search Customer",
 					"ownedElements": [
 						{
 							"_type": "UMLExtend",
@@ -20998,7 +21169,7 @@
 					"_parent": {
 						"$ref": "AAAAAAFF+qBWK6M3Z8Y="
 					},
-					"name": "Tìm Kiếm Hành Trình",
+					"name": "Search Itinerary",
 					"ownedElements": [
 						{
 							"_type": "UMLExtend",
@@ -21026,7 +21197,7 @@
 					"_parent": {
 						"$ref": "AAAAAAFF+qBWK6M3Z8Y="
 					},
-					"name": "Tìm Kiếm Staff",
+					"name": "Search Staff",
 					"ownedElements": [
 						{
 							"_type": "UMLExtend",
@@ -21082,7 +21253,7 @@
 					"_parent": {
 						"$ref": "AAAAAAFF+qBWK6M3Z8Y="
 					},
-					"name": "Quản Lý Tài Xế",
+					"name": "Manage Driver",
 					"ownedElements": [
 						{
 							"_type": "UMLAssociation",
@@ -21466,7 +21637,7 @@
 											"height": 13,
 											"autoResize": false,
 											"underline": false,
-											"text": "Quản Lý Tài Xế",
+											"text": "Manage Driver",
 											"horizontalAlignment": 2,
 											"verticalAlignment": 5
 										},
@@ -21531,7 +21702,7 @@
 									"containerExtending": false,
 									"left": 270.5,
 									"top": 248.5,
-									"width": 108,
+									"width": 107,
 									"height": 25,
 									"autoResize": false,
 									"stereotypeLabel": {
@@ -22151,13 +22322,13 @@
 											"showShadow": true,
 											"containerChangeable": false,
 											"containerExtending": false,
-											"left": 540.5,
+											"left": 544.5,
 											"top": 127.5,
-											"width": 141,
+											"width": 159,
 											"height": 13,
 											"autoResize": false,
 											"underline": false,
-											"text": "Xem Thông Tin Tài Xế",
+											"text": "View Driver's Information",
 											"horizontalAlignment": 2,
 											"verticalAlignment": 5
 										},
@@ -22220,9 +22391,9 @@
 									"showShadow": true,
 									"containerChangeable": false,
 									"containerExtending": false,
-									"left": 535.5,
+									"left": 539.5,
 									"top": 120.5,
-									"width": 152,
+									"width": 170,
 									"height": 25,
 									"autoResize": false,
 									"stereotypeLabel": {
@@ -22346,7 +22517,7 @@
 							"containerExtending": false,
 							"left": 504,
 							"top": 116,
-							"width": 214,
+							"width": 240,
 							"height": 35,
 							"autoResize": false,
 							"stereotypeDisplay": "label",
@@ -22434,13 +22605,13 @@
 											"showShadow": true,
 											"containerChangeable": false,
 											"containerExtending": false,
-											"left": 555.5,
+											"left": 559.5,
 											"top": 287.5,
-											"width": 96,
+											"width": 115,
 											"height": 13,
 											"autoResize": false,
 											"underline": false,
-											"text": "Tạo Mới Tài Xế",
+											"text": "Create New Driver",
 											"horizontalAlignment": 2,
 											"verticalAlignment": 5
 										},
@@ -22503,9 +22674,9 @@
 									"showShadow": true,
 									"containerChangeable": false,
 									"containerExtending": false,
-									"left": 550.5,
+									"left": 554.5,
 									"top": 280.5,
-									"width": 107,
+									"width": 126,
 									"height": 25,
 									"autoResize": false,
 									"stereotypeLabel": {
@@ -22629,7 +22800,7 @@
 							"containerExtending": false,
 							"left": 528,
 							"top": 276,
-							"width": 151,
+							"width": 178,
 							"height": 35,
 							"autoResize": false,
 							"stereotypeDisplay": "label",
@@ -22717,13 +22888,13 @@
 											"showShadow": true,
 											"containerChangeable": false,
 											"containerExtending": false,
-											"left": 570,
+											"left": 572.5,
 											"top": 379.5,
-											"width": 69,
+											"width": 82,
 											"height": 13,
 											"autoResize": false,
 											"underline": false,
-											"text": "Xóa Tài Xế",
+											"text": "Delete Driver",
 											"horizontalAlignment": 2,
 											"verticalAlignment": 5
 										},
@@ -22786,9 +22957,9 @@
 									"showShadow": true,
 									"containerChangeable": false,
 									"containerExtending": false,
-									"left": 565,
+									"left": 567.5,
 									"top": 372.5,
-									"width": 80,
+									"width": 93,
 									"height": 25,
 									"autoResize": false,
 									"stereotypeLabel": {
@@ -22912,7 +23083,7 @@
 							"containerExtending": false,
 							"left": 548,
 							"top": 368,
-							"width": 113,
+							"width": 131,
 							"height": 35,
 							"autoResize": false,
 							"stereotypeDisplay": "label",
@@ -23000,13 +23171,13 @@
 											"showShadow": true,
 											"containerChangeable": false,
 											"containerExtending": false,
-											"left": 554.5,
+											"left": 555,
 											"top": 219.5,
-											"width": 170,
+											"width": 172,
 											"height": 13,
 											"autoResize": false,
 											"underline": false,
-											"text": "Cập Nhật Thông Tin Tài Xế",
+											"text": "Update Driver's Information",
 											"horizontalAlignment": 2,
 											"verticalAlignment": 5
 										},
@@ -23069,9 +23240,9 @@
 									"showShadow": true,
 									"containerChangeable": false,
 									"containerExtending": false,
-									"left": 549.5,
+									"left": 550,
 									"top": 212.5,
-									"width": 181,
+									"width": 183,
 									"height": 25,
 									"autoResize": false,
 									"stereotypeLabel": {
@@ -23195,7 +23366,7 @@
 							"containerExtending": false,
 							"left": 512,
 							"top": 208,
-							"width": 255,
+							"width": 258,
 							"height": 35,
 							"autoResize": false,
 							"stereotypeDisplay": "label",
@@ -23289,7 +23460,7 @@
 											"height": 13,
 											"autoResize": false,
 											"underline": false,
-											"text": "Tìm Kiếm Tài Xế",
+											"text": "Search Driver",
 											"horizontalAlignment": 2,
 											"verticalAlignment": 5
 										},
@@ -23354,7 +23525,7 @@
 									"containerExtending": false,
 									"left": 548.5,
 									"top": 448.5,
-									"width": 116,
+									"width": 115,
 									"height": 25,
 									"autoResize": false,
 									"stereotypeLabel": {
@@ -23634,7 +23805,7 @@
 								"$ref": "AAAAAAFMZp6zbZkKOrU="
 							},
 							"lineStyle": 1,
-							"points": "570:151;363:243",
+							"points": "581:151;365:243",
 							"stereotypeDisplay": "label",
 							"showVisibility": true,
 							"showProperty": true,
@@ -23916,7 +24087,7 @@
 								"$ref": "AAAAAAFMZp8ErJloLf4="
 							},
 							"lineStyle": 1,
-							"points": "527:284;400:270",
+							"points": "527:283;400:269",
 							"stereotypeDisplay": "label",
 							"showVisibility": true,
 							"showProperty": true,
@@ -24057,7 +24228,7 @@
 								"$ref": "AAAAAAFMZp80M5mzRHE="
 							},
 							"lineStyle": 1,
-							"points": "563:367;364:279",
+							"points": "571:367;365:279",
 							"stereotypeDisplay": "label",
 							"showVisibility": true,
 							"showProperty": true,
@@ -24220,7 +24391,7 @@
 					"_parent": {
 						"$ref": "AAAAAAFF+qBWK6M3Z8Y="
 					},
-					"name": "Xem Thông Tin Tài Xế",
+					"name": "View Driver's Information",
 					"ownedElements": [
 						{
 							"_type": "UMLExtend",
@@ -24248,7 +24419,7 @@
 					"_parent": {
 						"$ref": "AAAAAAFF+qBWK6M3Z8Y="
 					},
-					"name": "Tạo Mới Tài Xế",
+					"name": "Create New Driver",
 					"ownedElements": [
 						{
 							"_type": "UMLExtend",
@@ -24276,7 +24447,7 @@
 					"_parent": {
 						"$ref": "AAAAAAFF+qBWK6M3Z8Y="
 					},
-					"name": "Xóa Tài Xế",
+					"name": "Delete Driver",
 					"ownedElements": [
 						{
 							"_type": "UMLExtend",
@@ -24304,7 +24475,7 @@
 					"_parent": {
 						"$ref": "AAAAAAFF+qBWK6M3Z8Y="
 					},
-					"name": "Cập Nhật Thông Tin Tài Xế",
+					"name": "Update Driver's Information",
 					"ownedElements": [
 						{
 							"_type": "UMLExtend",
@@ -24332,7 +24503,7 @@
 					"_parent": {
 						"$ref": "AAAAAAFF+qBWK6M3Z8Y="
 					},
-					"name": "Tìm Kiếm Tài Xế",
+					"name": "Search Driver",
 					"ownedElements": [
 						{
 							"_type": "UMLExtend",
@@ -24353,6 +24524,15 @@
 					"isAbstract": false,
 					"isFinalSpecialization": false,
 					"isLeaf": false
+				},
+				{
+					"_type": "UMLUseCaseSubject",
+					"_id": "AAAAAAFNFsT1VRkxiVE=",
+					"_parent": {
+						"$ref": "AAAAAAFF+qBWK6M3Z8Y="
+					},
+					"name": "System",
+					"visibility": "public"
 				}
 			],
 			"visibility": "public"

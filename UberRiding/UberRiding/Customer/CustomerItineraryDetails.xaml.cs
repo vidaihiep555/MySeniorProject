@@ -56,6 +56,7 @@ namespace UberRiding.Customer
                 Grid.SetRow(btnDelete, 6);
 
                 //chinh sua tren map
+                mapItineraryDetails.Tap += mapItineraryDetails_Tap;
             }
             //hanh trinh da dc accept
             else if (GlobalData.selectedItinerary.status.Equals(Global.GlobalData.ITINERARY_STATUS_ACCEPTED))
@@ -75,12 +76,18 @@ namespace UberRiding.Customer
                 btnReject.Click += btnReject_Click;
                 gridInfo.Children.Add(btnReject);
                 Grid.SetRow(btnReject, 6);*/
+
+
+                //tracking
+
             }
             //hanh trinh ongoing
             else if (GlobalData.selectedItinerary.status.Equals(Global.GlobalData.ITINERARY_STATUS_ONGOING))
             {
                 txtItineraryInfo.Text = "Itinerary Ongoing";
-                // 
+                // tracking
+ 
+
             }
             //hanh trinh da ket thuc
             else if (GlobalData.selectedItinerary.status.Equals(Global.GlobalData.ITINERARY_STATUS_FINISHED))
@@ -246,18 +253,6 @@ namespace UberRiding.Customer
 
         }
 
-        /*private async void btnAccept_Click(object sender, RoutedEventArgs e)
-        {
-            Dictionary<string, string> postData = new Dictionary<string, string>();
-            HttpFormUrlEncodedContent content =
-                new HttpFormUrlEncodedContent(postData);
-            var result = await Request.RequestToServer.sendPutRequest("driver_accept_itinerary/" + GlobalData.selectedItinerary.itinerary_id, content);
-            JObject jsonObject = JObject.Parse(result);
-            MessageBox.Show(jsonObject.Value<string>("message"));
-            //do something
-
-        }*/
-
         private async void btnDelete_Click(object sender, RoutedEventArgs e)
         {
             //delete itinerary
@@ -309,7 +304,7 @@ namespace UberRiding.Customer
             }
         }
 
-        /*private void mapItineraryDetails_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+        private void mapItineraryDetails_Tap(object sender, System.Windows.Input.GestureEventArgs e)
         {
             if (endPointOverlay != null)
             {
@@ -332,7 +327,7 @@ namespace UberRiding.Customer
             geoQ.GeoCoordinate = asd;
 
             geoQ.QueryAsync();
-        }*/
+        }
 
         private void menuPostItinerary_Click(object sender, EventArgs e)
         {

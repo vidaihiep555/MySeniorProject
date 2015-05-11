@@ -86,7 +86,7 @@
 											"height": 13,
 											"autoResize": false,
 											"underline": false,
-											"text": "Thành Viên",
+											"text": "Customer",
 											"horizontalAlignment": 2,
 											"verticalAlignment": 5
 										},
@@ -342,7 +342,7 @@
 											"height": 13,
 											"autoResize": false,
 											"underline": false,
-											"text": "Đăng Nhập",
+											"text": "Login",
 											"horizontalAlignment": 2,
 											"verticalAlignment": 5
 										},
@@ -1036,7 +1036,7 @@
 											"height": 13,
 											"autoResize": false,
 											"underline": false,
-											"text": "Quên Mật Khẩu",
+											"text": "Forgot Password",
 											"horizontalAlignment": 2,
 											"verticalAlignment": 5
 										},
@@ -1101,7 +1101,7 @@
 									"containerExtending": false,
 									"left": 192.5,
 									"top": 224.5,
-									"width": 115,
+									"width": 116,
 									"height": 25,
 									"autoResize": false,
 									"stereotypeLabel": {
@@ -1403,7 +1403,7 @@
 					"_parent": {
 						"$ref": "AAAAAAFF+qBWK6M3Z8Y="
 					},
-					"name": "Thành Viên",
+					"name": "Customer",
 					"ownedElements": [
 						{
 							"_type": "UMLAssociation",
@@ -1867,7 +1867,7 @@
 					"_parent": {
 						"$ref": "AAAAAAFF+qBWK6M3Z8Y="
 					},
-					"name": "Đăng Nhập",
+					"name": "Login",
 					"ownedElements": [
 						{
 							"_type": "UMLExtend",
@@ -1964,7 +1964,7 @@
 											"height": 13,
 											"autoResize": false,
 											"underline": false,
-											"text": "Thành Viên",
+											"text": "Customer",
 											"horizontalAlignment": 2,
 											"verticalAlignment": 5
 										},
@@ -2220,7 +2220,7 @@
 											"height": 13,
 											"autoResize": false,
 											"underline": false,
-											"text": "Đăng Nhập",
+											"text": "Login",
 											"horizontalAlignment": 2,
 											"verticalAlignment": 5
 										},
@@ -2503,7 +2503,7 @@
 											"height": 13,
 											"autoResize": false,
 											"underline": false,
-											"text": "Tài Xế",
+											"text": "Driver",
 											"horizontalAlignment": 2,
 											"verticalAlignment": 5
 										},
@@ -2753,13 +2753,13 @@
 											"showShadow": true,
 											"containerChangeable": false,
 											"containerExtending": false,
-											"left": 422.5,
+											"left": 424,
 											"top": 1143.5,
-											"width": 130,
+											"width": 138,
 											"height": 13,
 											"autoResize": false,
 											"underline": false,
-											"text": "Đăng Kí Tài Khoản",
+											"text": "Register New Account",
 											"horizontalAlignment": 2,
 											"verticalAlignment": 5
 										},
@@ -2822,9 +2822,9 @@
 									"showShadow": true,
 									"containerChangeable": false,
 									"containerExtending": false,
-									"left": 417.5,
+									"left": 419,
 									"top": 1136.5,
-									"width": 140,
+									"width": 149,
 									"height": 25,
 									"autoResize": false,
 									"stereotypeLabel": {
@@ -2948,7 +2948,7 @@
 							"containerExtending": false,
 							"left": 388,
 							"top": 1132,
-							"width": 199,
+							"width": 210,
 							"height": 35,
 							"autoResize": false,
 							"stereotypeDisplay": "label",
@@ -3042,7 +3042,7 @@
 											"height": 13,
 											"autoResize": false,
 											"underline": false,
-											"text": "Quản Lý Tài Khoản",
+											"text": "Manage Account",
 											"horizontalAlignment": 2,
 											"verticalAlignment": 5
 										},
@@ -3107,7 +3107,7 @@
 									"containerExtending": false,
 									"left": 447.5,
 									"top": 624.5,
-									"width": 132,
+									"width": 131,
 									"height": 25,
 									"autoResize": false,
 									"stereotypeLabel": {
@@ -3730,13 +3730,13 @@
 											"showShadow": true,
 											"containerChangeable": false,
 											"containerExtending": false,
-											"left": 455,
+											"left": 456,
 											"top": 727.5,
-											"width": 94,
+											"width": 98,
 											"height": 13,
 											"autoResize": false,
 											"underline": false,
-											"text": "Gửi Feedback",
+											"text": "Send Feedback",
 											"horizontalAlignment": 2,
 											"verticalAlignment": 5
 										},
@@ -3799,9 +3799,9 @@
 									"showShadow": true,
 									"containerChangeable": false,
 									"containerExtending": false,
-									"left": 450,
+									"left": 451,
 									"top": 720.5,
-									"width": 104,
+									"width": 109,
 									"height": 25,
 									"autoResize": false,
 									"stereotypeLabel": {
@@ -3925,7 +3925,7 @@
 							"containerExtending": false,
 							"left": 428,
 							"top": 716,
-							"width": 148,
+							"width": 154,
 							"height": 35,
 							"autoResize": false,
 							"stereotypeDisplay": "label",
@@ -3983,7 +3983,7 @@
 									"containerChangeable": false,
 									"containerExtending": false,
 									"left": 279,
-									"top": 681,
+									"top": 680,
 									"width": 0,
 									"height": 13,
 									"autoResize": false,
@@ -4016,7 +4016,7 @@
 									"containerChangeable": false,
 									"containerExtending": false,
 									"left": 281,
-									"top": 666,
+									"top": 665,
 									"width": 0,
 									"height": 13,
 									"autoResize": false,
@@ -4049,7 +4049,7 @@
 									"containerChangeable": false,
 									"containerExtending": false,
 									"left": 274,
-									"top": 710,
+									"top": 709,
 									"width": 0,
 									"height": 13,
 									"autoResize": false,
@@ -4181,7 +4181,7 @@
 									"containerChangeable": false,
 									"containerExtending": false,
 									"left": 403,
-									"top": 698,
+									"top": 697,
 									"width": 0,
 									"height": 13,
 									"autoResize": false,
@@ -4214,7 +4214,7 @@
 									"containerChangeable": false,
 									"containerExtending": false,
 									"left": 402,
-									"top": 685,
+									"top": 684,
 									"width": 0,
 									"height": 13,
 									"autoResize": false,
@@ -4247,7 +4247,7 @@
 									"containerChangeable": false,
 									"containerExtending": false,
 									"left": 403,
-									"top": 726,
+									"top": 725,
 									"width": 0,
 									"height": 13,
 									"autoResize": false,
@@ -4326,7 +4326,7 @@
 								"$ref": "AAAAAAFL4Po7X1VxzII="
 							},
 							"lineStyle": 1,
-							"points": "127:681;427:723",
+							"points": "127:681;427:722",
 							"stereotypeDisplay": "label",
 							"showVisibility": true,
 							"showProperty": true,
@@ -4430,7 +4430,7 @@
 											"height": 13,
 											"autoResize": false,
 											"underline": false,
-											"text": "Gọi Xe",
+											"text": "Call Driver",
 											"horizontalAlignment": 2,
 											"verticalAlignment": 5
 										},
@@ -5118,13 +5118,13 @@
 											"showShadow": true,
 											"containerChangeable": false,
 											"containerExtending": false,
-											"left": 438,
+											"left": 440.5,
 											"top": 799.5,
-											"width": 148,
+											"width": 159,
 											"height": 13,
 											"autoResize": false,
 											"underline": false,
-											"text": "Xem thông tin tài xế",
+											"text": "View Driver's Information",
 											"horizontalAlignment": 2,
 											"verticalAlignment": 5
 										},
@@ -5187,9 +5187,9 @@
 									"showShadow": true,
 									"containerChangeable": false,
 									"containerExtending": false,
-									"left": 433,
+									"left": 435.5,
 									"top": 792.5,
-									"width": 158,
+									"width": 170,
 									"height": 25,
 									"autoResize": false,
 									"stereotypeLabel": {
@@ -5313,7 +5313,7 @@
 							"containerExtending": false,
 							"left": 400,
 							"top": 788,
-							"width": 224,
+							"width": 240,
 							"height": 35,
 							"autoResize": false,
 							"stereotypeDisplay": "label",
@@ -5370,7 +5370,7 @@
 									"showShadow": true,
 									"containerChangeable": false,
 									"containerExtending": false,
-									"left": 293,
+									"left": 297,
 									"top": 716,
 									"width": 0,
 									"height": 13,
@@ -5403,7 +5403,7 @@
 									"showShadow": true,
 									"containerChangeable": false,
 									"containerExtending": false,
-									"left": 297,
+									"left": 301,
 									"top": 702,
 									"width": 0,
 									"height": 13,
@@ -5436,7 +5436,7 @@
 									"showShadow": true,
 									"containerChangeable": false,
 									"containerExtending": false,
-									"left": 284,
+									"left": 288,
 									"top": 745,
 									"width": 0,
 									"height": 13,
@@ -5503,7 +5503,7 @@
 									"containerChangeable": false,
 									"containerExtending": false,
 									"left": 162,
-									"top": 663,
+									"top": 662,
 									"width": 0,
 									"height": 13,
 									"autoResize": false,
@@ -5568,7 +5568,7 @@
 									"showShadow": true,
 									"containerChangeable": false,
 									"containerExtending": false,
-									"left": 431,
+									"left": 438,
 									"top": 759,
 									"width": 0,
 									"height": 13,
@@ -5601,7 +5601,7 @@
 									"showShadow": true,
 									"containerChangeable": false,
 									"containerExtending": false,
-									"left": 433,
+									"left": 439,
 									"top": 745,
 									"width": 0,
 									"height": 13,
@@ -5634,7 +5634,7 @@
 									"showShadow": true,
 									"containerChangeable": false,
 									"containerExtending": false,
-									"left": 427,
+									"left": 434,
 									"top": 786,
 									"width": 0,
 									"height": 13,
@@ -5714,7 +5714,7 @@
 								"$ref": "AAAAAAFL4Po7X1VxzII="
 							},
 							"lineStyle": 1,
-							"points": "127:688;452:787",
+							"points": "127:688;459:787",
 							"stereotypeDisplay": "label",
 							"showVisibility": true,
 							"showProperty": true,
@@ -5818,7 +5818,7 @@
 											"height": 13,
 											"autoResize": false,
 											"underline": false,
-											"text": "Báo Cáo Thống Kê",
+											"text": "Report",
 											"horizontalAlignment": 2,
 											"verticalAlignment": 5
 										},
@@ -6923,7 +6923,7 @@
 											"height": 13,
 											"autoResize": false,
 											"underline": false,
-											"text": "Quản lý hành trình",
+											"text": "Manage Itinerary",
 											"horizontalAlignment": 2,
 											"verticalAlignment": 5
 										},
@@ -7587,8 +7587,8 @@
 											"showShadow": true,
 											"containerChangeable": false,
 											"containerExtending": false,
-											"left": 0,
-											"top": 0,
+											"left": -540,
+											"top": -276,
 											"width": 0,
 											"height": 13,
 											"autoResize": false,
@@ -7611,13 +7611,13 @@
 											"showShadow": true,
 											"containerChangeable": false,
 											"containerExtending": false,
-											"left": 832,
-											"top": 587.5,
-											"width": 99,
+											"left": 652.5,
+											"top": 495.5,
+											"width": 102,
 											"height": 13,
 											"autoResize": false,
 											"underline": false,
-											"text": "Quản lý xe máy",
+											"text": "Manage Vehicle",
 											"horizontalAlignment": 2,
 											"verticalAlignment": 5
 										},
@@ -7636,8 +7636,8 @@
 											"showShadow": true,
 											"containerChangeable": false,
 											"containerExtending": false,
-											"left": 0,
-											"top": 0,
+											"left": -540,
+											"top": -276,
 											"width": 72,
 											"height": 13,
 											"autoResize": false,
@@ -7661,8 +7661,8 @@
 											"showShadow": true,
 											"containerChangeable": false,
 											"containerExtending": false,
-											"left": 0,
-											"top": 0,
+											"left": -540,
+											"top": -276,
 											"width": 0,
 											"height": 13,
 											"autoResize": false,
@@ -7680,9 +7680,9 @@
 									"showShadow": true,
 									"containerChangeable": false,
 									"containerExtending": false,
-									"left": 827,
-									"top": 580.5,
-									"width": 110,
+									"left": 647.5,
+									"top": 488.5,
+									"width": 113,
 									"height": 25,
 									"autoResize": false,
 									"stereotypeLabel": {
@@ -7716,8 +7716,8 @@
 									"showShadow": true,
 									"containerChangeable": false,
 									"containerExtending": false,
-									"left": 0,
-									"top": 0,
+									"left": -360,
+									"top": -184,
 									"width": 10,
 									"height": 10,
 									"autoResize": false
@@ -7740,8 +7740,8 @@
 									"showShadow": true,
 									"containerChangeable": false,
 									"containerExtending": false,
-									"left": 0,
-									"top": 0,
+									"left": -360,
+									"top": -184,
 									"width": 10,
 									"height": 10,
 									"autoResize": false
@@ -7764,8 +7764,8 @@
 									"showShadow": true,
 									"containerChangeable": false,
 									"containerExtending": false,
-									"left": 0,
-									"top": 0,
+									"left": -360,
+									"top": -184,
 									"width": 10,
 									"height": 10,
 									"autoResize": false
@@ -7788,8 +7788,8 @@
 									"showShadow": true,
 									"containerChangeable": false,
 									"containerExtending": false,
-									"left": 0,
-									"top": 0,
+									"left": -360,
+									"top": -184,
 									"width": 10,
 									"height": 10,
 									"autoResize": false
@@ -7804,9 +7804,9 @@
 							"showShadow": true,
 							"containerChangeable": true,
 							"containerExtending": false,
-							"left": 804,
-							"top": 576,
-							"width": 155,
+							"left": 624,
+							"top": 484,
+							"width": 159,
 							"height": 35,
 							"autoResize": false,
 							"stereotypeDisplay": "label",
@@ -8941,8 +8941,8 @@
 									"showShadow": true,
 									"containerChangeable": false,
 									"containerExtending": false,
-									"left": 889,
-									"top": 671,
+									"left": 800,
+									"top": 634,
 									"width": 0,
 									"height": 13,
 									"autoResize": false,
@@ -8974,8 +8974,8 @@
 									"showShadow": true,
 									"containerChangeable": false,
 									"containerExtending": false,
-									"left": 875,
-									"top": 675,
+									"left": 789,
+									"top": 644,
 									"width": 0,
 									"height": 13,
 									"autoResize": false,
@@ -9007,8 +9007,8 @@
 									"showShadow": true,
 									"containerChangeable": false,
 									"containerExtending": false,
-									"left": 918,
-									"top": 662,
+									"left": 823,
+									"top": 615,
 									"width": 0,
 									"height": 13,
 									"autoResize": false,
@@ -9040,8 +9040,8 @@
 									"showShadow": true,
 									"containerChangeable": false,
 									"containerExtending": false,
-									"left": 900,
-									"top": 708,
+									"left": 878,
+									"top": 727,
 									"width": 0,
 									"height": 13,
 									"autoResize": false,
@@ -9073,8 +9073,8 @@
 									"showShadow": true,
 									"containerChangeable": false,
 									"containerExtending": false,
-									"left": 886,
-									"top": 709,
+									"left": 867,
+									"top": 734,
 									"width": 0,
 									"height": 13,
 									"autoResize": false,
@@ -9106,8 +9106,8 @@
 									"showShadow": true,
 									"containerChangeable": false,
 									"containerExtending": false,
-									"left": 927,
-									"top": 704,
+									"left": 902,
+									"top": 713,
 									"width": 0,
 									"height": 13,
 									"autoResize": false,
@@ -9139,8 +9139,8 @@
 									"showShadow": true,
 									"containerChangeable": false,
 									"containerExtending": false,
-									"left": 878,
-									"top": 634,
+									"left": 723,
+									"top": 542,
 									"width": 0,
 									"height": 13,
 									"autoResize": false,
@@ -9172,8 +9172,8 @@
 									"showShadow": true,
 									"containerChangeable": false,
 									"containerExtending": false,
-									"left": 866,
-									"top": 640,
+									"left": 714,
+									"top": 552,
 									"width": 0,
 									"height": 13,
 									"autoResize": false,
@@ -9205,8 +9205,8 @@
 									"showShadow": true,
 									"containerChangeable": false,
 									"containerExtending": false,
-									"left": 904,
-									"top": 622,
+									"left": 741,
+									"top": 521,
 									"width": 0,
 									"height": 13,
 									"autoResize": false,
@@ -9285,7 +9285,7 @@
 								"$ref": "AAAAAAFL4RcciIjoRlw="
 							},
 							"lineStyle": 1,
-							"points": "922:735;886:611",
+							"points": "907:744;718:519",
 							"stereotypeDisplay": "label",
 							"showVisibility": true,
 							"showProperty": true,
@@ -10967,6 +10967,177 @@
 							"headQualifiersCompartment": {
 								"$ref": "AAAAAAFMZzJzf3Ok0xM="
 							}
+						},
+						{
+							"_type": "UMLUseCaseSubjectView",
+							"_id": "AAAAAAFNFsCUqd1X7CE=",
+							"_parent": {
+								"$ref": "AAAAAAFL4L5cWtFliA0="
+							},
+							"model": {
+								"$ref": "AAAAAAFNFsCUqd1VTzs="
+							},
+							"subViews": [
+								{
+									"_type": "UMLNameCompartmentView",
+									"_id": "AAAAAAFNFsCUqd1YQHQ=",
+									"_parent": {
+										"$ref": "AAAAAAFNFsCUqd1X7CE="
+									},
+									"model": {
+										"$ref": "AAAAAAFNFsCUqd1VTzs="
+									},
+									"subViews": [
+										{
+											"_type": "LabelView",
+											"_id": "AAAAAAFNFsCUqd1ZQJE=",
+											"_parent": {
+												"$ref": "AAAAAAFNFsCUqd1YQHQ="
+											},
+											"visible": false,
+											"enabled": true,
+											"lineColor": "#000000",
+											"fillColor": "#ffffff",
+											"fontColor": "#000000",
+											"font": "Arial;13;0",
+											"showShadow": true,
+											"containerChangeable": false,
+											"containerExtending": false,
+											"left": 0,
+											"top": 0,
+											"width": 0,
+											"height": 13,
+											"autoResize": false,
+											"underline": false,
+											"horizontalAlignment": 2,
+											"verticalAlignment": 5
+										},
+										{
+											"_type": "LabelView",
+											"_id": "AAAAAAFNFsCUqd1aXDs=",
+											"_parent": {
+												"$ref": "AAAAAAFNFsCUqd1YQHQ="
+											},
+											"visible": true,
+											"enabled": true,
+											"lineColor": "#000000",
+											"fillColor": "#ffffff",
+											"fontColor": "#000000",
+											"font": "Arial;13;1",
+											"showShadow": true,
+											"containerChangeable": false,
+											"containerExtending": false,
+											"left": 213,
+											"top": 399,
+											"width": 603,
+											"height": 13,
+											"autoResize": false,
+											"underline": false,
+											"text": "System",
+											"horizontalAlignment": 2,
+											"verticalAlignment": 5
+										},
+										{
+											"_type": "LabelView",
+											"_id": "AAAAAAFNFsCUqd1bgMM=",
+											"_parent": {
+												"$ref": "AAAAAAFNFsCUqd1YQHQ="
+											},
+											"visible": false,
+											"enabled": true,
+											"lineColor": "#000000",
+											"fillColor": "#ffffff",
+											"fontColor": "#000000",
+											"font": "Arial;13;0",
+											"showShadow": true,
+											"containerChangeable": false,
+											"containerExtending": false,
+											"left": 0,
+											"top": 0,
+											"width": 72,
+											"height": 13,
+											"autoResize": false,
+											"underline": false,
+											"text": "(from Model)",
+											"horizontalAlignment": 2,
+											"verticalAlignment": 5
+										},
+										{
+											"_type": "LabelView",
+											"_id": "AAAAAAFNFsCUqd1c6do=",
+											"_parent": {
+												"$ref": "AAAAAAFNFsCUqd1YQHQ="
+											},
+											"visible": false,
+											"enabled": true,
+											"lineColor": "#000000",
+											"fillColor": "#ffffff",
+											"fontColor": "#000000",
+											"font": "Arial;13;0",
+											"showShadow": true,
+											"containerChangeable": false,
+											"containerExtending": false,
+											"left": 0,
+											"top": 0,
+											"width": 0,
+											"height": 13,
+											"autoResize": false,
+											"underline": false,
+											"horizontalAlignment": 1,
+											"verticalAlignment": 5
+										}
+									],
+									"visible": true,
+									"enabled": true,
+									"lineColor": "#000000",
+									"fillColor": "#ffffff",
+									"fontColor": "#000000",
+									"font": "Arial;13;0",
+									"showShadow": true,
+									"containerChangeable": false,
+									"containerExtending": false,
+									"left": 208,
+									"top": 392,
+									"width": 613,
+									"height": 25,
+									"autoResize": false,
+									"stereotypeLabel": {
+										"$ref": "AAAAAAFNFsCUqd1ZQJE="
+									},
+									"nameLabel": {
+										"$ref": "AAAAAAFNFsCUqd1aXDs="
+									},
+									"namespaceLabel": {
+										"$ref": "AAAAAAFNFsCUqd1bgMM="
+									},
+									"propertyLabel": {
+										"$ref": "AAAAAAFNFsCUqd1c6do="
+									}
+								}
+							],
+							"visible": true,
+							"enabled": true,
+							"lineColor": "#000000",
+							"fillColor": "#ffffff",
+							"fontColor": "#000000",
+							"font": "Arial;13;0",
+							"showShadow": true,
+							"containerChangeable": false,
+							"containerExtending": false,
+							"left": 208,
+							"top": 392,
+							"width": 613,
+							"height": 797,
+							"autoResize": false,
+							"stereotypeDisplay": "label",
+							"showVisibility": true,
+							"showNamespace": false,
+							"showProperty": true,
+							"showType": true,
+							"nameCompartment": {
+								"$ref": "AAAAAAFNFsCUqd1YQHQ="
+							},
+							"wordWrap": false
 						}
 					]
 				},
@@ -10976,7 +11147,7 @@
 					"_parent": {
 						"$ref": "AAAAAAFF+qBWK6M3Z8Y="
 					},
-					"name": "Đăng Xuất",
+					"name": "Logout",
 					"visibility": "public",
 					"isAbstract": false,
 					"isFinalSpecialization": false,
@@ -10988,7 +11159,7 @@
 					"_parent": {
 						"$ref": "AAAAAAFF+qBWK6M3Z8Y="
 					},
-					"name": "Tài Xế",
+					"name": "Driver",
 					"ownedElements": [
 						{
 							"_type": "UMLAssociation",
@@ -11584,7 +11755,7 @@
 					"_parent": {
 						"$ref": "AAAAAAFF+qBWK6M3Z8Y="
 					},
-					"name": "Đăng Kí Tài Khoản",
+					"name": "Register New Account",
 					"ownedElements": [
 						{
 							"_type": "UMLExtend",
@@ -11612,7 +11783,7 @@
 					"_parent": {
 						"$ref": "AAAAAAFF+qBWK6M3Z8Y="
 					},
-					"name": "Đăng Kí bằng Facebook",
+					"name": "Register by Facebook",
 					"ownedElements": [
 						{
 							"_type": "UMLExtend",
@@ -11640,7 +11811,7 @@
 					"_parent": {
 						"$ref": "AAAAAAFF+qBWK6M3Z8Y="
 					},
-					"name": "Đăng Kí bằng  Google",
+					"name": "Register by Google",
 					"ownedElements": [
 						{
 							"_type": "UMLInclude",
@@ -11682,7 +11853,7 @@
 					"_parent": {
 						"$ref": "AAAAAAFF+qBWK6M3Z8Y="
 					},
-					"name": "Quên Mật Khẩu",
+					"name": "Forgot Password",
 					"ownedElements": [
 						{
 							"_type": "UMLExtend",
@@ -12065,13 +12236,13 @@
 											"showShadow": true,
 											"containerChangeable": false,
 											"containerExtending": false,
-											"left": 198.5,
+											"left": 200,
 											"top": 151.5,
-											"width": 130,
+											"width": 138,
 											"height": 13,
 											"autoResize": false,
 											"underline": false,
-											"text": "Đăng Kí Tài Khoản",
+											"text": "Register New Account",
 											"horizontalAlignment": 2,
 											"verticalAlignment": 5
 										},
@@ -12134,9 +12305,9 @@
 									"showShadow": true,
 									"containerChangeable": false,
 									"containerExtending": false,
-									"left": 193.5,
+									"left": 195,
 									"top": 144.5,
-									"width": 140,
+									"width": 149,
 									"height": 25,
 									"autoResize": false,
 									"stereotypeLabel": {
@@ -12260,7 +12431,7 @@
 							"containerExtending": false,
 							"left": 164,
 							"top": 140,
-							"width": 199,
+							"width": 210,
 							"height": 35,
 							"autoResize": false,
 							"stereotypeDisplay": "label",
@@ -12354,7 +12525,7 @@
 											"height": 13,
 											"autoResize": false,
 											"underline": false,
-											"text": "Đăng Kí bằng Facebook",
+											"text": "Register by Facebook",
 											"horizontalAlignment": 2,
 											"verticalAlignment": 5
 										},
@@ -12419,7 +12590,7 @@
 									"containerExtending": false,
 									"left": 398,
 									"top": 284.5,
-									"width": 162,
+									"width": 161,
 									"height": 25,
 									"autoResize": false,
 									"stereotypeLabel": {
@@ -12600,7 +12771,7 @@
 									"showShadow": true,
 									"containerChangeable": false,
 									"containerExtending": false,
-									"left": 361,
+									"left": 364,
 									"top": 233,
 									"width": 0,
 									"height": 13,
@@ -12633,7 +12804,7 @@
 									"showShadow": true,
 									"containerChangeable": false,
 									"containerExtending": false,
-									"left": 352,
+									"left": 355,
 									"top": 207,
 									"width": 53,
 									"height": 13,
@@ -12667,7 +12838,7 @@
 									"showShadow": true,
 									"containerChangeable": false,
 									"containerExtending": false,
-									"left": 378,
+									"left": 381,
 									"top": 208,
 									"width": 0,
 									"height": 13,
@@ -12699,7 +12870,7 @@
 								"$ref": "AAAAAAFL4cdDW/nh8FY="
 							},
 							"lineStyle": 1,
-							"points": "450:279;291:175",
+							"points": "451:279;295:175",
 							"stereotypeDisplay": "label",
 							"showVisibility": true,
 							"showProperty": true,
@@ -12778,7 +12949,7 @@
 											"height": 13,
 											"autoResize": false,
 											"underline": false,
-											"text": "Đăng Kí bằng  Google",
+											"text": "Register by Google",
 											"horizontalAlignment": 2,
 											"verticalAlignment": 5
 										},
@@ -13024,7 +13195,7 @@
 									"showShadow": true,
 									"containerChangeable": false,
 									"containerExtending": false,
-									"left": 210,
+									"left": 213,
 									"top": 213,
 									"width": 0,
 									"height": 13,
@@ -13057,8 +13228,8 @@
 									"showShadow": true,
 									"containerChangeable": false,
 									"containerExtending": false,
-									"left": 202,
-									"top": 236,
+									"left": 205,
+									"top": 237,
 									"width": 53,
 									"height": 13,
 									"autoResize": false,
@@ -13091,7 +13262,7 @@
 									"showShadow": true,
 									"containerChangeable": false,
 									"containerExtending": false,
-									"left": 235,
+									"left": 238,
 									"top": 228,
 									"width": 0,
 									"height": 13,
@@ -13123,7 +13294,7 @@
 								"$ref": "AAAAAAFL4cdDW/nvGfc="
 							},
 							"lineStyle": 1,
-							"points": "194:279;253:175",
+							"points": "195:279;257:175",
 							"stereotypeDisplay": "label",
 							"showVisibility": true,
 							"showProperty": true,
@@ -13556,7 +13727,7 @@
 					"_parent": {
 						"$ref": "AAAAAAFF+qBWK6M3Z8Y="
 					},
-					"name": "Quản Lý Tài Khoản",
+					"name": "Manage Account",
 					"visibility": "public",
 					"isAbstract": false,
 					"isFinalSpecialization": false,
@@ -13568,7 +13739,7 @@
 					"_parent": {
 						"$ref": "AAAAAAFF+qBWK6M3Z8Y="
 					},
-					"name": "Gửi Feedback",
+					"name": "Send Feedback",
 					"visibility": "public",
 					"isAbstract": false,
 					"isFinalSpecialization": false,
@@ -13580,7 +13751,7 @@
 					"_parent": {
 						"$ref": "AAAAAAFF+qBWK6M3Z8Y="
 					},
-					"name": "Gọi Xe",
+					"name": "Call Driver",
 					"visibility": "public",
 					"isAbstract": false,
 					"isFinalSpecialization": false,
@@ -13648,7 +13819,7 @@
 					"_parent": {
 						"$ref": "AAAAAAFF+qBWK6M3Z8Y="
 					},
-					"name": "Xem thông tin tài xế",
+					"name": "View Driver's Information",
 					"visibility": "public",
 					"isAbstract": false,
 					"isFinalSpecialization": false,
@@ -13660,7 +13831,7 @@
 					"_parent": {
 						"$ref": "AAAAAAFF+qBWK6M3Z8Y="
 					},
-					"name": "Báo Cáo Thống Kê",
+					"name": "Report",
 					"visibility": "public",
 					"isAbstract": false,
 					"isFinalSpecialization": false,
@@ -13741,7 +13912,7 @@
 											"height": 13,
 											"autoResize": false,
 											"underline": false,
-											"text": "Thành Viên",
+											"text": "Customer",
 											"horizontalAlignment": 2,
 											"verticalAlignment": 5
 										},
@@ -13997,7 +14168,7 @@
 											"height": 13,
 											"autoResize": false,
 											"underline": false,
-											"text": "Quản Lý Tài Khoản",
+											"text": "Manage Account",
 											"horizontalAlignment": 2,
 											"verticalAlignment": 5
 										},
@@ -14062,7 +14233,7 @@
 									"containerExtending": false,
 									"left": 251.5,
 									"top": 184.5,
-									"width": 132,
+									"width": 131,
 									"height": 25,
 									"autoResize": false,
 									"stereotypeLabel": {
@@ -14682,13 +14853,13 @@
 											"showShadow": true,
 											"containerChangeable": false,
 											"containerExtending": false,
-											"left": 605.5,
+											"left": 608.5,
 											"top": 135.5,
-											"width": 165,
+											"width": 179,
 											"height": 13,
 											"autoResize": false,
 											"underline": false,
-											"text": "Xem Thông Tin Tài Khoản",
+											"text": "View Profile",
 											"horizontalAlignment": 2,
 											"verticalAlignment": 5
 										},
@@ -14751,9 +14922,9 @@
 									"showShadow": true,
 									"containerChangeable": false,
 									"containerExtending": false,
-									"left": 600.5,
+									"left": 603.5,
 									"top": 128.5,
-									"width": 176,
+									"width": 189,
 									"height": 25,
 									"autoResize": false,
 									"stereotypeLabel": {
@@ -14877,7 +15048,7 @@
 							"containerExtending": false,
 							"left": 564,
 							"top": 124,
-							"width": 248,
+							"width": 268,
 							"height": 35,
 							"autoResize": false,
 							"stereotypeDisplay": "label",
@@ -14965,13 +15136,13 @@
 											"showShadow": true,
 											"containerChangeable": false,
 											"containerExtending": false,
-											"left": 589.5,
+											"left": 603.5,
 											"top": 251.5,
-											"width": 126,
+											"width": 192,
 											"height": 13,
 											"autoResize": false,
 											"underline": false,
-											"text": "Cập Nhật Tài Khoản",
+											"text": "Update Profile",
 											"horizontalAlignment": 2,
 											"verticalAlignment": 5
 										},
@@ -15034,9 +15205,9 @@
 									"showShadow": true,
 									"containerChangeable": false,
 									"containerExtending": false,
-									"left": 584.5,
+									"left": 598.5,
 									"top": 244.5,
-									"width": 137,
+									"width": 202,
 									"height": 25,
 									"autoResize": false,
 									"stereotypeLabel": {
@@ -15160,7 +15331,7 @@
 							"containerExtending": false,
 							"left": 556,
 							"top": 240,
-							"width": 193,
+							"width": 287,
 							"height": 35,
 							"autoResize": false,
 							"stereotypeDisplay": "label",
@@ -15217,7 +15388,7 @@
 									"showShadow": true,
 									"containerChangeable": false,
 									"containerExtending": false,
-									"left": 491,
+									"left": 494,
 									"top": 179,
 									"width": 0,
 									"height": 13,
@@ -15250,7 +15421,7 @@
 									"showShadow": true,
 									"containerChangeable": false,
 									"containerExtending": false,
-									"left": 472,
+									"left": 475,
 									"top": 148,
 									"width": 53,
 									"height": 13,
@@ -15284,7 +15455,7 @@
 									"showShadow": true,
 									"containerChangeable": false,
 									"containerExtending": false,
-									"left": 486,
+									"left": 489,
 									"top": 150,
 									"width": 0,
 									"height": 13,
@@ -15316,7 +15487,7 @@
 								"$ref": "AAAAAAFL37xAOSYvswE="
 							},
 							"lineStyle": 1,
-							"points": "568:159;410:183",
+							"points": "575:159;410:183",
 							"stereotypeDisplay": "label",
 							"showVisibility": true,
 							"showProperty": true,
@@ -15358,8 +15529,8 @@
 									"showShadow": true,
 									"containerChangeable": false,
 									"containerExtending": false,
-									"left": 479,
-									"top": 235,
+									"left": 494,
+									"top": 233,
 									"width": 0,
 									"height": 13,
 									"autoResize": false,
@@ -15391,8 +15562,8 @@
 									"showShadow": true,
 									"containerChangeable": false,
 									"containerExtending": false,
-									"left": 476,
-									"top": 208,
+									"left": 490,
+									"top": 205,
 									"width": 53,
 									"height": 13,
 									"autoResize": false,
@@ -15425,8 +15596,8 @@
 									"showShadow": true,
 									"containerChangeable": false,
 									"containerExtending": false,
-									"left": 484,
-									"top": 206,
+									"left": 499,
+									"top": 204,
 									"width": 0,
 									"height": 13,
 									"autoResize": false,
@@ -15457,7 +15628,7 @@
 								"$ref": "AAAAAAFL37yrHCZ6Dus="
 							},
 							"lineStyle": 1,
-							"points": "555:240;410:214",
+							"points": "584:239;410:212",
 							"stereotypeDisplay": "label",
 							"showVisibility": true,
 							"showProperty": true,
@@ -15479,7 +15650,7 @@
 					"_parent": {
 						"$ref": "AAAAAAFF+qBWK6M3Z8Y="
 					},
-					"name": "Xem Thông Tin Tài Khoản",
+					"name": "View Profile",
 					"ownedElements": [
 						{
 							"_type": "UMLExtend",
@@ -15507,7 +15678,7 @@
 					"_parent": {
 						"$ref": "AAAAAAFF+qBWK6M3Z8Y="
 					},
-					"name": "Cập Nhật Tài Khoản",
+					"name": "Update Profile",
 					"ownedElements": [
 						{
 							"_type": "UMLExtend",
@@ -15632,7 +15803,7 @@
 											"height": 13,
 											"autoResize": false,
 											"underline": false,
-											"text": "Thành Viên",
+											"text": "Customer",
 											"horizontalAlignment": 2,
 											"verticalAlignment": 5
 										},
@@ -15882,13 +16053,13 @@
 											"showShadow": true,
 											"containerChangeable": false,
 											"containerExtending": false,
-											"left": 359,
+											"left": 360,
 											"top": 235.5,
-											"width": 94,
+											"width": 98,
 											"height": 13,
 											"autoResize": false,
 											"underline": false,
-											"text": "Gửi Feedback",
+											"text": "Send Feedback",
 											"horizontalAlignment": 2,
 											"verticalAlignment": 5
 										},
@@ -15951,9 +16122,9 @@
 									"showShadow": true,
 									"containerChangeable": false,
 									"containerExtending": false,
-									"left": 354,
+									"left": 355,
 									"top": 228.5,
-									"width": 104,
+									"width": 109,
 									"height": 25,
 									"autoResize": false,
 									"stereotypeLabel": {
@@ -16077,7 +16248,7 @@
 							"containerExtending": false,
 							"left": 332,
 							"top": 224,
-							"width": 148,
+							"width": 154,
 							"height": 35,
 							"autoResize": false,
 							"stereotypeDisplay": "label",
@@ -16627,7 +16798,7 @@
 											"height": 13,
 											"autoResize": false,
 											"underline": false,
-											"text": "Báo Cáo Thống Kê",
+											"text": "Report",
 											"horizontalAlignment": 2,
 											"verticalAlignment": 5
 										},
@@ -16910,7 +17081,7 @@
 											"height": 13,
 											"autoResize": false,
 											"underline": false,
-											"text": "Thành Viên",
+											"text": "Customer",
 											"horizontalAlignment": 2,
 											"verticalAlignment": 5
 										},
@@ -17544,8 +17715,8 @@
 											"showShadow": true,
 											"containerChangeable": false,
 											"containerExtending": false,
-											"left": -288,
-											"top": 552,
+											"left": -36,
+											"top": -108,
 											"width": 0,
 											"height": 13,
 											"autoResize": false,
@@ -17568,13 +17739,13 @@
 											"showShadow": true,
 											"containerChangeable": false,
 											"containerExtending": false,
-											"left": 457,
-											"top": 327.5,
+											"left": 541,
+											"top": 107.5,
 											"width": 162,
 											"height": 13,
 											"autoResize": false,
 											"underline": false,
-											"text": "Xem Lịch Sử hành Trình",
+											"text": "View History",
 											"horizontalAlignment": 2,
 											"verticalAlignment": 5
 										},
@@ -17593,8 +17764,8 @@
 											"showShadow": true,
 											"containerChangeable": false,
 											"containerExtending": false,
-											"left": -288,
-											"top": 552,
+											"left": -36,
+											"top": -108,
 											"width": 72,
 											"height": 13,
 											"autoResize": false,
@@ -17618,8 +17789,8 @@
 											"showShadow": true,
 											"containerChangeable": false,
 											"containerExtending": false,
-											"left": -288,
-											"top": 552,
+											"left": -36,
+											"top": -108,
 											"width": 0,
 											"height": 13,
 											"autoResize": false,
@@ -17637,8 +17808,8 @@
 									"showShadow": true,
 									"containerChangeable": false,
 									"containerExtending": false,
-									"left": 452,
-									"top": 320.5,
+									"left": 536,
+									"top": 100.5,
 									"width": 172,
 									"height": 25,
 									"autoResize": false,
@@ -17673,8 +17844,8 @@
 									"showShadow": true,
 									"containerChangeable": false,
 									"containerExtending": false,
-									"left": -192,
-									"top": 368,
+									"left": -24,
+									"top": -72,
 									"width": 10,
 									"height": 10,
 									"autoResize": false
@@ -17697,8 +17868,8 @@
 									"showShadow": true,
 									"containerChangeable": false,
 									"containerExtending": false,
-									"left": -192,
-									"top": 368,
+									"left": -24,
+									"top": -72,
 									"width": 10,
 									"height": 10,
 									"autoResize": false
@@ -17721,8 +17892,8 @@
 									"showShadow": true,
 									"containerChangeable": false,
 									"containerExtending": false,
-									"left": -192,
-									"top": 368,
+									"left": -24,
+									"top": -72,
 									"width": 10,
 									"height": 10,
 									"autoResize": false
@@ -17745,8 +17916,8 @@
 									"showShadow": true,
 									"containerChangeable": false,
 									"containerExtending": false,
-									"left": -192,
-									"top": 368,
+									"left": -24,
+									"top": -72,
 									"width": 10,
 									"height": 10,
 									"autoResize": false
@@ -17761,8 +17932,8 @@
 							"showShadow": true,
 							"containerChangeable": true,
 							"containerExtending": false,
-							"left": 416,
-							"top": 316,
+							"left": 500,
+							"top": 96,
 							"width": 244,
 							"height": 35,
 							"autoResize": false,
@@ -17827,8 +17998,8 @@
 											"showShadow": true,
 											"containerChangeable": false,
 											"containerExtending": false,
-											"left": -1248,
-											"top": 72,
+											"left": 0,
+											"top": -48,
 											"width": 0,
 											"height": 13,
 											"autoResize": false,
@@ -17851,8 +18022,8 @@
 											"showShadow": true,
 											"containerChangeable": false,
 											"containerExtending": false,
-											"left": 168,
-											"top": 327.5,
+											"left": 584,
+											"top": 287.5,
 											"width": 118,
 											"height": 13,
 											"autoResize": false,
@@ -17876,8 +18047,8 @@
 											"showShadow": true,
 											"containerChangeable": false,
 											"containerExtending": false,
-											"left": -1248,
-											"top": 72,
+											"left": 0,
+											"top": -48,
 											"width": 72,
 											"height": 13,
 											"autoResize": false,
@@ -17901,8 +18072,8 @@
 											"showShadow": true,
 											"containerChangeable": false,
 											"containerExtending": false,
-											"left": -1248,
-											"top": 72,
+											"left": 0,
+											"top": -48,
 											"width": 0,
 											"height": 13,
 											"autoResize": false,
@@ -17920,8 +18091,8 @@
 									"showShadow": true,
 									"containerChangeable": false,
 									"containerExtending": false,
-									"left": 163,
-									"top": 320.5,
+									"left": 579,
+									"top": 280.5,
 									"width": 129,
 									"height": 25,
 									"autoResize": false,
@@ -17956,8 +18127,8 @@
 									"showShadow": true,
 									"containerChangeable": false,
 									"containerExtending": false,
-									"left": -832,
-									"top": 48,
+									"left": 0,
+									"top": -32,
 									"width": 10,
 									"height": 10,
 									"autoResize": false
@@ -17980,8 +18151,8 @@
 									"showShadow": true,
 									"containerChangeable": false,
 									"containerExtending": false,
-									"left": -832,
-									"top": 48,
+									"left": 0,
+									"top": -32,
 									"width": 10,
 									"height": 10,
 									"autoResize": false
@@ -18004,8 +18175,8 @@
 									"showShadow": true,
 									"containerChangeable": false,
 									"containerExtending": false,
-									"left": -832,
-									"top": 48,
+									"left": 0,
+									"top": -32,
 									"width": 10,
 									"height": 10,
 									"autoResize": false
@@ -18028,8 +18199,8 @@
 									"showShadow": true,
 									"containerChangeable": false,
 									"containerExtending": false,
-									"left": -832,
-									"top": 48,
+									"left": 0,
+									"top": -32,
 									"width": 10,
 									"height": 10,
 									"autoResize": false
@@ -18044,8 +18215,8 @@
 							"showShadow": true,
 							"containerChangeable": true,
 							"containerExtending": false,
-							"left": 136,
-							"top": 316,
+							"left": 552,
+							"top": 276,
 							"width": 182,
 							"height": 35,
 							"autoResize": false,
@@ -18073,6 +18244,288 @@
 							},
 							"extensionPointCompartment": {
 								"$ref": "AAAAAAFL4FpCx5/+DLc="
+							}
+						},
+						{
+							"_type": "UMLExtendView",
+							"_id": "AAAAAAFND39H+zu0Z2Y=",
+							"_parent": {
+								"$ref": "AAAAAAFL38uvWD0KwTw="
+							},
+							"model": {
+								"$ref": "AAAAAAFND39H+juyeXw="
+							},
+							"subViews": [
+								{
+									"_type": "EdgeLabelView",
+									"_id": "AAAAAAFND39H/Du147c=",
+									"_parent": {
+										"$ref": "AAAAAAFND39H+zu0Z2Y="
+									},
+									"model": {
+										"$ref": "AAAAAAFND39H+juyeXw="
+									},
+									"visible": false,
+									"enabled": true,
+									"lineColor": "#000000",
+									"fillColor": "#ffffff",
+									"fontColor": "#000000",
+									"font": "Arial;13;0",
+									"showShadow": true,
+									"containerChangeable": false,
+									"containerExtending": false,
+									"left": 499,
+									"top": 267,
+									"width": 0,
+									"height": 13,
+									"autoResize": false,
+									"alpha": 1.5707963267948966,
+									"distance": 15,
+									"hostEdge": {
+										"$ref": "AAAAAAFND39H+zu0Z2Y="
+									},
+									"edgePosition": 1,
+									"underline": false,
+									"horizontalAlignment": 2,
+									"verticalAlignment": 5
+								},
+								{
+									"_type": "EdgeLabelView",
+									"_id": "AAAAAAFND39H/Du2DPI=",
+									"_parent": {
+										"$ref": "AAAAAAFND39H+zu0Z2Y="
+									},
+									"model": {
+										"$ref": "AAAAAAFND39H+juyeXw="
+									},
+									"visible": true,
+									"enabled": true,
+									"lineColor": "#000000",
+									"fillColor": "#ffffff",
+									"fontColor": "#000000",
+									"font": "Arial;13;0",
+									"showShadow": true,
+									"containerChangeable": false,
+									"containerExtending": false,
+									"left": 470,
+									"top": 282,
+									"width": 53,
+									"height": 13,
+									"autoResize": false,
+									"alpha": 1.5707963267948966,
+									"distance": 30,
+									"hostEdge": {
+										"$ref": "AAAAAAFND39H+zu0Z2Y="
+									},
+									"edgePosition": 1,
+									"underline": false,
+									"text": "«extend»",
+									"horizontalAlignment": 2,
+									"verticalAlignment": 5
+								},
+								{
+									"_type": "EdgeLabelView",
+									"_id": "AAAAAAFND39H/Du3/dE=",
+									"_parent": {
+										"$ref": "AAAAAAFND39H+zu0Z2Y="
+									},
+									"model": {
+										"$ref": "AAAAAAFND39H+juyeXw="
+									},
+									"visible": false,
+									"enabled": true,
+									"lineColor": "#000000",
+									"fillColor": "#ffffff",
+									"fontColor": "#000000",
+									"font": "Arial;13;0",
+									"showShadow": true,
+									"containerChangeable": false,
+									"containerExtending": false,
+									"left": 506,
+									"top": 238,
+									"width": 0,
+									"height": 13,
+									"autoResize": false,
+									"alpha": -1.5707963267948966,
+									"distance": 15,
+									"hostEdge": {
+										"$ref": "AAAAAAFND39H+zu0Z2Y="
+									},
+									"edgePosition": 1,
+									"underline": false,
+									"horizontalAlignment": 2,
+									"verticalAlignment": 5
+								}
+							],
+							"visible": true,
+							"enabled": true,
+							"lineColor": "#000000",
+							"fillColor": "#ffffff",
+							"fontColor": "#000000",
+							"font": "Arial;13;0",
+							"showShadow": true,
+							"containerChangeable": false,
+							"containerExtending": false,
+							"head": {
+								"$ref": "AAAAAAFL38wkFT0k/Ns="
+							},
+							"tail": {
+								"$ref": "AAAAAAFL4FpCxZ/1YrI="
+							},
+							"lineStyle": 1,
+							"points": "568:275;439:244",
+							"stereotypeDisplay": "label",
+							"showVisibility": true,
+							"showProperty": true,
+							"nameLabel": {
+								"$ref": "AAAAAAFND39H/Du147c="
+							},
+							"stereotypeLabel": {
+								"$ref": "AAAAAAFND39H/Du2DPI="
+							},
+							"propertyLabel": {
+								"$ref": "AAAAAAFND39H/Du3/dE="
+							}
+						},
+						{
+							"_type": "UMLExtendView",
+							"_id": "AAAAAAFND39cbzvmM0w=",
+							"_parent": {
+								"$ref": "AAAAAAFL38uvWD0KwTw="
+							},
+							"model": {
+								"$ref": "AAAAAAFND39cbjvkBCU="
+							},
+							"subViews": [
+								{
+									"_type": "EdgeLabelView",
+									"_id": "AAAAAAFND39cbzvnrX4=",
+									"_parent": {
+										"$ref": "AAAAAAFND39cbzvmM0w="
+									},
+									"model": {
+										"$ref": "AAAAAAFND39cbjvkBCU="
+									},
+									"visible": false,
+									"enabled": true,
+									"lineColor": "#000000",
+									"fillColor": "#ffffff",
+									"fontColor": "#000000",
+									"font": "Arial;13;0",
+									"showShadow": true,
+									"containerChangeable": false,
+									"containerExtending": false,
+									"left": 499,
+									"top": 176,
+									"width": 0,
+									"height": 13,
+									"autoResize": false,
+									"alpha": 1.5707963267948966,
+									"distance": 15,
+									"hostEdge": {
+										"$ref": "AAAAAAFND39cbzvmM0w="
+									},
+									"edgePosition": 1,
+									"underline": false,
+									"horizontalAlignment": 2,
+									"verticalAlignment": 5
+								},
+								{
+									"_type": "EdgeLabelView",
+									"_id": "AAAAAAFND39cbzvo49Q=",
+									"_parent": {
+										"$ref": "AAAAAAFND39cbzvmM0w="
+									},
+									"model": {
+										"$ref": "AAAAAAFND39cbjvkBCU="
+									},
+									"visible": true,
+									"enabled": true,
+									"lineColor": "#000000",
+									"fillColor": "#ffffff",
+									"fontColor": "#000000",
+									"font": "Arial;13;0",
+									"showShadow": true,
+									"containerChangeable": false,
+									"containerExtending": false,
+									"left": 479,
+									"top": 190,
+									"width": 53,
+									"height": 13,
+									"autoResize": false,
+									"alpha": 1.5707963267948966,
+									"distance": 30,
+									"hostEdge": {
+										"$ref": "AAAAAAFND39cbzvmM0w="
+									},
+									"edgePosition": 1,
+									"underline": false,
+									"text": "«extend»",
+									"horizontalAlignment": 2,
+									"verticalAlignment": 5
+								},
+								{
+									"_type": "EdgeLabelView",
+									"_id": "AAAAAAFND39cbzvpp7s=",
+									"_parent": {
+										"$ref": "AAAAAAFND39cbzvmM0w="
+									},
+									"model": {
+										"$ref": "AAAAAAFND39cbjvkBCU="
+									},
+									"visible": false,
+									"enabled": true,
+									"lineColor": "#000000",
+									"fillColor": "#ffffff",
+									"fontColor": "#000000",
+									"font": "Arial;13;0",
+									"showShadow": true,
+									"containerChangeable": false,
+									"containerExtending": false,
+									"left": 486,
+									"top": 149,
+									"width": 0,
+									"height": 13,
+									"autoResize": false,
+									"alpha": -1.5707963267948966,
+									"distance": 15,
+									"hostEdge": {
+										"$ref": "AAAAAAFND39cbzvmM0w="
+									},
+									"edgePosition": 1,
+									"underline": false,
+									"horizontalAlignment": 2,
+									"verticalAlignment": 5
+								}
+							],
+							"visible": true,
+							"enabled": true,
+							"lineColor": "#000000",
+							"fillColor": "#ffffff",
+							"fontColor": "#000000",
+							"font": "Arial;13;0",
+							"showShadow": true,
+							"containerChangeable": false,
+							"containerExtending": false,
+							"head": {
+								"$ref": "AAAAAAFL38wkFT0k/Ns="
+							},
+							"tail": {
+								"$ref": "AAAAAAFL4FfnY56ULUc="
+							},
+							"lineStyle": 1,
+							"points": "580:131;406:208",
+							"stereotypeDisplay": "label",
+							"showVisibility": true,
+							"showProperty": true,
+							"nameLabel": {
+								"$ref": "AAAAAAFND39cbzvnrX4="
+							},
+							"stereotypeLabel": {
+								"$ref": "AAAAAAFND39cbzvo49Q="
+							},
+							"propertyLabel": {
+								"$ref": "AAAAAAFND39cbzvpp7s="
 							}
 						}
 					]
@@ -18152,7 +18605,7 @@
 											"height": 13,
 											"autoResize": false,
 											"underline": false,
-											"text": "Gọi Xe",
+											"text": "Call Driver",
 											"horizontalAlignment": 2,
 											"verticalAlignment": 5
 										},
@@ -18435,7 +18888,7 @@
 											"height": 13,
 											"autoResize": false,
 											"underline": false,
-											"text": "Thành Viên",
+											"text": "Customer",
 											"horizontalAlignment": 2,
 											"verticalAlignment": 5
 										},
@@ -19326,7 +19779,7 @@
 											"containerChangeable": false,
 											"containerExtending": false,
 											"left": -357,
-											"top": 18,
+											"top": 42,
 											"width": 0,
 											"height": 13,
 											"autoResize": false,
@@ -19350,12 +19803,12 @@
 											"containerChangeable": false,
 											"containerExtending": false,
 											"left": 346.5,
-											"top": 331.5,
+											"top": 339.5,
 											"width": 92,
 											"height": 13,
 											"autoResize": false,
 											"underline": false,
-											"text": "Gọi Xe",
+											"text": "Call Driver",
 											"horizontalAlignment": 2,
 											"verticalAlignment": 5
 										},
@@ -19375,7 +19828,7 @@
 											"containerChangeable": false,
 											"containerExtending": false,
 											"left": -357,
-											"top": 18,
+											"top": 42,
 											"width": 72,
 											"height": 13,
 											"autoResize": false,
@@ -19400,7 +19853,7 @@
 											"containerChangeable": false,
 											"containerExtending": false,
 											"left": -357,
-											"top": 18,
+											"top": 42,
 											"width": 0,
 											"height": 13,
 											"autoResize": false,
@@ -19419,7 +19872,7 @@
 									"containerChangeable": false,
 									"containerExtending": false,
 									"left": 341.5,
-									"top": 324.5,
+									"top": 332.5,
 									"width": 102,
 									"height": 25,
 									"autoResize": false,
@@ -19455,7 +19908,7 @@
 									"containerChangeable": false,
 									"containerExtending": false,
 									"left": -238,
-									"top": 12,
+									"top": 28,
 									"width": 10,
 									"height": 10,
 									"autoResize": false
@@ -19479,7 +19932,7 @@
 									"containerChangeable": false,
 									"containerExtending": false,
 									"left": -238,
-									"top": 12,
+									"top": 28,
 									"width": 10,
 									"height": 10,
 									"autoResize": false
@@ -19503,7 +19956,7 @@
 									"containerChangeable": false,
 									"containerExtending": false,
 									"left": -238,
-									"top": 12,
+									"top": 28,
 									"width": 10,
 									"height": 10,
 									"autoResize": false
@@ -19527,7 +19980,7 @@
 									"containerChangeable": false,
 									"containerExtending": false,
 									"left": -238,
-									"top": 12,
+									"top": 28,
 									"width": 10,
 									"height": 10,
 									"autoResize": false
@@ -19543,7 +19996,7 @@
 							"containerChangeable": true,
 							"containerExtending": false,
 							"left": 320,
-							"top": 320,
+							"top": 328,
 							"width": 145,
 							"height": 35,
 							"autoResize": false,
@@ -19598,8 +20051,8 @@
 									"showShadow": true,
 									"containerChangeable": false,
 									"containerExtending": false,
-									"left": 235,
-									"top": 319,
+									"left": 236,
+									"top": 322,
 									"width": 0,
 									"height": 13,
 									"autoResize": false,
@@ -19631,8 +20084,8 @@
 									"showShadow": true,
 									"containerChangeable": false,
 									"containerExtending": false,
-									"left": 235,
-									"top": 304,
+									"left": 236,
+									"top": 307,
 									"width": 0,
 									"height": 13,
 									"autoResize": false,
@@ -19664,8 +20117,8 @@
 									"showShadow": true,
 									"containerChangeable": false,
 									"containerExtending": false,
-									"left": 236,
-									"top": 348,
+									"left": 235,
+									"top": 351,
 									"width": 0,
 									"height": 13,
 									"autoResize": false,
@@ -19697,8 +20150,8 @@
 									"showShadow": true,
 									"containerChangeable": false,
 									"containerExtending": false,
-									"left": 179,
-									"top": 320,
+									"left": 180,
+									"top": 322,
 									"width": 0,
 									"height": 13,
 									"autoResize": false,
@@ -19730,8 +20183,8 @@
 									"showShadow": true,
 									"containerChangeable": false,
 									"containerExtending": false,
-									"left": 181,
-									"top": 307,
+									"left": 182,
+									"top": 308,
 									"width": 0,
 									"height": 13,
 									"autoResize": false,
@@ -19764,7 +20217,7 @@
 									"containerChangeable": false,
 									"containerExtending": false,
 									"left": 175,
-									"top": 348,
+									"top": 349,
 									"width": 0,
 									"height": 13,
 									"autoResize": false,
@@ -19796,8 +20249,8 @@
 									"showShadow": true,
 									"containerChangeable": false,
 									"containerExtending": false,
-									"left": 292,
-									"top": 318,
+									"left": 293,
+									"top": 322,
 									"width": 0,
 									"height": 13,
 									"autoResize": false,
@@ -19830,7 +20283,7 @@
 									"containerChangeable": false,
 									"containerExtending": false,
 									"left": 290,
-									"top": 305,
+									"top": 309,
 									"width": 0,
 									"height": 13,
 									"autoResize": false,
@@ -19863,7 +20316,7 @@
 									"containerChangeable": false,
 									"containerExtending": false,
 									"left": 297,
-									"top": 345,
+									"top": 350,
 									"width": 0,
 									"height": 13,
 									"autoResize": false,
@@ -19942,7 +20395,7 @@
 								"$ref": "AAAAAAFMZzMphXyYPtE="
 							},
 							"lineStyle": 1,
-							"points": "154:342;319:339",
+							"points": "154:343;319:344",
 							"stereotypeDisplay": "label",
 							"showVisibility": true,
 							"showProperty": true,
@@ -20058,7 +20511,7 @@
 											"height": 13,
 											"autoResize": false,
 											"underline": false,
-											"text": "Tài Xế",
+											"text": "Driver",
 											"horizontalAlignment": 2,
 											"verticalAlignment": 5
 										},
@@ -20314,7 +20767,7 @@
 											"height": 13,
 											"autoResize": false,
 											"underline": false,
-											"text": "Quản lý hành trình",
+											"text": "Manage Itinerary",
 											"horizontalAlignment": 2,
 											"verticalAlignment": 5
 										},
@@ -20379,7 +20832,7 @@
 									"containerExtending": false,
 									"left": 336,
 									"top": 237.5,
-									"width": 128,
+									"width": 127,
 									"height": 25,
 									"autoResize": false,
 									"stereotypeLabel": {
@@ -20999,13 +21452,13 @@
 											"showShadow": true,
 											"containerChangeable": false,
 											"containerExtending": false,
-											"left": 657.5,
+											"left": 674,
 											"top": 125.5,
-											"width": 102,
+											"width": 181,
 											"height": 13,
 											"autoResize": false,
 											"underline": false,
-											"text": "Xem Hành Trình",
+											"text": "View Information of Itinerary",
 											"horizontalAlignment": 2,
 											"verticalAlignment": 5
 										},
@@ -21068,9 +21521,9 @@
 									"showShadow": true,
 									"containerChangeable": false,
 									"containerExtending": false,
-									"left": 652.5,
+									"left": 669,
 									"top": 118.5,
-									"width": 113,
+									"width": 192,
 									"height": 25,
 									"autoResize": false,
 									"stereotypeLabel": {
@@ -21194,7 +21647,7 @@
 							"containerExtending": false,
 							"left": 629,
 							"top": 114,
-							"width": 159,
+							"width": 271,
 							"height": 35,
 							"autoResize": false,
 							"stereotypeDisplay": "label",
@@ -21248,8 +21701,8 @@
 									"showShadow": true,
 									"containerChangeable": false,
 									"containerExtending": false,
-									"left": 558,
-									"top": 197,
+									"left": 585,
+									"top": 198,
 									"width": 0,
 									"height": 13,
 									"autoResize": false,
@@ -21281,8 +21734,8 @@
 									"showShadow": true,
 									"containerChangeable": false,
 									"containerExtending": false,
-									"left": 537,
-									"top": 211,
+									"left": 564,
+									"top": 212,
 									"width": 53,
 									"height": 13,
 									"autoResize": false,
@@ -21315,8 +21768,8 @@
 									"showShadow": true,
 									"containerChangeable": false,
 									"containerExtending": false,
-									"left": 547,
-									"top": 170,
+									"left": 576,
+									"top": 169,
 									"width": 0,
 									"height": 13,
 									"autoResize": false,
@@ -21347,7 +21800,7 @@
 								"$ref": "AAAAAAFMZnQ8g0/1GDI="
 							},
 							"lineStyle": 1,
-							"points": "661:149;446:232",
+							"points": "709:149;454:232",
 							"stereotypeDisplay": "label",
 							"showVisibility": true,
 							"showProperty": true,
@@ -21381,7 +21834,7 @@
 					"_parent": {
 						"$ref": "AAAAAAFF+qBWK6M3Z8Y="
 					},
-					"name": "Xóa hành Trình",
+					"name": "Delete Itinerary",
 					"ownedElements": [
 						{
 							"_type": "UMLExtend",
@@ -21409,7 +21862,7 @@
 					"_parent": {
 						"$ref": "AAAAAAFF+qBWK6M3Z8Y="
 					},
-					"name": "Update Hành Trình",
+					"name": "Update Information of Itinerary",
 					"ownedElements": [
 						{
 							"_type": "UMLExtend",
@@ -21437,7 +21890,7 @@
 					"_parent": {
 						"$ref": "AAAAAAFF+qBWK6M3Z8Y="
 					},
-					"name": "Xem Hành Trình",
+					"name": "View Information of Itinerary",
 					"ownedElements": [
 						{
 							"_type": "UMLExtend",
@@ -21546,7 +21999,7 @@
 											"height": 13,
 											"autoResize": false,
 											"underline": false,
-											"text": "Thành Viên",
+											"text": "Customer",
 											"horizontalAlignment": 2,
 											"verticalAlignment": 5
 										},
@@ -21796,13 +22249,13 @@
 											"showShadow": true,
 											"containerChangeable": false,
 											"containerExtending": false,
-											"left": 310,
+											"left": 316.5,
 											"top": 267.5,
-											"width": 128,
+											"width": 159,
 											"height": 13,
 											"autoResize": false,
 											"underline": false,
-											"text": "Xem thông tin tài xế",
+											"text": "View Driver's Information",
 											"horizontalAlignment": 2,
 											"verticalAlignment": 5
 										},
@@ -21865,9 +22318,9 @@
 									"showShadow": true,
 									"containerChangeable": false,
 									"containerExtending": false,
-									"left": 305,
+									"left": 311.5,
 									"top": 260.5,
-									"width": 139,
+									"width": 170,
 									"height": 25,
 									"autoResize": false,
 									"stereotypeLabel": {
@@ -21991,7 +22444,7 @@
 							"containerExtending": false,
 							"left": 276,
 							"top": 256,
-							"width": 196,
+							"width": 240,
 							"height": 35,
 							"autoResize": false,
 							"stereotypeDisplay": "label",
@@ -22739,7 +23192,7 @@
 									"showShadow": true,
 									"containerChangeable": false,
 									"containerExtending": false,
-									"left": 511,
+									"left": 523,
 									"top": 211,
 									"width": 0,
 									"height": 13,
@@ -22772,7 +23225,7 @@
 									"showShadow": true,
 									"containerChangeable": false,
 									"containerExtending": false,
-									"left": 492,
+									"left": 504,
 									"top": 224,
 									"width": 53,
 									"height": 13,
@@ -22806,7 +23259,7 @@
 									"showShadow": true,
 									"containerChangeable": false,
 									"containerExtending": false,
-									"left": 498,
+									"left": 508,
 									"top": 184,
 									"width": 0,
 									"height": 13,
@@ -22838,7 +23291,7 @@
 								"$ref": "AAAAAAFMZm7Eijv6vic="
 							},
 							"lineStyle": 1,
-							"points": "602:154;408:255",
+							"points": "605:154;427:255",
 							"stereotypeDisplay": "label",
 							"showVisibility": true,
 							"showProperty": true,
@@ -23160,8 +23613,8 @@
 									"showShadow": true,
 									"containerChangeable": false,
 									"containerExtending": false,
-									"left": 504,
-									"top": 313,
+									"left": 512,
+									"top": 312,
 									"width": 0,
 									"height": 13,
 									"autoResize": false,
@@ -23193,8 +23646,8 @@
 									"showShadow": true,
 									"containerChangeable": false,
 									"containerExtending": false,
-									"left": 475,
-									"top": 328,
+									"left": 482,
+									"top": 327,
 									"width": 53,
 									"height": 13,
 									"autoResize": false,
@@ -23227,8 +23680,8 @@
 									"showShadow": true,
 									"containerChangeable": false,
 									"containerExtending": false,
-									"left": 511,
-									"top": 284,
+									"left": 519,
+									"top": 283,
 									"width": 0,
 									"height": 13,
 									"autoResize": false,
@@ -23259,7 +23712,7 @@
 								"$ref": "AAAAAAFMZm8s7Tx0tIc="
 							},
 							"lineStyle": 1,
-							"points": "567:319;449:291",
+							"points": "567:317;465:291",
 							"stereotypeDisplay": "label",
 							"showVisibility": true,
 							"showProperty": true,
@@ -23317,11 +23770,25 @@
 					"_parent": {
 						"$ref": "AAAAAAFF+qBWK6M3Z8Y="
 					},
-					"name": "Xem Lịch Sử hành Trình",
+					"name": "View History",
 					"ownedElements": [
 						{
 							"_type": "UMLExtend",
 							"_id": "AAAAAAFMZoeSPVXZlO4=",
+							"_parent": {
+								"$ref": "AAAAAAFL4FfnYp6S2O8="
+							},
+							"source": {
+								"$ref": "AAAAAAFL4FfnYp6S2O8="
+							},
+							"target": {
+								"$ref": "AAAAAAFL36WFZLVb1kI="
+							},
+							"visibility": "public"
+						},
+						{
+							"_type": "UMLExtend",
+							"_id": "AAAAAAFND39cbjvkBCU=",
 							"_parent": {
 								"$ref": "AAAAAAFL4FfnYp6S2O8="
 							},
@@ -23360,6 +23827,20 @@
 								"$ref": "AAAAAAFL36WFZLVb1kI="
 							},
 							"visibility": "public"
+						},
+						{
+							"_type": "UMLExtend",
+							"_id": "AAAAAAFND39H+juyeXw=",
+							"_parent": {
+								"$ref": "AAAAAAFL4FpCxJ/z04s="
+							},
+							"source": {
+								"$ref": "AAAAAAFL4FpCxJ/z04s="
+							},
+							"target": {
+								"$ref": "AAAAAAFL36WFZLVb1kI="
+							},
+							"visibility": "public"
 						}
 					],
 					"visibility": "public",
@@ -23373,7 +23854,7 @@
 					"_parent": {
 						"$ref": "AAAAAAFF+qBWK6M3Z8Y="
 					},
-					"name": "Quên Mật Khẩu",
+					"name": "Forgot Password",
 					"ownedElements": [
 						{
 							"_type": "UMLExtend",
@@ -23413,7 +23894,7 @@
 					"_parent": {
 						"$ref": "AAAAAAFF+qBWK6M3Z8Y="
 					},
-					"name": "Quản lý hành trình",
+					"name": "Manage Itinerary",
 					"visibility": "public",
 					"isAbstract": false,
 					"isFinalSpecialization": false,
@@ -23494,7 +23975,7 @@
 											"height": 13,
 											"autoResize": false,
 											"underline": false,
-											"text": "Quản lý hành trình",
+											"text": "Manage Itinerary",
 											"horizontalAlignment": 2,
 											"verticalAlignment": 5
 										},
@@ -23777,7 +24258,7 @@
 											"height": 13,
 											"autoResize": false,
 											"underline": false,
-											"text": "Xóa hành Trình",
+											"text": "Delete Itinerary",
 											"horizontalAlignment": 2,
 											"verticalAlignment": 5
 										},
@@ -24195,13 +24676,13 @@
 											"showShadow": true,
 											"containerChangeable": false,
 											"containerExtending": false,
-											"left": 652.5,
+											"left": 669,
 											"top": 323.5,
-											"width": 102,
+											"width": 181,
 											"height": 13,
 											"autoResize": false,
 											"underline": false,
-											"text": "Xem Hành Trình",
+											"text": "View Information of Itinerary",
 											"horizontalAlignment": 2,
 											"verticalAlignment": 5
 										},
@@ -24264,9 +24745,9 @@
 									"showShadow": true,
 									"containerChangeable": false,
 									"containerExtending": false,
-									"left": 647.5,
+									"left": 664,
 									"top": 316.5,
-									"width": 113,
+									"width": 192,
 									"height": 25,
 									"autoResize": false,
 									"stereotypeLabel": {
@@ -24390,7 +24871,7 @@
 							"containerExtending": false,
 							"left": 624,
 							"top": 312,
-							"width": 159,
+							"width": 271,
 							"height": 35,
 							"autoResize": false,
 							"stereotypeDisplay": "label",
@@ -24447,7 +24928,7 @@
 									"showShadow": true,
 									"containerChangeable": false,
 									"containerExtending": false,
-									"left": 531,
+									"left": 559,
 									"top": 300,
 									"width": 0,
 									"height": 13,
@@ -24480,7 +24961,7 @@
 									"showShadow": true,
 									"containerChangeable": false,
 									"containerExtending": false,
-									"left": 502,
+									"left": 530,
 									"top": 315,
 									"width": 53,
 									"height": 13,
@@ -24514,7 +24995,7 @@
 									"showShadow": true,
 									"containerChangeable": false,
 									"containerExtending": false,
-									"left": 538,
+									"left": 564,
 									"top": 271,
 									"width": 0,
 									"height": 13,
@@ -24546,7 +25027,7 @@
 								"$ref": "AAAAAAFL7ABfefl7rQY="
 							},
 							"lineStyle": 1,
-							"points": "623:311;447:273",
+							"points": "663:311;461:273",
 							"stereotypeDisplay": "label",
 							"showVisibility": true,
 							"showProperty": true,
@@ -24625,7 +25106,7 @@
 											"height": 13,
 											"autoResize": false,
 											"underline": false,
-											"text": "Thành Viên",
+											"text": "Customer",
 											"horizontalAlignment": 2,
 											"verticalAlignment": 5
 										},
@@ -25283,13 +25764,13 @@
 											"showShadow": true,
 											"containerChangeable": false,
 											"containerExtending": false,
-											"left": 634,
+											"left": 634.5,
 											"top": 431.5,
-											"width": 127,
+											"width": 130,
 											"height": 13,
 											"autoResize": false,
 											"underline": false,
-											"text": "Đặt trước hành trình",
+											"text": "Create New Itinerary",
 											"horizontalAlignment": 2,
 											"verticalAlignment": 5
 										},
@@ -25352,9 +25833,9 @@
 									"showShadow": true,
 									"containerChangeable": false,
 									"containerExtending": false,
-									"left": 629,
+									"left": 629.5,
 									"top": 424.5,
-									"width": 138,
+									"width": 141,
 									"height": 25,
 									"autoResize": false,
 									"stereotypeLabel": {
@@ -25478,7 +25959,7 @@
 							"containerExtending": false,
 							"left": 600,
 							"top": 420,
-							"width": 195,
+							"width": 199,
 							"height": 35,
 							"autoResize": false,
 							"stereotypeDisplay": "label",
@@ -25535,7 +26016,7 @@
 									"showShadow": true,
 									"containerChangeable": false,
 									"containerExtending": false,
-									"left": 523,
+									"left": 524,
 									"top": 353,
 									"width": 0,
 									"height": 13,
@@ -25568,7 +26049,7 @@
 									"showShadow": true,
 									"containerChangeable": false,
 									"containerExtending": false,
-									"left": 490,
+									"left": 491,
 									"top": 366,
 									"width": 53,
 									"height": 13,
@@ -25602,7 +26083,7 @@
 									"showShadow": true,
 									"containerChangeable": false,
 									"containerExtending": false,
-									"left": 538,
+									"left": 539,
 									"top": 326,
 									"width": 0,
 									"height": 13,
@@ -25634,7 +26115,7 @@
 								"$ref": "AAAAAAFMZnMsRUmrIV4="
 							},
 							"lineStyle": 1,
-							"points": "664:419;398:273",
+							"points": "666:419;398:273",
 							"stereotypeDisplay": "label",
 							"showVisibility": true,
 							"showProperty": true,
@@ -25707,13 +26188,13 @@
 											"showShadow": true,
 											"containerChangeable": false,
 											"containerExtending": false,
-											"left": 676,
+											"left": 691.5,
 											"top": 233.5,
-											"width": 118,
+											"width": 194,
 											"height": 13,
 											"autoResize": false,
 											"underline": false,
-											"text": "Update Hành Trình",
+											"text": "Update Information of Itinerary",
 											"horizontalAlignment": 2,
 											"verticalAlignment": 5
 										},
@@ -25776,9 +26257,9 @@
 									"showShadow": true,
 									"containerChangeable": false,
 									"containerExtending": false,
-									"left": 671,
+									"left": 686.5,
 									"top": 226.5,
-									"width": 129,
+									"width": 205,
 									"height": 25,
 									"autoResize": false,
 									"stereotypeLabel": {
@@ -25902,7 +26383,7 @@
 							"containerExtending": false,
 							"left": 644,
 							"top": 222,
-							"width": 182,
+							"width": 289,
 							"height": 35,
 							"autoResize": false,
 							"stereotypeDisplay": "label",
@@ -25960,7 +26441,7 @@
 									"containerChangeable": false,
 									"containerExtending": false,
 									"left": 571,
-									"top": 254,
+									"top": 255,
 									"width": 0,
 									"height": 13,
 									"autoResize": false,
@@ -25993,7 +26474,7 @@
 									"containerChangeable": false,
 									"containerExtending": false,
 									"left": 546,
-									"top": 269,
+									"top": 270,
 									"width": 53,
 									"height": 13,
 									"autoResize": false,
@@ -26027,7 +26508,7 @@
 									"containerChangeable": false,
 									"containerExtending": false,
 									"left": 570,
-									"top": 225,
+									"top": 226,
 									"width": 0,
 									"height": 13,
 									"autoResize": false,
@@ -26058,7 +26539,7 @@
 								"$ref": "AAAAAAFMZnSwzVBRvCI="
 							},
 							"lineStyle": 1,
-							"points": "643:243;499:249",
+							"points": "643:244;499:250",
 							"stereotypeDisplay": "label",
 							"showVisibility": true,
 							"showProperty": true,
@@ -26080,7 +26561,7 @@
 					"_parent": {
 						"$ref": "AAAAAAFF+qBWK6M3Z8Y="
 					},
-					"name": "Quản lý xe máy",
+					"name": "Manage Vehicle",
 					"visibility": "public",
 					"isAbstract": false,
 					"isFinalSpecialization": false,
@@ -26092,7 +26573,7 @@
 					"_parent": {
 						"$ref": "AAAAAAFF+qBWK6M3Z8Y="
 					},
-					"name": "Đặt trước hành trình",
+					"name": "Create New Itinerary",
 					"ownedElements": [
 						{
 							"_type": "UMLExtend",
@@ -26189,7 +26670,7 @@
 											"height": 13,
 											"autoResize": false,
 											"underline": false,
-											"text": "Tài Xế",
+											"text": "Driver",
 											"horizontalAlignment": 2,
 											"verticalAlignment": 5
 										},
@@ -26439,13 +26920,13 @@
 											"showShadow": true,
 											"containerChangeable": false,
 											"containerExtending": false,
-											"left": 252,
+											"left": 252.5,
 											"top": 295.5,
-											"width": 99,
+											"width": 102,
 											"height": 13,
 											"autoResize": false,
 											"underline": false,
-											"text": "Quản lý xe máy",
+											"text": "Manage Vehicle",
 											"horizontalAlignment": 2,
 											"verticalAlignment": 5
 										},
@@ -26508,9 +26989,9 @@
 									"showShadow": true,
 									"containerChangeable": false,
 									"containerExtending": false,
-									"left": 247,
+									"left": 247.5,
 									"top": 288.5,
-									"width": 110,
+									"width": 113,
 									"height": 25,
 									"autoResize": false,
 									"stereotypeLabel": {
@@ -26634,7 +27115,7 @@
 							"containerExtending": false,
 							"left": 224,
 							"top": 284,
-							"width": 155,
+							"width": 159,
 							"height": 35,
 							"autoResize": false,
 							"stereotypeDisplay": "label",
@@ -26722,13 +27203,13 @@
 											"showShadow": true,
 											"containerChangeable": false,
 											"containerExtending": false,
-											"left": 440,
+											"left": 442.5,
 											"top": 171.5,
-											"width": 176,
+											"width": 189,
 											"height": 13,
 											"autoResize": false,
 											"underline": false,
-											"text": "Cập Nhật Thông Tin Xe Máy",
+											"text": "Update Information of Vehicle",
 											"horizontalAlignment": 2,
 											"verticalAlignment": 5
 										},
@@ -26791,9 +27272,9 @@
 									"showShadow": true,
 									"containerChangeable": false,
 									"containerExtending": false,
-									"left": 435,
+									"left": 437.5,
 									"top": 164.5,
-									"width": 187,
+									"width": 200,
 									"height": 25,
 									"autoResize": false,
 									"stereotypeLabel": {
@@ -26917,7 +27398,7 @@
 							"containerExtending": false,
 							"left": 396,
 							"top": 160,
-							"width": 264,
+							"width": 282,
 							"height": 35,
 							"autoResize": false,
 							"stereotypeDisplay": "label",
@@ -27005,13 +27486,13 @@
 											"showShadow": true,
 											"containerChangeable": false,
 											"containerExtending": false,
-											"left": 473.5,
+											"left": 481.5,
 											"top": 299.5,
-											"width": 86,
+											"width": 125,
 											"height": 13,
 											"autoResize": false,
 											"underline": false,
-											"text": "Thêm Xe Máy",
+											"text": "Create New Vehicle",
 											"horizontalAlignment": 2,
 											"verticalAlignment": 5
 										},
@@ -27074,9 +27555,9 @@
 									"showShadow": true,
 									"containerChangeable": false,
 									"containerExtending": false,
-									"left": 468.5,
+									"left": 476.5,
 									"top": 292.5,
-									"width": 97,
+									"width": 136,
 									"height": 25,
 									"autoResize": false,
 									"stereotypeLabel": {
@@ -27200,7 +27681,7 @@
 							"containerExtending": false,
 							"left": 448,
 							"top": 288,
-							"width": 137,
+							"width": 192,
 							"height": 35,
 							"autoResize": false,
 							"stereotypeDisplay": "label",
@@ -27288,13 +27769,13 @@
 											"showShadow": true,
 											"containerChangeable": false,
 											"containerExtending": false,
-											"left": 475,
+											"left": 478.5,
 											"top": 419.5,
-											"width": 75,
+											"width": 92,
 											"height": 13,
 											"autoResize": false,
 											"underline": false,
-											"text": "Xóa Xe Máy",
+											"text": "Delete Vehicle",
 											"horizontalAlignment": 2,
 											"verticalAlignment": 5
 										},
@@ -27357,9 +27838,9 @@
 									"showShadow": true,
 									"containerChangeable": false,
 									"containerExtending": false,
-									"left": 470,
+									"left": 473.5,
 									"top": 412.5,
-									"width": 86,
+									"width": 103,
 									"height": 25,
 									"autoResize": false,
 									"stereotypeLabel": {
@@ -27483,7 +27964,7 @@
 							"containerExtending": false,
 							"left": 452,
 							"top": 408,
-							"width": 121,
+							"width": 145,
 							"height": 35,
 							"autoResize": false,
 							"stereotypeDisplay": "label",
@@ -27951,7 +28432,7 @@
 									"showShadow": true,
 									"containerChangeable": false,
 									"containerExtending": false,
-									"left": 421,
+									"left": 426,
 									"top": 246,
 									"width": 0,
 									"height": 13,
@@ -27984,7 +28465,7 @@
 									"showShadow": true,
 									"containerChangeable": false,
 									"containerExtending": false,
-									"left": 402,
+									"left": 407,
 									"top": 259,
 									"width": 53,
 									"height": 13,
@@ -28018,7 +28499,7 @@
 									"showShadow": true,
 									"containerChangeable": false,
 									"containerExtending": false,
-									"left": 406,
+									"left": 411,
 									"top": 219,
 									"width": 0,
 									"height": 13,
@@ -28050,7 +28531,7 @@
 								"$ref": "AAAAAAFMZatzg/gSB7I="
 							},
 							"lineStyle": 1,
-							"points": "494:195;334:283",
+							"points": "502:195;337:283",
 							"stereotypeDisplay": "label",
 							"showVisibility": true,
 							"showProperty": true,
@@ -28092,7 +28573,7 @@
 									"showShadow": true,
 									"containerChangeable": false,
 									"containerExtending": false,
-									"left": 412,
+									"left": 414,
 									"top": 311,
 									"width": 0,
 									"height": 13,
@@ -28125,7 +28606,7 @@
 									"showShadow": true,
 									"containerChangeable": false,
 									"containerExtending": false,
-									"left": 386,
+									"left": 388,
 									"top": 326,
 									"width": 53,
 									"height": 13,
@@ -28159,8 +28640,8 @@
 									"showShadow": true,
 									"containerChangeable": false,
 									"containerExtending": false,
-									"left": 413,
-									"top": 282,
+									"left": 415,
+									"top": 281,
 									"width": 0,
 									"height": 13,
 									"autoResize": false,
@@ -28191,7 +28672,7 @@
 								"$ref": "AAAAAAFMZavooPg9l7I="
 							},
 							"lineStyle": 1,
-							"points": "447:304;379:302",
+							"points": "447:303;383:302",
 							"stereotypeDisplay": "label",
 							"showVisibility": true,
 							"showProperty": true,
@@ -28233,8 +28714,8 @@
 									"showShadow": true,
 									"containerChangeable": false,
 									"containerExtending": false,
-									"left": 398,
-									"top": 369,
+									"left": 405,
+									"top": 370,
 									"width": 0,
 									"height": 13,
 									"autoResize": false,
@@ -28266,8 +28747,8 @@
 									"showShadow": true,
 									"containerChangeable": false,
 									"containerExtending": false,
-									"left": 364,
-									"top": 382,
+									"left": 372,
+									"top": 383,
 									"width": 53,
 									"height": 13,
 									"autoResize": false,
@@ -28300,8 +28781,8 @@
 									"showShadow": true,
 									"containerChangeable": false,
 									"containerExtending": false,
-									"left": 413,
-									"top": 344,
+									"left": 420,
+									"top": 343,
 									"width": 0,
 									"height": 13,
 									"autoResize": false,
@@ -28332,7 +28813,7 @@
 								"$ref": "AAAAAAFMZaxSPvhpD0U="
 							},
 							"lineStyle": 1,
-							"points": "481:407;332:319",
+							"points": "492:407;335:319",
 							"stereotypeDisplay": "label",
 							"showVisibility": true,
 							"showProperty": true,
@@ -28354,7 +28835,7 @@
 					"_parent": {
 						"$ref": "AAAAAAFF+qBWK6M3Z8Y="
 					},
-					"name": "Cập Nhật Thông Tin Xe Máy",
+					"name": "Update Information of Vehicle",
 					"ownedElements": [
 						{
 							"_type": "UMLExtend",
@@ -28382,7 +28863,7 @@
 					"_parent": {
 						"$ref": "AAAAAAFF+qBWK6M3Z8Y="
 					},
-					"name": "Thêm Xe Máy",
+					"name": "Create New Vehicle",
 					"ownedElements": [
 						{
 							"_type": "UMLExtend",
@@ -28410,7 +28891,7 @@
 					"_parent": {
 						"$ref": "AAAAAAFF+qBWK6M3Z8Y="
 					},
-					"name": "Xóa Xe Máy",
+					"name": "Delete Vehicle",
 					"ownedElements": [
 						{
 							"_type": "UMLExtend",
@@ -28507,7 +28988,7 @@
 											"height": 13,
 											"autoResize": false,
 											"underline": false,
-											"text": "Tài Xế",
+											"text": "Driver",
 											"horizontalAlignment": 2,
 											"verticalAlignment": 5
 										},
@@ -29046,7 +29527,7 @@
 											"height": 13,
 											"autoResize": false,
 											"underline": false,
-											"text": "Xem Lịch Sử hành Trình",
+											"text": "View History",
 											"horizontalAlignment": 2,
 											"verticalAlignment": 5
 										},
@@ -29111,7 +29592,7 @@
 									"containerExtending": false,
 									"left": 618.5,
 									"top": 272.5,
-									"width": 165,
+									"width": 164,
 									"height": 25,
 									"autoResize": false,
 									"stereotypeLabel": {
@@ -29329,7 +29810,7 @@
 											"height": 13,
 											"autoResize": false,
 											"underline": false,
-											"text": "Báo Cáo Thống Kê",
+											"text": "Report",
 											"horizontalAlignment": 2,
 											"verticalAlignment": 5
 										},
@@ -29394,7 +29875,7 @@
 									"containerExtending": false,
 									"left": 363,
 									"top": 192.5,
-									"width": 129,
+									"width": 128,
 									"height": 25,
 									"autoResize": false,
 									"stereotypeLabel": {
@@ -30564,13 +31045,13 @@
 											"showShadow": true,
 											"containerChangeable": false,
 											"containerExtending": false,
-											"left": 336,
+											"left": 341,
 											"top": 266.5,
-											"width": 42,
+											"width": 66,
 											"height": 13,
 											"autoResize": false,
 											"underline": false,
-											"text": "Gọi Xe",
+											"text": "Call Driver",
 											"horizontalAlignment": 2,
 											"verticalAlignment": 5
 										},
@@ -30633,9 +31114,9 @@
 									"showShadow": true,
 									"containerChangeable": false,
 									"containerExtending": false,
-									"left": 331,
+									"left": 336,
 									"top": 259.5,
-									"width": 53,
+									"width": 77,
 									"height": 25,
 									"autoResize": false,
 									"stereotypeLabel": {
@@ -30759,7 +31240,7 @@
 							"containerExtending": false,
 							"left": 320,
 							"top": 255,
-							"width": 74,
+							"width": 108,
 							"height": 35,
 							"autoResize": false,
 							"stereotypeDisplay": "label",
@@ -31273,7 +31754,7 @@
 											"height": 13,
 											"autoResize": false,
 											"underline": false,
-											"text": "Thành Viên",
+											"text": "Customer",
 											"horizontalAlignment": 2,
 											"verticalAlignment": 5
 										},
@@ -31523,13 +32004,13 @@
 											"showShadow": true,
 											"containerChangeable": false,
 											"containerExtending": false,
-											"left": 286,
+											"left": 291,
 											"top": 234.5,
-											"width": 42,
+											"width": 66,
 											"height": 13,
 											"autoResize": false,
 											"underline": false,
-											"text": "Gọi Xe",
+											"text": "Call Driver",
 											"horizontalAlignment": 2,
 											"verticalAlignment": 5
 										},
@@ -31592,9 +32073,9 @@
 									"showShadow": true,
 									"containerChangeable": false,
 									"containerExtending": false,
-									"left": 281,
+									"left": 286,
 									"top": 227.5,
-									"width": 53,
+									"width": 77,
 									"height": 25,
 									"autoResize": false,
 									"stereotypeLabel": {
@@ -31718,7 +32199,7 @@
 							"containerExtending": false,
 							"left": 270,
 							"top": 223,
-							"width": 74,
+							"width": 108,
 							"height": 35,
 							"autoResize": false,
 							"stereotypeDisplay": "label",
@@ -32156,6 +32637,15 @@
 							}
 						}
 					]
+				},
+				{
+					"_type": "UMLUseCaseSubject",
+					"_id": "AAAAAAFNFsCUqd1VTzs=",
+					"_parent": {
+						"$ref": "AAAAAAFF+qBWK6M3Z8Y="
+					},
+					"name": "System",
+					"visibility": "public"
 				}
 			],
 			"visibility": "public"
