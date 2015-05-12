@@ -1425,6 +1425,121 @@ class DbHandler {
     }
 
 
+    /* ------------- `Comment` table method ------------------ */
+
+    public function createComment($user_id, $content, $comment_about_user_id) {
+        // First check if user already existed in db
+
+            $sql_query = "INSERT INTO comment(user_comment_id, comment_about_user_id, content) values(?, ?, ?)";
+
+            // insert query
+            if ($stmt = $this->conn->prepare($sql_query)) {
+                $stmt->bind_param("iis", $user_id, $comment_about_user_id, $content==NULL?'':$content);
+                $result = $stmt->execute();
+            } else {
+                var_dump($this->conn->error);
+            }
+
+            $stmt->close();
+
+            // Check for successful insertion
+            if ($result) {
+                // User successfully inserted
+                return COMMENT_CREATED_SUCCESSFULLY;
+            } else {
+                // Failed to create user
+                return COMMENT_CREATE_FAILED;
+            }
+    }
+
+    /**
+     * Fetching user by email
+     * @param String $email User email id
+     */
+    public function getListCommentOfUser($user_id) {
+        $stmt = $this->conn->prepare("SELECT * FROM comment WHERE user_comment_id = ?");
+
+        $stmt->bind_param("i", $user_id);
+
+        if ($stmt->execute()) {
+            // $user = $stmt->get_result()->fetch_assoc();
+            $vehicle = $stmt->get_result();
+            $stmt->close();
+            return $vehicle;
+        } else {
+            return NULL;
+        }
+    }
+
+    /**
+     * Fetching user by email
+     * @param String $email User email id
+     */
+    public function getComment($comment_id) {
+        $stmt = $this->conn->prepare("SELECT comment_id, user_comment_id, comment_about_user_id, content, created_at
+                                      FROM commnet WHERE comment_id = ?");
+
+        $stmt->bind_param("i", $comment_id);
+
+        if ($stmt->execute()) {
+            // $user = $stmt->get_result()->fetch_assoc();
+            $stmt->bind_result($comment_id, $user_comment_id, $comment_about_user_id, $content, $created_at);
+            $stmt->fetch();
+            $commnent = array();
+            $commnent["comment_id"] = $comment_id;
+            $commnent["user_comment_id"] = $user_comment_id;
+            $commnent["comment_about_user_id"] = $comment_about_user_id;
+            $commnent["content"] = $content; 
+            $commnent["created_at"] = $created_at;
+            $stmt->close();
+            return $commnent;
+        } else {
+            return NULL;
+        }
+    }
+
+    public function updateComment($comment_id, $content) {
+        require_once '/Config.php';
+        $conn2 = new PDO("mysql:host=".DB_HOST.";dbname=".DB_NAME.";charset=utf8", DB_USERNAME, DB_PASSWORD);
+        // set the PDO error mode to exception
+        $conn2->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+        $qry = "UPDATE vehicle set";
+        $param = array();
+
+        if (isset($content)) { 
+            $qry .= " content = :content,"; 
+        }
+
+        $qry .= " status = 1 WHERE comment_id = :comment_id";
+
+        $stmt = $conn2->prepare($qry);
+
+        if (isset($content)) { 
+            $stmt->bindParam(':content', $content);
+        }
+
+        $stmt->bindParam(':comment_id', $comment_id);
+        $stmt->execute();
+        $num_affected_rows = $stmt->rowCount();
+        $conn2 = null;
+        return $num_affected_rows > 0;
+    }
+
+    /**
+     * Delete driver
+     * @param String $user_id id of user
+     */
+    public function deleteComment($comment_id) {
+        $stmt = $this->conn->prepare("DELETE FROM comment WHERE comment_id = ?");
+        $stmt->bind_param("i", $comment_id);
+        $stmt->execute();
+        $num_affected_rows = $stmt->affected_rows;
+        $stmt->close();
+        return $num_affected_rows > 0;
+    }
+
+
     /* ------------- `staff` table method ------------------ */
 
     /**

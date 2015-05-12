@@ -1,35 +1,200 @@
 ﻿<phone:PhoneApplicationPage
-    x:Class="UberRiding.Driver.VehicleDetails"
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
-    xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    FontFamily="{StaticResource PhoneFontFamilyNormal}"
-    FontSize="{StaticResource PhoneFontSizeNormal}"
-    Foreground="{StaticResource PhoneForegroundBrush}"
-    SupportedOrientations="Portrait" Orientation="Portrait"
-    mc:Ignorable="d"
-    shell:SystemTray.IsVisible="True">
+	x:Class="UberRiding.Driver.VehicleDetails"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
+	xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	FontFamily="{StaticResource PhoneFontFamilyNormal}"
+	FontSize="{StaticResource PhoneFontSizeNormal}"
+	Foreground="{StaticResource PhoneForegroundBrush}"
+	SupportedOrientations="Portrait" Orientation="Portrait"
+	mc:Ignorable="d"
+	shell:SystemTray.IsVisible="True">
 
-    <!--LayoutRoot is the root grid where all page content is placed-->
-    <Grid x:Name="LayoutRoot" Background="Transparent">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
+	<!--LayoutRoot is the root grid where all page content is placed-->
+	<Grid x:Name="LayoutRoot" Background="#3DA5E1">
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto"/>
+			<RowDefinition Height="2.5*"/>
+			<RowDefinition Height="5*"/>
+			<RowDefinition Height="*"/>
+		</Grid.RowDefinitions>
 
-        <!--TitlePanel contains the name of the application and page title-->
-        <StackPanel Grid.Row="0" Margin="12,17,0,28">
-            <TextBlock Text="MY APPLICATION" Style="{StaticResource PhoneTextNormalStyle}"/>
-            <TextBlock Text="page name" Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle1Style}"/>
-        </StackPanel>
+		<!--TitlePanel contains the name of the application and page title-->
+		<StackPanel Grid.Row="0" Canvas.ZIndex="999"
+			Margin="0,0,0,0" 
+			Background="#FF20E017"
+			Height="Auto">
+			<TextBlock 
+				Margin="0,0,0,0"
+				HorizontalAlignment="Left"
+				Style="{StaticResource PhoneTextTitle1Style}"
+				Text="{Binding Path=LocalizedResources.title, Source={StaticResource LocalizedStrings}}" FontSize="22"/>
+		</StackPanel>
 
-        <!--ContentPanel - place additional content here-->
-        <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0">
+		<Grid Grid.Row="1" Background="White" Margin="0,0,0,3">
+			<Grid.RowDefinitions>
+				<RowDefinition Height="3*"/>
+				<RowDefinition Height="*"/>
+			</Grid.RowDefinitions>
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="2*"/>
+				<ColumnDefinition Width="*"/>
+			</Grid.ColumnDefinitions>
+			<Grid Grid.Column="1">
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="*"/>
+					<ColumnDefinition Width="*"/>
+				</Grid.ColumnDefinitions>
+				<!--<Button Grid.Row="1" Grid.Column="0" Width="90" Height="90" BorderThickness="0">
+					<Image x:Name="btnUpdateVehicleInfor" 
+						   Source="/Assets/ic_acc/ic_edit.png"
+						   Tap="btnUpdateVehicleInfor_Tap"/>
+				</Button>-->
+				<!-- select-->
+				<Button Grid.Column="0" Width="90" Height="90" BorderThickness="0">
+					<Image x:Name="btnSelectVehiclePhoto"
+						   Source="/Assets/ic_acc/ic_upload.png"
+						   Tap="btnSelectVehiclePhoto_Tap" />
+				</Button>
+				<!--capture-->
+				<Button Grid.Column="1" Width="90" Height="90" BorderThickness="0">
+					<Image x:Name="btnCaptureVehiclePhoto"
+						   Source="/Assets/ic_acc/ic_image2.png"
+						   Tap="btnCaptureVehiclePhoto_Tap" />
+				</Button>
+			</Grid>
 
-        </Grid>
-    </Grid>
+			<Image x:Name="imgVehicle" Grid.Row="0" VerticalAlignment="Top" Margin="10,10,10,10" Height="150" Width="250">
+				<Image.Source>
+					<BitmapImage/>
+				</Image.Source>
+			</Image>
+
+			<Grid Grid.Row="1">
+				<TextBlock Grid.Column="1" x:Name="txtbVehicleName" Foreground="Black" Text="{Binding Path=LocalizedResources.vehicleImg, Source={StaticResource LocalizedStrings}}" HorizontalAlignment="Center" FontSize="24" FontWeight="Bold"/>
+			</Grid>
+			<TextBlock HorizontalAlignment="Center"/>
+
+		</Grid>
+
+		<ListBox Grid.Row="2">
+			<ListBoxItem Background="White" Margin="0,0,0,0">
+				<TextBlock Text="{Binding Path=LocalizedResources.vehicleInfor, Source={StaticResource LocalizedStrings}}" FontWeight="Bold" Foreground="Black" FontSize="24"/>
+			</ListBoxItem>
+			<ListBoxItem Background="White" Margin="0,0,0,3">
+				<StackPanel Orientation="Horizontal" Margin="0,0,0,0" Height="100" Width="Auto">
+					<!--Replace rectangle with image-->
+					<Border BorderThickness="3" Width="99" Height="99" BorderBrush="#FFFFC700">
+						<!-- Background="#FFFFC700"-->
+						<Image Stretch="Uniform" Source="/Assets/avatar/ic_logo.png"  Width="99" Height="99" MinWidth="99" MinHeight="99" HorizontalAlignment="Left" Margin="0,0" />
+					</Border>
+					<StackPanel Width="380" Margin="0,0,0,0">
+						<TextBlock Text="{Binding Path=LocalizedResources.vehicleType, Source={StaticResource LocalizedStrings}}" Foreground="Blue" TextWrapping="Wrap" Margin="10,0" Style="{StaticResource PhoneTextExtraLargeStyle}" FontSize="24" FontWeight="Bold" />
+						<TextBlock x:Name="txtbType" Text="{Binding end_address}" Foreground="Black" TextWrapping="Wrap" Margin="10,-2" Height="60" />
+					</StackPanel>
+				</StackPanel>
+			</ListBoxItem>
+			<ListBoxItem Background="White" Margin="0,0,0,3">
+				<StackPanel Orientation="Horizontal" Margin="0,0,0,0" Height="100" Width="Auto">
+					<!--Replace rectangle with image-->
+					<Border BorderThickness="3" Width="99" Height="99" BorderBrush="#FFFFC700" >
+						<!-- Background="#FFFFC700"-->
+						<Image Source="/Assets/ic_acc/ic_plate.jpg"  Width="99" Height="99" MinWidth="99" MinHeight="99" />
+					</Border>
+					<StackPanel Width="380" Margin="0,0,0,0">
+						<TextBlock Text="{Binding Path=LocalizedResources.vehiclePlateNum, Source={StaticResource LocalizedStrings}}" Foreground="Blue" TextWrapping="Wrap" Margin="10,0" Style="{StaticResource PhoneTextExtraLargeStyle}" FontSize="24" FontWeight="Bold" />
+						<TextBlock x:Name="txtbVehiclePlate" Text="{Binding end_address}" Foreground="Black" Height="60" TextWrapping="Wrap" Margin="10,-2" FontWeight="Bold"/>
+					</StackPanel>
+				</StackPanel>
+			</ListBoxItem>
+			<ListBoxItem Background="White" Margin="0,0,0,3">
+				<StackPanel Orientation="Horizontal" Margin="0,0,0,0" Height="100" Width="Auto">
+					<!--Replace rectangle with image-->
+					<Border BorderThickness="3" Width="99" Height="99" BorderBrush="#FFFFC700" >
+						<!-- Background="#FFFFC700"-->
+						<Image Source="/Assets/ic_acc/ic_motorregister.jpg"  Width="99" Height="99" MinWidth="99" MinHeight="99" />
+					</Border>
+					<StackPanel Width="380" Margin="0,0,0,0">
+						<TextBlock Text="{Binding Path=LocalizedResources.txtRegistrationCertificate, Source={StaticResource LocalizedStrings}}" Foreground="Blue" TextWrapping="Wrap" Margin="10,0" Style="{StaticResource PhoneTextExtraLargeStyle}" FontSize="24" FontWeight="Bold" />
+						<TextBlock x:Name="txtbRegistrationCertificate" Text="{Binding end_address}" Foreground="Black" Height="60" TextWrapping="Wrap" Margin="10,-2" FontWeight="Bold"/>
+					</StackPanel>
+				</StackPanel>
+			</ListBoxItem>
+
+			<!--Motor's plate-->
+			<ListBoxItem Width="Auto" Background="White" Margin="0,0,0,0">
+				<TextBlock Foreground="Black" Text="{Binding Path=LocalizedResources.licensePlateImg, Source={StaticResource LocalizedStrings}}" FontSize="24" FontWeight="Bold"/>
+			</ListBoxItem>
+
+			<ListBoxItem Background="White" Margin="0,0,0,3">
+				<!--Replace rectangle with image-->
+				<Grid Width="480" Height="150" Margin="0,0,0,0">
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="2*"/>
+						<ColumnDefinition Width="*"/>
+					</Grid.ColumnDefinitions>
+					<Image x:Name="imgLicensePlate" Grid.Column="0" Source="/Assets/avatar/ic_personalID.jpg" Height="130" Width="250"  Stretch="Fill" Margin="10,10,10,10"/>
+					<Grid Grid.Column="1">
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="*"/>
+							<ColumnDefinition Width="*"/>
+						</Grid.ColumnDefinitions>
+						<Button Grid.Column="0" Width="90" Height="90" >
+							<Image x:Name="btnSlelectMotorPlate" 
+								   Source="/Assets/ic_acc/ic_upload.png"
+								   Tap="btnSlelectMotorPlate_Tap"/>
+						</Button>
+						<Button Grid.Column="1" Width="90" Height="90">
+							<Image x:Name="btnCaptureMotoPlate" 
+								   Source="/Assets/ic_acc/ic_image2.png"
+								   Tap="btnCaptureMotoPlate_Tap"/>
+						</Button>
+					</Grid>
+
+				</Grid>
+			</ListBoxItem>
+
+			<!--Motor's insurance-->
+			<ListBoxItem Width="Auto" Background="White" Margin="0,0,0,0">
+				<TextBlock Foreground="Black" Text="{Binding Path=LocalizedResources.motorInsuranceImg, Source={StaticResource LocalizedStrings}}" FontSize="24" FontWeight="Bold"/>
+			</ListBoxItem>
+
+			<ListBoxItem Background="White" Margin="0,0,0,3">
+				<!--Replace rectangle with image-->
+				<Grid Height="150" Width="480" Margin="0,0,0,0">
+					<!--1 picure and 2 button -->
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="2*"/>
+						<ColumnDefinition Width="*"/>
+					</Grid.ColumnDefinitions>
+					<Image Grid.Column="0" x:Name="imgMotorInsurance" Source="/Assets/avatar/ic_personalID.jpg" Margin="10,10,10,10" Height="130" Width="250" Stretch="Fill"/>
+
+					<Grid Grid.Column="1">
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="*"/>
+							<ColumnDefinition Width="*"/>
+						</Grid.ColumnDefinitions>
+						<Button Grid.Column="0" Width="90" Height="90" >
+							<Image x:Name="btnSelectMotorInsuranceImg" 
+								   Source="/Assets/ic_acc/ic_upload.png"
+								   Tap="btnSelectMotorInsuranceImg_Tap"/>
+						</Button>
+						<Button Grid.Column="1" Width="90" Height="90">
+							<Image x:Name="btnCaptureMotorInsuranceImg" 
+								   Source="/Assets/ic_acc/ic_image2.png"
+								   Tap="btnCaptureMotorInsuranceImg_Tap"/>
+						</Button>
+					</Grid>
+
+				</Grid>
+			</ListBoxItem>
+		</ListBox>
+		<Grid Grid.Row="3" Background="White">
+			<Button x:Name="btnUpdate" Height="70" Width="450" Background="#3DA5E1" Content="{Binding Path=LocalizedResources.btnUpdate, Source={StaticResource LocalizedStrings}}" Margin="-1,0,1,0" Click="btnUpdate_Click"/>
+		</Grid>
+	</Grid>
 
 </phone:PhoneApplicationPage>

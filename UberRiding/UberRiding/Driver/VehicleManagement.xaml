@@ -31,29 +31,31 @@
 		</StackPanel>
 		<!--Pivot Control-->
 		<phone:Pivot Grid.Row="1" Margin="0,-30,0,0" Background="#3DA5E1">
-			<!--Pivot item one-->
-			<phone:PivotItem Header="Vehicle List">
+			<!--Pivot item three-->
+			<phone:PivotItem Header="{Binding Path=LocalizedResources.headerVehicle, Source={StaticResource LocalizedStrings}}">
 				<!--Double line list with image placeholder and text wrapping using a floating header that scrolls with the content-->
-				<phone:LongListSelector x:Name="longlistVehicle" Margin="0,-38,-22,2" SelectionChanged="longlistVehicle_SelectionChanged">
-
+				<phone:LongListSelector x:Name="longlistVehicles" Margin="0,0,0,0" SelectionChanged="longlistVehicles_SelectionChanged">
 					<phone:LongListSelector.ItemTemplate>
 						<DataTemplate>
 							<StackPanel Orientation="Horizontal" Margin="12,2,0,4" Height="105" Width="432">
 								<!--Replace rectangle with image-->
 								<Border BorderThickness="3" Width="99" Height="99" BorderBrush="#FFFFC700" >
 									<!-- Background="#FFFFC700"-->
-									<Image Source="{Binding link_avatar}"  Width="99" Height="99" MinWidth="99" MinHeight="99" />
+									<Image Source="{Binding vehicle_img}"  Width="99" Height="99" MinWidth="99" MinHeight="99" />
 								</Border>
 								<StackPanel Width="311" Margin="8,-7,0,0">
-									<TextBlock Text="{Binding start_address}" TextWrapping="Wrap" Margin="10,0" Style="{StaticResource PhoneTextExtraLargeStyle}" FontSize="{StaticResource PhoneFontSizeLarge}" />
-									<TextBlock Text="{Binding end_address}" TextWrapping="Wrap" Margin="10,-2,10,0" Style="{StaticResource PhoneTextSubtleStyle}" />
+									<TextBlock Text="{Binding type}" TextWrapping="Wrap" Margin="10,0"/>
+									<TextBlock Text="{Binding user_id}" TextWrapping="Wrap" Margin="10,-2,10,0"/>
+									<TextBlock Text="{Binding license_plate}" TextWrapping="Wrap" Margin="10,-2,10,0"/>
 								</StackPanel>
 							</StackPanel>
 						</DataTemplate>
 					</phone:LongListSelector.ItemTemplate>
 				</phone:LongListSelector>
 			</phone:PivotItem>
+
+
 		</phone:Pivot>
 	</Grid>
-	
+
 </phone:PhoneApplicationPage>

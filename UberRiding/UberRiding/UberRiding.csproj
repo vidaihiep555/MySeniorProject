@@ -163,6 +163,7 @@
     <Compile Include="Global\ImageConvert.cs" />
     <Compile Include="Global\Logout.cs" />
     <Compile Include="Global\MarkerDraw.cs" />
+    <Compile Include="Global\ScheduleReminder.cs" />
     <Compile Include="LocalizedStrings.cs" />
     <Compile Include="Login.xaml.cs">
       <DependentUpon>Login.xaml</DependentUpon>
@@ -331,9 +332,12 @@
     <Content Include="Assets\AppBar\ic_search.png" />
     <Content Include="Assets\avatar\email-blue-icon.png" />
     <Content Include="Assets\avatar\ic_author_vidal.png" />
+    <Content Include="Assets\avatar\ic_driver_license .jpg" />
     <Content Include="Assets\avatar\ic_edit.png" />
     <Content Include="Assets\avatar\ic_image2.png" />
     <Content Include="Assets\avatar\ic_logo.png" />
+    <Content Include="Assets\avatar\ic_motorregister.jpg" />
+    <Content Include="Assets\avatar\ic_plate.jpg" />
     <Content Include="Assets\avatar\ic_upload.png" />
     <Content Include="Assets\avatar\Personal.png" />
     <Content Include="Assets\avatar\phone.png" />

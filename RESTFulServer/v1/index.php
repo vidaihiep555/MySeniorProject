@@ -1021,7 +1021,7 @@ $app->delete('/itinerary/:id', 'authenticateUser', function($itinerary_id) use($
 
 
 
-///////////////////////////// FEEDBACK - COMMENT /////////////////////////////////////
+///////////////////////////// FEEDBACK ////////////////////////////////////////////
 
 
 
@@ -1053,6 +1053,9 @@ $app->post('/feedback', function() use ($app) {
             echoRespnse(201, $response);
         });
 
+
+//////////////////////////////// COMMENT  //////////////////////////////////////
+
 $app->get('/comment/:user_id', 'authenticateUser', function($user_id) {
             $response = array();
             $db = new DbHandler();
@@ -1072,6 +1075,118 @@ $app->get('/comment/:user_id', 'authenticateUser', function($user_id) {
                 echoRespnse(404, $response);
             }
         });
+
+
+/**
+ * Comment creation
+ * url - /comment
+ * method - POST
+ * params - 
+ */
+$app->post('/comment', 'authenticateUser', function() use ($app) {
+            global $user_id;
+
+            verifyRequiredParams(array('content', 'comment_about_user_id'), $language);
+
+            $response = array();
+
+            $content = $app->request->post('content');
+            $comment_about_user_id = $app->request->post('comment_about_user_id');
+
+            $db = new DbHandler();
+            $res = $db->createComment($user_id, $content, $comment_about_user_id);
+
+            if ($res == COMMENT_CREATED_SUCCESSFULLY) {
+                $response["error"] = false;
+                $response["message"] = $lang['REGISTER_SUCCESS'];
+            } else if ($res == COMMENT_CREATE_FAILED) {
+                $response["error"] = true;
+                $response["message"] = $lang['ERR_REGISTER'];
+            }
+            // echo json response
+            echoRespnse(201, $response);
+        });
+
+
+/**
+ * Get driver information
+ * method GET
+ * url /driver
+ */
+$app->get('/comment/:comment_id', 'authenticateUser', function($comment_id) {
+
+            $response = array();
+            $db = new DbHandler();
+
+            // fetch task
+            $comment = $db->getComment($comment_id);
+
+            if ($comment != NULL) {
+                $response["error"] = false;
+                $response['comment_id'] = $comment["comment_id"];
+                $response['comment_about_user_id'] = $comment["comment_about_user_id"];
+                $response['content'] = $comment["content"];
+                $response['created_at'] = $comment["created_at"];
+                echoRespnse(200, $response);
+            } else {
+                $response["error"] = true;
+                $response["message"] = $lang['ERR_LINK_REQUEST'];
+                echoRespnse(404, $response);
+            }
+        });
+
+/**
+ * Updating user
+ * method PUT
+ * params task, status
+ * url - /user
+ */
+$app->put('/comment/:comment_id', 'authenticateUser', function($comment_id) use($app) { 
+
+            $content = $app->request->post('content');
+            $comment_about_user_id = $app->request->post('comment_about_user_id');
+
+            $db = new DbHandler();
+            $response = array();
+
+            // updating task
+            $result = $db->updateComment($comment_id, $content);
+            if ($result) {
+                // task updated successfully
+                $response["error"] = false;
+                $response["message"] = $lang['ALERT_UPDATE'];
+            } else {
+                // task failed to update
+                $response["error"] = true;
+                $response["message"] = $lang['ERR_UPDATE'];
+            }
+            echoRespnse(200, $response);
+        });
+
+/**
+ * Deleting user.
+ * method DELETE
+ * url /user
+ */
+$app->delete('/comment/:comment_id', 'authenticateUser', function($comment_id) {
+
+            $db = new DbHandler();
+            $response = array();
+
+            $result = $db->deleteComment($comment_id);
+
+            if ($result) {
+                // user deleted successfully
+                $response["error"] = false;
+                $response["message"] = $lang['VEHICLE_DELETE_SUCCESS'];
+            } else {
+                // task failed to delete
+                $response["error"] = true;
+                $response["message"] = $lang['VEHICLE_DELETE_FAILURE'];
+            }
+            echoRespnse(200, $response);
+        });
+
 
 
 ///////////////////////////////////// RATING ////////////////////////////////////////////////////
