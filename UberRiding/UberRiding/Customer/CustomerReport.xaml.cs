@@ -105,5 +105,15 @@ namespace UberRiding.Customer
 
             itineraryChart.DataSource = driverItineraryData;
         }
+
+        private void longlistItinerariesFinished_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            Itinerary2 selectedItem = (Itinerary2)longlistItinerariesFinished.SelectedItem;
+            MessageBox.Show("ss: " + selectedItem.itinerary_id);
+            //luu tru tam thoi
+            Global.GlobalData.selectedItinerary = selectedItem;
+            //navigate sang details
+            NavigationService.Navigate(new Uri("/Customer/CustomerItineraryDetails.xaml", UriKind.RelativeOrAbsolute));
+        }
     }
 }

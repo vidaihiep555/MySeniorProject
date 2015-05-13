@@ -143,6 +143,7 @@ namespace UberRiding.Customer
             MessageBox.Show(jsonObject.Value<string>("message"));
         }
 
+        #region Image
         void photoAvatarChooserTask_Completed(object sender, PhotoResult e)
         {
             if (e.TaskResult == TaskResult.OK)
@@ -240,6 +241,7 @@ namespace UberRiding.Customer
             cameraCaptureTask.Completed += new EventHandler<PhotoResult>(cameraCaptureAvaTask_Completed);
             cameraCaptureTask.Show();
         }
+        #endregion
 
         private void btnUpdateProfile_Tap(object sender, System.Windows.Input.GestureEventArgs e)
         {

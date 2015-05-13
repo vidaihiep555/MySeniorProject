@@ -25,6 +25,8 @@ namespace UberRiding.Driver
             InitializeComponent();
         }
 
+
+        #region Image
         private void btnSelectVehicalPhoto_Tap(object sender, System.Windows.Input.GestureEventArgs e)
         {
             photoChooserTask = new PhotoChooserTask();
@@ -174,6 +176,7 @@ namespace UberRiding.Driver
                 //MessageBox.Show(str);
             }
         }
+        #endregion
 
         private async void btnAddNewVehicle_Click(object sender, RoutedEventArgs e)
         {

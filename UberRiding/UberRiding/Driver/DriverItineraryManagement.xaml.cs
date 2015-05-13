@@ -96,6 +96,7 @@ namespace UberRiding.Driver
             NavigationService.Navigate(new Uri("/Customer/MainMap.xaml", UriKind.RelativeOrAbsolute));
         }
 
+        #region Itinerary List
         private void longlistItinerariesCustomerAccepted_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             Itinerary2 selectedItem = (Itinerary2)longlistItinerariesAccepted.SelectedItem;
@@ -125,7 +126,9 @@ namespace UberRiding.Driver
             //navigate sang details
             NavigationService.Navigate(new Uri("/Customer/CustomerItineraryDetails.xaml", UriKind.RelativeOrAbsolute));
         }
+        #endregion
 
+        #region Appbar Menu
         private void menuAccountInfo_Click(object sender, EventArgs e)
         {
             NavigationService.Navigate(new Uri("/AccountInfo.xaml", UriKind.RelativeOrAbsolute));
@@ -157,5 +160,6 @@ namespace UberRiding.Driver
         {
             NavigationService.Navigate(new Uri("/RefreshPage.xaml", UriKind.RelativeOrAbsolute));
         }
+        #endregion
     }
 }

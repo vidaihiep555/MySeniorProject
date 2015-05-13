@@ -24,9 +24,9 @@ namespace UberRiding.Customer
         DriverRootObject root = null;
         List<Itinerary> itineraries = new List<Itinerary>();
 
-
         Geocoordinate myGeocoordinate = null;
         GeoCoordinate myGeoCoordinate = null;
+
         public CustomerMainMap()
         {
             InitializeComponent();
@@ -35,24 +35,6 @@ namespace UberRiding.Customer
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
-            // check neu customer status  < 3  va isDisplayMessageBox = false  ==> hien thi messagebox
-            // neu ko thi ko hien thi
-            /*if (GlobalData.customer_status < GlobalData.USER_ACCEPT_UPDATED_PROFILE && GlobalData.isDisplayMessageBox == false)
-            {
-                MessageBoxResult result =
-                MessageBox.Show("You need to update your information to use this app!",
-               "Update Account", MessageBoxButton.OKCancel);
-
-                if (result == MessageBoxResult.OK)
-                {
-                    GlobalData.isDisplayMessageBox = true;
-                    NavigationService.Navigate(new Uri("/AccountInfo.xaml", UriKind.Relative));
-                }
-                else
-                {
-                    GlobalData.isDisplayMessageBox = true;
-                }
-            }*/
             InitCurrentLocationInfo();
             getDrivers();
         }
@@ -62,6 +44,7 @@ namespace UberRiding.Customer
             Task<GeoCoordinate> x = ShowMyCurrentLocationOnTheMap();
         }
 
+        #region Map
         private async Task<GeoCoordinate> ShowMyCurrentLocationOnTheMap()
         {
             // Get my current location.
@@ -89,6 +72,29 @@ namespace UberRiding.Customer
 
             return myGeoCoordinate;
         }
+
+        private void btnZoomIn_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                mapMain.ZoomLevel = mapMain.ZoomLevel + 1;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        private void btnZoomOut_Click(object sender, RoutedEventArgs e)
+        {
+            if (mapMain.ZoomLevel > 1)
+            {
+                mapMain.ZoomLevel = mapMain.ZoomLevel - 1;
+            }
+
+        }
+        #endregion
 
         public async void getDrivers()
         {
@@ -144,6 +150,7 @@ namespace UberRiding.Customer
             NavigationService.Navigate(new Uri("/Customer/CallDriver.xaml", UriKind.Relative));
         }
 
+        #region AppbarMenu
         private void menuPostItinerary_Click(object sender, EventArgs e)
         {
             NavigationService.Navigate(new Uri("/Customer/PostItinerary.xaml", UriKind.Relative));
@@ -174,28 +181,6 @@ namespace UberRiding.Customer
             //xoa csdl luu tru ve driver
             Logout.deleteDriverInfoBeforeLogout();
             NavigationService.Navigate(new Uri("/LoginPage.xaml", UriKind.RelativeOrAbsolute));
-        }
-
-        private void btnZoomIn_Click(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                mapMain.ZoomLevel = mapMain.ZoomLevel + 1;
-            }
-            catch (Exception)
-            {
-                
-                throw;
-            }
-        }
-
-        private void btnZoomOut_Click(object sender, RoutedEventArgs e)
-        {
-            if (mapMain.ZoomLevel > 1)
-            {
-                mapMain.ZoomLevel = mapMain.ZoomLevel - 1;
-            }
-            
         }
 
         private void menuSearch_Click(object sender, EventArgs e)
@@ -259,6 +244,8 @@ namespace UberRiding.Customer
             //add the show method
             messageBox.Show();
         }
+        #endregion
+
 
         private void btnAdvanceSearch_Click(object sender, RoutedEventArgs e)
         {
@@ -267,3 +254,22 @@ namespace UberRiding.Customer
 
     }
 }
+
+// check neu customer status  < 3  va isDisplayMessageBox = false  ==> hien thi messagebox
+// neu ko thi ko hien thi
+/*if (GlobalData.customer_status < GlobalData.USER_ACCEPT_UPDATED_PROFILE && GlobalData.isDisplayMessageBox == false)
+{
+    MessageBoxResult result =
+    MessageBox.Show("You need to update your information to use this app!",
+   "Update Account", MessageBoxButton.OKCancel);
+
+    if (result == MessageBoxResult.OK)
+    {
+        GlobalData.isDisplayMessageBox = true;
+        NavigationService.Navigate(new Uri("/AccountInfo.xaml", UriKind.Relative));
+    }
+    else
+    {
+        GlobalData.isDisplayMessageBox = true;
+    }
+}*/

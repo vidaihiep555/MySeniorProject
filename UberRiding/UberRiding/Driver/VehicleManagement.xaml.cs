@@ -64,9 +64,14 @@ namespace UberRiding.Driver
             longlistVehicles.ItemsSource = GlobalData.vehicleList;
         }
 
-        private void longlistVehicle_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void longlistVehicles_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-
+            Vehicle2 selectedItem = (Vehicle2)longlistVehicles.SelectedItem;
+            MessageBox.Show("ss: " + selectedItem.vehicle_id);
+            //luu tru tam thoi
+            Global.GlobalData.selectedVehicle = selectedItem;
+            //navigate sang details
+            NavigationService.Navigate(new Uri("/Driver/VehiclesDetails.xaml", UriKind.RelativeOrAbsolute));
         }
     }
 }

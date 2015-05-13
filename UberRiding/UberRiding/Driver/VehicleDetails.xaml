@@ -74,7 +74,7 @@
 			</Image>
 
 			<Grid Grid.Row="1">
-				<TextBlock Grid.Column="1" x:Name="txtbVehicleName" Foreground="Black" Text="{Binding Path=LocalizedResources.vehicleImg, Source={StaticResource LocalizedStrings}}" HorizontalAlignment="Center" FontSize="24" FontWeight="Bold"/>
+				<TextBlock Grid.Column="1" x:Name="txtbVehicleName" Foreground="Black" Text="Vehicle Image" HorizontalAlignment="Center" FontSize="24" FontWeight="Bold"/>
 			</Grid>
 			<TextBlock HorizontalAlignment="Center"/>
 
@@ -82,7 +82,7 @@
 
 		<ListBox Grid.Row="2">
 			<ListBoxItem Background="White" Margin="0,0,0,0">
-				<TextBlock Text="{Binding Path=LocalizedResources.vehicleInfor, Source={StaticResource LocalizedStrings}}" FontWeight="Bold" Foreground="Black" FontSize="24"/>
+				<TextBlock Text="Vehicle Information" FontWeight="Bold" Foreground="Black" FontSize="24"/>
 			</ListBoxItem>
 			<ListBoxItem Background="White" Margin="0,0,0,3">
 				<StackPanel Orientation="Horizontal" Margin="0,0,0,0" Height="100" Width="Auto">
@@ -92,7 +92,7 @@
 						<Image Stretch="Uniform" Source="/Assets/avatar/ic_logo.png"  Width="99" Height="99" MinWidth="99" MinHeight="99" HorizontalAlignment="Left" Margin="0,0" />
 					</Border>
 					<StackPanel Width="380" Margin="0,0,0,0">
-						<TextBlock Text="{Binding Path=LocalizedResources.vehicleType, Source={StaticResource LocalizedStrings}}" Foreground="Blue" TextWrapping="Wrap" Margin="10,0" Style="{StaticResource PhoneTextExtraLargeStyle}" FontSize="24" FontWeight="Bold" />
+						<TextBlock Text="Type" FontSize="24" FontWeight="Bold" />
 						<TextBlock x:Name="txtbType" Text="{Binding end_address}" Foreground="Black" TextWrapping="Wrap" Margin="10,-2" Height="60" />
 					</StackPanel>
 				</StackPanel>
@@ -102,10 +102,10 @@
 					<!--Replace rectangle with image-->
 					<Border BorderThickness="3" Width="99" Height="99" BorderBrush="#FFFFC700" >
 						<!-- Background="#FFFFC700"-->
-						<Image Source="/Assets/ic_acc/ic_plate.jpg"  Width="99" Height="99" MinWidth="99" MinHeight="99" />
+						<Image Source="/Assets/avatar/ic_plate.jpg"  Width="99" Height="99" MinWidth="99" MinHeight="99" />
 					</Border>
 					<StackPanel Width="380" Margin="0,0,0,0">
-						<TextBlock Text="{Binding Path=LocalizedResources.vehiclePlateNum, Source={StaticResource LocalizedStrings}}" Foreground="Blue" TextWrapping="Wrap" Margin="10,0" Style="{StaticResource PhoneTextExtraLargeStyle}" FontSize="24" FontWeight="Bold" />
+						<TextBlock Text="Vehicle Plate Number" FontSize="24" FontWeight="Bold" />
 						<TextBlock x:Name="txtbVehiclePlate" Text="{Binding end_address}" Foreground="Black" Height="60" TextWrapping="Wrap" Margin="10,-2" FontWeight="Bold"/>
 					</StackPanel>
 				</StackPanel>
@@ -115,10 +115,10 @@
 					<!--Replace rectangle with image-->
 					<Border BorderThickness="3" Width="99" Height="99" BorderBrush="#FFFFC700" >
 						<!-- Background="#FFFFC700"-->
-						<Image Source="/Assets/ic_acc/ic_motorregister.jpg"  Width="99" Height="99" MinWidth="99" MinHeight="99" />
+						<Image Source="/Assets/avatar/ic_motorregister.jpg"  Width="99" Height="99" MinWidth="99" MinHeight="99" />
 					</Border>
 					<StackPanel Width="380" Margin="0,0,0,0">
-						<TextBlock Text="{Binding Path=LocalizedResources.txtRegistrationCertificate, Source={StaticResource LocalizedStrings}}" Foreground="Blue" TextWrapping="Wrap" Margin="10,0" Style="{StaticResource PhoneTextExtraLargeStyle}" FontSize="24" FontWeight="Bold" />
+						<TextBlock Text="Registration Certificate" FontSize="24" FontWeight="Bold" />
 						<TextBlock x:Name="txtbRegistrationCertificate" Text="{Binding end_address}" Foreground="Black" Height="60" TextWrapping="Wrap" Margin="10,-2" FontWeight="Bold"/>
 					</StackPanel>
 				</StackPanel>
@@ -126,7 +126,7 @@
 
 			<!--Motor's plate-->
 			<ListBoxItem Width="Auto" Background="White" Margin="0,0,0,0">
-				<TextBlock Foreground="Black" Text="{Binding Path=LocalizedResources.licensePlateImg, Source={StaticResource LocalizedStrings}}" FontSize="24" FontWeight="Bold"/>
+				<TextBlock Foreground="Black" Text="Vehicle Plate" FontSize="24" FontWeight="Bold"/>
 			</ListBoxItem>
 
 			<ListBoxItem Background="White" Margin="0,0,0,3">
@@ -159,7 +159,7 @@
 
 			<!--Motor's insurance-->
 			<ListBoxItem Width="Auto" Background="White" Margin="0,0,0,0">
-				<TextBlock Foreground="Black" Text="{Binding Path=LocalizedResources.motorInsuranceImg, Source={StaticResource LocalizedStrings}}" FontSize="24" FontWeight="Bold"/>
+				<TextBlock Foreground="Black" Text="Vehicle Insurance" FontSize="24" FontWeight="Bold"/>
 			</ListBoxItem>
 
 			<ListBoxItem Background="White" Margin="0,0,0,3">
@@ -193,7 +193,7 @@
 			</ListBoxItem>
 		</ListBox>
 		<Grid Grid.Row="3" Background="White">
-			<Button x:Name="btnUpdate" Height="70" Width="450" Background="#3DA5E1" Content="{Binding Path=LocalizedResources.btnUpdate, Source={StaticResource LocalizedStrings}}" Margin="-1,0,1,0" Click="btnUpdate_Click"/>
+			<Button x:Name="btnUpdate" Height="70" Width="450" Background="#3DA5E1" Content="Update" Margin="-1,0,1,0" Click="btnUpdate_Click"/>
 		</Grid>
 	</Grid>
 

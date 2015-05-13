@@ -40,8 +40,8 @@ namespace UberRiding.Global
         public const int ITINERARY_STATUS_FINISHED = 4;
     }
 
-    
 
+    #region Itinerary Class
     public class Itinerary
     {
         public int itinerary_id { get; set; }
@@ -108,8 +108,9 @@ namespace UberRiding.Global
     {
 
     }
+    #endregion
 
-
+    #region Driver Class
     public class Driver
     {
         public int driver_id { get; set; }
@@ -151,8 +152,9 @@ namespace UberRiding.Global
     {
 
     }
+    #endregion
 
-
+    #region Stat Class
     public class Stat
     {
         public string month { get; set; }
@@ -164,7 +166,9 @@ namespace UberRiding.Global
         public bool error { get; set; }
         public List<Stat> stats { get; set; }
     }
+    #endregion
 
+    #region Vehicle Class
     public class Vehicle
     {
         public int vehicle_id { get; set; }
@@ -203,10 +207,9 @@ namespace UberRiding.Global
     {
 
     }
+    #endregion
 
-
-#region Chart 
-
+    #region Chart
     public class LineChart
     {
         public string label { get; set; }
@@ -214,5 +217,5 @@ namespace UberRiding.Global
         public double val2 { get; set; }
         public decimal val3 { get; set; }
     }
-#endregion 
+    #endregion 
 }

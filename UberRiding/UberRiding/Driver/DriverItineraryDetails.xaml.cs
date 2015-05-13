@@ -74,7 +74,13 @@ namespace UberRiding.Driver
             else if (GlobalData.selectedItinerary.status.Equals(Global.GlobalData.ITINERARY_STATUS_ONGOING))
             {
                 txtItineraryInfo.Text = "Itinerary Ongoing";
-                // 
+                // tracking
+
+                Button btnTracking = new Button();
+                btnTracking.Content = "Tracking";
+                btnTracking.Click += btnTracking_Click;
+                gridInfo.Children.Add(btnTracking);
+                Grid.SetRow(btnTracking, 5);
             }
             //hanh trinh da ket thuc
             else if (GlobalData.selectedItinerary.status.Equals(Global.GlobalData.ITINERARY_STATUS_FINISHED))
@@ -125,6 +131,11 @@ namespace UberRiding.Driver
             timePicker.Value = datetime;
 
             //datePicker.Value = GlobalData.selectedItinerary.da
+        }
+
+        private void btnTracking_Click(object sender, RoutedEventArgs e)
+        {
+            throw new NotImplementedException();
         }
 
 
