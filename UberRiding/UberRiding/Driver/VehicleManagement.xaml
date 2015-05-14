@@ -32,7 +32,7 @@
 		<!--Pivot Control-->
 		<phone:Pivot Grid.Row="1" Margin="0,-30,0,0" Background="#3DA5E1">
 			<!--Pivot item three-->
-			<phone:PivotItem Header="{Binding Path=LocalizedResources.headerVehicle, Source={StaticResource LocalizedStrings}}">
+			<phone:PivotItem Header="Vehicle List">
 				<!--Double line list with image placeholder and text wrapping using a floating header that scrolls with the content-->
 				<phone:LongListSelector x:Name="longlistVehicles" Margin="0,0,0,0" SelectionChanged="longlistVehicles_SelectionChanged">
 					<phone:LongListSelector.ItemTemplate>

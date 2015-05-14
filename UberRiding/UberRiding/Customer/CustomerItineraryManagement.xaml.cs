@@ -18,6 +18,7 @@ namespace UberRiding.Customer
         ItineraryList itinearyAcceptedList = new ItineraryList();
         ItineraryList itinearyOnGoingList = new ItineraryList();
         ItineraryList itinearyFinishedList = new ItineraryList();
+
         public CustomerItineraryManagement()
         {
             InitializeComponent();
@@ -94,7 +95,7 @@ namespace UberRiding.Customer
             NavigationService.Navigate(new Uri("/Driver/PostItinerary.xaml", UriKind.RelativeOrAbsolute));
         }
 
-
+        #region Itinerary List
         private void longlistItinerariesCreated_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             Itinerary2 selectedItem = (Itinerary2)longlistItinerariesCreated.SelectedItem;
@@ -134,8 +135,9 @@ namespace UberRiding.Customer
             //navigate sang details
             NavigationService.Navigate(new Uri("/Driver/DriverItineraryDetails.xaml", UriKind.RelativeOrAbsolute));
         }
+        #endregion
 
-
+        #region Appbar Menu
         private void menuPostItinerary_Click(object sender, EventArgs e)
         {
             NavigationService.Navigate(new Uri("/Customer/PostItinerary.xaml", UriKind.Relative));
@@ -173,5 +175,6 @@ namespace UberRiding.Customer
         {
 
         }
+        #endregion
     }
 }

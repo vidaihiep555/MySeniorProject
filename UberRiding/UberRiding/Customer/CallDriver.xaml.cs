@@ -29,6 +29,7 @@ namespace UberRiding.Customer
         Geocoordinate myGeocoordinate = null;
         GeoCoordinate myGeoCoordinate = null;
         ReverseGeocodeQuery geoQ = null;
+
         public CallDriver()
         {
             InitializeComponent();

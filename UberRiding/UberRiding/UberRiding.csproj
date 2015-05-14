@@ -106,9 +106,6 @@
     <Compile Include="Customer\CallDriver.xaml.cs">
       <DependentUpon>CallDriver.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Customer\CustomerHistory.xaml.cs">
-      <DependentUpon>CustomerHistory.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Customer\CustomerInfo.xaml.cs">
       <DependentUpon>CustomerInfo.xaml</DependentUpon>
     </Compile>
@@ -212,10 +209,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Customer\CallDriver.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Customer\CustomerHistory.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

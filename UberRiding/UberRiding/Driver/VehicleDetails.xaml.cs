@@ -77,6 +77,7 @@ namespace UberRiding.Driver
 
         }
 
+        #region Image
         void photoVehicleChooserTask_Completed(object sender, PhotoResult e)
         {
             if (e.TaskResult == TaskResult.OK)
@@ -223,6 +224,7 @@ namespace UberRiding.Driver
             cameraCaptureTask.Completed += new EventHandler<PhotoResult>(cameraCaptureVehicleTask_Completed);
             cameraCaptureTask.Show();
         }
+        #endregion
 
         private void btnUpdate_Click(object sender, RoutedEventArgs e)
         {

@@ -30,6 +30,7 @@ namespace UberRiding.Customer
 
         RouteQuery routeQuery = null;
         List<GeoCoordinate> wayPoints = new List<GeoCoordinate>();
+
         //string nameOfTxtbox = "Start";
         public CustomerItineraryDetails()
         {
@@ -79,14 +80,22 @@ namespace UberRiding.Customer
 
 
                 //tracking
-
+                Button btnTracking = new Button();
+                btnTracking.Content = "Tracking";
+                btnTracking.Click += btnTracking_Click;
+                gridInfo.Children.Add(btnTracking);
+                Grid.SetRow(btnTracking, 5);
             }
             //hanh trinh ongoing
             else if (GlobalData.selectedItinerary.status.Equals(Global.GlobalData.ITINERARY_STATUS_ONGOING))
             {
                 txtItineraryInfo.Text = "Itinerary Ongoing";
                 // tracking
- 
+                Button btnTracking = new Button();
+                btnTracking.Content = "Tracking";
+                btnTracking.Click += btnTracking_Click;
+                gridInfo.Children.Add(btnTracking);
+                Grid.SetRow(btnTracking, 5);
 
             }
             //hanh trinh da ket thuc
@@ -139,6 +148,8 @@ namespace UberRiding.Customer
 
             //datePicker.Value = GlobalData.selectedItinerary.da
         }
+
+        
 
         void routeQuery_QueryCompleted(object sender, QueryCompletedEventArgs<Route> e)
         {
@@ -304,6 +315,11 @@ namespace UberRiding.Customer
             }
         }
 
+        void btnTracking_Click(object sender, RoutedEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
         private void mapItineraryDetails_Tap(object sender, System.Windows.Input.GestureEventArgs e)
         {
             if (endPointOverlay != null)
@@ -329,6 +345,7 @@ namespace UberRiding.Customer
             geoQ.QueryAsync();
         }
 
+        #region Appbar Menu
         private void menuPostItinerary_Click(object sender, EventArgs e)
         {
             NavigationService.Navigate(new Uri("/Customer/PostItinerary.xaml", UriKind.Relative));
@@ -360,6 +377,7 @@ namespace UberRiding.Customer
             Logout.deleteDriverInfoBeforeLogout();
             NavigationService.Navigate(new Uri("/LoginPage.xaml", UriKind.RelativeOrAbsolute));
         }
+        #endregion
 
         private void btnZoomIn_Click(object sender, RoutedEventArgs e)
         {

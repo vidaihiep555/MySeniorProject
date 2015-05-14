@@ -16,5 +16,10 @@ namespace UberRiding.Driver
         {
             InitializeComponent();
         }
+
+        private void btnSend_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

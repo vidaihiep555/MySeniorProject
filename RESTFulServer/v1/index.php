@@ -91,6 +91,75 @@ function authenticateStaff(\Slim\Route $route) {
     }
 }
 
+/////////////////////////////////////////////////////////////////////////////////
+
+/**
+ * User Login
+ * url - /user
+ * method - POST
+ * params - email, password
+ */
+$app->post('/user/login', function() use ($app) {
+            // check for required params
+            verifyRequiredParams(array('email', 'password'));
+
+            // reading post params
+            $email = $app->request()->post('email');
+            $password = $app->request()->post('password');
+            $response = array();
+
+            $db = new DbHandler();
+
+            $res = $db->checkLogin($email, $password);
+            // check for correct email and password
+            if ($res == CUSTOMER_LOGIN_SUCCESSFULL) {
+                // get the user by email
+                $user = $db->getCustomerByEmail($email);
+
+                if ($user != NULL) {
+                    $response["error"] = false;
+                    $response['apiKey'] = $user['api_key'];
+                    $response['customer_status'] = $user['status'];
+                    $response['isDriver'] = false;
+
+                    //$user_id = $db->getCustomerId($user['api_key']);
+
+                    //$driver_status = $db->getDriverByField($user_id, 'status');
+                    //$response['driver_status'] = $driver_status;
+
+                    //$response['driver'] = $db->isDriver($user_id);
+                } else {
+                    // unknown error occurred
+                    $response['error'] = true;
+                    $response['message'] = "Có lỗi xảy ra! Vui lòng thử lại.";
+                }
+            } elseif ($res == DRIVER_LOGIN_SUCCESSFULL){
+                $driver = $db->getDriverByEmail($email);
+
+                if($driver != NULL){
+                    $response["error"] = false;
+                    $response['apiKey'] = $driver['api_key'];
+                    $response['customer_status'] = $driver['status'];
+                    $response['isDriver'] = true;
+                } else {
+                    // unknown error occurred
+                    $response['error'] = true;
+                    $response['message'] = "Có lỗi xảy ra! Vui lòng thử lại.";
+                }
+            } elseif ($res == WRONG_PASSWORD || $res == USER_NOT_REGISTER) {
+                $response['error'] = true;
+                $response['message'] = "Sai email hoặc mật khẩu!";
+            } elseif ($res == USER_NOT_ACTIVATE) {
+                $response['error'] = true;
+                $response['message'] = "Tài khoản chưa được kích hoạt. Vui lòng kích hoạt tài khoản!";
+            } else{
+                $response['error'] = true;
+                $response['message'] = "Có lỗi xảy ra trong quá trình đăng nhập!";
+            }
+
+            echoRespnse(200, $response);
+        });
+
 ///////////////////////////////////////// CUSTOMER ///////////////////////////////////////////////////
 
 /**
@@ -151,7 +220,7 @@ $app->get('/active/:activation_code', function($activation_code) {
             $response = array();
 
             $db = new DbHandler();
-            $res = $db->activateUser($activation_code);
+            $res = $db->activateCustomer($activation_code);
 
             if ($res == USER_ACTIVATED_SUCCESSFULLY) {
                 $response["error"] = false;
@@ -165,62 +234,7 @@ $app->get('/active/:activation_code', function($activation_code) {
             echoRespnse(200, $response);
         });
 
-/**
- * User Login
- * url - /user
- * method - POST
- * params - email, password
- */
-$app->post('/user/login', function() use ($app) {
-            // check for required params
-            verifyRequiredParams(array('email', 'password'));
 
-            // reading post params
-            $email = $app->request()->post('email');
-            $password = $app->request()->post('password');
-            $response = array();
-
-            $db = new DbHandler();
-
-            $res = $db->checkLogin($email, $password);
-            // check for correct email and password
-            if ($res == LOGIN_SUCCESSFULL) {
-                // get the user by email
-                $user = $db->getCustomerByEmail($email);
-
-                if ($user != NULL) {
-                    $response["error"] = false;
-                    $response['apiKey'] = $user['api_key'];
-                    $response['customer_status'] = $user['status'];
-
-                    $user_id = $db->getCustomerId($user['api_key']);
-
-                    //$driver_status = $db->getDriverByField($user_id, 'status');
-                    //$response['driver_status'] = $driver_status;
-
-                    //$response['driver'] = $db->isDriver($user_id);
-                } else {
-                    // unknown error occurred
-                    $response['error'] = true;
-                    $response['message'] = "Có lỗi xảy ra! Vui lòng thử lại.";
-                }
-            } elseif ($res == WRONG_PASSWORD || $res == USER_NOT_REGISTER) {
-                $response['error'] = true;
-                $response['message'] = "Sai email hoặc mật khẩu!";
-            } elseif ($res == USER_NOT_ACTIVATE) {
-                $response['error'] = true;
-                $response['message'] = "Tài khoản chưa được kích hoạt. Vui lòng kích hoạt tài khoản!";
-            } elseif($res == USER_LOCKED) {
-                $response['error'] = true;
-                $response['message'] = "Tài khoản của bạn đang bị khóa!";
-            }
-            else{
-                $response['error'] = true;
-                $response['message'] = "Có lỗi xảy ra trong quá trình đăng nhập!";
-            }
-
-            echoRespnse(200, $response);
-        });
 
 $app->get('/forgotpass/:email', function($email) {
             $response = array();
@@ -450,7 +464,7 @@ $app->get('/driver', 'authenticateUser', function() {
             $db = new DbHandler();
 
             // fetch task
-            $result = $db->getDriverByUserID($user_id);
+            $result = $db->getDriverByID($user_id);
 
             if ($result != NULL) {
                 $response["error"] = false;
@@ -1130,7 +1144,7 @@ $app->get('/comment/:comment_id', 'authenticateUser', function($comment_id) {
                 echoRespnse(200, $response);
             } else {
                 $response["error"] = true;
-                $response["message"] = $lang['ERR_LINK_REQUEST'];
+                $response["message"] = "The link you request is not existing!";
                 echoRespnse(404, $response);
             }
         });
@@ -1206,14 +1220,14 @@ $app->get('/rating/:user_id/:rating_user_id', 'authenticateUser', function($user
                     $response['rating'] = $rating["rating"];;
                     echoRespnse(200, $response);
                 } else {
-                    $response["message"] = $lang['ERR_LINK_REQUEST'];
+                    $response["message"] = "The link you request is not existing!";
                     echoRespnse(404, $response);
                 }
                 echoRespnse(200, $response);
 
             } else {
                 $response['error'] = true;
-                $response['message'] = $lang['ERR_LINK_REQUEST'];
+                $response['message'] = "The link you request is not existing!";
                 echoRespnse(404, $response);
             }
         });
@@ -1239,7 +1253,7 @@ $app->get('/average_rating/:user_id', 'authenticateUser', function($user_id) {
                 echoRespnse(200, $response);
             } else {
                 $response["error"] = true;
-                $response["message"] = $lang['ERR_LINK_REQUEST'];
+                $response["message"] = "The link you request is not existing!";
                 echoRespnse(404, $response);
             }
         });
@@ -1266,10 +1280,10 @@ $app->post('/rating', 'authenticateUser', function() use ($app) {
 
             if ($res == c) {
                 $response["error"] = false;
-                $response["message"] = $lang['REGISTER_SUCCESS'];
+                $response["message"] = "The link you request is not existing!"
             } else if ($res == RATING_CREATE_FAILED) {
                 $response["error"] = true;
-                $response["message"] = $lang['ERR_REGISTER'];
+                $response["message"] = "The link you request is not existing!";
             }
             // echo json response
             echoRespnse(201, $response);
@@ -1329,7 +1343,7 @@ $app->get('/statistic/:field', 'authenticateStaff', function($field) {
 
             } else {
                 $response['error'] = true;
-                $response['message'] = $lang['ERR_LINK_REQUEST'];
+                $response['message'] = "The link you request is not existing!";
                 echoRespnse(404, $response);
             }
         });
@@ -1358,7 +1372,7 @@ $app->get('/statistic_customer/:field', 'authenticateUser', function($field) {
 
             } else {
                 $response['error'] = true;
-                $response['message'] = $lang['ERR_LINK_REQUEST'];
+                $response['message'] = "The link you request is not existing!"
                 echoRespnse(404, $response);
             }
         });
@@ -1385,7 +1399,7 @@ $app->get('/statistic_driver/:field', 'authenticateUser', function($field) {
 
             } else {
                 $response['error'] = true;
-                $response['message'] = $lang['ERR_LINK_REQUEST'];
+                $response['message'] = "The link you request is not existing!";
                 echoRespnse(404, $response);
             }
         });
@@ -1611,7 +1625,7 @@ $app->get('/staffs', 'authenticateStaff', function() {
                 echoRespnse(200, $response);
             } else {
                 $response["error"] = true;
-                $response["message"] = $lang['ERR_LINK_REQUEST'];
+                $response["message"] = "The link you request is not existing!";
                 echoRespnse(404, $response);
             }
         });
@@ -1640,7 +1654,7 @@ $app->get('/staffs/:staff_id', 'authenticateStaff', function($staff_id) {
                 echoRespnse(200, $response);
             } else {
                 $response["error"] = true;
-                $response["message"] = $lang['ERR_LINK_REQUEST'];
+                $response["message"] = "The link you request is not existing!";
                 echoRespnse(404, $response);
             }
         });
@@ -1718,7 +1732,7 @@ $app->get('/staff', 'authenticateStaff', function() {
                 echoRespnse(200, $response);
             } else {
                 $response["error"] = true;
-                $response["message"] = $lang['ERR_LINK_REQUEST'];
+                $response["message"] = "The link you request is not existing!";
                 echoRespnse(404, $response);
             }
         });
@@ -1807,13 +1821,13 @@ $app->get('/staff/user', 'authenticateStaff', function() {
  * method GET
  * url /staff/user
  */
-$app->get('/staff/user/:user_id', 'authenticateStaff', function($user_id) {
+$app->get('/staff/customer/:customer_id', 'authenticateStaff', function($customer_id) {
 
             $response = array();
             $db = new DbHandler();
 
             // fetch task
-            $result = $db->getUserByUserID($user_id);
+            $result = $db->getCustomerByID($customer_id);
 
             if ($result != NULL) {
                 $response["error"] = false;
@@ -1826,7 +1840,6 @@ $app->get('/staff/user/:user_id', 'authenticateStaff', function($user_id) {
                 $response['link_avatar'] = $result['link_avatar'];
                 $response['created_at'] = $result['created_at'];
                 $response['status'] = $result['status'];
-                $response['locked'] = $result['locked'];
                 echoRespnse(200, $response);
             } else {
                 $response["error"] = true;
@@ -1854,7 +1867,7 @@ $app->get('/staff/user/:user_id/:field', 'authenticateStaff', function($user_id,
                 echoRespnse(200, $response);
             } else {
                 $response["error"] = true;
-                $response["message"] = $lang['ERR_LINK_REQUEST'];
+                $response["message"] = "The link you request is not existing!";
                 echoRespnse(404, $response);
             }
         });
@@ -1881,11 +1894,11 @@ $app->put('/staff/user/:user_id', 'authenticateStaff', function($user_id) use($a
             if ($result) {
                 // task updated successfully
                 $response["error"] = false;
-                $response["message"] = $lang['ALERT_UPDATE'];
+                $response["message"] = "The link you request is not existing!";
             } else {
                 // task failed to update
                 $response["error"] = true;
-                $response["message"] = $lang['ERR_UPDATE'];
+                $response["message"] = "The link you request is not existing!";
             }
             echoRespnse(200, $response);
         });
@@ -1919,15 +1932,15 @@ $app->put('/staff/user/:user_id/:field', 'authenticateStaff', function($user_id,
                 if ($result) {
                     // user updated successfully
                     $response["error"] = false;
-                    $response["message"] = $lang['ALERT_UPDATE'];
+                    $response["message"] = "The link you request is not existing!";
                 } else {
                     // user failed to update
                     $response["error"] = true;
-                    $response["message"] = $lang['ERR_UPDATE'];
+                    $response["message"] = "The link you request is not existing!";
                 }
             } else {
                 $response["error"] = true;
-                $response["message"] = $lang['ERR_UPDATE'];
+                $response["message"] = "The link you request is not existing!";
             }
             
             echoRespnse(200, $response);

@@ -70,16 +70,16 @@ class DbHandler {
      * Activate user
      * @param String $activation_code Activation code
      */
-    public function activateUser($activation_code) {
+    public function activateCustomer($activation_code) {
         // fetching user by activation code
-        $sql_query = "SELECT user_id FROM user WHERE api_key = ? AND status = ". USER_NOT_ACTIVATE;
+        $sql_query = "SELECT customer_id FROM customer_id WHERE api_key = ? AND status = ". USER_NOT_ACTIVATE;
 
         $stmt = $this->conn->prepare($sql_query);
 
         $stmt->bind_param("s", $activation_code);
 
         if ($stmt->execute()) {
-            $stmt->bind_result($user_id);
+            $stmt->bind_result($customer_id);
 
             $stmt->store_result();
 
@@ -92,7 +92,7 @@ class DbHandler {
 
             $api_key = $this->generateApiKey();
 
-            $sql_query = "UPDATE user SET api_key = ?, status = ". USER_ACTIVATED. " WHERE user_id = ". $user_id;
+            $sql_query = "UPDATE customer_id SET api_key = ?, status = ". USER_ACTIVATED. " WHERE customer_id = ". $customer_id;
 
             // insert query
             if ($stmt = $this->conn->prepare($sql_query)) {
@@ -100,7 +100,7 @@ class DbHandler {
 
                 $result = $stmt->execute();
             } else {
-                var_dump($user_id);
+                var_dump($customer_id);
                 var_dump($this->conn->error);
             }
 
@@ -141,15 +141,44 @@ class DbHandler {
             $stmt->close();
 
             if ($status <= 1) {
-                return USER_NOT_ACTIVATE;
+                return CUSTOMER_NOT_ACTIVATE;
             } 
             elseif (PassHash::check_password($password_hash, $password)) {
-                return LOGIN_SUCCESSFULL;
+                return CUSTOMER_LOGIN_SUCCESSFULL;
             } else {
                 return WRONG_PASSWORD;
             }
         } else {
             $stmt->close();
+
+            $stmt = $this->conn->prepare("SELECT password, status FROM driver WHERE email = ?");
+            $stmt->bind_param("s", $email);
+
+            $stmt->execute();
+
+            $stmt->bind_result($password_hash, $status);
+
+            $stmt->store_result();
+
+            if ($stmt->num_rows > 0) {
+                // Found user with the email
+                // Now verify the password
+
+                $stmt->fetch();
+
+                $stmt->close();
+
+                if ($status <= 1) {
+                    return DRIVER_NOT_ACTIVATE;
+                } 
+                elseif (PassHash::check_password($password_hash, $password)) {
+                    return DRIVER_LOGIN_SUCCESSFULL;
+                } else {
+                    return WRONG_PASSWORD;
+                }
+            } else {
+                return USER_NOT_REGISTER;
+            }
             // user not existed with the email
             return USER_NOT_REGISTER;
         }
@@ -437,7 +466,7 @@ class DbHandler {
         // First check if user already existed in db
         if (!$this->isDriverExists($user_id)) {
 
-            $sql_query = "INSERT INTO driver(user_id, driver_license, driver_license_img) values(?, ?, ?)";
+            $sql_query = "INSERT INTO driver(driver_license, driver_license_img) values(?, ?, ?)";
 
             // insert query
             if ($stmt = $this->conn->prepare($sql_query)) {
@@ -468,7 +497,65 @@ class DbHandler {
      * Fetching user by email
      * @param String $email User email id
      */
-    public function getDriverByUserID($user_id) {
+    public function getDriverByID($user_id) {
+        $stmt = $this->conn->prepare("SELECT email, api_key, fullname, phone, personalID, 
+                                        customer_avatar, status, created_at FROM driver WHERE driver_id = ?");
+        $stmt->bind_param("s", $user_id);
+        if ($stmt->execute()) {
+            // $user = $stmt->get_result()->fetch_assoc();
+            $stmt->bind_result($email, $api_key, $fullname, $phone, $personalID,
+                                    $customer_avatar, $status, $created_at, $locked);
+            $stmt->fetch();
+            $user = array();
+            $user["email"] = $email;
+            $user["api_key"] = $api_key;
+            $user["fullname"] = $fullname;
+            $user["phone"] = $phone;
+            $user["personalID"] = $personalID;
+            $user["customer_avatar"] = $customer_avatar;
+            $user["status"] = $status;
+            $user["created_at"] = $created_at;
+            $stmt->close();
+            return $user;
+        } else {
+            return NULL;
+        }
+    }
+
+    /**
+     * Fetching user by email
+     * @param String $email User email id
+     */
+    public function getDriverByEmail($email) {
+        $stmt = $this->conn->prepare("SELECT email, api_key, fullname, phone, personalID, 
+                                         customer_avatar, status, created_at FROM driver WHERE email = ?");
+        $stmt->bind_param("s", $email);
+        if ($stmt->execute()) {
+            // $user = $stmt->get_result()->fetch_assoc();
+            $stmt->bind_result($email, $api_key, $fullname, $phone, $personalID,
+                                    $customer_avatar, $status, $created_at);
+            $stmt->fetch();
+            $user = array();
+            $user["email"] = $email;
+            $user["api_key"] = $api_key;
+            $user["fullname"] = $fullname;
+            $user["phone"] = $phone;
+            $user["personalID"] = $personalID;
+            $user["customer_avatar"] = $customer_avatar;
+            $user["status"] = $status;
+            $user["created_at"] = $created_at;
+            $stmt->close();
+            return $user;
+        } else {
+            return NULL;
+        }
+    }
+
+    /**
+     * Fetching user by email
+     * @param String $email User email id
+     */
+    /*public function getDriverByUserID($user_id) {
         $stmt = $this->conn->prepare("SELECT driver_license, driver_license_img FROM driver WHERE user_id = ?");
         $stmt->bind_param("s", $user_id);
         if ($stmt->execute()) {
@@ -483,14 +570,14 @@ class DbHandler {
         } else {
             return NULL;
         }
-    }
+    }*/
 
     /**
      * Fetching user by email
      * @param String $email User email id
      */
     public function isDriver($user_id) {
-        $stmt = $this->conn->prepare("SELECT user_id FROM driver WHERE user_id = ?");
+        $stmt = $this->conn->prepare("SELECT driver_id FROM driver WHERE driver_id = ?");
         $stmt->bind_param("s", $user_id);
         $stmt->execute();
         $stmt->store_result();
@@ -562,7 +649,7 @@ class DbHandler {
      * @param String $field User field want to update
      * @param String $user_id User id
      */
-    public function updateDriverField($user_id, $field, $value) {
+    /*public function updateDriverField($driver_id, $field, $value) {
         $stmt = $this->conn->prepare("SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS 
                                         WHERE TABLE_SCHEMA = 'rs' AND TABLE_NAME = 'driver'");
         if ($stmt->execute()) {
@@ -579,7 +666,7 @@ class DbHandler {
         }
 
         if ($fieldIsExitInTable) {
-            $stmt = $this->conn->prepare("UPDATE driver set ".$field." = ? WHERE user_id = ?");
+            $stmt = $this->conn->prepare("UPDATE driver set ".$field." = ? WHERE driver_id = ?");
             $stmt->bind_param("ss", $value, $user_id);
             $stmt->execute();
 
@@ -590,14 +677,14 @@ class DbHandler {
         } else {
             return false;
         }
-    }
+    }*/
 
     /**
      * Delete driver
      * @param String $user_id id of user
      */
-    public function deleteDriver($user_id) {
-        $stmt = $this->conn->prepare("DELETE FROM driver WHERE user_id = ?");
+    public function deleteDriver($driver_id) {
+        $stmt = $this->conn->prepare("DELETE FROM driver WHERE driver_id = ?");
         $stmt->bind_param("i", $user_id);
         $stmt->execute();
         $num_affected_rows = $stmt->affected_rows;
@@ -610,9 +697,9 @@ class DbHandler {
      * @param String $email email to check in db
      * @return boolean
      */
-    private function isDriverExists($user_id) {
-        $stmt = $this->conn->prepare("SELECT user_id from driver WHERE user_id = ?");
-        $stmt->bind_param("s", $user_id);
+    private function isDriverExists($driver_id) {
+        $stmt = $this->conn->prepare("SELECT driver_id from driver WHERE driver_id = ?");
+        $stmt->bind_param("i", $driver_id);
         $stmt->execute();
         $stmt->store_result();
         $num_rows = $stmt->num_rows;
