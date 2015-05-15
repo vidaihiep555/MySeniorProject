@@ -72,7 +72,7 @@ class DbHandler {
      */
     public function activateCustomer($activation_code) {
         // fetching user by activation code
-        $sql_query = "SELECT customer_id FROM customer_id WHERE api_key = ? AND status = ". USER_NOT_ACTIVATE;
+        $sql_query = "SELECT customer_id FROM customer WHERE api_key = ? AND status = ". USER_NOT_ACTIVATE;
 
         $stmt = $this->conn->prepare($sql_query);
 
@@ -92,7 +92,7 @@ class DbHandler {
 
             $api_key = $this->generateApiKey();
 
-            $sql_query = "UPDATE customer_id SET api_key = ?, status = ". USER_ACTIVATED. " WHERE customer_id = ". $customer_id;
+            $sql_query = "UPDATE customer SET api_key = ?, status = ". USER_ACTIVATED. " WHERE customer_id = ". $customer_id;
 
             // insert query
             if ($stmt = $this->conn->prepare($sql_query)) {
@@ -239,7 +239,7 @@ class DbHandler {
         if ($stmt->execute()) {
             // $user = $stmt->get_result()->fetch_assoc();
             $stmt->bind_result($email, $api_key, $fullname, $phone, $personalID,
-                                    $customer_avatar, $status, $created_at, $locked);
+                                    $customer_avatar, $status, $created_at);
             $stmt->fetch();
             $user = array();
             $user["email"] = $email;
@@ -258,51 +258,12 @@ class DbHandler {
     }
 
     /**
-     * Fetching user field by user_id
-     * @param String $field User User field want to get
-     * @param String $user_id User id
-     */
-    public function getUserByField($user_id, $field) {
-        $stmt = $this->conn->prepare("SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS 
-                                        WHERE TABLE_SCHEMA = 'rs' AND TABLE_NAME = 'user'");
-        if ($stmt->execute()) {
-            $fields = $stmt->get_result();
-        }
-
-        $fieldIsExitInTable = false;
-
-        while ($row = $fields->fetch_assoc()) {
-                if ($row['COLUMN_NAME'] == $field) {
-                    $fieldIsExitInTable = true;
-                    break;
-                }           
-        }
-
-        if ($fieldIsExitInTable) {
-            $qry = "SELECT ".$field." FROM user WHERE user_id = ?";
-            $stmt = $this->conn->prepare($qry);
-            $stmt->bind_param("s", $user_id);
-            if ($stmt->execute()) {
-                // $user = $stmt->get_result()->fetch_assoc();
-                $stmt->bind_result($field);
-                $stmt->fetch();
-                $stmt->close();
-                return $field;
-            } else {
-                return NULL;
-            }
-        } else {
-            return NULL;
-        }
-    }
-
-    /**
      * Fetching user by email
      * @param String $email User email id
      */
-    public function getListUser() {
+    public function getListCustomer() {
         $stmt = $this->conn->prepare("SELECT user_id, email, api_key, fullname, phone, personalID, 
-                                        personalID_img, link_avatar, status, created_at, locked FROM user");
+                                         customer_avatar, status, created_at FROM customer");
         if ($stmt->execute()) {
             // $user = $stmt->get_result()->fetch_assoc();
             $users = $stmt->get_result();
@@ -343,8 +304,7 @@ class DbHandler {
         // Generating password hash
         $password_hash = PassHash::hash($password);
 
-        $stmt = $this->conn->prepare("UPDATE customer set password = ?
-                                        WHERE customer_id = ?");
+        $stmt = $this->conn->prepare("UPDATE customer set password = ? WHERE customer_id = ?");
         $stmt->bind_param("si", $password_hash, $customer_id);
         $stmt->execute();
         $num_affected_rows = $stmt->affected_rows;
@@ -359,68 +319,20 @@ class DbHandler {
      * @param String $phone Phone Number
      * @param String $personalID Personal Identification
      * @param String $personalID_img Personal Identification Image
-     * @param String $link_avatar Link Avartar
+     * @param String $customer_avatar Link Avartar
      */
-    public function updateUser($user_id, $fullname, $phone, $personalID, $personalID_img, $link_avatar) {
-        $stmt = $this->conn->prepare("UPDATE user set fullname = ?, phone = ?, personalID = ?,
-                                        personalID_img = ?, link_avatar = ?, status = 3
+    public function updateCustomer($user_id, $fullname, $phone, $personalID, $customer_avatar) {
+        $stmt = $this->conn->prepare("UPDATE customer set fullname = ?, phone = ?, personalID = ?,
+                                        customer_avatar = ?, status = 3
                                         WHERE user_id = ?");
 
-        $stmt->bind_param("sssssi", $fullname, $phone, $personalID, $personalID_img, $link_avatar, $user_id);
+        $stmt->bind_param("ssssi", $fullname, $phone, $personalID, $customer_avatar, $user_id);
         $stmt->execute();
 
         $num_affected_rows = $stmt->affected_rows;
 
         $stmt->close();
         return $num_affected_rows > 0;
-    }
-
-    public function updateUser1($user_id, $status, $locked) {
-        $stmt = $this->conn->prepare("UPDATE user set status = ?, locked = ?
-                                        WHERE user_id = ?");
-
-        $stmt->bind_param("iii", $status, $locked, $user_id);
-        $stmt->execute();
-
-        $num_affected_rows = $stmt->affected_rows;
-
-        $stmt->close();
-        return $num_affected_rows > 0;
-    }
-
-    /**
-     * Update user field by user_id
-     * @param String $field User field want to update
-     * @param String $user_id User id
-     */
-    public function updateUserField($user_id, $field, $value) {
-        $stmt = $this->conn->prepare("SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS 
-                                        WHERE TABLE_SCHEMA = 'rs' AND TABLE_NAME = 'user'");
-        if ($stmt->execute()) {
-            $fields = $stmt->get_result();
-        }
-
-        $fieldIsExitInTable = false;
-
-        while ($row = $fields->fetch_assoc()) {
-                if ($row['COLUMN_NAME'] == $field) {
-                    $fieldIsExitInTable = true;
-                    break;
-                }           
-        }
-
-        if ($fieldIsExitInTable) {
-            $stmt = $this->conn->prepare("UPDATE user set ".$field." = ?, status = 3 WHERE user_id = ?");
-            $stmt->bind_param("si", $value, $user_id);
-            $stmt->execute();
-
-            $num_affected_rows = $stmt->affected_rows;
-
-            $stmt->close();
-            return $num_affected_rows > 0;
-        } else {
-            return false;
-        }
     }
 
     /**
@@ -436,22 +348,6 @@ class DbHandler {
         return $num_affected_rows > 0;
     }
 
-    /**
-     * Validating user api key
-     * If the api key is there in db, it is a valid key
-     * @param String $api_key user api key
-     * @return boolean
-     */
-    public function isLockUser($api_key) {
-        $stmt = $this->conn->prepare("SELECT user_id from user WHERE api_key = ? AND locked=true");
-        $stmt->bind_param("s", $api_key);
-        $stmt->execute();
-        $stmt->store_result();
-        $num_rows = $stmt->num_rows;
-        $stmt->close();
-        return $num_rows > 0;
-    }
-
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////
     /* ------------- `DRIVER` table method ------------------ */
@@ -462,49 +358,45 @@ class DbHandler {
      * @param String $email User login email id
      * @param String $password User login password
      */
-    public function createDriver($user_id, $driver_license, $driver_license_img) {
+    public function createDriver($driver_license, $driver_license_img) {
         // First check if user already existed in db
-        if (!$this->isDriverExists($user_id)) {
+        
+        $sql_query = "INSERT INTO driver(driver_license, driver_license_img) values( ?, ?)";
 
-            $sql_query = "INSERT INTO driver(driver_license, driver_license_img) values(?, ?, ?)";
-
-            // insert query
-            if ($stmt = $this->conn->prepare($sql_query)) {
-                $stmt->bind_param("iss", $user_id, $driver_license==NULL?'':$driver_license, $driver_license_img==NULL?'':$driver_license_img);
-                $result = $stmt->execute();
-            } else {
-                var_dump($this->conn->error);
-            }
-
-
-            $stmt->close();
-
-            // Check for successful insertion
-            if ($result) {
-                // User successfully inserted
-                return DRIVER_CREATED_SUCCESSFULLY;
-            } else {
-                // Failed to create user
-                return DRIVER_CREATE_FAILED;
-            }
+        // insert query
+        if ($stmt = $this->conn->prepare($sql_query)) {
+            $stmt->bind_param("ss", $driver_license==NULL?'':$driver_license, $driver_license_img==NULL?'':$driver_license_img);
+            $result = $stmt->execute();
         } else {
-            // User with same email already existed in the db
-            return DRIVER_ALREADY_EXISTED;
+            var_dump($this->conn->error);
         }
+
+
+        $stmt->close();
+
+        // Check for successful insertion
+        if ($result) {
+            // User successfully inserted
+            return DRIVER_CREATED_SUCCESSFULLY;
+        } else {
+            // Failed to create user
+            return DRIVER_CREATE_FAILED;
+        }
+        
     }
 
     /**
      * Fetching user by email
      * @param String $email User email id
      */
-    public function getDriverByID($user_id) {
+    public function getDriverByID($driver_id) {
         $stmt = $this->conn->prepare("SELECT email, api_key, fullname, phone, personalID, 
-                                        customer_avatar, status, created_at FROM driver WHERE driver_id = ?");
-        $stmt->bind_param("s", $user_id);
+                                        driver_avatar, status, created_at FROM driver WHERE driver_id = ?");
+        $stmt->bind_param("s", $driver_id);
         if ($stmt->execute()) {
             // $user = $stmt->get_result()->fetch_assoc();
             $stmt->bind_result($email, $api_key, $fullname, $phone, $personalID,
-                                    $customer_avatar, $status, $created_at, $locked);
+                                    $driver_avatar, $status, $created_at);
             $stmt->fetch();
             $user = array();
             $user["email"] = $email;
@@ -512,7 +404,7 @@ class DbHandler {
             $user["fullname"] = $fullname;
             $user["phone"] = $phone;
             $user["personalID"] = $personalID;
-            $user["customer_avatar"] = $customer_avatar;
+            $user["driver_avatar"] = $driver_avatar;
             $user["status"] = $status;
             $user["created_at"] = $created_at;
             $stmt->close();
@@ -528,12 +420,12 @@ class DbHandler {
      */
     public function getDriverByEmail($email) {
         $stmt = $this->conn->prepare("SELECT email, api_key, fullname, phone, personalID, 
-                                         customer_avatar, status, created_at FROM driver WHERE email = ?");
+                                         driver_avatar, status, created_at FROM driver WHERE email = ?");
         $stmt->bind_param("s", $email);
         if ($stmt->execute()) {
             // $user = $stmt->get_result()->fetch_assoc();
             $stmt->bind_result($email, $api_key, $fullname, $phone, $personalID,
-                                    $customer_avatar, $status, $created_at);
+                                    $driver_avatar, $status, $created_at);
             $stmt->fetch();
             $user = array();
             $user["email"] = $email;
@@ -541,7 +433,7 @@ class DbHandler {
             $user["fullname"] = $fullname;
             $user["phone"] = $phone;
             $user["personalID"] = $personalID;
-            $user["customer_avatar"] = $customer_avatar;
+            $user["driver_avatar"] = $driver_avatar;
             $user["status"] = $status;
             $user["created_at"] = $created_at;
             $stmt->close();
@@ -555,28 +447,7 @@ class DbHandler {
      * Fetching user by email
      * @param String $email User email id
      */
-    /*public function getDriverByUserID($user_id) {
-        $stmt = $this->conn->prepare("SELECT driver_license, driver_license_img FROM driver WHERE user_id = ?");
-        $stmt->bind_param("s", $user_id);
-        if ($stmt->execute()) {
-            // $user = $stmt->get_result()->fetch_assoc();
-            $stmt->bind_result($driver_license, $driver_license_img);
-            $stmt->fetch();
-            $user = array();
-            $user["driver_license"] = $driver_license;
-            $user["driver_license_img"] = $driver_license_img;
-            $stmt->close();
-            return $user;
-        } else {
-            return NULL;
-        }
-    }*/
-
-    /**
-     * Fetching user by email
-     * @param String $email User email id
-     */
-    public function isDriver($user_id) {
+    /*public function isDriver($user_id) {
         $stmt = $this->conn->prepare("SELECT driver_id FROM driver WHERE driver_id = ?");
         $stmt->bind_param("s", $user_id);
         $stmt->execute();
@@ -584,46 +455,7 @@ class DbHandler {
         $num_rows = $stmt->num_rows;
         $stmt->close();
         return $num_rows > 0;
-    }
-
-    /**
-     * Fetching user field by user_id
-     * @param String $field User User field want to get
-     * @param String $user_id User id
-     */
-    public function getDriverByField($user_id, $field) {
-        $stmt = $this->conn->prepare("SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS 
-                                        WHERE TABLE_SCHEMA = 'rs' AND TABLE_NAME = 'driver'");
-        if ($stmt->execute()) {
-            $fields = $stmt->get_result();
-        }
-
-        $fieldIsExitInTable = false;
-
-        while ($row = $fields->fetch_assoc()) {
-                if ($row['COLUMN_NAME'] == $field) {
-                    $fieldIsExitInTable = true;
-                    break;
-                }           
-        }
-
-        if ($fieldIsExitInTable) {
-            $qry = "SELECT ".$field." FROM driver WHERE user_id = ?";
-            $stmt = $this->conn->prepare($qry);
-            $stmt->bind_param("s", $user_id);
-            if ($stmt->execute()) {
-                // $user = $stmt->get_result()->fetch_assoc();
-                $stmt->bind_result($field);
-                $stmt->fetch();
-                $stmt->close();
-                return $field;
-            } else {
-                return NULL;
-            }
-        } else {
-            return NULL;
-        }
-    }
+    }*/
 
     /**
      * Updating driver
@@ -631,11 +463,11 @@ class DbHandler {
      * @param String $driver_license Driver License
      * @param String $driver_license_img Driver License Image
      */
-    public function updateDriver($user_id, $driver_license, $driver_license_img) {
+    public function updateDriver($driver_id, $driver_license, $driver_license_img) {
         $stmt = $this->conn->prepare("UPDATE driver set driver_license = ?, driver_license_img = ?
-                                        WHERE user_id = ?");
+                                        WHERE driver_id = ?");
 
-        $stmt->bind_param("ssi", $driver_license, $driver_license_img, $user_id);
+        $stmt->bind_param("ssi", $driver_license, $driver_license_img, $driver_id);
         $stmt->execute();
 
         $num_affected_rows = $stmt->affected_rows;
@@ -643,41 +475,6 @@ class DbHandler {
         $stmt->close();
         return $num_affected_rows > 0;
     }
-
-    /**
-     * Update driver field by user_id
-     * @param String $field User field want to update
-     * @param String $user_id User id
-     */
-    /*public function updateDriverField($driver_id, $field, $value) {
-        $stmt = $this->conn->prepare("SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS 
-                                        WHERE TABLE_SCHEMA = 'rs' AND TABLE_NAME = 'driver'");
-        if ($stmt->execute()) {
-            $fields = $stmt->get_result();
-        }
-
-        $fieldIsExitInTable = false;
-
-        while ($row = $fields->fetch_assoc()) {
-                if ($row['COLUMN_NAME'] == $field) {
-                    $fieldIsExitInTable = true;
-                    break;
-                }           
-        }
-
-        if ($fieldIsExitInTable) {
-            $stmt = $this->conn->prepare("UPDATE driver set ".$field." = ? WHERE driver_id = ?");
-            $stmt->bind_param("ss", $value, $user_id);
-            $stmt->execute();
-
-            $num_affected_rows = $stmt->affected_rows;
-
-            $stmt->close();
-            return $num_affected_rows > 0;
-        } else {
-            return false;
-        }
-    }*/
 
     /**
      * Delete driver
@@ -691,23 +488,6 @@ class DbHandler {
         $stmt->close();
         return $num_affected_rows > 0;
     }
-
-        /**
-     * Checking for duplicate user by email address
-     * @param String $email email to check in db
-     * @return boolean
-     */
-    private function isDriverExists($driver_id) {
-        $stmt = $this->conn->prepare("SELECT driver_id from driver WHERE driver_id = ?");
-        $stmt->bind_param("i", $driver_id);
-        $stmt->execute();
-        $stmt->store_result();
-        $num_rows = $stmt->num_rows;
-        $stmt->close();
-        return $num_rows > 0;
-    }
-
-
 
     //not finished yet
     /**
@@ -723,7 +503,6 @@ class DbHandler {
     }
 
 
-
     ////////////////////////////////////////////////////////////////////////////////////////////////////////
     /* ------------- `ITINERARY` table method ------------------ */
     ///////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -737,7 +516,7 @@ class DbHandler {
     public function createItinerary($driver_id, $start_address, $start_address_lat,$start_address_long,
              $end_address, $end_address_lat, $end_address_long, $time, $description, $distance) {
         $q = "INSERT INTO itinerary(customer_id, start_address, start_address_lat, start_address_long, 
-            end_address, end_address_lat, end_address_long, time, description, distance, status) ";
+            end_address, end_address_lat, end_address_long, time_start, description, distance, status) ";
                 $q .= " VALUES(?,?,?,?,?,?,?,?,?,?,". ITINERARY_STATUS_CREATED.")";
         $stmt = $this->conn->prepare($q);
 		
@@ -827,7 +606,7 @@ class DbHandler {
             $res["end_address"] = $end_address;
             $res["end_address_lat"] = $end_address_lat;
             $res["end_address_long"] = $end_address_long;
-            $res["time"] = $time;
+            $res["time_start"] = $time;
             $res["distance"] = $distance;
             $res["description"] = $description;
             $res["status"] = $status;
@@ -861,22 +640,6 @@ class DbHandler {
         return $itineraries;
     }
 
-    /*public function getAverageRatingofDriver($driver_id){
-        $q = "SELECT AVG(rating) AS average_rating FROM rating WHERE driver_id = ?";
-        $stmt = $this->conn->prepare($q);
-        $stmt->bind_param("i",$driver_id);
-        $stmt->execute();
-
-        $stmt->bind_result($average_rating);
-            $stmt->close();
-
-        if($average_rating == null){
-            return 0;
-        } else {
-            return $average_rating;
-        }
-    }*/
-
     //not finished yet
     /**
      * Fetching all itineraries of one driver
@@ -885,7 +648,7 @@ class DbHandler {
     public function getDriverItineraries($driver_id, $order) {
         $q = "SELECT itinerary_id, i.driver_id, i.customer_id, start_address, start_address_lat, start_address_long,
             end_address, end_address_lat, end_address_long, leave_date, duration, distance, cost, description, i.status as itinerary_status, i.created_at,
-            driver_license, driver_license_img, u.user_id, u.email, u.fullname, u.phone, personalID, link_avatar ";
+            driver_license, driver_license_img, u.user_id, u.email, u.fullname, u.phone, personalID, customer_avatar ";
         $q .=    "FROM itinerary as i, driver as d, user as u ";
         $q .=     "WHERE i.driver_id = d.user_id AND d.user_id = u.user_id AND driver_id = ? ";
 
@@ -910,12 +673,7 @@ class DbHandler {
      * @param Integer $customer_id id of the customer
      */
     public function getCustomerItineraries($customer_id, $order) {
-        /*$q = "SELECT itinerary_id, i.driver_id, i.customer_id, start_address, start_address_lat, start_address_long,
-            end_address, end_address_lat, end_address_long, leave_date, duration, distance, cost, description, i.status as itnerary_status, i.created_at,
-            driver_license, driver_license_img, u.user_id, u.email, u.fullname, u.phone, personalID, link_avatar ";
-        $q .=    "FROM itinerary as i, driver as d, user as u ";
-        $q .=     "WHERE i.driver_id = d.user_id AND d.user_id = u.user_id AND customer_id = ? ";*/
-        //echo $customer_id;
+
         $q = "SELECT * FROM itinerary WHERE customer_id = ? ";
         if(isset($order)){
             $q .= "ORDER BY " .$order;
@@ -962,7 +720,7 @@ class DbHandler {
     }
 
     public function checkItineraryStatus($itinerary_id){
-        $q = "SELECT status FROM itinerary WHERE itinerary = ?";
+        $q = "SELECT status FROM itinerary WHERE itinerary_id = ?";
         $stmt = $this->conn->prepare($q);
         $stmt->bind_param("i",$itinerary_id);
         $stmt->execute();
@@ -1044,12 +802,12 @@ class DbHandler {
 
     /* ------------- Feedback table ------------------ */
 
-    public function createFeedback($email, $name, $content) {
-        $sql_query = "INSERT INTO feedback(email, name, content) values(?, ?, ?)";
+    public function createFeedback($customer_id, $content) {
+        $sql_query = "INSERT INTO feedback(customer_id, content) values(?, ?, ?)";
 
         // insert query
         if ($stmt = $this->conn->prepare($sql_query)) {
-            $stmt->bind_param("sss", $email, $name, $content);
+            $stmt->bind_param("is", $customer_id, $content);
             $result = $stmt->execute();
         } else {
             var_dump($this->conn->error);
@@ -1258,19 +1016,19 @@ class DbHandler {
 
     /* ------------- `Vehicle` table method ------------------ */
 
-    public function createVehicle($user_id, $type, $license_plate, $license_plate_img, $reg_certificate,
-                                        $vehicle_img, $motor_insurance_img) {
+    public function createVehicle($driver_id, $type, $license_plate, $license_plate_img,
+                                        $vehicle_img) {
         // First check if user already existed in db
         if (!$this->isVehicleExists($license_plate)) {
 
-            $sql_query = "INSERT INTO vehicle(user_id, type, license_plate, license_plate_img, reg_certificate,
-                                        vehicle_img, motor_insurance_img, status) values(?, ?, ?, ?, ?, ?, ?, 1)";
+            $sql_query = "INSERT INTO vehicle(driver_id, type, license_plate, license_plate_img,
+                                        vehicle_img, status) values(?, ?, ?, ?, ?, ?, ?, 1)";
 
             // insert query
             if ($stmt = $this->conn->prepare($sql_query)) {
-                $stmt->bind_param("issssss", $user_id, $type==NULL?'':$type, $license_plate==NULL?'':$license_plate
-                                    , $license_plate_img==NULL?'':$license_plate_img, $reg_certificate==NULL?'':$reg_certificate
-                                    , $vehicle_img==NULL?'':$vehicle_img, $motor_insurance_img==NULL?'':$motor_insurance_img);
+                $stmt->bind_param("issss", $driver_id, $type==NULL?'':$type, $license_plate==NULL?'':$license_plate
+                                    , $license_plate_img==NULL?'':$license_plate_img
+                                    , $vehicle_img==NULL?'':$vehicle_img);
                 $result = $stmt->execute();
             } else {
                 var_dump($this->conn->error);
@@ -1297,7 +1055,7 @@ class DbHandler {
      * @param String $email User email id
      */
     public function getListVehicle($user_id) {
-        $stmt = $this->conn->prepare("SELECT * FROM vehicle WHERE user_id = ?");
+        $stmt = $this->conn->prepare("SELECT * FROM vehicle WHERE driver_id_id = ?");
 
         $stmt->bind_param("i", $user_id);
 
@@ -1316,25 +1074,23 @@ class DbHandler {
      * @param String $email User email id
      */
     public function getVehicle($vehicle_id) {
-        $stmt = $this->conn->prepare("SELECT vehicle_id, user_id, type, license_plate, reg_certificate,
-                                        license_plate_img, vehicle_img, motor_insurance_img, status, created_at
+        $stmt = $this->conn->prepare("SELECT vehicle_id, driver_id, type, license_plate,
+                                        license_plate_img, vehicle_img, status, created_at
                                       FROM vehicle WHERE vehicle_id = ?");
 
         $stmt->bind_param("i", $vehicle_id);
 
         if ($stmt->execute()) {
             // $user = $stmt->get_result()->fetch_assoc();
-            $stmt->bind_result($vehicle_id, $user_id, $type, $license_plate, $reg_certificate, $license_plate_img, $vehicle_img, $motor_insurance_img, $status, $created_at);
+            $stmt->bind_result($vehicle_id, $driver_id, $type, $license_plate, $license_plate_img, $vehicle_img, $status, $created_at);
             $stmt->fetch();
             $vehicle = array();
             $vehicle["vehicle_id"] = $vehicle_id;
-            $vehicle["user_id"] = $user_id;
+            $vehicle["driver_id"] = $driver_id;
             $vehicle["type"] = $type;
             $vehicle["license_plate"] = $license_plate;
-            $vehicle["reg_certificate"] = $reg_certificate;
             $vehicle["license_plate_img"] = $license_plate_img;
             $vehicle["vehicle_img"] = $vehicle_img;
-            $vehicle["motor_insurance_img"] = $motor_insurance_img;
             $vehicle["status"] = $status;
             $vehicle["created_at"] = $created_at;
             $stmt->close();
@@ -1344,7 +1100,7 @@ class DbHandler {
         }
     }
 
-    public function updateVehicle($vehicle_id, $type, $license_plate, $reg_certificate, $license_plate_img, $vehicle_img, $motor_insurance_img) {
+    public function updateVehicle($vehicle_id, $type, $license_plate, $license_plate_img, $vehicle_img) {
         require_once '/Config.php';
         $conn2 = new PDO("mysql:host=".DB_HOST.";dbname=".DB_NAME.";charset=utf8", DB_USERNAME, DB_PASSWORD);
         // set the PDO error mode to exception
@@ -1359,17 +1115,11 @@ class DbHandler {
         if (isset($license_plate)) { 
             $qry .= " license_plate = :license_plate,"; 
         }
-        if (isset($reg_certificate)) { 
-            $qry .= " reg_certificate = :reg_certificate,"; 
-        }
         if (isset($license_plate_img)) { 
             $qry .= " license_plate_img = :license_plate_img,"; 
         }
         if (isset($vehicle_img)) { 
             $qry .= " vehicle_img = :vehicle_img,"; 
-        }
-        if (isset($motor_insurance_img)) { 
-            $qry .= " motor_insurance_img = :motor_insurance_img,"; 
         }
 
         $qry .= " status = 1 WHERE vehicle_id = :vehicle_id";
@@ -1382,17 +1132,11 @@ class DbHandler {
         if (isset($license_plate)) { 
             $stmt->bindParam(':license_plate', $license_plate);
         }
-        if (isset($reg_certificate)) {  
-            $stmt->bindParam(':reg_certificate', $reg_certificate);
-        }
         if (isset($license_plate_img)) {  
             $stmt->bindParam(':license_plate_img', $license_plate_img);
         }
         if (isset($vehicle_img)) { 
             $stmt->bindParam(':vehicle_img', $vehicle_img);
-        }
-        if (isset($motor_insurance_img)) { 
-            $stmt->bindParam(':motor_insurance_img', $motor_insurance_img);
         }
 
         $stmt->bindParam(':vehicle_id', $vehicle_id);
@@ -1433,14 +1177,14 @@ class DbHandler {
 
     /* ------------- `Rating` table method ------------------ */
 
-    public function createRating($user_id, $rating, $rating_user_id) {
+    public function createRating($customer_id, $rating, $rating_user_id) {
         // First check if user already existed in db
 
-            $sql_query = "INSERT INTO rating(user_id, rating_user_id, rating) values(?, ?, ?)";
+            $sql_query = "INSERT INTO rating(customer_id, driver_id, rating) values(?, ?, ?)";
 
             // insert query
             if ($stmt = $this->conn->prepare($sql_query)) {
-                $stmt->bind_param("iii", $user_id, $rating_user_id, $rating);
+                $stmt->bind_param("iii", $customer_id, $driver_id, $rating);
                 $result = $stmt->execute();
             } else {
                 var_dump($this->conn->error);
@@ -1459,7 +1203,7 @@ class DbHandler {
     }
 
     public function getAverageRatingofDriver($user_id){
-        $q = "SELECT AVG(rating) AS average_rating FROM rating WHERE user_id = ?";
+        $q = "SELECT AVG(rating) AS average_rating FROM rating WHERE driver_id = ?";
         $stmt = $this->conn->prepare($q);
         $stmt->bind_param("i",$driver_id);
         $stmt->execute();
@@ -1510,122 +1254,6 @@ class DbHandler {
         $stmt->close();
         return $num_affected_rows > 0;
     }
-
-
-    /* ------------- `Comment` table method ------------------ */
-
-    public function createComment($user_id, $content, $comment_about_user_id) {
-        // First check if user already existed in db
-
-            $sql_query = "INSERT INTO comment(user_comment_id, comment_about_user_id, content) values(?, ?, ?)";
-
-            // insert query
-            if ($stmt = $this->conn->prepare($sql_query)) {
-                $stmt->bind_param("iis", $user_id, $comment_about_user_id, $content==NULL?'':$content);
-                $result = $stmt->execute();
-            } else {
-                var_dump($this->conn->error);
-            }
-
-            $stmt->close();
-
-            // Check for successful insertion
-            if ($result) {
-                // User successfully inserted
-                return COMMENT_CREATED_SUCCESSFULLY;
-            } else {
-                // Failed to create user
-                return COMMENT_CREATE_FAILED;
-            }
-    }
-
-    /**
-     * Fetching user by email
-     * @param String $email User email id
-     */
-    public function getListCommentOfUser($user_id) {
-        $stmt = $this->conn->prepare("SELECT * FROM comment WHERE user_comment_id = ?");
-
-        $stmt->bind_param("i", $user_id);
-
-        if ($stmt->execute()) {
-            // $user = $stmt->get_result()->fetch_assoc();
-            $vehicle = $stmt->get_result();
-            $stmt->close();
-            return $vehicle;
-        } else {
-            return NULL;
-        }
-    }
-
-    /**
-     * Fetching user by email
-     * @param String $email User email id
-     */
-    public function getComment($comment_id) {
-        $stmt = $this->conn->prepare("SELECT comment_id, user_comment_id, comment_about_user_id, content, created_at
-                                      FROM commnet WHERE comment_id = ?");
-
-        $stmt->bind_param("i", $comment_id);
-
-        if ($stmt->execute()) {
-            // $user = $stmt->get_result()->fetch_assoc();
-            $stmt->bind_result($comment_id, $user_comment_id, $comment_about_user_id, $content, $created_at);
-            $stmt->fetch();
-            $commnent = array();
-            $commnent["comment_id"] = $comment_id;
-            $commnent["user_comment_id"] = $user_comment_id;
-            $commnent["comment_about_user_id"] = $comment_about_user_id;
-            $commnent["content"] = $content; 
-            $commnent["created_at"] = $created_at;
-            $stmt->close();
-            return $commnent;
-        } else {
-            return NULL;
-        }
-    }
-
-    public function updateComment($comment_id, $content) {
-        require_once '/Config.php';
-        $conn2 = new PDO("mysql:host=".DB_HOST.";dbname=".DB_NAME.";charset=utf8", DB_USERNAME, DB_PASSWORD);
-        // set the PDO error mode to exception
-        $conn2->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-        $qry = "UPDATE vehicle set";
-        $param = array();
-
-        if (isset($content)) { 
-            $qry .= " content = :content,"; 
-        }
-
-        $qry .= " status = 1 WHERE comment_id = :comment_id";
-
-        $stmt = $conn2->prepare($qry);
-
-        if (isset($content)) { 
-            $stmt->bindParam(':content', $content);
-        }
-
-        $stmt->bindParam(':comment_id', $comment_id);
-        $stmt->execute();
-        $num_affected_rows = $stmt->rowCount();
-        $conn2 = null;
-        return $num_affected_rows > 0;
-    }
-
-    /**
-     * Delete driver
-     * @param String $user_id id of user
-     */
-    public function deleteComment($comment_id) {
-        $stmt = $this->conn->prepare("DELETE FROM comment WHERE comment_id = ?");
-        $stmt->bind_param("i", $comment_id);
-        $stmt->execute();
-        $num_affected_rows = $stmt->affected_rows;
-        $stmt->close();
-        return $num_affected_rows > 0;
-    }
-
 
     /* ------------- `staff` table method ------------------ */
 
@@ -1719,7 +1347,7 @@ class DbHandler {
      */
     public function getListStaff() {
         $stmt = $this->conn->prepare("SELECT staff_id, email, api_key, fullname, personalID, 
-                                        link_avatar, created_at FROM staff");
+                                        staff_avatar, created_at FROM staff");
         if ($stmt->execute()) {
             // $user = $stmt->get_result()->fetch_assoc();
             $staffs = $stmt->get_result();
@@ -1735,12 +1363,12 @@ class DbHandler {
      * @param String $email Staff email id
      */
     public function getStaffByEmail($email) {
-        $stmt = $this->conn->prepare("SELECT role, email, api_key, fullname, personalID, created_at, link_avatar, staff_id   
+        $stmt = $this->conn->prepare("SELECT role, email, api_key, fullname, personalID, created_at, staff_avatar, staff_id   
                                         FROM staff WHERE email = ?");
         $stmt->bind_param("s", $email);
         if ($stmt->execute()) {
             // $user = $stmt->get_result()->fetch_assoc();
-            $stmt->bind_result($role, $email, $api_key, $fullname,$personalID, $created_at, $link_avatar, $staff_id);
+            $stmt->bind_result($role, $email, $api_key, $fullname,$personalID, $created_at, $staff_avatar, $staff_id);
             $stmt->fetch();
             $staff = array();
             $staff["role"] = $role;
@@ -1749,7 +1377,7 @@ class DbHandler {
             $staff["fullname"] = $fullname;
             $staff["personalID"] = $personalID;
             $staff["created_at"] = $created_at;
-            $staff["link_avatar"] = $link_avatar;
+            $staff["staff_avatar"] = $staff_avatar;
             $staff["staff_id"] = $staff_id;
             $stmt->close();
             return $staff;
@@ -1763,12 +1391,12 @@ class DbHandler {
      * @param String $staff_id Staff id
      */
     public function getStaffByStaffID($staff_id) {
-        $stmt = $this->conn->prepare("SELECT role, email, api_key, fullname, personalID, created_at, link_avatar 
+        $stmt = $this->conn->prepare("SELECT role, email, api_key, fullname, personalID, created_at, staff_avatar 
                                         FROM staff WHERE staff_id = ?");
         $stmt->bind_param("s", $staff_id);
         if ($stmt->execute()) {
             // $user = $stmt->get_result()->fetch_assoc();
-            $stmt->bind_result($role, $email, $api_key, $fullname,$personalID, $created_at, $link_avatar);
+            $stmt->bind_result($role, $email, $api_key, $fullname,$personalID, $created_at, $staff_avatar);
             $stmt->fetch();
             $staff = array();
             $staff["role"] = $role;
@@ -1776,7 +1404,7 @@ class DbHandler {
             $staff["api_key"] = $api_key;
             $staff["fullname"] = $fullname;
             $staff["personalID"] = $personalID;
-            $staff["link_avatar"] = $link_avatar;
+            $staff["staff_avatar"] = $staff_avatar;
             $staff["created_at"] = $created_at;
             $stmt->close();
             return $staff;
@@ -1819,7 +1447,7 @@ class DbHandler {
         }
     }
 
-    public function updateStaff($staff_id, $fullname, $email, $personalID, $link_avatar) {
+    public function updateStaff($staff_id, $fullname, $email, $personalID, $staff_avatar) {
         require_once '/Config.php';
         $conn2 = new PDO("mysql:host=".DB_HOST.";dbname=".DB_NAME.";charset=utf8", DB_USERNAME, DB_PASSWORD);
         // set the PDO error mode to exception
@@ -1837,8 +1465,8 @@ class DbHandler {
         if (isset($personalID)) { 
             $qry .= ", personalID = :personalID"; 
         }
-        if (isset($link_avatar)) { 
-            $qry .= ", link_avatar = :link_avatar"; 
+        if (isset($staff_avatar)) { 
+            $qry .= ", staff_avatar = :staff_avatar"; 
         }
 
         $qry .= " WHERE staff_id = :staff_id"; 
@@ -1854,8 +1482,8 @@ class DbHandler {
         if (isset($personalID)) {  
             $stmt->bindParam(':personalID', $personalID);
         }
-        if (isset($link_avatar)) { 
-            $stmt->bindParam(':link_avatar', $link_avatar);
+        if (isset($customer_avatar)) { 
+            $stmt->bindParam(':customer_avatar', $customer_avatar);
         }
         $stmt->bindParam(':staff_id', $staff_id);
         $stmt->execute();

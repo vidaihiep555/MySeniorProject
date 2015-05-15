@@ -204,14 +204,14 @@ $app->post('/customer', function() use ($app) {
                 $response["message"] = "Sorry! Your email registration is existing.";
             } else if ($res == USER_CREATE_FAILED) {
                 $response["error"] = true;
-                $response["message"] = "Xin lỗi! Có lỗi xảy ra trong quá trình đăng kí.";
+                $response["message"] = "Sorry! There are some errors.";
             }
             // echo json response
             echoRespnse(201, $response);
         });
 
 /**
- * User activation
+ * Customer activation
  * url - /user
  * method - GET
  * params - activation_code
@@ -271,7 +271,7 @@ $app->get('/forgotpass/:email', function($email) {
  * method GET
  * url /user
  */
-$app->get('/user', 'authenticateUser', function() {
+$app->get('/customer', 'authenticateUser', function() {
             global $user_id;
             $response = array();
             $db = new DbHandler();
@@ -298,47 +298,27 @@ $app->get('/user', 'authenticateUser', function() {
         });
 
 
-/*$app->get('/user/:field', 'authenticateUser', function($field) {
-            global $user_id;
-            $response = array();
-            $db = new DbHandler();
-
-            // fetch task
-            $result = $db->getUserByField($user_id, $field);
-
-            if ($result != NULL || $field == 'locked') {
-                $response["error"] = false;
-                $response[$field] = $result;
-                echoRespnse(200, $response);
-            } else {
-                $response["error"] = true;
-                $response["message"] = "Đường dẫn bạn yêu cầu không tồn tại!";
-                echoRespnse(404, $response);
-            }
-        });*/
-
 /**
  * Updating user
  * method PUT
  * params task, status
  * url - /user
  */
-$app->put('/user', 'authenticateUser', function() use($app) {
+$app->put('/customer', 'authenticateUser', function() use($app) {
             // check for required params
-            verifyRequiredParams(array('fullname', 'phone', 'personalID', 'personalID_img', 'link_avatar'));
+            verifyRequiredParams(array('fullname', 'phone', 'personalID', 'link_avatar'));
 
             global $user_id;            
             $fullname = $app->request->put('fullname');
             $phone = $app->request->put('phone');
             $personalID = $app->request->put('personalID');
-            $personalID_img = $app->request->put('personalID_img');
             $link_avatar = $app->request->put('link_avatar');
 
             $db = new DbHandler();
             $response = array();
 
             // updating task
-            $result = $db->updateUser($user_id, $fullname, $phone, $personalID, $personalID_img, $link_avatar);
+            $result = $db->updateCustomer($user_id, $fullname, $phone, $personalID, $link_avatar);
             if ($result) {
                 // task updated successfully
                 $response['error'] = false;
@@ -352,59 +332,17 @@ $app->put('/user', 'authenticateUser', function() use($app) {
         });
 
 /**
- * Update user information
- * method PUT
- * url /user
- */
-/*$app->put('/user/:field', 'authenticateUser', function($field) use($app) {
-            global $restricted_user_field;
-            if (!in_array($field, $restricted_user_field)) {
-                // check for required params
-                verifyRequiredParams(array('value'));
-                global $user_id;
-                $value = $app->request->put('value');
-
-                $response = array();
-                $db = new DbHandler();
-
-                if ($field == 'password') {
-                    validatePassword($value);
-
-                    $result = $db->changePassword($user_id, $value);
-                } else {
-                    // fetch user
-                    $result = $db->updateUserField($user_id, $field, $value);
-                }
-
-                if ($result) {
-                    // user updated successfully
-                    $response["error"] = false;
-                    $response["message"] = "Cập nhật thông tin thành công!";
-                } else {
-                    // user failed to update
-                    $response["error"] = true;
-                    $response["message"] = "Cập nhật thông tin thất bại. Vui lòng thử lại!";
-                }
-            } else {
-                $response["error"] = true;
-                $response["message"] = "Cập nhật thông tin thất bại. Vui lòng thử lại!";
-            }
-            
-            echoRespnse(200, $response);
-        });*/
-
-/**
  * Deleting user.
  * method DELETE
  * url /user
  */
-$app->delete('/user', 'authenticateUser', function() {
+$app->delete('/customer', 'authenticateUser', function() {
             global $user_id;
 
             $db = new DbHandler();
             $response = array();
 
-            $result = $db->deleteUser($user_id);
+            $result = $db->deleteCustomer($user_id);
 
             if ($result) {
                 // user deleted successfully
@@ -427,9 +365,8 @@ $app->delete('/user', 'authenticateUser', function() {
  * method - POST
  * params - driver
  */
-$app->post('/driver', 'authenticateUser', function() use ($app) {
+$app->post('/driver', function() use ($app) {
             verifyRequiredParams(array('driver_license', 'driver_license_img'));
-            global $user_id;
             $response = array();
 
             // reading post params
@@ -437,14 +374,11 @@ $app->post('/driver', 'authenticateUser', function() use ($app) {
             $driver_license_img = $app->request->post('driver_license_img');
 
             $db = new DbHandler();
-            $res = $db->createDriver($user_id, $driver_license, $driver_license_img);
+            $res = $db->createDriver($driver_license, $driver_license_img);
 
             if ($res == DRIVER_CREATED_SUCCESSFULLY) {
                 $response["error"] = false;
                 $response["message"] = "Đăng kí thành công!";
-            } else if ($res == DRIVER_ALREADY_EXISTED) {
-                $response["error"] = true;
-                $response["message"] = "Bạn đã đăng kí làm lái xe!";
             } else if ($res == DRIVER_CREATE_FAILED) {
                 $response["error"] = true;
                 $response["message"] = "Xin lỗi! Có lỗi xảy ra trong quá trình đăng kí.";
@@ -477,30 +411,6 @@ $app->get('/driver', 'authenticateUser', function() {
                 echoRespnse(404, $response);
             }
         });
-
-/**
- * Get user information
- * method GET
- * url /user
- */
-/*$app->get('/driver/:field', 'authenticateUser', function($field) {
-            global $user_id;
-            $response = array();
-            $db = new DbHandler();
-
-            // fetch task
-            $result = $db->getDriverByField($user_id, $field);
-
-            if ($result != NULL) {
-                $response["error"] = false;
-                $response[$field] = $result;
-                echoRespnse(200, $response);
-            } else {
-                $response["error"] = true;
-                $response["message"] = "Đường dẫn bạn yêu cầu không tồn tại!";
-                echoRespnse(200, $response);
-            }
-        });*/
 
 
 /**
@@ -580,35 +490,6 @@ $app->put('/driver', 'authenticateUser', function() use($app) {
         });
 
 /**
- * Update user information
- * method PUT
- * url /user
- */
-/*$app->put('/driver/:field', 'authenticateUser', function($field) use($app) {
-            // check for required params
-            verifyRequiredParams(array('value'));
-            global $user_id;
-            $value = $app->request->put('value');
-
-            $response = array();
-            $db = new DbHandler();
-
-            // fetch user
-            $result = $db->updateDriverField($user_id, $field, $value);
-
-            if ($result) {
-                // user updated successfully
-                $response["error"] = false;
-                $response["message"] = "Cập nhật thông tin thành công!";
-            } else {
-                // user failed to update
-                $response["error"] = true;
-                $response["message"] = "Cập nhật thông tin thất bại. Vui lòng thử lại!";
-            }          
-            echoRespnse(200, $response);
-        });*/
-
-/**
  * Deleting user.
  * method DELETE
  * url /user
@@ -634,11 +515,7 @@ $app->delete('/driver', 'authenticateUser', function() {
         });
 
 
-
-
-
 /////////////////////////////////// ITINERARY /////////////////////////////////////////////////////////
-
 
 
 
@@ -1034,27 +911,25 @@ $app->delete('/itinerary/:id', 'authenticateUser', function($itinerary_id) use($
 
 
 
-
 ///////////////////////////// FEEDBACK ////////////////////////////////////////////
 
 
 
-$app->post('/feedback', function() use ($app) {
+$app->post('/feedback', 'authenticateUser' function() use ($app) {
+            global $user_id;
             // check for required params
-            verifyRequiredParams(array('email', 'name', 'content'));
+            verifyRequiredParams(array('content'));
 
             $response = array();
 
             // reading post params
-            $email = $app->request->post('email');
-            $name = $app->request->post('name');
             $content = $app->request->post('content');
 
             // validating email address
             validateEmail($email);
 
             $db = new DbHandler();
-            $res = $db->createFeedback($email, $name, $content);
+            $res = $db->createFeedback($user_id, $content);
 
             if ($res == USER_CREATED_FEEDBACK_SUCCESSFULLY) {
                 $response["error"] = false;
@@ -1066,142 +941,6 @@ $app->post('/feedback', function() use ($app) {
             // echo json response
             echoRespnse(201, $response);
         });
-
-
-//////////////////////////////// COMMENT  //////////////////////////////////////
-
-$app->get('/comment/:user_id', 'authenticateUser', function($user_id) {
-            $response = array();
-            $db = new DbHandler();
-
-            if ($db->isUserExists1($user_id)) {
-                $response['error'] = false;
-                $response['comments'] = array();
-                $result = $db->getListCommentOfUser($user_id);
-                while ($comment = $result->fetch_assoc()) {
-                    array_push($response['comment'], $comment);
-                }
-                echoRespnse(200, $response);
-
-            } else {
-                $response['error'] = true;
-                $response['message'] = 'Đường dẫn bạn yêu cầu không tồn tại!';
-                echoRespnse(404, $response);
-            }
-        });
-
-
-/**
- * Comment creation
- * url - /comment
- * method - POST
- * params - 
- */
-$app->post('/comment', 'authenticateUser', function() use ($app) {
-            global $user_id;
-
-            verifyRequiredParams(array('content', 'comment_about_user_id'), $language);
-
-            $response = array();
-
-            $content = $app->request->post('content');
-            $comment_about_user_id = $app->request->post('comment_about_user_id');
-
-            $db = new DbHandler();
-            $res = $db->createComment($user_id, $content, $comment_about_user_id);
-
-            if ($res == COMMENT_CREATED_SUCCESSFULLY) {
-                $response["error"] = false;
-                $response["message"] = $lang['REGISTER_SUCCESS'];
-            } else if ($res == COMMENT_CREATE_FAILED) {
-                $response["error"] = true;
-                $response["message"] = $lang['ERR_REGISTER'];
-            }
-            // echo json response
-            echoRespnse(201, $response);
-        });
-
-
-/**
- * Get driver information
- * method GET
- * url /driver
- */
-$app->get('/comment/:comment_id', 'authenticateUser', function($comment_id) {
-
-            $response = array();
-            $db = new DbHandler();
-
-            // fetch task
-            $comment = $db->getComment($comment_id);
-
-            if ($comment != NULL) {
-                $response["error"] = false;
-                $response['comment_id'] = $comment["comment_id"];
-                $response['comment_about_user_id'] = $comment["comment_about_user_id"];
-                $response['content'] = $comment["content"];
-                $response['created_at'] = $comment["created_at"];
-                echoRespnse(200, $response);
-            } else {
-                $response["error"] = true;
-                $response["message"] = "The link you request is not existing!";
-                echoRespnse(404, $response);
-            }
-        });
-
-/**
- * Updating user
- * method PUT
- * params task, status
- * url - /user
- */
-$app->put('/comment/:comment_id', 'authenticateUser', function($comment_id) use($app) { 
-
-            $content = $app->request->post('content');
-            $comment_about_user_id = $app->request->post('comment_about_user_id');
-
-            $db = new DbHandler();
-            $response = array();
-
-            // updating task
-            $result = $db->updateComment($comment_id, $content);
-            if ($result) {
-                // task updated successfully
-                $response["error"] = false;
-                $response["message"] = $lang['ALERT_UPDATE'];
-            } else {
-                // task failed to update
-                $response["error"] = true;
-                $response["message"] = $lang['ERR_UPDATE'];
-            }
-            echoRespnse(200, $response);
-        });
-
-/**
- * Deleting user.
- * method DELETE
- * url /user
- */
-$app->delete('/comment/:comment_id', 'authenticateUser', function($comment_id) {
-
-            $db = new DbHandler();
-            $response = array();
-
-            $result = $db->deleteComment($comment_id);
-
-            if ($result) {
-                // user deleted successfully
-                $response["error"] = false;
-                $response["message"] = $lang['VEHICLE_DELETE_SUCCESS'];
-            } else {
-                // task failed to delete
-                $response["error"] = true;
-                $response["message"] = $lang['VEHICLE_DELETE_FAILURE'];
-            }
-            echoRespnse(200, $response);
-        });
-
-
 
 ///////////////////////////////////// RATING ////////////////////////////////////////////////////
 
@@ -1794,11 +1533,11 @@ $app->delete('/staffs/:staff_id', 'authenticateStaff', function($staff_id) {
             //////////////////////////////////////////////////
 
 /**
- * Get all user information
+ * Get all customer information
  * method GET
  * url /user
  */
-$app->get('/staff/user', 'authenticateStaff', function() {
+$app->get('/staff/customer', 'authenticateStaff', function() {
 
             $response = array();
             $db = new DbHandler();
@@ -1807,7 +1546,7 @@ $app->get('/staff/user', 'authenticateStaff', function() {
             $response['users'] = array();
 
             // fetch task
-            $result = $db->getListUser();
+            $result = $db->getListCustomer();
 
             while ($user = $result->fetch_assoc()) {
                 array_push($response['users'], $user);               
@@ -1846,104 +1585,6 @@ $app->get('/staff/customer/:customer_id', 'authenticateStaff', function($custome
                 $response["message"] = "The requested resource doesn't exists";
                 echoRespnse(404, $response);
             }
-        });
-
-/**
- * Get user information
- * method GET
- * url /user
- */
-$app->get('/staff/user/:user_id/:field', 'authenticateStaff', function($user_id, $field) {
-
-            $response = array();
-            $db = new DbHandler();
-
-            // fetch task
-            $result = $db->getUserByField($user_id, $field);
-
-            if ($result != NULL) {
-                $response["error"] = false;
-                $response[$field] = $result;
-                echoRespnse(200, $response);
-            } else {
-                $response["error"] = true;
-                $response["message"] = "The link you request is not existing!";
-                echoRespnse(404, $response);
-            }
-        });
-
-/**
- * Updating user
- * method PUT
- * params task, status
- * url - /user
- */
-$app->put('/staff/user/:user_id', 'authenticateStaff', function($user_id) use($app) {
-
-            // check for required params
-            verifyRequiredParams(array('status', 'locked'), $language);
-        
-            $status = $app->request->put('status');
-            $locked = $app->request->put('locked');
-
-            $db = new DbHandler();
-            $response = array();
-
-            // updating task
-            $result = $db->updateUser1($user_id, $status, $locked);
-            if ($result) {
-                // task updated successfully
-                $response["error"] = false;
-                $response["message"] = "The link you request is not existing!";
-            } else {
-                // task failed to update
-                $response["error"] = true;
-                $response["message"] = "The link you request is not existing!";
-            }
-            echoRespnse(200, $response);
-        });
-
-/**
- * Update user information
- * method PUT
- * url /user
- */
-$app->put('/staff/user/:user_id/:field', 'authenticateStaff', function($user_id, $field) use($app) {
-            global $restricted_user_field;
-
-            if (!in_array($field, $restricted_user_field)) {
-                // check for required params
-                verifyRequiredParams(array('value'), $language);
-
-                $value = $app->request->put('value');
-
-                $response = array();
-                $db = new DbHandler();
-
-                if ($field == 'password') {
-                    validatePassword($value, $language);
-
-                    $result = $db->changePassword($user_id, $value);
-                } else {
-                    // fetch user
-                    $result = $db->updateUserField($user_id, $field, $value);
-                }
-
-                if ($result) {
-                    // user updated successfully
-                    $response["error"] = false;
-                    $response["message"] = "The link you request is not existing!";
-                } else {
-                    // user failed to update
-                    $response["error"] = true;
-                    $response["message"] = "The link you request is not existing!";
-                }
-            } else {
-                $response["error"] = true;
-                $response["message"] = "The link you request is not existing!";
-            }
-            
-            echoRespnse(200, $response);
         });
 
 /**
