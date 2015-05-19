@@ -29,7 +29,7 @@ namespace UberRiding.Customer
 
         public async void getUserInfo()
         {   //
-            var result = await RequestToServer.sendGetRequest("user");
+            var result = await RequestToServer.sendGetRequest("customer");
 
             JObject jsonObject = JObject.Parse(result);
 
@@ -40,7 +40,6 @@ namespace UberRiding.Customer
 
             //set Image
             imgAvatar.Source = ImageConvert.convertBase64ToImage(jsonObject.Value<string>("customer_avatar").Trim());
-            imgPersonalID.Source = ImageConvert.convertBase64ToImage(jsonObject.Value<string>("personalID_img").Trim());
         }
 
         private void btnChangePassword_Click(object sender, RoutedEventArgs e)
@@ -109,8 +108,8 @@ namespace UberRiding.Customer
             postData.Add("personalID", personalID);
             postData.Add("phone", phone);
 
-            postData.Add("link_avatar", ImageConvert.convertImageToBase64(imgAvatar));
-            postData.Add("personalID_img", ImageConvert.convertImageToBase64(imgAvatar));
+            postData.Add("customer_avatar", ImageConvert.convertImageToBase64(imgAvatar));
+            //postData.Add("personalID_img", ImageConvert.convertImageToBase64(imgAvatar));
 
             HttpFormUrlEncodedContent content =
                 new HttpFormUrlEncodedContent(postData);

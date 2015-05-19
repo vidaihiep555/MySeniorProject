@@ -14,6 +14,8 @@ using System.Device.Location;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
 using System.Threading.Tasks;
+using Microsoft.AspNet.SignalR.Client;
+using System.Net.Http;
 
 namespace UberRiding.Customer
 {
@@ -27,6 +29,13 @@ namespace UberRiding.Customer
         Geocoordinate myGeocoordinate = null;
         GeoCoordinate myGeoCoordinate = null;
 
+        List<Driver2> list = new List<Driver2>();
+
+        private IHubProxy HubProxy { get; set; }
+        const string ServerURI = "http://52.11.206.209:8080/signalr";
+        //const string ServerURI = "http://localhost:8080/signalr";
+        private HubConnection con { get; set; }
+
         public CustomerMainMap()
         {
             InitializeComponent();
@@ -36,7 +45,64 @@ namespace UberRiding.Customer
         {
             base.OnNavigatedTo(e);
             InitCurrentLocationInfo();
+
+            //ConnectAsync();
             getDrivers();
+        }
+
+        private async void ConnectAsync()
+        {
+            con = new HubConnection(ServerURI);
+            con.Closed += Connection_Closed;
+            con.Error += Connection_Error;
+            HubProxy = con.CreateHubProxy("MyHub");
+            //Handle incoming event from server: use Invoke to write to console from SignalR's thread
+            HubProxy.On<string, string>("getPos", (driver_id, message) =>
+                Dispatcher.BeginInvoke(() => test(message))
+            );
+            try
+            {
+                await con.Start();
+            }
+            catch (HttpRequestException)
+            {
+                //No connection: Don't enable Send button or show chat UI
+                //btntrack.Content = "eror";
+            }
+            catch (HttpClientException)
+            {
+                //btntrack.Content = "eror";
+            }
+
+            Dispatcher.BeginInvoke(() =>
+            {
+                string id = "C" + Global.GlobalData.user_id;
+                HubProxy.Invoke("Connect", id);
+            });
+        }
+
+
+        private void test(string message)
+        {
+            string[] latlng = message.Split(",".ToCharArray());
+            //double lat = Double.Parse(latlng[0]);
+            //double lng = Double.Parse(latlng[1]);
+            //addMarkertoMap(new GeoCoordinate(lat, lng));
+            //txtFireBase.Text = message;
+        }
+
+        private void Connection_Error(Exception obj)
+        {
+            //txtFireBase.Text = "error";
+        }
+
+        /// <summary>
+        /// If the server is stopped, the connection will time out after 30 seconds (default), and the 
+        /// Closed event will fire.
+        /// </summary>
+        private void Connection_Closed()
+        {
+            //Deactivate chat UI; show login UI. 
         }
 
         public void InitCurrentLocationInfo()
@@ -112,6 +178,7 @@ namespace UberRiding.Customer
 
             foreach (Global.Driver i in root.drivers)
             {
+                GlobalData.calldriver = i.driver_id.ToString().Trim();
                 Global.GlobalData.driverList.Add(new Driver2
                 {
                     
@@ -168,7 +235,7 @@ namespace UberRiding.Customer
 
         private void menuAccountInfo_Click(object sender, EventArgs e)
         {
-            NavigationService.Navigate(new Uri("/AccountInfo.xaml", UriKind.RelativeOrAbsolute));
+            NavigationService.Navigate(new Uri("/Customer/CustomerInfo.xaml", UriKind.RelativeOrAbsolute));
         }
 
         private void menuAboutUs_Click(object sender, EventArgs e)
@@ -250,6 +317,17 @@ namespace UberRiding.Customer
         private void btnAdvanceSearch_Click(object sender, RoutedEventArgs e)
         {
             NavigationService.Navigate(new Uri("/AdvanceSearch.xamll", UriKind.RelativeOrAbsolute));
+        }
+
+        private void menuCallDriver_Click(object sender, EventArgs e)
+        {
+            ConnectAsync();
+
+            Dispatcher.BeginInvoke(() =>
+            {
+                string driver_id = "D" + GlobalData.calldriver;
+                HubProxy.Invoke("SendPos2", driver_id, "sdasd," + driver_id + "," + "C" + Global.GlobalData.user_id);
+            });
         }
 
     }

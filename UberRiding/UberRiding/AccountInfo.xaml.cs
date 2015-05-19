@@ -33,7 +33,7 @@ namespace UberRiding
 
         public async void getUserInfo()
         {
-            var result = await RequestToServer.sendGetRequest("user");
+            var result = await RequestToServer.sendGetRequest("customer");
 
             JObject jsonObject = JObject.Parse(result);
 

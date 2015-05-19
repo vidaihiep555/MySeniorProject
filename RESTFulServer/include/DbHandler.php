@@ -140,10 +140,11 @@ class DbHandler {
 
             $stmt->close();
 
-            if ($status <= 1) {
-                return CUSTOMER_NOT_ACTIVATE;
-            } 
-            elseif (PassHash::check_password($password_hash, $password)) {
+            
+            if (PassHash::check_password($password_hash, $password)) {
+                if ($status <= 1) {
+                    return CUSTOMER_NOT_ACTIVATE;
+                } 
                 return CUSTOMER_LOGIN_SUCCESSFULL;
             } else {
                 return WRONG_PASSWORD;
@@ -168,14 +169,18 @@ class DbHandler {
 
                 $stmt->close();
 
-                if ($status <= 1) {
-                    return DRIVER_NOT_ACTIVATE;
-                } 
-                elseif (PassHash::check_password($password_hash, $password)) {
+                
+                if (PassHash::check_password($password_hash, $password)) {
+                    if ($status <= 1) {
+                        //echo "dddd";
+                        return DRIVER_NOT_ACTIVATE;
+                    }
                     return DRIVER_LOGIN_SUCCESSFULL;
                 } else {
                     return WRONG_PASSWORD;
                 }
+
+
             } else {
                 return USER_NOT_REGISTER;
             }
@@ -204,15 +209,16 @@ class DbHandler {
      * @param String $email User email id
      */
     public function getCustomerByEmail($email) {
-        $stmt = $this->conn->prepare("SELECT email, api_key, fullname, phone, personalID, 
+        $stmt = $this->conn->prepare("SELECT customer_id, email, api_key, fullname, phone, personalID, 
                                          customer_avatar, status, created_at FROM customer WHERE email = ?");
         $stmt->bind_param("s", $email);
         if ($stmt->execute()) {
             // $user = $stmt->get_result()->fetch_assoc();
-            $stmt->bind_result($email, $api_key, $fullname, $phone, $personalID,
+            $stmt->bind_result($customer_id, $email, $api_key, $fullname, $phone, $personalID,
                                     $customer_avatar, $status, $created_at);
             $stmt->fetch();
             $user = array();
+            $user["customer_id"] = $customer_id;
             $user["email"] = $email;
             $user["api_key"] = $api_key;
             $user["fullname"] = $fullname;
@@ -391,12 +397,13 @@ class DbHandler {
      */
     public function getDriverByID($driver_id) {
         $stmt = $this->conn->prepare("SELECT email, api_key, fullname, phone, personalID, 
-                                        driver_avatar, status, created_at FROM driver WHERE driver_id = ?");
+                                        driver_avatar, driver_license, driver_license_img, status,
+                                         busy_status created_at FROM driver WHERE driver_id = ?");
         $stmt->bind_param("s", $driver_id);
         if ($stmt->execute()) {
             // $user = $stmt->get_result()->fetch_assoc();
             $stmt->bind_result($email, $api_key, $fullname, $phone, $personalID,
-                                    $driver_avatar, $status, $created_at);
+                                    $driver_avatar, $driver_license, $driver_license_img,  $status, $busy_status, $created_at);
             $stmt->fetch();
             $user = array();
             $user["email"] = $email;
@@ -405,7 +412,10 @@ class DbHandler {
             $user["phone"] = $phone;
             $user["personalID"] = $personalID;
             $user["driver_avatar"] = $driver_avatar;
+            $user["driver_license"] = $driver_license;
+            $user["driver_license_img"] = $driver_license_img;
             $user["status"] = $status;
+            $user["busy_status"] = $busy_status;
             $user["created_at"] = $created_at;
             $stmt->close();
             return $user;
@@ -419,15 +429,16 @@ class DbHandler {
      * @param String $email User email id
      */
     public function getDriverByEmail($email) {
-        $stmt = $this->conn->prepare("SELECT email, api_key, fullname, phone, personalID, 
-                                         driver_avatar, status, created_at FROM driver WHERE email = ?");
+        $stmt = $this->conn->prepare("SELECT driver_id, email, api_key, fullname, phone, personalID, 
+                                         driver_avatar, status, busy_status, created_at FROM driver WHERE email = ?");
         $stmt->bind_param("s", $email);
         if ($stmt->execute()) {
             // $user = $stmt->get_result()->fetch_assoc();
-            $stmt->bind_result($email, $api_key, $fullname, $phone, $personalID,
-                                    $driver_avatar, $status, $created_at);
+            $stmt->bind_result($driver_id, $email, $api_key, $fullname, $phone, $personalID,
+                                    $driver_avatar, $status, $busy_status, $created_at);
             $stmt->fetch();
             $user = array();
+            $user["driver_id"] = $driver_id;
             $user["email"] = $email;
             $user["api_key"] = $api_key;
             $user["fullname"] = $fullname;
@@ -435,6 +446,7 @@ class DbHandler {
             $user["personalID"] = $personalID;
             $user["driver_avatar"] = $driver_avatar;
             $user["status"] = $status;
+            $user["busy_status"] = $busy_status;
             $user["created_at"] = $created_at;
             $stmt->close();
             return $user;
@@ -477,6 +489,27 @@ class DbHandler {
     }
 
     /**
+     * Updating driver
+     * @param String $user_id id of user
+     * @param String $driver_license Driver License
+     * @param String $driver_license_img Driver License Image
+     */
+    public function updateDriverBusyStatus($driver_id, $busy_status) {
+        $stmt = $this->conn->prepare("UPDATE driver set busy_status = ?
+                                        WHERE driver_id = ?");
+
+        $stmt->bind_param("ii", $busy_status, $driver_id);
+        $stmt->execute();
+
+        $num_affected_rows = $stmt->affected_rows;
+
+        $stmt->close();
+        return $num_affected_rows > 0;
+    }
+
+
+
+    /**
      * Delete driver
      * @param String $user_id id of user
      */
@@ -494,12 +527,49 @@ class DbHandler {
      * Fetching all itineraries
      */
     public function getAllDrivers() {
-        $q = "SELECT * FROM driver";
+        $q = "SELECT * FROM driver ";
+        //$q = "SELECT driver_id, email, fullname, phone, driver_lat, driver_long, personalID, personalID_img,
+        // driver_avatar, driver_license, driver_license_img, status FROM driver ";
+
         $stmt = $this->conn->prepare($q);
         $stmt->execute();
         $itineraries = $stmt->get_result();
         $stmt->close();
         return $itineraries;
+    }
+
+
+    public function getAllDriversTopTen($lat, $long) {
+        //$q = "SELECT * FROM driver ";
+        $q = "SELECT driver_id, email, fullname, phone, driver_lat, driver_long, personalID, personalID_img,";
+        $q .= " driver_avatar, driver_license, driver_license_img, status, busy_status, created_at, (abs(driver_lat - 100) + abs(driver_long - 100)) AS distance";
+        $q .= " FROM driver WHERE busy_status = 1 ORDER BY distance LIMIT 1";
+
+        $stmt = $this->conn->prepare($q);
+        //$stmt->bind_param("dd", $lat, $long);
+        $stmt->execute();
+        $itineraries = $stmt->get_result();
+        $stmt->close();
+        return $itineraries;
+    }
+
+    /**
+     * Fetching user id by api key
+     * @param String $api_key user api key
+     */
+    public function getDriverId($api_key) {
+        $stmt = $this->conn->prepare("SELECT driver_id FROM driver WHERE api_key = ?");
+        $stmt->bind_param("s", $api_key);
+        if ($stmt->execute()) {
+            $stmt->bind_result($driver_id);
+            $stmt->fetch();
+            // TODO
+            // $user_id = $stmt->get_result()->fetch_assoc();
+            $stmt->close();
+            return $driver_id;
+        } else {
+            return NULL;
+        }
     }
 
 
@@ -514,7 +584,7 @@ class DbHandler {
      * @param String $start_address, $end_address, $leave_day, $duration, $cost, $description are itinerary's properties
      */
     public function createItinerary($driver_id, $start_address, $start_address_lat,$start_address_long,
-             $end_address, $end_address_lat, $end_address_long, $time, $description, $distance) {
+             $end_address, $end_address_lat, $end_address_long, $time_start, $description, $distance) {
         $q = "INSERT INTO itinerary(customer_id, start_address, start_address_lat, start_address_long, 
             end_address, end_address_lat, end_address_long, time_start, description, distance, status) ";
                 $q .= " VALUES(?,?,?,?,?,?,?,?,?,?,". ITINERARY_STATUS_CREATED.")";
@@ -522,7 +592,7 @@ class DbHandler {
 		
         $stmt->bind_param("isddsddssd",
             $driver_id, $start_address, $start_address_lat, $start_address_long, 
-            $end_address, $end_address_lat, $end_address_long, $time, $description, $distance);
+            $end_address, $end_address_lat, $end_address_long, $time_start, $description, $distance);
         
         $result = $stmt->execute();
         $stmt->close();
@@ -547,37 +617,6 @@ class DbHandler {
             return ITINERARY_CREATE_FAILED;
         }
 
-    }
-
-    public function createSimpleItinerary($customer_id, $driver_id, $start_address, $start_address_lat, $start_address_long){
-        $q = "INSERT INTO itinerary(customer_id, driver_id, start_address, start_address_lat, start_address_long, status) ";
-        $q .= " VALUES(?,?,?,?,?,". ITINERARY_STATUS_ONGOING.")";
-
-        $stmt = $this->conn->prepare($q);
-        $stmt->bind_param("iisdd", $customer_id, $driver_id,$start_address, $start_address_lat, $start_address_long);
-
-        $result = $stmt->execute();
-        $stmt->close();
-
-        if ($result) {
-            $new_itinerary_id = $this->conn->insert_id;
-            
-            // Itinerary successfully inserted
-            return $new_itinerary_id;
-            
-        } else {
-            //echo $q;
-            return NULL;
-        }
-        // Check for successful insertion
-        if ($result) {
-            // Itinerary successfully inserted
-            return ITINERARY_CREATED_SUCCESSFULLY;
-        } else {
-            // Failed to create itinerary
-            return ITINERARY_CREATE_FAILED;
-        }
-        
     }
 
     //not finished yet
@@ -1207,9 +1246,9 @@ class DbHandler {
         $stmt = $this->conn->prepare($q);
         $stmt->bind_param("i",$driver_id);
         $stmt->execute();
-
+        $stmt->fetch();
         $stmt->bind_result($average_rating);
-            $stmt->close();
+        $stmt->close();
 
         if($average_rating == null){
             return 0;
@@ -1310,13 +1349,13 @@ class DbHandler {
      */
     public function checkLoginStaff($email, $password) {
         // fetching staff by email
-        $stmt = $this->conn->prepare("SELECT password, role FROM staff WHERE email = ?");
+        $stmt = $this->conn->prepare("SELECT password FROM staff WHERE email = ?");
 
         $stmt->bind_param("s", $email);
 
         $stmt->execute();
 
-        $stmt->bind_result($password_hash, $role);
+        $stmt->bind_result($password_hash);
 
         $stmt->store_result();
 
@@ -1363,15 +1402,15 @@ class DbHandler {
      * @param String $email Staff email id
      */
     public function getStaffByEmail($email) {
-        $stmt = $this->conn->prepare("SELECT role, email, api_key, fullname, personalID, created_at, staff_avatar, staff_id   
+        $stmt = $this->conn->prepare("SELECT email, api_key, fullname, personalID, created_at, staff_avatar, staff_id   
                                         FROM staff WHERE email = ?");
         $stmt->bind_param("s", $email);
         if ($stmt->execute()) {
             // $user = $stmt->get_result()->fetch_assoc();
-            $stmt->bind_result($role, $email, $api_key, $fullname,$personalID, $created_at, $staff_avatar, $staff_id);
+            $stmt->bind_result( $email, $api_key, $fullname,$personalID, $created_at, $staff_avatar, $staff_id);
             $stmt->fetch();
             $staff = array();
-            $staff["role"] = $role;
+            //$staff["role"] = $role;
             $staff["email"] = $email;
             $staff["api_key"] = $api_key;
             $staff["fullname"] = $fullname;

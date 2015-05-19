@@ -139,6 +139,9 @@
     <Compile Include="Driver\DriverItineraryManagement.xaml.cs">
       <DependentUpon>DriverItineraryManagement.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Driver\DriverMainMap.xaml.cs">
+      <DependentUpon>DriverMainMap.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Driver\DriverRating.xaml.cs">
       <DependentUpon>DriverRating.xaml</DependentUpon>
     </Compile>
@@ -253,6 +256,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Driver\DriverItineraryManagement.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Driver\DriverMainMap.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

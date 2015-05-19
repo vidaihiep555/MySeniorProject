@@ -69,7 +69,10 @@ namespace UberRiding.Customer
             string date = datePicker.Value.ToString();
             string time = timePicker.Value.ToString();
 
-            postData.Add("time", "2011-07-07 04:04:04");
+            string date2 = datePicker.Value.Value.Year + "-" + datePicker.Value.Value.Month + "-" + datePicker.Value.Value.Day;
+            string time2 = timePicker.Value.Value.Hour + ":" + timePicker.Value.Value.Minute + ":00";
+
+            postData.Add("time_start", date2.Trim() + " " + time2.Trim());
             //postData.Add("duration", txtbDistance.Text.Trim());
             HttpFormUrlEncodedContent content =
                 new HttpFormUrlEncodedContent(postData);

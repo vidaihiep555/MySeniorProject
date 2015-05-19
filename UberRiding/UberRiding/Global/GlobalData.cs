@@ -18,6 +18,10 @@ namespace UberRiding.Global
         public static VehicleList vehicleList = new VehicleList();
         public static Vehicle2 selectedVehicle = new Vehicle2();
 
+        public static string user_id;
+
+        public static string calldriver;
+
         public static bool isDriver = false;
 
         public static string APIkey = null;

@@ -34,6 +34,91 @@ function authenticateUser(\Slim\Route $route) {
         $api_key = $headers['Authorization'];
         // validating api key
         //if (!$db->isValidApiKey($api_key,"customer") || $db->isLockUser($api_key)) {
+        if ($db->isValidApiKey($api_key,"customer")) {
+
+            global $user_id;
+            // get user primary key id
+            $user_id = $db->getCustomerId($api_key);
+           
+        } else {
+            if($db->isValidApiKey($api_key,"driver")){
+                global $user_id;
+                // get user primary key id
+                $user_id = $db->getDriverId($api_key);
+            } else {
+                 // api key is not present in users table
+                $response["error"] = true;
+                $response["message"] = "Access Denied.";
+                echoRespnse(401, $response);
+                $app->stop();
+            }
+            
+        }
+    } else {
+        // api key is missing in header
+        $response["error"] = true;
+        $response["message"] = "Api key is misssing";
+        echoRespnse(400, $response);
+        $app->stop();
+    }
+}
+
+/**
+ * Adding Middle Layer to authenticate User every request
+ * Checking if the request has valid api key in the 'Authorization' header
+ */
+function authenticateDriver(\Slim\Route $route) {
+    // Getting request headers
+    $headers = apache_request_headers();
+    $response = array();
+    $app = \Slim\Slim::getInstance();
+
+    // Verifying Authorization Header
+    if (isset($headers['Authorization'])) {
+        $db = new DbHandler();
+
+        // get the api key
+        $api_key = $headers['Authorization'];
+        // validating api key
+        //if (!$db->isValidApiKey($api_key,"customer") || $db->isLockUser($api_key)) {
+        if (!$db->isValidApiKey($api_key,"driver")) {
+            // api key is not present in users table
+            $response["error"] = true;
+            $response["message"] = "Access Denied.";
+            echoRespnse(401, $response);
+            $app->stop();
+        } else {
+            global $user_id;
+            // get user primary key id
+            $user_id = $db->getCustomerId($api_key);
+        }
+    } else {
+        // api key is missing in header
+        $response["error"] = true;
+        $response["message"] = "Api key is misssing";
+        echoRespnse(400, $response);
+        $app->stop();
+    }
+}
+
+/**
+ * Adding Middle Layer to authenticate User every request
+ * Checking if the request has valid api key in the 'Authorization' header
+ */
+function authenticateCustomer(\Slim\Route $route) {
+    // Getting request headers
+    $headers = apache_request_headers();
+    $response = array();
+    $app = \Slim\Slim::getInstance();
+
+    // Verifying Authorization Header
+    if (isset($headers['Authorization'])) {
+        $db = new DbHandler();
+
+        // get the api key
+        $api_key = $headers['Authorization'];
+        // validating api key
+        //if (!$db->isValidApiKey($api_key,"customer") || $db->isLockUser($api_key)) {
         if (!$db->isValidApiKey($api_key,"customer")) {
             // api key is not present in users table
             $response["error"] = true;
@@ -102,7 +187,6 @@ function authenticateStaff(\Slim\Route $route) {
 $app->post('/user/login', function() use ($app) {
             // check for required params
             verifyRequiredParams(array('email', 'password'));
-
             // reading post params
             $email = $app->request()->post('email');
             $password = $app->request()->post('password');
@@ -117,8 +201,10 @@ $app->post('/user/login', function() use ($app) {
                 $user = $db->getCustomerByEmail($email);
 
                 if ($user != NULL) {
+                    //echo "hể";
                     $response["error"] = false;
                     $response['apiKey'] = $user['api_key'];
+                    $response['user_id'] = $user['customer_id'];
                     $response['customer_status'] = $user['status'];
                     $response['isDriver'] = false;
 
@@ -131,7 +217,7 @@ $app->post('/user/login', function() use ($app) {
                 } else {
                     // unknown error occurred
                     $response['error'] = true;
-                    $response['message'] = "Có lỗi xảy ra! Vui lòng thử lại.";
+                    $response['message'] = "There is error. Please try again!";
                 }
             } elseif ($res == DRIVER_LOGIN_SUCCESSFULL){
                 $driver = $db->getDriverByEmail($email);
@@ -139,22 +225,26 @@ $app->post('/user/login', function() use ($app) {
                 if($driver != NULL){
                     $response["error"] = false;
                     $response['apiKey'] = $driver['api_key'];
-                    $response['customer_status'] = $driver['status'];
+                    $response['user_id'] = $user['driver_id'];
+                    $response['driver_status'] = $driver['status'];
                     $response['isDriver'] = true;
                 } else {
                     // unknown error occurred
                     $response['error'] = true;
-                    $response['message'] = "Có lỗi xảy ra! Vui lòng thử lại.";
+                    $response['message'] = "There is error. Please try again";
                 }
             } elseif ($res == WRONG_PASSWORD || $res == USER_NOT_REGISTER) {
                 $response['error'] = true;
-                $response['message'] = "Sai email hoặc mật khẩu!";
-            } elseif ($res == USER_NOT_ACTIVATE) {
+                $response['message'] = "Wrong email or password";
+            } elseif ($res == DRIVER_NOT_ACTIVATE) {
                 $response['error'] = true;
-                $response['message'] = "Tài khoản chưa được kích hoạt. Vui lòng kích hoạt tài khoản!";
+                $response['message'] = "Please active your account!";
+            }  elseif ($res == CUSTOMER_NOT_ACTIVATE) {
+                $response['error'] = true;
+                $response['message'] = "Please active your account!";
             } else{
                 $response['error'] = true;
-                $response['message'] = "Có lỗi xảy ra trong quá trình đăng nhập!";
+                $response['message'] = "There is error. Please try again!";
             }
 
             echoRespnse(200, $response);
@@ -304,15 +394,15 @@ $app->get('/customer', 'authenticateUser', function() {
  * params task, status
  * url - /user
  */
-$app->put('/customer', 'authenticateUser', function() use($app) {
+$app->put('/customer', 'authenticateCustomer', function() use($app) {
             // check for required params
-            verifyRequiredParams(array('fullname', 'phone', 'personalID', 'link_avatar'));
+            verifyRequiredParams(array('fullname', 'phone', 'personalID', 'customer_avatar'));
 
             global $user_id;            
             $fullname = $app->request->put('fullname');
             $phone = $app->request->put('phone');
             $personalID = $app->request->put('personalID');
-            $link_avatar = $app->request->put('link_avatar');
+            $customer_avatar = $app->request->put('customer_avatar');
 
             $db = new DbHandler();
             $response = array();
@@ -392,7 +482,7 @@ $app->post('/driver', function() use ($app) {
  * method GET
  * url /driver
  */
-$app->get('/driver', 'authenticateUser', function() {
+$app->get('/driver', 'authenticateDriver', function() {
             global $user_id;
             $response = array();
             $db = new DbHandler();
@@ -418,13 +508,13 @@ $app->get('/driver', 'authenticateUser', function() {
  * method GET
  * url /itineraries          
  */
-$app->get('/drivers', 'authenticateUser', function() {
+$app->get('/drivers/:lat/:long', 'authenticateUser', function($lat, $long) {
             global $user_id;
             $response = array();
             $db = new DbHandler();
 
             // fetching all user tasks
-            $result = $db->getAllDrivers();
+            $result = $db->getAllDriversTopTen($lat, $long);
 
             $response["error"] = false;
             $response["drivers"] = array();
@@ -442,9 +532,12 @@ $app->get('/drivers', 'authenticateUser', function() {
                 $tmp['driver_long'] = $driver['driver_long'];
                 $tmp['created_at'] = $driver['created_at'];
                 $tmp['status'] = $driver['status'];
+                $tmp['busy_status'] = $driver['busy_status'];
                 $tmp['personalID'] = $driver['personalID'];
                 $tmp['personalID_img'] = $driver['personalID_img'];
                 $tmp["driver_avatar"] = $driver["driver_avatar"];
+                $tmp['driver_license'] = $driver['driver_license'];
+                $tmp['driver_license_img'] = $driver['driver_license_img'];
                 //rating
                 $driver_id = $tmp["driver_id"];
                 $tmp["average_rating"] = $db->getAverageRatingofDriver($driver_id);
@@ -464,7 +557,7 @@ $app->get('/drivers', 'authenticateUser', function() {
  * params task, status
  * url - /user
  */
-$app->put('/driver', 'authenticateUser', function() use($app) {
+$app->put('/driver', 'authenticateDriver', function() use($app) {
             // check for required params
             verifyRequiredParams(array('driver_license', 'driver_license_img'));
 
@@ -490,11 +583,41 @@ $app->put('/driver', 'authenticateUser', function() use($app) {
         });
 
 /**
+ * Updating user
+ * method PUT
+ * params task, status
+ * url - /user
+ */
+$app->put('/driver', 'authenticateDriver', function() use($app) {
+            // check for required params
+            verifyRequiredParams(array('busy_status'));
+
+            global $user_id;            
+            $busy_status = $app->request->put('busy_status');
+
+            $db = new DbHandler();
+            $response = array();
+
+            // updating task
+            $result = $db->updateDriverBusyStatus($user_id, $busy_status);
+            if ($result) {
+                // task updated successfully
+                $response["error"] = false;
+                $response["message"] = "Your update is successful!";
+            } else {
+                // task failed to update
+                $response["error"] = true;
+                $response["message"] = "Your update is not successful! Please try again.";
+            }
+            echoRespnse(200, $response);
+        });
+
+/**
  * Deleting user.
  * method DELETE
  * url /user
  */
-$app->delete('/driver', 'authenticateUser', function() {
+$app->delete('/driver', 'authenticateDriver', function() {
             global $user_id;
 
             $db = new DbHandler();
@@ -519,10 +642,10 @@ $app->delete('/driver', 'authenticateUser', function() {
 
 
 
-$app->post('/itinerary', 'authenticateUser', function() use ($app) {
+$app->post('/itinerary', 'authenticateCustomer', function() use ($app) {
             // check for required params
             verifyRequiredParams(array('start_address','start_address_lat','start_address_long','end_address',
-                'end_address_lat','end_address_long','time', 'distance', 'description'));
+                'end_address_lat','end_address_long','time_start', 'distance', 'description'));
 
             $response = array();
             
@@ -532,7 +655,7 @@ $app->post('/itinerary', 'authenticateUser', function() use ($app) {
             $end_address = $app->request->post('end_address');
             $end_address_lat = $app->request->post('end_address_lat');
             $end_address_long = $app->request->post('end_address_long');
-            $time = $app->request->post('time');
+            $time_start = $app->request->post('time_start');
             $description = $app->request->post('description');
             $distance = $app->request->post('distance');
 
@@ -543,7 +666,7 @@ $app->post('/itinerary', 'authenticateUser', function() use ($app) {
 
             // creating new itinerary
             $itinerary_id = $db->createItinerary($user_id, $start_address, $start_address_lat,$start_address_long,
-             $end_address, $end_address_lat, $end_address_long, $time, $description, $distance);
+             $end_address, $end_address_lat, $end_address_long, $time_start, $description, $distance);
 
             if ($itinerary_id != NULL) {
                 $response["error"] = false;
@@ -556,39 +679,6 @@ $app->post('/itinerary', 'authenticateUser', function() use ($app) {
                 echoRespnse(200, $response);
             }            
         });
-
-$app->post('/itinerary/simple', 'authenticateUser', function() use ($app) {
-            // check for required params
-            verifyRequiredParams(array('driver_id','start_address','start_address_lat','start_address_long'));
-
-            $response = array();
-            
-            $start_address = $app->request->post('start_address');
-            $start_address_lat = $app->request->post('start_address_lat');
-            $start_address_long = $app->request->post('start_address_long');
-            $driver_id = $app->request->post('driver_id');
-            //$time = $app->request->post('time');
-
-            //echo $start_address;
-
-            global $user_id;
-            $db = new DbHandler();
-
-            // creating new itinerary
-            $itinerary_id = $db->createSimpleItinerary($user_id, $driver_id, $start_address, $start_address_lat,$start_address_long);
-
-            if ($itinerary_id != NULL) {
-                $response["error"] = false;
-                $response["message"] = "Itinerary created successfully";
-                $response["itinerary_id"] = $itinerary_id;
-                echoRespnse(201, $response);
-            } else {
-                $response["error"] = true;
-                $response["message"] = "Failed to create itinerary. Please try again";
-                echoRespnse(200, $response);
-            }            
-        });
-
 
 
 /**
@@ -752,7 +842,7 @@ $app->get('/itineraries/customer/:order', 'authenticateUser', function($order) {
                 $tmp["end_address"] = $itinerary["end_address"];
                 $tmp["end_address_lat"] = $itinerary["end_address_lat"];
                 $tmp["end_address_long"] = $itinerary["end_address_long"];
-                $tmp["time"] = $itinerary["time"];
+                $tmp["time"] = $itinerary["time_start"];
                 $tmp["distance"] = $itinerary["distance"];
                 $tmp["description"] = $itinerary["description"];
                 $tmp["status"] = $itinerary["status"];
@@ -915,7 +1005,7 @@ $app->delete('/itinerary/:id', 'authenticateUser', function($itinerary_id) use($
 
 
 
-$app->post('/feedback', 'authenticateUser' function() use ($app) {
+$app->post('/feedback', 'authenticateUser', function() use ($app) {
             global $user_id;
             // check for required params
             verifyRequiredParams(array('content'));
@@ -1019,7 +1109,7 @@ $app->post('/rating', 'authenticateUser', function() use ($app) {
 
             if ($res == c) {
                 $response["error"] = false;
-                $response["message"] = "The link you request is not existing!"
+                $response["message"] = "The link you request is not existing!";
             } else if ($res == RATING_CREATE_FAILED) {
                 $response["error"] = true;
                 $response["message"] = "The link you request is not existing!";
@@ -1111,7 +1201,7 @@ $app->get('/statistic_customer/:field', 'authenticateUser', function($field) {
 
             } else {
                 $response['error'] = true;
-                $response['message'] = "The link you request is not existing!"
+                $response['message'] = "The link you request is not existing!";
                 echoRespnse(404, $response);
             }
         });
@@ -1409,7 +1499,7 @@ $app->get('/staffs/:staff_id', 'authenticateStaff', function($staff_id) {
 $app->post('/staff/login', function() use ($app) {
 
             // check for required params
-            verifyRequiredParams(array('email', 'password'), $language);
+            verifyRequiredParams(array('email', 'password'));
 
             // reading post params
             $email = $app->request()->post('email');
@@ -1431,7 +1521,7 @@ $app->post('/staff/login', function() use ($app) {
                     $response['fullname'] = $staff['fullname'];
                     $response['personalID'] = $staff['personalID'];
                     $response['created_at'] = $staff['created_at'];
-                    $response['link_avatar'] = $staff['link_avatar'];
+                    $response['staff_avatar'] = $staff['staff_avatar'];
                     $response['staff_id'] = $staff['staff_id'];
                 } else {
                     // unknown error occurred

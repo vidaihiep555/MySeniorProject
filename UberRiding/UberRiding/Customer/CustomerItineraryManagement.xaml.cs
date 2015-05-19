@@ -9,6 +9,8 @@ using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using UberRiding.Global;
 using Newtonsoft.Json;
+using Microsoft.AspNet.SignalR.Client;
+using System.Net.Http;
 
 namespace UberRiding.Customer
 {
@@ -19,6 +21,9 @@ namespace UberRiding.Customer
         ItineraryList itinearyOnGoingList = new ItineraryList();
         ItineraryList itinearyFinishedList = new ItineraryList();
 
+
+        
+
         public CustomerItineraryManagement()
         {
             InitializeComponent();
@@ -28,7 +33,10 @@ namespace UberRiding.Customer
         {
             base.OnNavigatedTo(e);
             getItinerariesOfCustomer();
+
         }
+
+        
 
         public async void getItinerariesOfCustomer()
         {

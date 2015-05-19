@@ -7,7 +7,15 @@ define('DB_PASSWORD', '');
 define('DB_HOST', 'localhost');
 define('DB_NAME', 'bikeuber');
 
-define('USER_CREATED_SUCCESSFULLY', 0);
+define('CUSTOMER_LOGIN_SUCCESSFULL', 100);
+define('CUSTOMER_NOT_ACTIVATE', 101);
+
+
+define('DRIVER_LOGIN_SUCCESSFULL', 102);
+define('DRIVER_NOT_ACTIVATE', 103);
+
+
+
 define('USER_CREATE_FAILED', 1);
 define('USER_ALREADY_EXISTED', 2);
 
@@ -47,6 +55,9 @@ define('DRIVER_ALREADY_EXISTED', 21);
 
 define('DRIVER_NOT_ACCEPT', 1); //cap nhat thong tin nhung chua duoc comfirm
 define('DRIVER_ACCEPTED', 2); //da verify thanh driver
+
+define('DRIVER_BUSY', 0);
+define('DRIVER_NOT_BUSY', 1);
 
 define('VEHICLE_NOT_ACCEPT', 1);
 define('VEHICLE_ACCEPT', 2);

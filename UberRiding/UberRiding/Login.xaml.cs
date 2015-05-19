@@ -68,11 +68,21 @@ namespace UberRiding
             if (jsonObject.Value<string>("error").Equals("False"))
             {
                 //get API key
-                Global.GlobalData.APIkey = jsonObject.Value<string>("apiKey").Trim();
+                GlobalData.APIkey = jsonObject.Value<string>("apiKey").Trim();
 
-                //Global.GlobalData.isDriver = jsonObject.Value<bool>("driver");
+                GlobalData.isDriver = jsonObject.Value<bool>("isDriver");
 
-                Global.GlobalData.customer_status = jsonObject.Value<int>("customer_status");
+                GlobalData.user_id = jsonObject.Value<string>("user_id");
+
+                if (GlobalData.isDriver)
+                {
+                    GlobalData.driver_status = jsonObject.Value<int>("driver_staus");
+                }
+                else
+                {
+                    GlobalData.customer_status = jsonObject.Value<int>("customer_status");
+                }
+                //Global.GlobalData.customer_status = jsonObject.Value<int>("customer_status");
                 //Global.GlobalData.driver_status = jsonObject.Value<int>("driver_staus");
 
                 //storage for the next login
@@ -85,7 +95,7 @@ namespace UberRiding
                 //Navigate to MainPage
                 if (GlobalData.isDriver)
                 {
-                    NavigationService.Navigate(new Uri("/Driver/ItineraryManagement.xaml", UriKind.Relative));
+                    NavigationService.Navigate(new Uri("/Driver/DriverMainMap.xaml", UriKind.Relative));
                 }
                 else
                 {
