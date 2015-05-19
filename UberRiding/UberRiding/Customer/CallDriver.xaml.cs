@@ -138,8 +138,14 @@ namespace UberRiding.Customer
             postData.Add("start_address", txtboxStart.Text.Trim());
             postData.Add("start_address_lat", startPointOverlay.GeoCoordinate.Latitude.ToString().Trim());
             postData.Add("start_address_long", startPointOverlay.GeoCoordinate.Longitude.ToString().Trim());
+            postData.Add("end_address", "none");
+            postData.Add("end_address_lat", "-1");
+            postData.Add("end_address_long", "-1");
             postData.Add("driver_id", Global.GlobalData.selectedDriver.driver_id.ToString().Trim());
-
+            postData.Add("time_start", "-1"); //now 
+            string date2 = DateTime.Now.Year + "-" + DateTime.Now.Month + "-" + DateTime.Now.Day;
+            string time2 = DateTime.Now.Hour + ":" + DateTime.Now.Minute + ":00";
+            postData.Add("description", "call driver itinerary");
             postData.Add("status", GlobalData.ITINERARY_STATUS_ONGOING.ToString());
 
             //string date = datePicker.Value.ToString();
@@ -149,7 +155,7 @@ namespace UberRiding.Customer
             HttpFormUrlEncodedContent content =
                 new HttpFormUrlEncodedContent(postData);
             //tao 1 itinerary ongoing
-            var result = await RequestToServer.sendPostRequest("itinerary/simple", content);
+            var result = await RequestToServer.sendPostRequest("itinerary", content);
 
             JObject jsonObject = JObject.Parse(result);
 

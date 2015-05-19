@@ -83,6 +83,12 @@ namespace UberRiding.Customer
             JObject jsonObject = JObject.Parse(result);
             MessageBox.Show(jsonObject.Value<string>("message"));
 
+
+            //set alarm
+
+
+
+
             //back to trang dau tien
             NavigationService.Navigate(new Uri("/Customer/CustomerItineraryManagement.xaml", UriKind.RelativeOrAbsolute));
         }

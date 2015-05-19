@@ -9,6 +9,9 @@ using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using Microsoft.AspNet.SignalR.Client;
 using System.Net.Http;
+using UberRiding.Global;
+using Windows.Web.Http;
+using UberRiding.Request;
 
 namespace UberRiding.Driver
 {
@@ -58,11 +61,24 @@ namespace UberRiding.Driver
             
         }
 
-        private void test(string message)
+        private async void test(string message)
         {
             //show message box
-            MessageBox.Show("Do it now");
-            string[] latlng = message.Split(",".ToCharArray());
+            var result = MessageBox.Show("Do it now");
+
+            if (result == MessageBoxResult.OK)
+            {
+
+                //send message
+
+                Dictionary<string, string> updateData = new Dictionary<string, string>();
+                updateData.Add("busy_status", GlobalData.DRIVER_NOT_BUSY.ToString());
+                HttpFormUrlEncodedContent updateDataContent = new HttpFormUrlEncodedContent(updateData);
+                var update = await RequestToServer.sendPutRequest("driverbusy", updateDataContent);
+
+                NavigationService.Navigate(new Uri("/Driver/DriverItineraryDetails.xamll", UriKind.RelativeOrAbsolute));
+            }
+            //string[] latlng = message.Split(",".ToCharArray());
             //double lat = Double.Parse(latlng[0]);
             //double lng = Double.Parse(latlng[1]);
             //addMarkertoMap(new GeoCoordinate(lat, lng));

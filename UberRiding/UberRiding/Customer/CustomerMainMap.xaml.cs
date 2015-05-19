@@ -16,6 +16,8 @@ using Newtonsoft.Json;
 using System.Threading.Tasks;
 using Microsoft.AspNet.SignalR.Client;
 using System.Net.Http;
+using Windows.Web.Http;
+using UberRiding.Request;
 
 namespace UberRiding.Customer
 {
@@ -44,9 +46,9 @@ namespace UberRiding.Customer
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
-            InitCurrentLocationInfo();
+            //InitCurrentLocationInfo();
 
-            //ConnectAsync();
+            ConnectAsync();
             getDrivers();
         }
 
@@ -105,9 +107,10 @@ namespace UberRiding.Customer
             //Deactivate chat UI; show login UI. 
         }
 
-        public void InitCurrentLocationInfo()
+        public async void InitCurrentLocationInfo()
         {
-            Task<GeoCoordinate> x = ShowMyCurrentLocationOnTheMap();
+            //Task<GeoCoordinate> x = ShowMyCurrentLocationOnTheMap();
+            myGeoCoordinate = await ShowMyCurrentLocationOnTheMap();
         }
 
         #region Map
@@ -120,14 +123,14 @@ namespace UberRiding.Customer
 
             //wayPoints.Add(new GeoCoordinate(myGeocoordinate.Latitude, myGeocoordinate.Longitude));
 
-            myGeoCoordinate = CoordinateConverter.ConvertGeocoordinate(myGeocoordinate);
+            GeoCoordinate myGeoCoordinatex = CoordinateConverter.ConvertGeocoordinate(myGeocoordinate);
 
             // Make my current location the center of the Map.
-            this.mapMain.Center = myGeoCoordinate;
+            this.mapMain.Center = myGeoCoordinatex;
             this.mapMain.ZoomLevel = 16;
 
             // Create a MapOverlay to contain the circle.
-            MapOverlay myCurentLocationOverlay = MarkerDraw.DrawCurrentMapMarker(myGeoCoordinate);
+            MapOverlay myCurentLocationOverlay = MarkerDraw.DrawCurrentMapMarker(myGeoCoordinatex);
 
             // Create a MapLayer to contain the MapOverlay.
             MapLayer myLocationLayer = new MapLayer();
@@ -136,7 +139,7 @@ namespace UberRiding.Customer
             // Add the MapLayer to the Map.
             mapMain.Layers.Add(myLocationLayer);
 
-            return myGeoCoordinate;
+            return myGeoCoordinatex;
         }
 
         private void btnZoomIn_Click(object sender, RoutedEventArgs e)
@@ -164,8 +167,10 @@ namespace UberRiding.Customer
 
         public async void getDrivers()
         {
+            myGeoCoordinate = await ShowMyCurrentLocationOnTheMap();
             mainMapLayer = new MapLayer();
-            var result = await Request.RequestToServer.sendGetRequest("drivers");
+            var result = await Request.RequestToServer.sendGetRequest("drivers/" 
+                + myGeoCoordinate.Latitude.ToString().Trim() + "/" + myGeoCoordinate.Longitude.ToString().Trim());
 
             JObject jsonObject = JObject.Parse(result);
 
@@ -321,13 +326,54 @@ namespace UberRiding.Customer
 
         private void menuCallDriver_Click(object sender, EventArgs e)
         {
-            ConnectAsync();
+            
 
             Dispatcher.BeginInvoke(() =>
             {
                 string driver_id = "D" + GlobalData.calldriver;
                 HubProxy.Invoke("SendPos2", driver_id, "sdasd," + driver_id + "," + "C" + Global.GlobalData.user_id);
+
+                //
+                createItinerary();
+                
+                NavigationService.Navigate(new Uri("/Customer/CustomerItineraryDetails.xamll", UriKind.RelativeOrAbsolute));
             });
+        }
+
+        public async void createItinerary()
+        {
+            //send info to server
+            Dictionary<string, string> postData = new Dictionary<string, string>();
+            postData.Add("start_address", "none");
+            postData.Add("start_address_lat", myGeoCoordinate.Latitude.ToString().Trim());
+            postData.Add("start_address_long", myGeoCoordinate.Longitude.ToString().Trim());
+            postData.Add("end_address", "none");
+            postData.Add("end_address_lat", "-1");
+            postData.Add("end_address_long", "-1");
+            postData.Add("driver_id", Global.GlobalData.selectedDriver.driver_id.ToString().Trim());
+            postData.Add("time_start", "-1"); //now 
+            string date2 = DateTime.Now.Year + "-" + DateTime.Now.Month + "-" + DateTime.Now.Day;
+            string time2 = DateTime.Now.Hour + ":" + DateTime.Now.Minute + ":00";
+            postData.Add("description", "call driver itinerary");
+            postData.Add("status", GlobalData.ITINERARY_STATUS_ONGOING.ToString());
+
+            HttpFormUrlEncodedContent content =
+                new HttpFormUrlEncodedContent(postData);
+            //tao 1 itinerary ongoing
+            var result = await RequestToServer.sendPostRequest("itinerary", content);
+
+            JObject jsonObject = JObject.Parse(result);
+
+            if (jsonObject.Value<bool>("error"))
+            {
+                MessageBox.Show(jsonObject.Value<string>("message"));
+            }
+            else
+            {
+                MessageBox.Show(jsonObject.Value<string>("message"));
+                //back to trang dau tien
+                NavigationService.Navigate(new Uri("/Customer/CustomerItineraryManagement.xaml", UriKind.RelativeOrAbsolute));
+            }        
         }
 
     }

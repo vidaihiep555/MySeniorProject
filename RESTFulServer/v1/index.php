@@ -225,7 +225,7 @@ $app->post('/user/login', function() use ($app) {
                 if($driver != NULL){
                     $response["error"] = false;
                     $response['apiKey'] = $driver['api_key'];
-                    $response['user_id'] = $user['driver_id'];
+                    $response['user_id'] = $driver['driver_id'];
                     $response['driver_status'] = $driver['status'];
                     $response['isDriver'] = true;
                 } else {
@@ -588,7 +588,7 @@ $app->put('/driver', 'authenticateDriver', function() use($app) {
  * params task, status
  * url - /user
  */
-$app->put('/driver', 'authenticateDriver', function() use($app) {
+$app->put('/driverbusy', 'authenticateDriver', function() use($app) {
             // check for required params
             verifyRequiredParams(array('busy_status'));
 

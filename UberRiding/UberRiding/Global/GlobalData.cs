@@ -42,6 +42,9 @@ namespace UberRiding.Global
         public const int ITINERARY_STATUS_ACCEPTED = 2;
         public const int ITINERARY_STATUS_ONGOING = 3;
         public const int ITINERARY_STATUS_FINISHED = 4;
+
+        public const int DRIVER_BUSY = 0;
+        public const int DRIVER_NOT_BUSY = 1;
     }
 
 

@@ -95,6 +95,10 @@ namespace UberRiding
                 //Navigate to MainPage
                 if (GlobalData.isDriver)
                 {
+                    Dictionary<string, string> updateData = new Dictionary<string, string>();
+                    updateData.Add("busy_status", GlobalData.DRIVER_NOT_BUSY.ToString());
+                    HttpFormUrlEncodedContent updateDataContent = new HttpFormUrlEncodedContent(updateData);
+                    var update = await RequestToServer.sendPutRequest("driverbusy", updateDataContent);
                     NavigationService.Navigate(new Uri("/Driver/DriverMainMap.xaml", UriKind.Relative));
                 }
                 else
