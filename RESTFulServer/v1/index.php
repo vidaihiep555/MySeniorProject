@@ -681,6 +681,47 @@ $app->post('/itinerary', 'authenticateCustomer', function() use ($app) {
         });
 
 
+$app->post('/calldriveritinerary', 'authenticateCustomer', function() use ($app) {
+            // check for required params
+            verifyRequiredParams(array('driver_id','start_address','start_address_lat','start_address_long','end_address',
+                'end_address_lat','end_address_long','time_start', 'distance', 'description'));
+
+            $response = array();
+            
+            $driver_id = $app->request->post('driver_id');
+            $start_address = $app->request->post('start_address');
+            $start_address_lat = $app->request->post('start_address_lat');
+            $start_address_long = $app->request->post('start_address_long');
+            $end_address = $app->request->post('end_address');
+            $end_address_lat = $app->request->post('end_address_lat');
+            $end_address_long = $app->request->post('end_address_long');
+            $time_start = $app->request->post('time_start');
+            $description = $app->request->post('description');
+            $distance = $app->request->post('distance');
+
+
+            //echo $start_address;
+
+            global $user_id;
+            $db = new DbHandler();
+
+            // creating new itinerary
+            $itinerary_id = $db->createCallDriverItinerary($user_id, $driver_id, $start_address, $start_address_lat,$start_address_long,
+             $end_address, $end_address_lat, $end_address_long, $time_start, $description, $distance);
+
+            if ($itinerary_id != NULL) {
+                $response["error"] = false;
+                $response["message"] = "Itinerary created successfully";
+                $response["itinerary_id"] = $itinerary_id;
+                echoRespnse(201, $response);
+            } else {
+                $response["error"] = true;
+                $response["message"] = "Failed to create itinerary. Please try again";
+                echoRespnse(200, $response);
+            }            
+        });
+
+
 /**
  * Listing single task of particual user
  * method GET

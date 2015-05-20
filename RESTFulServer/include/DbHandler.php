@@ -583,7 +583,7 @@ class DbHandler {
      * @param Integer $driver_id user id to whom itinerary belongs to
      * @param String $start_address, $end_address, $leave_day, $duration, $cost, $description are itinerary's properties
      */
-    public function createItinerary($driver_id, $start_address, $start_address_lat,$start_address_long,
+    public function createItinerary($customer_id, $start_address, $start_address_lat,$start_address_long,
              $end_address, $end_address_lat, $end_address_long, $time_start, $description, $distance) {
         $q = "INSERT INTO itinerary(customer_id, start_address, start_address_lat, start_address_long, 
             end_address, end_address_lat, end_address_long, time_start, description, distance, status) ";
@@ -591,7 +591,7 @@ class DbHandler {
         $stmt = $this->conn->prepare($q);
 		
         $stmt->bind_param("isddsddssd",
-            $driver_id, $start_address, $start_address_lat, $start_address_long, 
+            $customer_id, $start_address, $start_address_lat, $start_address_long, 
             $end_address, $end_address_lat, $end_address_long, $time_start, $description, $distance);
         
         $result = $stmt->execute();
@@ -604,7 +604,50 @@ class DbHandler {
             return $new_itinerary_id;
             
         } else {
-            echo $q;
+            //echo $q;
+            return NULL;
+        }
+
+        // Check for successful insertion
+        if ($result) {
+            // Itinerary successfully inserted
+            return ITINERARY_CREATED_SUCCESSFULLY;
+        } else {
+            // Failed to create itinerary
+            return ITINERARY_CREATE_FAILED;
+        }
+
+    }
+
+
+    //not finished yet
+    /**
+     * Creating new itinerary
+     * @param Integer $driver_id user id to whom itinerary belongs to
+     * @param String $start_address, $end_address, $leave_day, $duration, $cost, $description are itinerary's properties
+     */
+    public function createCallDriverItinerary($customer_id, $driver_id, $start_address, $start_address_lat,$start_address_long,
+             $end_address, $end_address_lat, $end_address_long, $time_start, $description, $distance) {
+        $q = "INSERT INTO itinerary(customer_id, driver_id, start_address, start_address_lat, start_address_long, 
+            end_address, end_address_lat, end_address_long, time_start, description, distance, status) ";
+                $q .= " VALUES(?,?,?,?,?,?,?,?,?,?,?,". ITINERARY_STATUS_ONGOING.")";
+        $stmt = $this->conn->prepare($q);
+        
+        $stmt->bind_param("iisddsddssd",
+            $customer_id, $driver_id, $start_address, $start_address_lat, $start_address_long, 
+            $end_address, $end_address_lat, $end_address_long, $time_start, $description, $distance);
+        
+        $result = $stmt->execute();
+        $stmt->close();
+        //echo $end_address;
+        if ($result) {
+            $new_itinerary_id = $this->conn->insert_id;
+            
+            // Itinerary successfully inserted
+            return $new_itinerary_id;
+            
+        } else {
+            //echo $q;
             return NULL;
         }
 

@@ -39,9 +39,11 @@ require_once '../include/Config.php';
 						<?php
 						require_once '/Config.php';
 						$api_key = $_SESSION["staff_api_key"];
+						echo $api_key;
 						$ch = curl_init();
-
-						curl_setopt($ch, CURLOPT_URL, REST_HOST."/RESTFul/v1/staffs");
+						echo REST_HOST."/RESTFul/v1/staffs";
+						curl_setopt($ch, CURLOPT_URL, REST_HOST."/MySeniorProject/RESTFulServer/v1/staffs");
+						//curl_setopt($ch, CURLOPT_URL, "localhost/RESTFul/v1/staffs");
 						curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 						curl_setopt($ch,CURLOPT_HTTPHEADER,array('Authorization: '.$api_key));
 
@@ -52,6 +54,8 @@ require_once '../include/Config.php';
 						curl_close($ch);
 
 						$json = json_decode($result);
+						echo $result;
+						printf($result);
 						$res = $json->{'staffs'};
 						$i = 1;
 						foreach ($res as $value) {

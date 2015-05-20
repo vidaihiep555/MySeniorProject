@@ -324,20 +324,52 @@ namespace UberRiding.Customer
             NavigationService.Navigate(new Uri("/AdvanceSearch.xamll", UriKind.RelativeOrAbsolute));
         }
 
-        private void menuCallDriver_Click(object sender, EventArgs e)
+        private async void menuCallDriver_Click(object sender, EventArgs e)
         {
-            
 
-            Dispatcher.BeginInvoke(() =>
+            Dictionary<string, string> postData = new Dictionary<string, string>();
+            postData.Add("start_address", "none");
+            postData.Add("start_address_lat", myGeoCoordinate.Latitude.ToString().Trim());
+            postData.Add("start_address_long", myGeoCoordinate.Longitude.ToString().Trim());
+            postData.Add("end_address", "none");
+            postData.Add("end_address_lat", "-1");
+            postData.Add("end_address_long", "-1");
+            postData.Add("driver_id", Global.GlobalData.calldriver.ToString().Trim());
+            //postData.Add("time_start", "-1"); //now 
+            string date2 = DateTime.Now.Year + "-" + DateTime.Now.Month + "-" + DateTime.Now.Day;
+            string time2 = DateTime.Now.Hour + ":" + DateTime.Now.Minute + ":00";
+            postData.Add("time_start", date2.Trim() + " " + time2.Trim());
+            postData.Add("description", "call driver itinerary");
+            postData.Add("distance", "-1");
+            postData.Add("status", GlobalData.ITINERARY_STATUS_ONGOING.ToString());
+
+            HttpFormUrlEncodedContent content =
+                new HttpFormUrlEncodedContent(postData);
+            //tao 1 itinerary ongoing
+            var result = await RequestToServer.sendPostRequest("itinerary", content);
+
+            JObject jsonObject = JObject.Parse(result);
+
+            if (jsonObject.Value<bool>("error"))
             {
-                string driver_id = "D" + GlobalData.calldriver;
-                HubProxy.Invoke("SendPos2", driver_id, "sdasd," + driver_id + "," + "C" + Global.GlobalData.user_id);
+                MessageBox.Show(jsonObject.Value<string>("message"));
+            }
+            else
+            {
+                //set selected itinerary
 
-                //
-                createItinerary();
-                
-                NavigationService.Navigate(new Uri("/Customer/CustomerItineraryDetails.xamll", UriKind.RelativeOrAbsolute));
-            });
+
+
+
+                Dispatcher.BeginInvoke(() =>
+                {
+                    string driver_id = "D" + GlobalData.calldriver;
+                    HubProxy.Invoke("SendPos2", driver_id, "sdasd," + driver_id + "," + "C" + Global.GlobalData.user_id);
+
+                    NavigationService.Navigate(new Uri("/Customer/CustomerItineraryDetails.xaml", UriKind.RelativeOrAbsolute));
+                });
+            }
+            
         }
 
         public async void createItinerary()
@@ -350,11 +382,13 @@ namespace UberRiding.Customer
             postData.Add("end_address", "none");
             postData.Add("end_address_lat", "-1");
             postData.Add("end_address_long", "-1");
-            postData.Add("driver_id", Global.GlobalData.selectedDriver.driver_id.ToString().Trim());
-            postData.Add("time_start", "-1"); //now 
+            postData.Add("driver_id", Global.GlobalData.calldriver.ToString().Trim());
+            //postData.Add("time_start", "-1"); //now 
             string date2 = DateTime.Now.Year + "-" + DateTime.Now.Month + "-" + DateTime.Now.Day;
             string time2 = DateTime.Now.Hour + ":" + DateTime.Now.Minute + ":00";
+            postData.Add("time_start", date2.Trim() + " " + time2.Trim());
             postData.Add("description", "call driver itinerary");
+            postData.Add("distance", "-1");
             postData.Add("status", GlobalData.ITINERARY_STATUS_ONGOING.ToString());
 
             HttpFormUrlEncodedContent content =

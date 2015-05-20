@@ -142,10 +142,12 @@ namespace UberRiding.Customer
             postData.Add("end_address_lat", "-1");
             postData.Add("end_address_long", "-1");
             postData.Add("driver_id", Global.GlobalData.selectedDriver.driver_id.ToString().Trim());
-            postData.Add("time_start", "-1"); //now 
+            //postData.Add("time_start", "-1"); //now 
             string date2 = DateTime.Now.Year + "-" + DateTime.Now.Month + "-" + DateTime.Now.Day;
             string time2 = DateTime.Now.Hour + ":" + DateTime.Now.Minute + ":00";
+            postData.Add("time_start", date2.Trim() + " " + time2.Trim());
             postData.Add("description", "call driver itinerary");
+            postData.Add("distance", "-1");
             postData.Add("status", GlobalData.ITINERARY_STATUS_ONGOING.ToString());
 
             //string date = datePicker.Value.ToString();

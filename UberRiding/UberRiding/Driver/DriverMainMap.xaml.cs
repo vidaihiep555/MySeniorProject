@@ -76,7 +76,7 @@ namespace UberRiding.Driver
                 HttpFormUrlEncodedContent updateDataContent = new HttpFormUrlEncodedContent(updateData);
                 var update = await RequestToServer.sendPutRequest("driverbusy", updateDataContent);
 
-                NavigationService.Navigate(new Uri("/Driver/DriverItineraryDetails.xamll", UriKind.RelativeOrAbsolute));
+                NavigationService.Navigate(new Uri("/Driver/DriverItineraryDetails.xaml", UriKind.RelativeOrAbsolute));
             }
             //string[] latlng = message.Split(",".ToCharArray());
             //double lat = Double.Parse(latlng[0]);
