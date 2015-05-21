@@ -706,13 +706,33 @@ $app->post('/calldriveritinerary', 'authenticateCustomer', function() use ($app)
             $db = new DbHandler();
 
             // creating new itinerary
-            $itinerary_id = $db->createCallDriverItinerary($user_id, $driver_id, $start_address, $start_address_lat,$start_address_long,
+            $result = $db->createCallDriverItinerary($user_id, $driver_id, $start_address, $start_address_lat,$start_address_long,
              $end_address, $end_address_lat, $end_address_long, $time_start, $description, $distance);
 
-            if ($itinerary_id != NULL) {
+            if ($result != NULL) {
                 $response["error"] = false;
-                $response["message"] = "Itinerary created successfully";
-                $response["itinerary_id"] = $itinerary_id;
+                $response["itineraries"] = array();
+                $tmp = array();
+                //$response["message"] = "Itinerary created successfully";
+                $tmp["itinerary_id"] = $result["itinerary_id"];
+                $tmp["driver_id"] = $result["driver_id"];
+                $tmp["customer_id"] = $result["customer_id"];
+                $tmp["start_address"] = $result["start_address"];
+                $tmp["start_address_lat"] = $result["start_address_lat"];
+                $tmp["start_address_long"] = $result["start_address_long"];
+                $tmp["end_address"] = $result["end_address"];
+                $tmp["end_address_lat"] = $result["end_address_lat"];
+                $tmp["end_address_long"] = $result["end_address_long"];
+                $tmp["time_start"] = $result["time_start"];
+                //$response["duration"] = $result["duration"];
+                $tmp["distance"] = $result["distance"];
+                //$response["cost"] = $result["cost"];
+                $tmp["description"] = $result["description"];
+                $tmp["status"] = $result["status"];
+                $tmp["created_at"] = $result["created_at"];
+
+                array_push($response["itineraries"], $tmp);
+                //$response["itinerary_id"] = $itinerary_id;
                 echoRespnse(201, $response);
             } else {
                 $response["error"] = true;
@@ -738,22 +758,27 @@ $app->get('/itinerary/:id', function($itinerary_id) {
 
             if ($result != NULL) {
                 $response["error"] = false;
-                $response["itinerary_id"] = $result["itinerary_id"];
-                $response["driver_id"] = $result["driver_id"];
-                $response["customer_id"] = $result["customer_id"];
-                $response["start_address"] = $result["start_address"];
-                $response["start_address_lat"] = $result["start_address_lat"];
-                $response["start_address_long"] = $result["start_address_long"];
-                $response["end_address"] = $result["end_address"];
-                $response["end_address_lat"] = $result["end_address_lat"];
-                $response["end_address_long"] = $result["end_address_long"];
-                $response["time"] = $result["time"];
-                $response["duration"] = $result["duration"];
-                $response["distance"] = $result["distance"];
-                $response["cost"] = $result["cost"];
-                $response["description"] = $result["description"];
-                $response["status"] = $result["status"];
-                $response["created_at"] = $result["created_at"];
+                $response["itineraries"] = array();
+                $tmp = array();
+
+                $tmp["itinerary_id"] = $result["itinerary_id"];
+                $tmp["driver_id"] = $result["driver_id"];
+                $tmp["customer_id"] = $result["customer_id"];
+                $tmp["start_address"] = $result["start_address"];
+                $tmp["start_address_lat"] = $result["start_address_lat"];
+                $tmp["start_address_long"] = $result["start_address_long"];
+                $tmp["end_address"] = $result["end_address"];
+                $tmp["end_address_lat"] = $result["end_address_lat"];
+                $tmp["end_address_long"] = $result["end_address_long"];
+                $tmp["time_start"] = $result["time_start"];
+                //$tmp["duration"] = $result["duration"];
+                $tmp["distance"] = $result["distance"];
+                //$tmp["cost"] = $result["cost"];
+                $tmp["description"] = $result["description"];
+                $tmp["status"] = $result["status"];
+                $tmp["created_at"] = $result["created_at"];
+
+                array_push($response["itineraries"], $tmp);
                 echoRespnse(200, $response);
             } else {
                 $response["error"] = true;
@@ -794,7 +819,7 @@ $app->get('/itineraries', 'authenticateUser', function() {
                 $tmp["end_address_long"] = $itinerary["end_address_long"];
                 $tmp["time"] = $itinerary["time"];
                 $tmp["distance"] = $itinerary["distance"];
-                $tmp["cost"] = $itinerary["cost"];
+                //$tmp["cost"] = $itinerary["cost"];
                 $tmp["description"] = $itinerary["description"];
                 $tmp["status"] = $itinerary["status"];
                 $tmp["created_at"] = $itinerary["created_at"];

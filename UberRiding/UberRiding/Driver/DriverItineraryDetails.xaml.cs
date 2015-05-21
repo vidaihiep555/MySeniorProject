@@ -32,27 +32,10 @@ namespace UberRiding.Driver
 
             //show status
             //hanh trinh moi dc khoi tao
-            if (GlobalData.selectedItinerary.status.Equals(Global.GlobalData.ITINERARY_STATUS_CREATED))
-            {
-                txtItineraryInfo.Text = "Itinerary Just Created";
-                //create button update hanh trinh
-                Button btnUpdate = new Button();
-                btnUpdate.Content = "Update";
-                //btnUpdate.Click += btnUpdate_Click;
-                gridInfo.Children.Add(btnUpdate);
-                Grid.SetRow(btnUpdate, 5);
+            //...............
 
-                //create button huy hanh trinh
-                Button btnDelete = new Button();
-                btnDelete.Content = "Delete";
-                //btnDelete.Click += btnDelete_Click;
-                gridInfo.Children.Add(btnDelete);
-                Grid.SetRow(btnDelete, 6);
-
-                //chinh sua tren map
-            }
             //hanh trinh da dc accept
-            else if (GlobalData.selectedItinerary.status.Equals(Global.GlobalData.ITINERARY_STATUS_ACCEPTED))
+            if (GlobalData.selectedItinerary.status.Equals(Global.GlobalData.ITINERARY_STATUS_ACCEPTED))
             {
                 txtItineraryInfo.Text = "Itinerary Accepted";
                 /*//tao button accept va button huy customer accept
@@ -123,7 +106,7 @@ namespace UberRiding.Driver
             //txtbCost.Text = GlobalData.selectedItinerary.cost;
 
             //xu ly ngay thang
-            string datetimeString = GlobalData.selectedItinerary.time.Trim();
+            string datetimeString = GlobalData.selectedItinerary.time_start.Trim();
 
             DateTime datetime = DatetimeConvert.convertDateTimeFromString(datetimeString);
 

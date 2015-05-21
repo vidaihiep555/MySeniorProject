@@ -346,25 +346,51 @@ namespace UberRiding.Customer
             HttpFormUrlEncodedContent content =
                 new HttpFormUrlEncodedContent(postData);
             //tao 1 itinerary ongoing
-            var result = await RequestToServer.sendPostRequest("itinerary", content);
+            var result = await RequestToServer.sendPostRequest("calldriveritinerary", content);
 
             JObject jsonObject = JObject.Parse(result);
 
             if (jsonObject.Value<bool>("error"))
             {
-                MessageBox.Show(jsonObject.Value<string>("message"));
+                MessageBox.Show("");
             }
             else
             {
                 //set selected itinerary
+                RootObject root = JsonConvert.DeserializeObject<RootObject>(result);
+                foreach (Itinerary i in root.itineraries)
+                {
+                    Itinerary2 i2 = new Itinerary2
+                    {
+                        itinerary_id = i.itinerary_id,
+                        driver_id = i.driver_id,
+                        customer_id = Convert.ToInt32(i.customer_id),
+                        start_address = i.start_address,
+                        start_address_lat = i.start_address_lat,
+                        start_address_long = i.start_address_long,
+                        end_address = i.end_address,
+                        end_address_lat = i.end_address_lat,
+                        end_address_long = i.end_address_long,
+                        distance = i.distance,
+                        description = i.description,
+                        status = i.status,
+                        created_at = i.created_at,
+                        time_start = i.time_start,
+                        //convert base64 to image
+                        //average_rating = i.average_rating
 
+                        
+                    };
 
-
-
+                    GlobalData.selectedItinerary = i2;
+                }
                 Dispatcher.BeginInvoke(() =>
                 {
                     string driver_id = "D" + GlobalData.calldriver;
-                    HubProxy.Invoke("SendPos2", driver_id, "sdasd," + driver_id + "," + "C" + Global.GlobalData.user_id);
+
+                    //message = customer_id, itinerary_id, 
+                    string message = "C" + GlobalData.user_id + "," + GlobalData.selectedItinerary.itinerary_id;
+                    HubProxy.Invoke("SendPos2", driver_id, message);
 
                     NavigationService.Navigate(new Uri("/Customer/CustomerItineraryDetails.xaml", UriKind.RelativeOrAbsolute));
                 });

@@ -48,7 +48,7 @@ namespace UberRiding.Driver
                     distance = i.distance,
                     description = i.description,
                     status = i.status,
-                    time = i.time,
+                    time_start = i.time_start,
                     //convert base64 to image
                     //average_rating = i.average_rating
                 };

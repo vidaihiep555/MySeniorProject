@@ -9,6 +9,16 @@ namespace UberRiding.Global
 {
     class GlobalData
     {
+        //user
+
+
+        //customer
+
+
+        //driver
+
+
+
         public static ItineraryList itinearyList = new ItineraryList();
         public static Itinerary2 selectedItinerary = new Itinerary2();
 
@@ -60,7 +70,7 @@ namespace UberRiding.Global
         public string end_address { get; set; }
         public double end_address_lat { get; set; }
         public double end_address_long { get; set; }
-        public string time { get; set; }
+        public string time_start { get; set; }
         public double distance { get; set; }
         public string cost { get; set; }
         public string description { get; set; }
@@ -88,7 +98,7 @@ namespace UberRiding.Global
         public string end_address { get; set; }
         public double end_address_lat { get; set; }
         public double end_address_long { get; set; }
-        public string time { get; set; }
+        public string time_start { get; set; }
         public double distance { get; set; }
         public string cost { get; set; }
         public string description { get; set; }

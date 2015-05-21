@@ -644,8 +644,10 @@ class DbHandler {
             $new_itinerary_id = $this->conn->insert_id;
             
             // Itinerary successfully inserted
-            return $new_itinerary_id;
-            
+            //return $new_itinerary_id;
+
+            $res = $this->getItinerary($new_itinerary_id);
+            return $res;
         } else {
             //echo $q;
             return NULL;

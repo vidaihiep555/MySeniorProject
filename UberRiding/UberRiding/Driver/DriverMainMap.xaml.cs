@@ -12,6 +12,7 @@ using System.Net.Http;
 using UberRiding.Global;
 using Windows.Web.Http;
 using UberRiding.Request;
+using Newtonsoft.Json;
 
 namespace UberRiding.Driver
 {
@@ -64,17 +65,46 @@ namespace UberRiding.Driver
         private async void test(string message)
         {
             //show message box
-            var result = MessageBox.Show("Do it now");
+            var resultMessageBox = MessageBox.Show("Do it now");
 
-            if (result == MessageBoxResult.OK)
+            if (resultMessageBox == MessageBoxResult.OK)
             {
-
+                string[] x = message.Split(',');
                 //send message
 
                 Dictionary<string, string> updateData = new Dictionary<string, string>();
-                updateData.Add("busy_status", GlobalData.DRIVER_NOT_BUSY.ToString());
+                updateData.Add("busy_status", GlobalData.DRIVER_BUSY.ToString());
                 HttpFormUrlEncodedContent updateDataContent = new HttpFormUrlEncodedContent(updateData);
                 var update = await RequestToServer.sendPutRequest("driverbusy", updateDataContent);
+
+                var result = await RequestToServer.sendGetRequest("itinerary/" + x[2]);
+
+                //set selected itinerary
+                RootObject root = JsonConvert.DeserializeObject<RootObject>(result);
+                foreach (Itinerary i in root.itineraries)
+                {
+                    Itinerary2 i2 = new Itinerary2
+                    {
+                        itinerary_id = i.itinerary_id,
+                        driver_id = i.driver_id,
+                        customer_id = Convert.ToInt32(i.customer_id),
+                        start_address = i.start_address,
+                        start_address_lat = i.start_address_lat,
+                        start_address_long = i.start_address_long,
+                        end_address = i.end_address,
+                        end_address_lat = i.end_address_lat,
+                        end_address_long = i.end_address_long,
+                        distance = i.distance,
+                        description = i.description,
+                        status = i.status,
+                        created_at = i.created_at,
+                        time_start = i.time_start,
+                        //convert base64 to image
+                        //average_rating = i.average_rating
+                    };
+
+                    GlobalData.selectedItinerary = i2;
+                }
 
                 NavigationService.Navigate(new Uri("/Driver/DriverItineraryDetails.xaml", UriKind.RelativeOrAbsolute));
             }

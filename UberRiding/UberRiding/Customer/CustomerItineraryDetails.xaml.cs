@@ -139,7 +139,7 @@ namespace UberRiding.Customer
             //txtbCost.Text = GlobalData.selectedItinerary.cost;
 
             //xu ly ngay thang
-            string datetimeString = GlobalData.selectedItinerary.time.Trim();
+            string datetimeString = GlobalData.selectedItinerary.time_start.Trim();
 
             DateTime datetime = DatetimeConvert.convertDateTimeFromString(datetimeString);
 

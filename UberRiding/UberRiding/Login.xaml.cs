@@ -95,6 +95,9 @@ namespace UberRiding
                 //Navigate to MainPage
                 if (GlobalData.isDriver)
                 {
+                    //update driver status to not busy
+                    // update lat long current cua driver
+
                     Dictionary<string, string> updateData = new Dictionary<string, string>();
                     updateData.Add("busy_status", GlobalData.DRIVER_NOT_BUSY.ToString());
                     HttpFormUrlEncodedContent updateDataContent = new HttpFormUrlEncodedContent(updateData);
