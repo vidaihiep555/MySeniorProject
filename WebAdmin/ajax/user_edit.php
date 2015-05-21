@@ -42,14 +42,14 @@
 						<img class="img-rounded col-sm-4" src="data:image/jpeg;base64,<?php echo $user['link_avatar'] ?>" alt="">
 						<div class="col-sm-8">
 							<div class="form-group">
-								<label class="col-sm-4 control-label" style="text-align:left">Họ tên:</label>
+								<label class="col-sm-4 control-label" style="text-align:left">Fullname:</label>
 								<div class="col-sm-6">
 								<input disabled type="text" class="form-control" placeholder="Full name" value="<?php echo $user['fullname'] ?>"
 									data-toggle="tooltip" data-placement="bottom" title="Họ và tên" name="fullname">
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-sm-4 control-label" style="text-align:left">Điện thoại:</label>
+								<label class="col-sm-4 control-label" style="text-align:left">Phone:</label>
 								<div class="col-sm-6">
 									<input disabled type="text" class="form-control" placeholder="Last name" value="<?php echo $user['phone'] ?>"
 									data-toggle="tooltip" data-placement="bottom" title="Số điện thoại" name="phone">
@@ -63,7 +63,7 @@
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-sm-4 control-label" style="text-align:left">Chứng minh nhân dân:</label>
+								<label class="col-sm-4 control-label" style="text-align:left">Personal ID:</label>
 								<div class="col-sm-6">
 									<input disabled type="text" class="form-control" placeholder="Chứng minh nhân dân" value="<?php echo $user['personalID'] ?>"
 									data-toggle="tooltip" data-placement="bottom" title="Chứng minh nhân dân" name="personalID">
@@ -75,14 +75,14 @@
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-sm-4 control-label" style="text-align:left">Ngày tạo tài khoản:</label>
+								<label class="col-sm-4 control-label" style="text-align:left">Account's creation day:</label>
 								<div class="col-sm-6">
 									<input type="text" class="form-control" value="<?php echo $user['created_at'] ?>"
 									disabled data-toggle="tooltip" data-placement="bottom" title="Ngày tạo tài khoản">
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-sm-4 control-label" style="text-align:left">Đã xác minh:</label>
+								<label class="col-sm-4 control-label" style="text-align:left">Validated:</label>
 								<div class="col-sm-6">
 									<div class="toggle-switch toggle-switch-success">
 										<label>
@@ -95,7 +95,7 @@
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-sm-4 control-label" style="text-align:left">Cấp độ:</label>
+								<label class="col-sm-4 control-label" style="text-align:left">Level:</label>
 								<div class="col-sm-6">
 									<input type='hidden' name='status' value='<?php echo $user['status'] ?>'/>
 									<?php
@@ -110,7 +110,7 @@
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-sm-4 control-label" style="text-align:left">Khóa tài khoản:</label>
+								<label class="col-sm-4 control-label" style="text-align:left">Locked account:</label>
 								<div class="col-sm-6">
 									<div class="toggle-switch toggle-switch-success">
 										<label>
@@ -130,13 +130,13 @@
 						<div class="col-sm-offset-4 col-sm-2">
 							<a href="index.php" type="cancel" class="btn btn-default btn-label-left">
 							<span><i class="fa fa-clock-o txt-danger"></i></span>
-								Quay lại
+								Back
 							</a>
 						</div>
 						<div class="col-sm-2">
 							<button type="submit" class="btn btn-primary btn-label-left">
 							<span><i class="fa fa-clock-o"></i></span>
-								Cập nhật
+								Update
 							</button>
 						</div>
 					</div>

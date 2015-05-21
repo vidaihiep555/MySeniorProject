@@ -27,10 +27,10 @@ require_once '../include/Config.php';
 				<table class="table table-bordered table-striped table-hover table-heading table-datatable" id="datatable-1">
 					<thead>
 						<tr>
-							<th>STT</th>
-							<th>Họ tên</th>
+							<th>No.</th>
+							<th>Full name</th>
 							<th>Email</th>
-							<th>CMND</th>
+							<th>Personal ID</th>
 							<th></th>
 						</tr>
 					</thead>
@@ -78,7 +78,7 @@ require_once '../include/Config.php';
 			</div>
 		</div>
 		<a href="controller/staff.php?act=create" class="btn btn-primary btn-label-left">
-			<span><i class="fa fa-clock-o"></i></span>Tạo người dùng mới
+			<span><i class="fa fa-clock-o"></i></span>Create a new user
 		</a>
 	</div>
 </div>

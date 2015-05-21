@@ -27,12 +27,12 @@ require_once '../include/Config.php';
 				<table class="table table-bordered table-striped table-hover table-heading table-datatable" id="datatable-1">
 					<thead>
 						<tr>
-							<th>STT</th>
-							<th>Họ tên</th>
+							<th>No.</th>
+							<th>Fullname</th>
 							<th>Email</th>
-							<th>Điện thoại</th>
-							<th>CMND</th>
-							<th>Cấp độ</th>
+							<th>Phone</th>
+							<th>Personal ID</th>
+							<th>Level</th>
 							<th></th>
 						</tr>
 					</thead>

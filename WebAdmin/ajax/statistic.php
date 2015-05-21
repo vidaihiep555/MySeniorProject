@@ -30,7 +30,7 @@ img.img-responsive { display: table-cell; width: 25%; }
 		<img class="img-responsive" src="img/statis.png">
 	</div>
 	<div class="col-xs-10 col-sm-4 col-md-5">
-		<h1>Thống kê hệ thống</h1>
+		<h1>Statistic</h1>
 	</div>
 </div>
 <!--End Dashboard 1-->
@@ -38,9 +38,9 @@ img.img-responsive { display: table-cell; width: 25%; }
 <div class="row-fluid">
 	<div id="dashboard_links" class="col-xs-12 col-sm-2 pull-right">
 		<ul class="nav nav-pills nav-stacked">
-			<li class="active"><a href="#" class="tab-link" id="overview">Tổng quan</a></li>
-			<li><a href="#" class="tab-link" id="clients">Nhân viên</a></li>
-			<li><a href="#" class="tab-link" id="graph">Người dùng</a></li>
+			<li class="active"><a href="#" class="tab-link" id="overview">Overview</a></li>
+			<li><a href="#" class="tab-link" id="clients">Staff</a></li>
+			<li><a href="#" class="tab-link" id="graph">User</a></li>
 			<li><a href="#" class="tab-link" id="servers">Servers</a></li>
 			<li><a href="#" class="tab-link" id="planning">Planning</a></li>
 		</ul>
@@ -187,7 +187,7 @@ img.img-responsive { display: table-cell; width: 25%; }
 		<!--Start Dashboard Tab 2-->
 		<div id="dashboard-clients" class="row" style="width:100%; visibility: hidden; position: absolute;">
 			<div class="col-xs-12">
-				<h4 class="page-header">Thống kê nhân viên</h4>
+				<h4 class="page-header">Staff statistic</h4>
 				<div id="stat-staff" style="height: 300px;"></div>
 			</div>
 		</div>
@@ -195,7 +195,7 @@ img.img-responsive { display: table-cell; width: 25%; }
 		<!--Start Dashboard Tab 3-->
 		<div id="dashboard-graph" class="row" style="width:100%; visibility: hidden; position: absolute;" >
 			<div class="col-xs-12">
-				<h4 class="page-header">Thống kê người dùng</h4>
+				<h4 class="page-header">User Statistic</h4>
 				<div id="stat-user" style="height: 300px;"></div>
 			</div>
 		</div>

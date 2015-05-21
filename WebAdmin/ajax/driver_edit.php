@@ -41,21 +41,21 @@
 					<div class="form-group">
 						<div class="col-sm-8">
 							<div class="form-group">
-								<label class="col-sm-4 control-label" style="text-align:left">Họ tên:</label>
+								<label class="col-sm-4 control-label" style="text-align:left">Fullname:</label>
 								<div class="col-sm-6">
 								<input disabled type="text" class="form-control" placeholder="Full name" value="<?php echo $user['fullname'] ?>"
 									data-toggle="tooltip" data-placement="bottom" title="Họ và tên" name="fullname">
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-sm-4 control-label" style="text-align:left">Giấy phép lái xe:</label>
+								<label class="col-sm-4 control-label" style="text-align:left">Driver license:</label>
 								<div class="col-sm-6">
 									<input disabled type="text" class="form-control" placeholder="Last name" value="<?php echo $user['driver_license'] ?>"
 									data-toggle="tooltip" data-placement="bottom" title="Giấy phép lái xe" name="driver_license">
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-sm-4 control-label" style="text-align:left">Đã xác minh:</label>
+								<label class="col-sm-4 control-label" style="text-align:left">Validated:</label>
 								<div class="col-sm-6">
 									<div class="toggle-switch toggle-switch-success">
 										<label>
@@ -68,7 +68,7 @@
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-sm-4 control-label" style="text-align:left">Trạng thái:</label>
+								<label class="col-sm-4 control-label" style="text-align:left">State:</label>
 								<div class="col-sm-6">
 									<input type='hidden' name='status' value='<?php echo $user['status'] ?>'/>
 									<?php
@@ -91,13 +91,13 @@
 						<div class="col-sm-offset-4 col-sm-2">
 							<a href="index.php" type="cancel" class="btn btn-default btn-label-left">
 							<span><i class="fa fa-clock-o txt-danger"></i></span>
-								Quay lại
+								Back
 							</a>
 						</div>
 						<div class="col-sm-2">
 							<button type="submit" class="btn btn-primary btn-label-left">
 							<span><i class="fa fa-clock-o"></i></span>
-								Cập nhật
+								Update
 							</button>
 						</div>
 					</div>

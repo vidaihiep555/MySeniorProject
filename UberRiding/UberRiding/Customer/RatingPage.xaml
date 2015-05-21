@@ -35,7 +35,7 @@
 				Margin="0,0,0,0"
 				HorizontalAlignment="Left"
 				Style="{StaticResource PhoneTextTitle1Style}"
-				Text="{Binding Path=LocalizedResources.title, Source={StaticResource LocalizedStrings}}" FontSize="22"/>
+				Text="RideSharing" FontSize="22"/>
 		</StackPanel>
 
 		<!--ContentPanel - place additional content here-->
@@ -47,7 +47,7 @@
 			</Image>
 		</Grid>
 		<StackPanel Grid.Row="3">
-			<TextBlock x:Name="txtbDriverName"  HorizontalAlignment="Center" FontWeight="Bold"/>
+			<TextBlock x:Name="txtbDriverName" HorizontalAlignment="Center" FontWeight="Bold"/>
 		</StackPanel>
 		<Grid Grid.Row="4">
 			<toolkit:Rating HorizontalAlignment="Center" Width="300" Height="Auto" x:Name="ratingDriver" RatingItemCount="5" Value="2" Margin="90,10,90,80" Background="#FF3DA5E1" >
@@ -65,7 +65,7 @@
 		</Grid>
 		<Grid Grid.Row="5">
 			<StackPanel>
-				<TextBlock Text="{Binding Path=LocalizedResources.txtComment, Source={StaticResource LocalizedStrings}}" HorizontalAlignment="Left" FontWeight="Bold" FontSize="24"/>
+				<TextBlock Text="Your comment:" HorizontalAlignment="Left" FontWeight="Bold" FontSize="24"/>
 				<toolkit:PhoneTextBox x:Name="txtbComment" 
 						 TextWrapping="Wrap"
 						 AcceptsReturn="True"
@@ -74,7 +74,7 @@
 			</StackPanel>
 
 		</Grid>
-		<Button x:Name="btnSend" Grid.Row="6" Height="80" Content="{Binding Path=LocalizedResources.btnSend, Source={StaticResource LocalizedStrings}}" Click="btnSend_Click"/>
+		<Button x:Name="btnSend" Grid.Row="6" Height="80" Content="Send" Click="btnSend_Click"/>
 	</Grid>
 
 </phone:PhoneApplicationPage>

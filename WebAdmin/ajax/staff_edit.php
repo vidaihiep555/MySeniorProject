@@ -89,7 +89,7 @@
 						<div class="col-sm-offset-4 col-sm-2">
 							<a href="index.php" type="cancel" class="btn btn-default btn-label-left">
 							<span><i class="fa fa-clock-o txt-danger"></i></span>
-								Quay lại
+								Back
 							</a>
 						</div>
 						<div class="col-sm-2">
@@ -98,13 +98,13 @@
 							if (isset($staff['staff_id'])) {
 							?>
 							<span><i class="fa fa-clock-o"></i></span>
-								Cập nhật
+								Update
 							</button>
 							<?php 
 							} else { 
 							?>
 							<span><i class="fa fa-clock-o"></i></span>
-								Tạo mới
+								New
 							</button>
 							<?php } ?>
 						</div>

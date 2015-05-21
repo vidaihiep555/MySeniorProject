@@ -2,7 +2,7 @@
 <html lang='vi'>
 <head>
 	<meta charset="utf-8">
- 	<title>Chứng minh nhân dân</title>
+ 	<title>Personal ID</title>
 </head>
 <body>
 	<div id="PID" </div>

@@ -27,10 +27,10 @@ require_once '../include/Config.php';
 				<table class="table table-bordered table-striped table-hover table-heading table-datatable" id="datatable-1">
 					<thead>
 						<tr>
-							<th>STT</th>
-							<th>Họ tên</th>
-							<th>Giấy phép lái xe</th>
-							<th>Tình trạng</th>
+							<th>No.</th>
+							<th>Fullname</th>
+							<th>Driver license</th>
+							<th>State</th>
 							<th></th>
 						</tr>
 					</thead>

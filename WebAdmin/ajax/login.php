@@ -55,18 +55,18 @@ if (isset($_SESSION["staff_api_key"])) {
 				<div class="box-content">
 					<form method="post" action="../controller/checkLogin.php">
 						<div class="text-center">
-							<h3 class="page-header">Đăng nhập hệ thống - RideSharing</h3>
+							<h3 class="page-header">Log on - RideSharing system</h3>
 						</div>
 						<div class="form-group">
 							<label class="control-label">Email</label>
 							<input type="email" class="form-control" name="email" />
 						</div>
 						<div class="form-group">
-							<label class="control-label">Mật khẩu</label>
+							<label class="control-label">Password</label>
 							<input type="password" class="form-control" name="password" />
 						</div>
 						<div class="text-center">
-							<button type="submit" class="btn btn-primary">Đăng nhập</button>
+							<button type="submit" class="btn btn-primary">Logon</button>
 						</div>
 					</form>
 				</div>

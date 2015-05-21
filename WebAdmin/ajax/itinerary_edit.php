@@ -42,49 +42,49 @@
 
 						<<div class="col-sm-8">
 							<div class="form-group">
-								<label class="col-sm-4 control-label" style="text-align:left">Tài Xế:</label>
+								<label class="col-sm-4 control-label" style="text-align:left">Driver:</label>
 								<div class="col-sm-6">
 								<input disabled type="text" class="form-control" placeholder="Tài xế" value="<?php echo $itinerary['fullname'] ?>"
 									data-toggle="tooltip" data-placement="bottom" title="Tài Xế" name="driver_id">
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-sm-4 control-label" style="text-align:left">Hành Khách:</label>
+								<label class="col-sm-4 control-label" style="text-align:left">Customer:</label>
 								<div class="col-sm-6">
 								<input disabled type="text" class="form-control" placeholder="Hành Khách" value="<?php echo $itinerary['customer_id'] ?>"
 									data-toggle="tooltip" data-placement="bottom" title="Họ và tên" name="customer_id">
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-sm-4 control-label" style="text-align:left">Điểm Đi:</label>
+								<label class="col-sm-4 control-label" style="text-align:left">Departure:</label>
 								<div class="col-sm-6">
 									<input disabled type="text" class="form-control" placeholder="Điểm Đi" value="<?php echo $itinerary['start_address'] ?>"
 									data-toggle="tooltip" data-placement="bottom" title="Điểm Đi" name="phone">
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-sm-4 control-label" style="text-align:left">Tọa Độ Đi:</label>
+								<label class="col-sm-4 control-label" style="text-align:left">Departure coodinates:</label>
 								<div class="col-sm-6">
 									<input disabled type="text" class="form-control" placeholder="Tọa Độ Đi" value="<?php echo $itinerary['start_address'] ?>"
 									data-toggle="tooltip" data-placement="bottom" title="Tọa Độ Đi" name="phone">
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-sm-4 control-label" style="text-align:left">Điểm Đến:</label>
+								<label class="col-sm-4 control-label" style="text-align:left">Destination:</label>
 								<div class="col-sm-6">
 									<input disabled type="text" class="form-control" placeholder="Điểm Đến" value="<?php echo $itinerary['end_address'] ?>"
 									data-toggle="tooltip" data-placement="bottom" title="Điểm Đến" name="email">
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-sm-4 control-label" style="text-align:left">Tọa Độ Đến:</label>
+								<label class="col-sm-4 control-label" style="text-align:left">Destination coodinates:</label>
 								<div class="col-sm-6">
 									<input disabled type="text" class="form-control" placeholder="Tọa Độ Đến" value="<?php echo $itinerary['start_address'] ?>"
 									data-toggle="tooltip" data-placement="bottom" title="Tọa Độ Đến" name="phone">
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-sm-4 control-label" style="text-align:left">Thời Gian:</label>
+								<label class="col-sm-4 control-label" style="text-align:left">Time:</label>
 								<div class="col-sm-6">
 									<input disabled type="text" class="form-control" placeholder="Thời Gian" value="<?php echo $itinerary['leave_time'] ?>"
 									data-toggle="tooltip" data-placement="bottom" title="Thời Gian:" name="personalID">
@@ -96,7 +96,7 @@
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-sm-4 control-label" style="text-align:left">Ngày tạo:</label>
+								<label class="col-sm-4 control-label" style="text-align:left">Create day:</label>
 								<div class="col-sm-6">
 									<input type="text" class="form-control" value="<?php echo $itinerary['created_at'] ?>"
 									disabled data-toggle="tooltip" data-placement="bottom" title="Ngày tạo tài khoản">
@@ -112,13 +112,13 @@
 						<div class="col-sm-offset-4 col-sm-2">
 							<a href="" type="cancel" class="btn btn-default btn-label-left">
 							<span><i class="fa fa-clock-o txt-danger"></i></span>
-								Quay lại
+								Back
 							</a>
 						</div>
 						<div class="col-sm-2">
 							<button type="submit" class="btn btn-primary btn-label-left">
 							<span><i class="fa fa-clock-o"></i></span>
-								Cập nhật
+								Update
 							</button>
 						</div>
 					</div>

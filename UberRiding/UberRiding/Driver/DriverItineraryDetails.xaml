@@ -69,7 +69,7 @@
 							 HorizontalAlignment="Center" 
 							 Height="Auto" Margin="0,0,0,0" 
 							 TextWrapping="Wrap" 
-							 Hint="Nơi bắt đầu" VerticalAlignment="Top" 
+							 Hint="Departure" VerticalAlignment="Top" 
 							 Width="480"/>
 					</Grid>
 
@@ -78,7 +78,7 @@
 							HorizontalAlignment="Center" 
 							Height="Auto" Margin="0,0,0,0" 
 							TextWrapping="Wrap" 
-							Hint="Nơi đến" VerticalAlignment="Top" 
+							Hint="Destination" VerticalAlignment="Top" 
 							Width="480"/>
 					</Grid>
 				</Grid>
@@ -104,7 +104,7 @@
 						 Margin="0,0,0,0"
 						 Width="480" 
 						 Grid.Row="0" TextWrapping="Wrap" 
-						 Hint="Mô tả hành trình..." 
+						 Hint="Itinerary description..." 
 						 VerticalAlignment="Center"
 						 Height="150" 
 						 AcceptsReturn="True"
@@ -113,12 +113,12 @@
 						 HorizontalAlignment="Center" 
 						 Grid.Row="1" 
 						 TextWrapping="Wrap" 
-						 Hint="Quãng đường đi..." 
+						 Hint="Distance traveled..." 
 						 VerticalAlignment="Center" 
 						 Width="480" Height="72"
 						 Background="{StaticResource PhoneTextBoxSelectionForegroundBrush}"/>
 					<toolkit:DatePicker x:Name="datePicker"
-						Header="Ngày đi"
+						Header="Starting day"
 						
 						ValueStringFormat="{}{0:dd-MM-yyyy}"
 						Margin="0,0,0,0"
@@ -126,7 +126,7 @@
 						Grid.Row="2"/>
 					<toolkit:TimePicker x:Name="timePicker"
 										
-						Header="Thời gian đi"
+						Header="Starting time"
 						Margin="0,0,0,0"
 						VerticalAlignment="Center"
 						Grid.Row="3"/>

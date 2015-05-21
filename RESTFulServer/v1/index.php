@@ -335,22 +335,22 @@ $app->get('/forgotpass/:email', function($email) {
                 $res = $db->getCustomerByEmail($email);
 
                 if (isset($res)) {
-                    $content_mail = "Chao ban,<br>
-                                Vui long nhan vao duong link sau de doi mat khau:
+                    $content_mail = $lang['FORGOTPASS_MSG'] = "Hi there,<br>
+                    Please click on the link below to reset your password:
                                 <a href='http://192.168.10.74/WebApp/forgotpass.php?api_key=". $res['api_key'].
-                                "'>Doi mat khau</a>";
+                                "'>Reset password/a>";
 
                     sendMail($email, $content_mail);
 
                     $response["error"] = false;
-                    $response["message"] = "Một email vừa được gửi đến địa chỉ email bạn nhập. Vui lòng làm theo hướng dẫn để lấy lại mật khẩu";
+                    $response["message"] = "An alert email is sent to you. Please check and do something following the guide.";
                 } else {
                     $response["error"] = true;
-                    $response["message"] = "Xin lỗi! Có lỗi xảy ra, vui lòng thử lại sau.";
+                    $response["message"] = "Sorry! Have some mistakes. Please try again!";
                 } 
             } else {
                 $response["error"] = true;
-                $response["message"] = "Email bạn nhập không chính xác!";
+                $response["message"] = "Your email address is not exactly!";
             }
             // echo json response
             echoRespnse(200, $response);
@@ -382,7 +382,7 @@ $app->get('/customer', 'authenticateUser', function() {
                 echoRespnse(200, $response);
             } else {
                 $response['error'] = true;
-                $response['message'] = 'Đường dẫn bạn yêu cầu không tồn tại!';
+                $response['message'] = 'The link you request is not existing!.';
                 echoRespnse(404, $response);
             }
         });
@@ -412,11 +412,11 @@ $app->put('/customer', 'authenticateCustomer', function() use($app) {
             if ($result) {
                 // task updated successfully
                 $response['error'] = false;
-                $response['message'] = "Cập nhật thông tin thành công!";
+                $response['message'] = "Your update is successful!.";
             } else {
                 // task failed to update
                 $response['error'] = true;
-                $response['message'] = "Cập nhật thông tin thất bại. Vui lòng thử lại!";
+                $response['message'] = "Your update is not successful! Please try again.";
             }
             echoRespnse(200, $response);
         });
@@ -437,11 +437,11 @@ $app->delete('/customer', 'authenticateUser', function() {
             if ($result) {
                 // user deleted successfully
                 $response["error"] = false;
-                $response["message"] = "Xóa người dùng thành công!";
+                $response["message"] = "Delete user is successful!.";
             } else {
                 // task failed to delete
                 $response["error"] = true;
-                $response["message"] = "Xóa người dùng thất bại. Vui lòng thử lại!";
+                $response["message"] = "Delete user is failed!.";
             }
             echoRespnse(200, $response);
         });
@@ -468,10 +468,10 @@ $app->post('/driver', function() use ($app) {
 
             if ($res == DRIVER_CREATED_SUCCESSFULLY) {
                 $response["error"] = false;
-                $response["message"] = "Đăng kí thành công!";
+                $response["message"] = "Registration is successful!.";
             } else if ($res == DRIVER_CREATE_FAILED) {
                 $response["error"] = true;
-                $response["message"] = "Xin lỗi! Có lỗi xảy ra trong quá trình đăng kí.";
+                $response["message"] = "Sorry! Registration is missing.";
             }
             // echo json response
             echoRespnse(201, $response);
@@ -497,7 +497,7 @@ $app->get('/driver', 'authenticateDriver', function() {
                 echoRespnse(200, $response);
             } else {
                 $response["error"] = true;
-                $response["message"] = "Đường dẫn bạn yêu cầu không tồn tại!";
+                $response["message"] = "The link you request is not existing!.";
                 echoRespnse(404, $response);
             }
         });
@@ -1064,10 +1064,10 @@ $app->post('/feedback', 'authenticateUser', function() use ($app) {
 
             if ($res == USER_CREATED_FEEDBACK_SUCCESSFULLY) {
                 $response["error"] = false;
-                $response["message"] = "Cám ơn bạn đã gửi góp ý!";
+                $response["message"] = "Thank for your feedback!";
             } else if ($res == USER_CREATE_FEEDBACK_FAILED) {
                 $response["error"] = true;
-                $response["message"] = "Xin lỗi! Có lỗi xảy ra trong quá trình gửi góp ý.";
+                $response["message"] = "Can not send your feedback. Please try again.";
             }
             // echo json response
             echoRespnse(201, $response);
@@ -1177,11 +1177,11 @@ $app->delete('/rating/:rating_id', 'authenticateUser', function($rating_id) {
             if ($result) {
                 // user deleted successfully
                 $response["error"] = false;
-                $response["message"] = $lang['VEHICLE_DELETE_SUCCESS'];
+                $response["message"] = "Delete vehicle is successful";
             } else {
                 // task failed to delete
                 $response["error"] = true;
-                $response["message"] = $lang['VEHICLE_DELETE_FAILURE'];
+                $response["message"] = "Delete vehicle is not successful";
             }
             echoRespnse(200, $response);
         });
@@ -1397,11 +1397,11 @@ $app->put('/vehicle/:vehicle_id', 'authenticateUser', function($vehicle_id) use(
             if ($result) {
                 // task updated successfully
                 $response["error"] = false;
-                $response["message"] = $lang['ALERT_UPDATE'];
+                $response["message"] = "Your update is successful!.";
             } else {
                 // task failed to update
                 $response["error"] = true;
-                $response["message"] = $lang['ERR_UPDATE'];
+                $response["message"] = "Your update is not successful! Please try again.";
             }
             echoRespnse(200, $response);
         });
@@ -1461,13 +1461,13 @@ $app->post('/staff', function() use ($app) {
 
             if ($res == STAFF_CREATED_SUCCESSFULLY) {
                 $response["error"] = false;
-                $response["message"] = $lang['CREATE_STAFF_SUCCESS'];
+                $response["message"] = "Create a new staff is successful!.";
             } else if ($res == STAFF_ALREADY_EXISTED) {
                 $response["error"] = true;
-                $response["message"] = $lang['ERR_EMAIL_EXIST'];
+                $response["message"] = "Sorry! Your email registration is existing.";
             } else if ($res == STAFF_CREATE_FAILED) {
                 $response["error"] = true;
-                $response["message"] = $lang['ERR_REGISTER'];
+                $response["message"] = "Sorry! Registration is missing.";
             }
             // echo json response
             echoRespnse(201, $response);
@@ -1567,11 +1567,11 @@ $app->post('/staff/login', function() use ($app) {
                 } else {
                     // unknown error occurred
                     $response['error'] = true;
-                    $response['message'] = $lang['ERR_LOGIN'];
+                    $response['message'] = "Have some mistakes, Please try again!.";
                 }
             } elseif ($res == WRONG_PASSWORD || $res == STAFF_NOT_REGISTER) {
                 $response['error'] = true;
-                $response['message'] = $lang['ERR_EMAIL_PASS'];
+                $response['message'] = "Wrong email or password!.";
             }
 
             echoRespnse(200, $response);
@@ -1628,11 +1628,11 @@ $app->put('/staffs/:staff_id', 'authenticateStaff', function($staff_id) use($app
             if ($result) {
                 // task updated successfully
                 $response["error"] = false;
-                $response["message"] = $lang['ALERT_UPDATE'];
+                $response["message"] = "Your update is successful!.";
             } else {
                 // task failed to update
                 $response["error"] = true;
-                $response["message"] = $lang['ERR_UPDATE'];
+                $response["message"] = "Your update is not successful! Please try again.";
             }
             echoRespnse(200, $response);
         });
@@ -1652,11 +1652,11 @@ $app->delete('/staffs/:staff_id', 'authenticateStaff', function($staff_id) {
             if ($result) {
                 // user deleted successfully
                 $response["error"] = false;
-                $response["message"] = $lang['STAFF_DELETE_SUCCESS'];
+                $response["message"] = "Delete staff is successful!.";
             } else {
                 // task failed to delete
                 $response["error"] = true;
-                $response["message"] = $lang['STAFF_DELETE_FAILURE'];
+                $response["message"] = "Delete staff is failure!.";
             }
             echoRespnse(200, $response);
         });
@@ -1733,11 +1733,11 @@ $app->delete('/staff/user/:user_id', 'authenticateStaff', function($user_id) {
             if ($result) {
                 // user deleted successfully
                 $response["error"] = false;
-                $response["message"] = $lang['USER_DELETE_SUCCESS'];
+                $response["message"] = "Delete user is successful!.";
             } else {
                 // task failed to delete
                 $response["error"] = true;
-                $response["message"] = $lang['USER_DELETE_FAILURE'];
+                $response["message"] = "Delete user is failed!.";
             }
             echoRespnse(200, $response);
         });
@@ -1798,7 +1798,7 @@ $app->get('/staff/itinerary/:id', function($itinerary_id) {
                 echoRespnse(200, $response);
             } else {
                 $response["error"] = true;
-                $response["message"] = $lang['ERR_REQUEST_ITINERARY'];
+                $response["message"] = "The requested resource doesn't exists";
                 echoRespnse(404, $response);
             }
         });
@@ -1825,11 +1825,11 @@ $app->put('/staff/itinerary/:id', 'authenticateStaff', function($itinerary_id) u
             if ($result) {
                 // task updated successfully
                 $response["error"] = false;
-                $response["message"] = $lang['UPDATE_ITINERARY_SUCCESS'];
+                $response["message"] =  "Itinerary updated successfully";
             } else {
                 // task failed to update
                 $response["error"] = true;
-                $response["message"] = $lang['UPDATE_ITINERARY_FAILURE'];
+                $response["message"] = "Itinerary failed to update. Please try again!";
             }
             echoRespnse(200, $response);
         });
@@ -1843,11 +1843,11 @@ $app->delete('/staff/itinerary/:id', function($itinerary_id) use($app) {
             if ($result) {
                 // itinerary deleted successfully
                 $response["error"] = false;
-                $response["message"] = $lang['DELETE_ITINERARY_SUCCESS'];
+                $response["message"] = "Itinerary deleted succesSfully";
             } else {
                 // itinerary failed to delete
                 $response["error"] = true;
-                $response["message"] = $lang['DELETE_ITINERARY_FAILURE'];
+                $response["message"] = "Itinerary failed to delete. Please try again!";
             }
             echoRespnse(200, $response);
         });
@@ -1884,7 +1884,7 @@ function verifyRequiredParams($required_fields) {
         $response = array();
         $app = \Slim\Slim::getInstance();
         $response["error"] = true;
-        $response["message"] = 'Bạn chưa nhập ' . substr($error_fields, 0, -2) . ' !';
+        $response["message"] = 'Please input into the field!' . substr($error_fields, 0, -2) . ' !';
         echoRespnse(200, $response);
         $app->stop();
     }
@@ -1897,7 +1897,7 @@ function validateEmail($email) {
     $app = \Slim\Slim::getInstance();
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $response["error"] = true;
-        $response["message"] = 'Email không hợp lệ!';
+        $response["message"] = 'Your email is not validation!';
         echoRespnse(200, $response);
         $app->stop();
     }
@@ -1912,14 +1912,14 @@ function validatePassword($password) {
     if ((strlen($password) < 6) || (strlen($password) > 12)) {
 
         $response["error"] = true;
-        $response["message"] = 'Độ dài mật khẩu phải nằm trong khoảng 6 đến 12 kí tự!';
+        $response["message"] = 'The length of your password must limited from 6 to 12 characters!';
         echoRespnse(200, $response);
         $app->stop();
     } 
 
     if (preg_match('#[\\s]#', $password)) {
         $response["error"] = true;
-        $response["message"] = 'Mật khẩu không được có khoảng trống!';
+        $response["message"] = 'Your password not contain the blank space.';
         echoRespnse(200, $response);
         $app->stop();
     } 
@@ -1956,9 +1956,9 @@ function sendMail($receiver_mail, $content) {
     // $mail->AddAttachment("dinhkem/200_100.jpg"); // Attach
 
     if(!$mail->Send()) {
-      return "Lỗi gửi mail: " . $mail->ErrorInfo;
+      return "Error sending email:" . $mail->ErrorInfo;
     } else {
-      return "Mail đã được gửi!";
+      return "Email is sending!";
     }
 }
 

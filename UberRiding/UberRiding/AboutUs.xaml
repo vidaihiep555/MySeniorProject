@@ -46,15 +46,15 @@
         </StackPanel>
 
         <StackPanel Grid.Row="2" Height="Auto" Background="White" Margin="0,0,0,3">
-            <TextBlock HorizontalAlignment="Center" Text="Thông tin cả bản:" Foreground="#FF0C0B0B" FontWeight="Bold" />
-            <TextBlock Text=" -Được phát triển bởi Ride Sharing team" Foreground="#FFE80C0C" FontWeight="Bold" />
-            <TextBlock Text=" -Chạy trên đa nền tảng Android OS, WP OS, Web" Foreground="#FFD11717" FontWeight="Bold" />
-            <TextBlock Text=" -Office:455-457 Hoàng Diệu, Đà Nẵng" Foreground="#FFE80C0C" FontWeight="Bold" />
+            <TextBlock HorizontalAlignment="Left" Text="Basic information:" Foreground="#FF0C0B0B" FontWeight="Bold" />
+            <TextBlock Text=" -Developed by Ride Sharing team" Foreground="#FFE80C0C" FontWeight="Bold" />
+            <TextBlock Text=" -Integrated in multi-platform : WP, Android and Web" Foreground="#FFD11717" FontWeight="Bold" />
+            <TextBlock Text=" -Office: 453-455 Hoang Dieu, Danang" Foreground="#FFE80C0C" FontWeight="Bold" />
             <TextBlock Text=" -DĐ:0975417597" Foreground="#FFE80C0C" FontWeight="Bold" />
         </StackPanel>
 
-        <StackPanel Grid.Row="3" Height="Auto" Background="White" Margin="0,0,0,7">
-            <TextBlock Text="Liên hệ:" HorizontalAlignment="Center" Foreground="#FF0C0B0B" FontWeight="Bold" >
+        <StackPanel Grid.Row="3" Height="Auto" Background="White" Margin="0,0,0,3">
+            <TextBlock Text="Contact:" HorizontalAlignment="Left" Foreground="#FF0C0B0B" FontWeight="Bold" >
             </TextBlock>
             <TextBlock Text="  -FaceBook: facebook.com/ridesharing" Foreground="#FF1546EE" FontWeight="Bold" />
             <TextBlock Text="  -Gmail:ridesharing@gmail.com" Foreground="#FFAC0909" FontWeight="Bold" />
@@ -62,42 +62,22 @@
             <TextBlock Text="  -YouTube:youtube.com/ridesharing" Foreground="#FFB40B0B" FontWeight="Bold" />
         </StackPanel>
 
-        <Grid Grid.Row="4" Margin="0,0,0,9" Background="#FF3DA5E1">
+        <Grid Grid.Row="4" Background="White">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="11*"/>
                 <ColumnDefinition Width="5*"/>
             </Grid.ColumnDefinitions>
-            <TextBlock  HorizontalAlignment="Center" Text="Thông tin nhóm tác giả:" Foreground="White" Grid.ColumnSpan="2" Margin="0,0,0,0" FontWeight="Bold"/>
+            <TextBlock  HorizontalAlignment="Left" Text="Author:" Foreground="Black" Grid.ColumnSpan="2" Margin="0,0,0,0" FontWeight="Bold"/>
         </Grid>
 
-        <Grid Grid.Row="5">
-
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
+        <Grid Grid.Row="5" Background="White" Margin="0,0,0,3">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
-                <RowDefinition Height="0.25*"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="0.25*"/>
-
+                <RowDefinition Height="0.5*"/>        
             </Grid.RowDefinitions>
-            <Image Source="Assets/avatar/ic_author_terry.png" Grid.Row="0" Grid.Column="0" />
-            <TextBlock HorizontalAlignment="Center" Text="Trần Duy Thành" Grid.Row="1" Grid.Column="0" FontSize="16"/>
-            <Image Source="Assets/avatar/ic_author_cody.png" Grid.Row="2" Grid.Column="0" />
-            <TextBlock HorizontalAlignment="Center" Text="Nguyễn Nhật Cường" Grid.Row="3" Grid.Column="0" FontSize="16"/>
-            <Image Source="Assets/avatar/ic_author_hanley.png" Grid.Row="2" Grid.Column="1" />
-            <TextBlock HorizontalAlignment="Center" Text="Bùi Quang Huy" Grid.Row="1" Grid.Column="1" FontSize="16"/>
-            <Image Source="Assets/avatar/ic_author_harold.png" Grid.Row="0" Grid.Column="1" />
-            <TextBlock HorizontalAlignment="Center" Text="Nguyễn T.T Hoàng" Grid.Row="3" Grid.Column="1" FontSize="16"/>
-            <Image Source="Assets/avatar/ic_author_vidal.png" Grid.Row="0" Grid.Column="2" />
-            <TextBlock HorizontalAlignment="Center" Text="Lê Trung Vĩ" Grid.Row="1" Grid.Column="3" FontSize="16"/>
-            <Image Source="Assets/avatar/ic_author_truman.png" Grid.Row="2" Grid.Column="2" />
-            <TextBlock HorizontalAlignment="Center" Text="Nguyễn Quang Trung" Grid.Row="3" Grid.Column="3" FontSize="16"/>
-
-        </Grid>
+            <Image Source="Assets/avatar/ic_author_vidal.png" Grid.Row="0"/>
+            <TextBlock HorizontalAlignment="Center" Text="Lê Trung Vĩ" Foreground="Black" Grid.Row="1" FontSize="20" FontWeight="Bold"/>
+            </Grid>
 
         <Grid x:Name="ContentPanel" Grid.Row="6" Margin="0,0,0,0" Background="White"/>
         <Button x:Name="btnSendFeedback"  Width="250" Height="70" Content="Feedback" HorizontalAlignment="Center" Margin="0,0,0,0" Grid.Row="6" VerticalAlignment="Center" Background="#FF3DA5E1" Click="btnSendFeedback_Click"/>

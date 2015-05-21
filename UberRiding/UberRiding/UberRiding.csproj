@@ -325,6 +325,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\Account\personalID.png" />
+    <Content Include="Assets\Account\contacts-icon.png" />
+    <Content Include="Assets\Account\email-icon.png" />
+    <Content Include="Assets\Account\viber-icon.png" />
     <Content Include="Assets\AppBar\ic_home.png" />
     <Content Include="Assets\AppBar\ic_ItiMana.png" />
     <Content Include="Assets\AppBar\ic_map.png" />
