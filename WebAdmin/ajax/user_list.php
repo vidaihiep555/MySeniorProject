@@ -32,7 +32,7 @@ require_once '../include/Config.php';
 							<th>Email</th>
 							<th>Phone</th>
 							<th>Personal ID</th>
-							<th>Level</th>
+							<th>Status</th>
 							<th></th>
 						</tr>
 					</thead>
@@ -43,7 +43,7 @@ require_once '../include/Config.php';
 						$api_key = $_SESSION["staff_api_key"];
 						$ch = curl_init();
 
-						curl_setopt($ch, CURLOPT_URL, REST_HOST."/RESTFulServer/v1/staff/user");
+						curl_setopt($ch, CURLOPT_URL, REST_HOST."/RESTFulServer/v1/staff/customer");
 						curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 						curl_setopt($ch,CURLOPT_HTTPHEADER,array('Authorization: '.$api_key));
 
@@ -66,23 +66,7 @@ require_once '../include/Config.php';
 							<td><?php echo $value->{'email'}==NULL?' ':$value->{'email'} ?></td>
 							<td><?php echo $value->{'phone'}==NULL?' ':$value->{'phone'} ?></td>
 							<td><?php echo $value->{'personalID'}==NULL?' ':$value->{'personalID'} ?></td>
-							<td><?php 
-									$percent = round($value->{'status'}/4*100);
-									if ($percent <= 33) {
-										$color = 'progress-bar-danger';
-									} else if ($percent <= 66) {
-										$color = 'progress-bar-warning';
-									} else {
-										$color = 'progress-bar-success';
-									}
-								?>		
-								<div class="progress">
-									<div class="progress-bar <?php echo $color ?>" role="progressbar" aria-valuenow="<?php echo $percent ?>" 
-											aria-valuemin="0" aria-valuemax="100" style="width: <?php echo $percent ?>%;">
-										<span><?php echo $percent ?>%</span>
-									</div>
-								</div>
-							</td>
+							<td><?php echo $value->{'status'}==NULL?' ':$value->{'status'} ?></td>
 							<td><a href="controller/user.php?user_id=<?php echo $value->{'user_id'} ?>&act=view" 
 									class="btn btn-warning btn-app-sm btn-circle"><i class="fa fa-edit"></i></a>
 								<a href="controller/user.php?user_id=<?php echo $value->{'user_id'} ?>&act=delete" 
