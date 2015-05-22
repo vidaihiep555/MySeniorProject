@@ -181,7 +181,7 @@ namespace UberRiding.Customer
             //Convert json to object
             root = JsonConvert.DeserializeObject<DriverRootObject>(result);
 
-            foreach (Global.Driver i in root.drivers)
+            foreach (Global.Driver i in root.drivers) //chay 1 lan
             {
                 GlobalData.calldriver = i.driver_id.ToString().Trim();
                 Global.GlobalData.driverList.Add(new Driver2

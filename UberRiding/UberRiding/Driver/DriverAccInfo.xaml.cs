@@ -24,12 +24,22 @@ namespace UberRiding.Driver
         {
             InitializeComponent();
 
-            getUserInfo();
+            if (GlobalData.isDriver)
+            {
+                getUserInfo();
+
+                //them button
+            }
+            else
+            {
+                customerGetUserInfo();
+            }
+            
         }
 
-        public async void getUserInfo()
+        public async void customerGetUserInfo()
         {
-            var result = await RequestToServer.sendGetRequest("user");
+            var result = await RequestToServer.sendGetRequest("customergetdriver/"+GlobalData.calldriver);
 
             JObject jsonObject = JObject.Parse(result);
 
@@ -39,7 +49,23 @@ namespace UberRiding.Driver
             txtbPersonalID.Text = jsonObject.Value<string>("personalID");
 
             //set Image
-            imgAvatar.Source = ImageConvert.convertBase64ToImage(jsonObject.Value<string>("customer_avatar").Trim());
+            imgAvatar.Source = ImageConvert.convertBase64ToImage(jsonObject.Value<string>("driver_avatar").Trim());
+            imgPersonalID.Source = ImageConvert.convertBase64ToImage(jsonObject.Value<string>("personalID_img").Trim());
+        }
+
+        public async void getUserInfo()
+        {
+            var result = await RequestToServer.sendGetRequest("driver");
+
+            JObject jsonObject = JObject.Parse(result);
+
+            txtbEmail.Text = jsonObject.Value<string>("email");
+            txtbFullname.Text = jsonObject.Value<string>("fullname");
+            txtbPhone.Text = jsonObject.Value<string>("phone");
+            txtbPersonalID.Text = jsonObject.Value<string>("personalID");
+
+            //set Image
+            imgAvatar.Source = ImageConvert.convertBase64ToImage(jsonObject.Value<string>("driver_avatar").Trim());
             imgPersonalID.Source = ImageConvert.convertBase64ToImage(jsonObject.Value<string>("personalID_img").Trim());
         }
 

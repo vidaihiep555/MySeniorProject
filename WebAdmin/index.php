@@ -119,19 +119,26 @@ if (!isset($_SESSION["staff_api_key"])) {
 							</span>
 						</h5>
 						  	
-					  <li class="mt">
-					      <a class="active" href="index.html">
-					          <i class="fa fa-dashboard"></i>
-					          <span>DashboardAAAAAAAAAA</span>
-					      </a>
-					  </li>
+						<li class="mt">
+							<a class="active" href="index.html">
+							  <i class="fa fa-dashboard"></i>
+							  <span>DashboardAAAAAAAAAA</span>
+							</a>
+						</li>
 
-					  <li class="dropdown">
-						<a href="ajax/staff_list.php" class="ajax-link">
-							<i class="fa fa-bar-chart-o"></i>
-							<span class="hidden-xs">Quản lí nhân viên</span>
-						</a>
-					</li>
+						<li class="dropdown">
+							<a href="ajax/staff_list.php" class="ajax-link">
+								<i class="fa fa-bar-chart-o"></i>
+								<span class="hidden-xs">Staff Management</span>
+							</a>
+						</li>
+
+						<li class="dropdown">
+							<a href="ajax/driver_list.php" class="ajax-link">
+								<i class="fa fa-bar-chart-o"></i>
+								<span class="hidden-xs">Driver Management</span>
+							</a>
+						</li>
 
 					  <li class="sub-menu">
 					      <a href="javascript:;" >
@@ -194,8 +201,8 @@ if (!isset($_SESSION["staff_api_key"])) {
 				  <div id="content" class="col-xs-12 col-sm-10">
 				    <div id="about">
 				      <div class="about-inner">
-				        <h4 class="page-header">RideSharing - System management</h4>
-				        <p>RideSharing team</p>
+				        <h4 class="page-header">UberRiding - System management</h4>
+				        <p>RUberRiding</p>
 				      </div>
 				    </div>
 				    <div class="preloader">
@@ -213,7 +220,7 @@ if (!isset($_SESSION["staff_api_key"])) {
       <!--footer start-->
 			<footer class="site-footer">
 				<div class="text-center">
-				  2014 - Alvarez.is
+				  2015 
 				  <a href="index.html#" class="go-top">
 				      <i class="fa fa-angle-up"></i>
 				  </a>

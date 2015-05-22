@@ -15,7 +15,7 @@
     shell:SystemTray.IsVisible="True">
 
     <!--LayoutRoot is the root grid where all page content is placed-->
-    <Grid x:Name="LayoutRoot" Background="#FF3DA5E1">
+    <Grid x:Name="LayoutRoot" Background="#36D7B7">
         <Grid.RowDefinitions>
             <RowDefinition Height="6*"/>
             <RowDefinition Height="1.5*"/>
@@ -30,7 +30,7 @@
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
             <Image Grid.Row="0" Source="Assets/avatar/ic_logo.png"/>
-            <TextBlock Grid.Row="1" HorizontalAlignment="Center" Text="Ride Sharing- Your Happiness moment" FontWeight="Bold" FontFamily="MV Boli" />
+            <TextBlock Grid.Row="1" HorizontalAlignment="Center" Text="Your Happiness moment" FontWeight="Bold" FontFamily="MV Boli" />
         </Grid>
         <toolkit:PhoneTextBox x:Name="txtbEmail" Hint="Email:" Grid.Row="1" Background="White" Width="Auto" Height="Auto" />
         <toolkit:PhoneTextBox  x:Name="txtbPassword" Hint="PassWord:" Grid.Row="2" Background="White" Width="Auto" />

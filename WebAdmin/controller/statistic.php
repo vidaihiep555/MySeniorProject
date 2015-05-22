@@ -11,7 +11,7 @@ if (isset($_GET['view'])) {
 
 	$ch = curl_init();
 
-	curl_setopt($ch, CURLOPT_URL, REST_HOST."/RESTFul/v1/statistic/user");
+	curl_setopt($ch, CURLOPT_URL, REST_HOST."/RESTFulServer/v1/statistic/user");
 	curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 	curl_setopt($ch, CURLOPT_HTTPHEADER,array('Authorization: '.$api_key));
 

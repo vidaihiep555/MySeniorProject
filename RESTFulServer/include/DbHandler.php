@@ -364,7 +364,7 @@ class DbHandler {
      * @param String $email User login email id
      * @param String $password User login password
      */
-    public function createDriver($driver_license, $driver_license_img) {
+    /*public function createDriver($driver_license, $driver_license_img) {
         // First check if user already existed in db
         
         $sql_query = "INSERT INTO driver(driver_license, driver_license_img) values( ?, ?)";
@@ -389,28 +389,125 @@ class DbHandler {
             return DRIVER_CREATE_FAILED;
         }
         
+    }*/
+
+
+    public function createDriver($email, $password) {
+        require_once 'PassHash.php';
+
+        // First check if user already existed in db
+        if (!$this->isDriverExists($email)) {
+            // Generating password hash
+            $password_hash = PassHash::hash($password);
+
+            // Generating API key
+            $api_key = $this->generateApiKey();
+
+            $sql_query = "INSERT INTO driver(email, password, api_key, status) values(?, ?, ?, ". USER_NOT_ACTIVATE. ")";
+
+            // insert query
+            if ($stmt = $this->conn->prepare($sql_query)) {
+                $stmt->bind_param("sss", $email, $password_hash, $api_key);
+
+                $result = $stmt->execute();
+            } else {
+                var_dump($this->conn->error);
+            }
+
+            $stmt->close();
+
+            // Check for successful insertion
+            if ($result) {
+                // User successfully inserted
+                return DRIVER_CREATED_SUCCESSFULLY;
+            } else {
+                // Failed to create user
+                return DRIVER_CREATE_FAILED;
+            }
+        } else {
+            // User with same email already existed in the db
+            return DRIVER_ALREADY_EXISTED;
+        }
     }
+
+
+    public function isDriverExists($email) {
+        $stmt = $this->conn->prepare("SELECT driver_id from driver WHERE email = ?");
+        $stmt->bind_param("s", $email);
+        $stmt->execute();
+        $stmt->store_result();
+        $num_rows = $stmt->num_rows;
+        $stmt->close();
+        return $num_rows > 0;
+    }
+
 
     /**
      * Fetching user by email
      * @param String $email User email id
      */
     public function getDriverByID($driver_id) {
-        $stmt = $this->conn->prepare("SELECT email, api_key, fullname, phone, personalID, 
-                                        driver_avatar, driver_license, driver_license_img, status,
-                                         busy_status created_at FROM driver WHERE driver_id = ?");
+        $q = "SELECT driver_id, email, api_key, fullname, phone, driver_lat, driver_long, personalID, personalID_img,";
+        $q .= " driver_avatar, driver_license, driver_license_img, status, busy_status, created_at ";
+        $q .= " FROM driver WHERE driver_id = ?";
+        $stmt = $this->conn->prepare($q);
+
         $stmt->bind_param("s", $driver_id);
         if ($stmt->execute()) {
             // $user = $stmt->get_result()->fetch_assoc();
-            $stmt->bind_result($email, $api_key, $fullname, $phone, $personalID,
-                                    $driver_avatar, $driver_license, $driver_license_img,  $status, $busy_status, $created_at);
+            $stmt->bind_result($driver_id, $email, $api_key, $fullname, $phone, $driver_lat, $driver_long, $personalID, $personalID_img,
+                                    $driver_avatar, $driver_license, $driver_license_img, $status, $busy_status, $created_at);
             $stmt->fetch();
             $user = array();
+            $user["driver_id"] = $driver_id;
             $user["email"] = $email;
             $user["api_key"] = $api_key;
             $user["fullname"] = $fullname;
             $user["phone"] = $phone;
+            $user["driver_lat"] = $driver_lat;
+            $user["driver_long"] = $driver_long;
             $user["personalID"] = $personalID;
+            $user["personalID_img"] = $personalID_img;
+            $user["driver_avatar"] = $driver_avatar;
+            $user["driver_license"] = $driver_license;
+            $user["driver_license_img"] = $driver_license_img;
+            $user["status"] = $status;
+            $user["busy_status"] = $busy_status;
+            $user["created_at"] = $created_at;
+            return $user;
+        } else {
+            return NULL;
+        }
+    }
+
+    /**
+     * Fetching user by email
+     * @param String $email User email id
+     */
+    public function getDriverByEmail($email) {
+        $q = "SELECT driver_id, email, api_key, fullname, phone, driver_lat, driver_long, personalID, personalID_img,";
+        $q .= " driver_avatar, driver_license, driver_license_img, status, busy_status, created_at ";
+        $q .= " FROM driver WHERE email = ?";
+        //$stmt = $this->conn->prepare("SELECT driver_id, email, api_key, fullname, phone, personalID, 
+        //                                 driver_avatar, status, busy_status, created_at FROM driver WHERE email = ?");
+
+        $stmt = $this->conn->prepare($q);
+        $stmt->bind_param("s", $email);
+        if ($stmt->execute()) {
+            // $user = $stmt->get_result()->fetch_assoc();
+            $stmt->bind_result($driver_id, $email, $api_key, $fullname, $phone, $driver_lat, $driver_long, $personalID, $personalID_img,
+                                    $driver_avatar, $driver_license, $driver_license_img, $status, $busy_status, $created_at);
+            $stmt->fetch();
+            $user = array();
+            $user["driver_id"] = $driver_id;
+            $user["email"] = $email;
+            $user["api_key"] = $api_key;
+            $user["fullname"] = $fullname;
+            $user["phone"] = $phone;
+            $user["driver_lat"] = $driver_lat;
+            $user["driver_long"] = $driver_long;
+            $user["personalID"] = $personalID;
+            $user["personalID_img"] = $personalID_img;
             $user["driver_avatar"] = $driver_avatar;
             $user["driver_license"] = $driver_license;
             $user["driver_license_img"] = $driver_license_img;
@@ -424,35 +521,19 @@ class DbHandler {
         }
     }
 
-    /**
-     * Fetching user by email
-     * @param String $email User email id
-     */
-    public function getDriverByEmail($email) {
-        $stmt = $this->conn->prepare("SELECT driver_id, email, api_key, fullname, phone, personalID, 
-                                         driver_avatar, status, busy_status, created_at FROM driver WHERE email = ?");
-        $stmt->bind_param("s", $email);
-        if ($stmt->execute()) {
-            // $user = $stmt->get_result()->fetch_assoc();
-            $stmt->bind_result($driver_id, $email, $api_key, $fullname, $phone, $personalID,
-                                    $driver_avatar, $status, $busy_status, $created_at);
-            $stmt->fetch();
-            $user = array();
-            $user["driver_id"] = $driver_id;
-            $user["email"] = $email;
-            $user["api_key"] = $api_key;
-            $user["fullname"] = $fullname;
-            $user["phone"] = $phone;
-            $user["personalID"] = $personalID;
-            $user["driver_avatar"] = $driver_avatar;
-            $user["status"] = $status;
-            $user["busy_status"] = $busy_status;
-            $user["created_at"] = $created_at;
-            $stmt->close();
-            return $user;
-        } else {
-            return NULL;
-        }
+
+    public function getAllDriversTopTen($lat, $long) {
+        //$q = "SELECT * FROM driver ";
+        $q = "SELECT driver_id, email, fullname, phone, driver_lat, driver_long, personalID, personalID_img,";
+        $q .= " driver_avatar, driver_license, driver_license_img, status, busy_status, created_at, (abs(driver_lat - 100) + abs(driver_long - 100)) AS distance";
+        $q .= " FROM driver WHERE busy_status = 1 ORDER BY distance LIMIT 1";
+
+        $stmt = $this->conn->prepare($q);
+        //$stmt->bind_param("dd", $lat, $long);
+        $stmt->execute();
+        $itineraries = $stmt->get_result();
+        $stmt->close();
+        return $itineraries;
     }
 
     /**
@@ -532,21 +613,6 @@ class DbHandler {
         // driver_avatar, driver_license, driver_license_img, status FROM driver ";
 
         $stmt = $this->conn->prepare($q);
-        $stmt->execute();
-        $itineraries = $stmt->get_result();
-        $stmt->close();
-        return $itineraries;
-    }
-
-
-    public function getAllDriversTopTen($lat, $long) {
-        //$q = "SELECT * FROM driver ";
-        $q = "SELECT driver_id, email, fullname, phone, driver_lat, driver_long, personalID, personalID_img,";
-        $q .= " driver_avatar, driver_license, driver_license_img, status, busy_status, created_at, (abs(driver_lat - 100) + abs(driver_long - 100)) AS distance";
-        $q .= " FROM driver WHERE busy_status = 1 ORDER BY distance LIMIT 1";
-
-        $stmt = $this->conn->prepare($q);
-        //$stmt->bind_param("dd", $lat, $long);
         $stmt->execute();
         $itineraries = $stmt->get_result();
         $stmt->close();

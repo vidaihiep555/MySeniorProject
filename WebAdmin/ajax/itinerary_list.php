@@ -44,7 +44,7 @@ require_once '../include/Config.php';
 						$api_key = $_SESSION["staff_api_key"];
 						$ch = curl_init();
 
-						curl_setopt($ch, CURLOPT_URL, REST_HOST."/RESTFul/v1/staff/itineraries");
+						curl_setopt($ch, CURLOPT_URL, REST_HOST."/RESTFulServer/v1/staff/itineraries");
 						curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 						curl_setopt($ch,CURLOPT_HTTPHEADER,array('Authorization: '.$api_key));
 

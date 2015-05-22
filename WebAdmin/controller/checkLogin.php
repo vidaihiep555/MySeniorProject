@@ -17,7 +17,7 @@ if (isset($_POST['email']) && isset($_POST['password'])) {
 	//Initial curl
 	$ch = curl_init();
 
-	curl_setopt($ch, CURLOPT_URL, REST_HOST."/RESTFul/v1/staff/login");
+	curl_setopt($ch, CURLOPT_URL, REST_HOST."/RESTFulServer/v1/staff/login");
 	curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 	curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
 

@@ -2,5 +2,5 @@
 /**
  * Database configuration
  */
-define('REST_HOST', 'localhost');
+define('REST_HOST', 'localhost/MySeniorProject');
 ?>

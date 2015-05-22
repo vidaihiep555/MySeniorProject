@@ -1,17 +1,6 @@
 <?php
 session_start();
 
-// Set language for website
-if(isset($_COOKIE['lang'])) {
-	if ($_COOKIE['lang'] == "vi") {
-		require_once '../include/lang_vi.php';
-	} else {
-		require_once '../include/lang_en.php';
-	}
-} else {
-    setcookie('lang', 'en', time() + (86400 * 365), "/");
-}
-
 //Check if user not login
 if (isset($_SESSION["staff_api_key"])) {
 	header('Location: ../index.php');
@@ -32,7 +21,6 @@ if (isset($_SESSION["staff_api_key"])) {
 		<link href="../plugins/bootstrap/bootstrap.css" rel="stylesheet">
 		<link href="http://netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet">
 		<link href='http://fonts.googleapis.com/css?family=Righteous' rel='stylesheet' type='text/css'>
-		<link href="../css/style_v2.css" rel="stylesheet">
 		<link href="../plugins/toast/resources/css/jquery.toastmessage.css" rel="stylesheet">
 		<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
 		<!--[if lt IE 9]>
@@ -45,10 +33,6 @@ if (isset($_SESSION["staff_api_key"])) {
 	<div id="page-login" class="row">
 		<div class="col-xs-12 col-xs-offset-10">
 			<!-- HeadSectionDl BEGIN -->
-			<div id="languages">
-			<a href="../index.php?lang=en"><img src="../img/en.png" /></a>
-			<a href="../index.php?lang=vi"><img src="../img/vi.png" /></a>
-			</div>
 		</div>
 		<div class="col-xs-12 col-md-4 col-md-offset-4 col-sm-6 col-sm-offset-3">
 			<div class="box">

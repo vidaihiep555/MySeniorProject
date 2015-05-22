@@ -455,7 +455,7 @@ $app->delete('/customer', 'authenticateUser', function() {
  * method - POST
  * params - driver
  */
-$app->post('/driver', function() use ($app) {
+/*$app->post('/driver', function() use ($app) {
             verifyRequiredParams(array('driver_license', 'driver_license_img'));
             $response = array();
 
@@ -475,8 +475,55 @@ $app->post('/driver', function() use ($app) {
             }
             // echo json response
             echoRespnse(201, $response);
-        });
+        });*/
 
+/**
+ * Driver Registration
+ * url - /user
+ * method - POST
+ * params - email, password
+ */
+$app->post('/driver', function() use ($app) {
+            // check for required params
+            verifyRequiredParams(array('email', 'password'));
+
+            $response = array();
+
+            // reading post params
+            $email = $app->request->post('email');
+            $password = $app->request->post('password');
+
+            // validating email address
+            validateEmail($email);
+            // validating password
+            validatePassword($password);
+
+            $db = new DbHandler();
+            $res = $db->createDriver($email, $password);
+
+            if ($res == USER_CREATED_SUCCESSFULLY) {
+                $customer = $db->getCustomerByEmail($email);
+                $activation_code = $customer["api_key"];
+
+                $content_mail = "Hi,<br>
+                                Please click on the link below to active your account:
+                                <a href='http://192.168.10.74/WebApp/controller/register.php?active_key=". $activation_code.
+                                "'>Acctive account</a>";
+
+                sendMail($email, $content_mail);
+
+                $response["error"] = false;
+                $response["message"] = "Register success. Please activate your account via email!";
+            } else if ($res == USER_ALREADY_EXISTED) {
+                $response["error"] = true;
+                $response["message"] = "Sorry! Your email registration is existing.";
+            } else if ($res == USER_CREATE_FAILED) {
+                $response["error"] = true;
+                $response["message"] = "Sorry! There are some errors.";
+            }
+            // echo json response
+            echoRespnse(201, $response);
+        });
 /**
  * Get driver information
  * method GET
@@ -488,12 +535,67 @@ $app->get('/driver', 'authenticateDriver', function() {
             $db = new DbHandler();
 
             // fetch task
-            $result = $db->getDriverByID($user_id);
+            $driver = $db->getDriverByID($user_id);
 
-            if ($result != NULL) {
+            if ($driver != NULL) {
                 $response["error"] = false;
-                $response['driver_license'] = $result['driver_license'];
-                $response['driver_license_img'] = $result['driver_license_img'];
+                $response["driver_id"] = $driver["driver_id"];
+                $response['email'] = $driver['email'];
+                $response['fullname'] = $driver['fullname'];
+                $response['phone'] = $driver['phone'];
+                $response['driver_lat'] = $driver['driver_lat'];
+                $response['driver_long'] = $driver['driver_long'];
+                $response['created_at'] = $driver['created_at'];
+                $response['status'] = $driver['status'];
+                $response['busy_status'] = $driver['busy_status'];
+                $response['personalID'] = $driver['personalID'];
+                $response['personalID_img'] = $driver['personalID_img'];
+                $response["driver_avatar"] = $driver["driver_avatar"];
+                $response['driver_license'] = $driver['driver_license'];
+                $response['driver_license_img'] = $driver['driver_license_img'];
+                //rating
+                $driver_id = $response["driver_id"];
+                $response["average_rating"] = $db->getAverageRatingofDriver($driver_id);
+                //$response['driver_license'] = $result['driver_license'];
+                //$response['driver_license_img'] = $result['driver_license_img'];
+                echoRespnse(200, $response);
+            } else {
+                $response["error"] = true;
+                $response["message"] = "The link you request is not existing!.";
+                echoRespnse(404, $response);
+            }
+        });
+
+
+$app->get('/customergetdriver/:driver_id', 'authenticateDriver', function($driver_id) {
+            //global $user_id;
+            $response = array();
+            $db = new DbHandler();
+
+            // fetch task
+            $driver = $db->getDriverByID($driver_id);
+
+            if ($driver != NULL) {
+                $response["error"] = false;
+                $response["driver_id"] = $driver["driver_id"];
+                $response['email'] = $driver['email'];
+                $response['fullname'] = $driver['fullname'];
+                $response['phone'] = $driver['phone'];
+                $response['driver_lat'] = $driver['driver_lat'];
+                $response['driver_long'] = $driver['driver_long'];
+                $response['created_at'] = $driver['created_at'];
+                $response['status'] = $driver['status'];
+                $response['busy_status'] = $driver['busy_status'];
+                $response['personalID'] = $driver['personalID'];
+                $response['personalID_img'] = $driver['personalID_img'];
+                $response["driver_avatar"] = $driver["driver_avatar"];
+                $response['driver_license'] = $driver['driver_license'];
+                $response['driver_license_img'] = $driver['driver_license_img'];
+                //rating
+                //$driver_id = $response["driver_id"];
+                $response["average_rating"] = $db->getAverageRatingofDriver($driver_id);
+                //$response['driver_license'] = $result['driver_license'];
+                //$response['driver_license_img'] = $result['driver_license_img'];
                 echoRespnse(200, $response);
             } else {
                 $response["error"] = true;

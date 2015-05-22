@@ -15,7 +15,7 @@ if ((isset($_GET['act']) && isset($_GET['staff_id'])) || (isset($_POST['act']) &
 
 		$ch = curl_init();
 
-		curl_setopt($ch, CURLOPT_URL, REST_HOST."/RESTFul/v1/staffs/".$staff_id);
+		curl_setopt($ch, CURLOPT_URL, REST_HOST."/RESTFulServer/v1/staffs/".$staff_id);
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 		curl_setopt($ch, CURLOPT_HTTPHEADER,array('Authorization: '.$api_key));
 
@@ -45,7 +45,7 @@ if ((isset($_GET['act']) && isset($_GET['staff_id'])) || (isset($_POST['act']) &
 
 		$ch = curl_init();
 
-		curl_setopt($ch, CURLOPT_URL, REST_HOST."/RESTFul/v1/staffs/".$staff_id);
+		curl_setopt($ch, CURLOPT_URL, REST_HOST."/RESTFulServer/v1/staffs/".$staff_id);
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 		curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "PUT");
 		curl_setopt($ch,CURLOPT_HTTPHEADER, array('Authorization: '.$_SESSION['staff_api_key']));
@@ -71,7 +71,7 @@ if ((isset($_GET['act']) && isset($_GET['staff_id'])) || (isset($_POST['act']) &
 		//Initial curl
 		$ch = curl_init();
 
-		curl_setopt($ch, CURLOPT_URL, REST_HOST."/RESTFul/v1/staffs/".$staff_id);
+		curl_setopt($ch, CURLOPT_URL, REST_HOST."/RESTFulServer/v1/staffs/".$staff_id);
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 		curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "DELETE");
 		curl_setopt($ch,CURLOPT_HTTPHEADER,array('Authorization: '.$_SESSION['staff_api_key']));
@@ -97,7 +97,7 @@ if ((isset($_GET['act']) && isset($_GET['staff_id'])) || (isset($_POST['act']) &
 			//Initial curl
 			$ch = curl_init();
 
-			curl_setopt($ch, CURLOPT_URL, REST_HOST."/RESTFul/v1/staffs/".$staff_id);
+			curl_setopt($ch, CURLOPT_URL, REST_HOST."/RESTFulServer/v1/staffs/".$staff_id);
 			curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 			curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "DELETE");
 			curl_setopt($ch,CURLOPT_HTTPHEADER,array('Authorization: '.$_SESSION['staff_api_key']));
@@ -147,7 +147,7 @@ if ((isset($_GET['act']) && isset($_GET['staff_id'])) || (isset($_POST['act']) &
 
 	$ch = curl_init();
 
-	curl_setopt($ch, CURLOPT_URL, REST_HOST."/RESTFul/v1/staff");
+	curl_setopt($ch, CURLOPT_URL, REST_HOST."/RESTFulServer/v1/staff");
 	curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 	curl_setopt($ch, CURLOPT_POST, 1);
 	curl_setopt($ch,CURLOPT_HTTPHEADER, array('Authorization: '.$_SESSION['staff_api_key']));

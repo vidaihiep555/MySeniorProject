@@ -16,6 +16,8 @@ using System.Windows.Input;
 using Microsoft.Phone.Maps.Services;
 using Microsoft.Phone.Maps.Controls;
 using Windows.Devices.Geolocation;
+using Microsoft.AspNet.SignalR.Client;
+using System.Net.Http;
 
 namespace UberRiding.Customer
 {
@@ -23,6 +25,13 @@ namespace UberRiding.Customer
     {
         MapOverlay startPointOverlay = new MapOverlay();
         MapOverlay endPointOverlay = new MapOverlay();
+
+
+
+        //marker for tracking
+        MapOverlay driverOverlay = new MapOverlay();
+
+
         MapLayer mapLayer = new MapLayer();
         //Geocoordinate myGeocoordinate = null;
         //GeoCoordinate myGeoCoordinate = null;
@@ -32,11 +41,54 @@ namespace UberRiding.Customer
         List<GeoCoordinate> wayPoints = new List<GeoCoordinate>();
 
         //string nameOfTxtbox = "Start";
+        Geocoordinate myGeocoordinate = null;
+        GeoCoordinate myGeoCoordinate = null;
+
+
+        Geolocator myLocator = null;
+        private IHubProxy HubProxy { get; set; }
+        const string ServerURI = "http://52.11.206.209:8080/signalr";
+        //const string ServerURI = "http://localhost:8080/signalr";
+        private HubConnection con { get; set; }
+
+
+
         public CustomerItineraryDetails()
         {
             InitializeComponent();
-            
-            
+
+            //itinerary co end point thi ve route, ko co thi cho them chuc nang update realtime
+            if (GlobalData.selectedItinerary.end_address.Equals("none"))
+            {
+
+            }
+            else
+            {
+                //draw 2 points on map
+                startPointOverlay = MarkerDraw.DrawCurrentMapMarker(new GeoCoordinate(GlobalData.selectedItinerary.start_address_lat, GlobalData.selectedItinerary.start_address_long));
+                wayPoints.Add(new GeoCoordinate(GlobalData.selectedItinerary.start_address_lat, GlobalData.selectedItinerary.start_address_long));
+                mapLayer.Add(startPointOverlay);
+
+                endPointOverlay = MarkerDraw.DrawCurrentMapMarker(new GeoCoordinate(GlobalData.selectedItinerary.end_address_lat, GlobalData.selectedItinerary.end_address_long));
+                wayPoints.Add(new GeoCoordinate(GlobalData.selectedItinerary.end_address_lat, GlobalData.selectedItinerary.end_address_long));
+                mapLayer.Add(endPointOverlay);
+
+                //set zoom and center point
+                mapItineraryDetails.ZoomLevel = 14;
+                mapItineraryDetails.Center = startPointOverlay.GeoCoordinate;
+
+                mapItineraryDetails.Layers.Add(mapLayer);
+
+                //draw route
+                routeQuery = new RouteQuery();
+                //GeocodeQuery Mygeocodequery = null;
+                routeQuery.QueryCompleted += routeQuery_QueryCompleted;
+                routeQuery.TravelMode = TravelMode.Driving;
+                routeQuery.RouteOptimization = RouteOptimization.MinimizeDistance;
+                routeQuery.Waypoints = wayPoints;
+                routeQuery.QueryAsync();
+            }        
+
             //show status
             //hanh trinh moi dc khoi tao
             if (GlobalData.selectedItinerary.status.Equals(Global.GlobalData.ITINERARY_STATUS_CREATED))
@@ -63,23 +115,8 @@ namespace UberRiding.Customer
             else if (GlobalData.selectedItinerary.status.Equals(Global.GlobalData.ITINERARY_STATUS_ACCEPTED))
             {
                 txtItineraryInfo.Text = "Itinerary Accepted";
-                /*//tao button accept va button huy customer accept
-                //create button accept hanh trinh
-                Button btnAccept = new Button();
-                btnAccept.Content = "Chấp Nhận";
-                btnAccept.Click += btnAccept_Click;
-                gridInfo.Children.Add(btnAccept);
-                Grid.SetRow(btnAccept, 5);
 
-                //create button reject hanh trinh
-                Button btnReject = new Button();
-                btnReject.Content = "Từ Chối";
-                btnReject.Click += btnReject_Click;
-                gridInfo.Children.Add(btnReject);
-                Grid.SetRow(btnReject, 6);*/
-
-
-                //tracking
+                //tracking  ==> tuong tu nhu call driver
                 Button btnTracking = new Button();
                 btnTracking.Content = "Tracking";
                 btnTracking.Click += btnTracking_Click;
@@ -97,36 +134,42 @@ namespace UberRiding.Customer
                 gridInfo.Children.Add(btnTracking);
                 Grid.SetRow(btnTracking, 5);
 
+
+                Button btnDriverInfo = new Button();
+                btnDriverInfo.Content = "Driver Info";
+                btnDriverInfo.Click += btnDriverInfo_Click;
+                gridInfo.Children.Add(btnDriverInfo);
+                Grid.SetRow(btnDriverInfo, 5);
+
+                Button btnFinshItinerary = new Button();
+                btnFinshItinerary.Content = "Finish Itinerary";
+                btnFinshItinerary.Click += btnFinshItinerary_Click;
+                gridInfo.Children.Add(btnFinshItinerary);
+                Grid.SetRow(btnFinshItinerary, 5);
+
+
+                ConnectAsync();
+
+                myLocator = new Geolocator();
+                myLocator.DesiredAccuracy = PositionAccuracy.High;
+                myLocator.MovementThreshold = 5;
+                myLocator.ReportInterval = 500;
+                myLocator.PositionChanged += myGeoLocator_PositionChanged;
+
+
+
+
+
             }
             //hanh trinh da ket thuc
             else if (GlobalData.selectedItinerary.status.Equals(Global.GlobalData.ITINERARY_STATUS_FINISHED))
             {
                 txtItineraryInfo.Text = "Itinerary Finished";
+
+                //tao nut ket thuc
             }
 
-            //draw 2 points on map
-            startPointOverlay = MarkerDraw.DrawCurrentMapMarker(new GeoCoordinate(GlobalData.selectedItinerary.start_address_lat, GlobalData.selectedItinerary.start_address_long));
-            wayPoints.Add(new GeoCoordinate(GlobalData.selectedItinerary.start_address_lat, GlobalData.selectedItinerary.start_address_long));
-            mapLayer.Add(startPointOverlay);
-
-            endPointOverlay = MarkerDraw.DrawCurrentMapMarker(new GeoCoordinate(GlobalData.selectedItinerary.end_address_lat, GlobalData.selectedItinerary.end_address_long));
-            wayPoints.Add(new GeoCoordinate(GlobalData.selectedItinerary.end_address_lat, GlobalData.selectedItinerary.end_address_long));
-            mapLayer.Add(endPointOverlay);
-
-            //set zoom and center point
-            mapItineraryDetails.ZoomLevel = 14;
-            mapItineraryDetails.Center = startPointOverlay.GeoCoordinate;
-
-            mapItineraryDetails.Layers.Add(mapLayer);
-
-            //draw route
-            routeQuery = new RouteQuery();
-            //GeocodeQuery Mygeocodequery = null;
-            routeQuery.QueryCompleted += routeQuery_QueryCompleted;
-            routeQuery.TravelMode = TravelMode.Driving;
-            routeQuery.RouteOptimization = RouteOptimization.MinimizeDistance;
-            routeQuery.Waypoints = wayPoints;
-            routeQuery.QueryAsync();
+            
 
             //set text 2 points
             txtboxStart.Text = GlobalData.selectedItinerary.start_address;
@@ -145,11 +188,96 @@ namespace UberRiding.Customer
 
             datePicker.Value = datetime;
             timePicker.Value = datetime;
-
-            //datePicker.Value = GlobalData.selectedItinerary.da
         }
 
-        
+        private async void ConnectAsync()
+        {
+            con = new HubConnection(ServerURI);
+            con.Closed += Connection_Closed;
+            con.Error += Connection_Error;
+            HubProxy = con.CreateHubProxy("MyHub");
+            //Handle incoming event from server: use Invoke to write to console from SignalR's thread
+            HubProxy.On<string, string>("getPos2", (driver_id, message) =>
+                Dispatcher.BeginInvoke(() => test(message))
+            );
+            try
+            {
+                await con.Start();
+            }
+            catch (HttpRequestException)
+            {
+                //No connection: Don't enable Send button or show chat UI
+                //btntrack.Content = "eror";
+            }
+            catch (HttpClientException)
+            {
+                //btntrack.Content = "eror";
+            }
+
+            Dispatcher.BeginInvoke(() =>
+            {
+                string id = "C" + Global.GlobalData.user_id;
+                HubProxy.Invoke("Connect", id);
+            });
+        }
+
+        private void test(string message)
+        {
+            string[] latlng = message.Split(",".ToCharArray());
+            double lat = Double.Parse(latlng[0]);
+            double lng = Double.Parse(latlng[1]);
+
+            if (driverOverlay != null)
+            {
+                mapLayer.Remove(driverOverlay);
+            }
+            driverOverlay = Global.MarkerDraw.DrawDriverMarker(new GeoCoordinate(lat, lng), new Driver2());
+            mapLayer.Add(driverOverlay);
+            //addMarkertoMap(new GeoCoordinate(lat, lng));
+            //txtFireBase.Text = message;
+        }
+
+        private void Connection_Error(Exception obj)
+        {
+            //txtFireBase.Text = "error";
+        }
+
+        /// <summary>
+        /// If the server is stopped, the connection will time out after 30 seconds (default), and the 
+        /// Closed event will fire.
+        /// </summary>
+        private void Connection_Closed()
+        {
+            //Deactivate chat UI; show login UI. 
+        }
+
+        private void myGeoLocator_PositionChanged(Geolocator sender, PositionChangedEventArgs args1)
+        {
+            Dispatcher.BeginInvoke(() =>
+            {
+                string driver_id = "D" + GlobalData.calldriver;
+
+                //message = customer_id, itinerary_id, 
+                string message = "C" + GlobalData.user_id + "," + GlobalData.selectedItinerary.itinerary_id + "," + args1.Position.Coordinate.Latitude.ToString() + "," + args1.Position.Coordinate.Longitude.ToString();
+
+                HubProxy.Invoke("SendPos2", driver_id, message);
+            });
+        }
+
+        void btnFinshItinerary_Click(object sender, RoutedEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        void btnDriverInfo_Click(object sender, RoutedEventArgs e)
+        {
+            //get selected driver id variable calldriver
+
+
+
+
+            NavigationService.Navigate(new Uri("Driver/DriverAccInfo.xaml", UriKind.RelativeOrAbsolute));
+        }      
 
         void routeQuery_QueryCompleted(object sender, QueryCompletedEventArgs<Route> e)
         {
@@ -164,30 +292,6 @@ namespace UberRiding.Customer
                 routeQuery.Dispose();
             }
         }
-
-        /*void geoQ_QueryCompleted(object sender, QueryCompletedEventArgs<IList<MapLocation>> e)
-        {
-            if (e.Result.Count() > 0)
-            {
-                string showString = e.Result[0].Information.Name;
-                showString = showString + "";
-                showString = showString + "" + e.Result[0].Information.Address.HouseNumber + " " + e.Result[0].Information.Address.Street;
-                showString = showString + "" + e.Result[0].Information.Address.PostalCode + " " + e.Result[0].Information.Address.City;
-                showString = showString + "" + e.Result[0].Information.Address.Country + " " + e.Result[0].Information.Address.CountryCode;
-                //MessageBox.Show(showString);
-                if (nameOfTxtbox.Equals("Start"))
-                {
-                    txtboxStart.Text = showString;
-                    nameOfTxtbox = "End";
-                }
-                else
-                {
-                    txtboxEnd.Text = showString;
-                }
-
-            }
-            mapItineraryDetails.IsEnabled = true;
-        }*/
 
         /*public async void txtboxEnd_KeyDown(object sender, KeyEventArgs e)
         {
@@ -251,7 +355,7 @@ namespace UberRiding.Customer
             }
         }*/
 
-        private async void btnReject_Click(object sender, RoutedEventArgs e)
+        /*private async void btnReject_Click(object sender, RoutedEventArgs e)
         {
             Dictionary<string, string> postData = new Dictionary<string, string>();
             HttpFormUrlEncodedContent content =
@@ -261,8 +365,7 @@ namespace UberRiding.Customer
             MessageBox.Show(jsonObject.Value<string>("message"));
             //do something
 
-
-        }
+        }*/
 
         private async void btnDelete_Click(object sender, RoutedEventArgs e)
         {
@@ -271,7 +374,7 @@ namespace UberRiding.Customer
             JObject jsonObject = JObject.Parse(result);
             MessageBox.Show(jsonObject.Value<string>("message"));
             NavigationService.RemoveBackEntry();
-            NavigationService.Navigate(new Uri("/Driver/ItineraryManagement.xaml", UriKind.RelativeOrAbsolute));
+            NavigationService.Navigate(new Uri("/Customer/CustomerItineraryManagement.xaml", UriKind.RelativeOrAbsolute));
         }
 
         private async void btnUpdate_Click(object sender, RoutedEventArgs e)
@@ -317,7 +420,7 @@ namespace UberRiding.Customer
 
         void btnTracking_Click(object sender, RoutedEventArgs e)
         {
-            throw new NotImplementedException();
+            //NavigationService.Navigate(new Uri("/RefreshPage.xaml", UriKind.RelativeOrAbsolute));
         }
 
         private void mapItineraryDetails_Tap(object sender, System.Windows.Input.GestureEventArgs e)
