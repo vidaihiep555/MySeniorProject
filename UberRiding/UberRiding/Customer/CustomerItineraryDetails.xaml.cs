@@ -60,7 +60,9 @@ namespace UberRiding.Customer
             //itinerary co end point thi ve route, ko co thi cho them chuc nang update realtime
             if (GlobalData.selectedItinerary.end_address.Equals("none"))
             {
-
+                startPointOverlay = MarkerDraw.DrawCurrentMapMarker(new GeoCoordinate(GlobalData.selectedItinerary.start_address_lat, GlobalData.selectedItinerary.start_address_long));
+                wayPoints.Add(new GeoCoordinate(GlobalData.selectedItinerary.start_address_lat, GlobalData.selectedItinerary.start_address_long));
+                mapLayer.Add(startPointOverlay);
             }
             else
             {
@@ -73,11 +75,7 @@ namespace UberRiding.Customer
                 wayPoints.Add(new GeoCoordinate(GlobalData.selectedItinerary.end_address_lat, GlobalData.selectedItinerary.end_address_long));
                 mapLayer.Add(endPointOverlay);
 
-                //set zoom and center point
-                mapItineraryDetails.ZoomLevel = 14;
-                mapItineraryDetails.Center = startPointOverlay.GeoCoordinate;
-
-                mapItineraryDetails.Layers.Add(mapLayer);
+                
 
                 //draw route
                 routeQuery = new RouteQuery();
@@ -87,7 +85,13 @@ namespace UberRiding.Customer
                 routeQuery.RouteOptimization = RouteOptimization.MinimizeDistance;
                 routeQuery.Waypoints = wayPoints;
                 routeQuery.QueryAsync();
-            }        
+            }
+
+            //set zoom and center point
+            mapItineraryDetails.ZoomLevel = 14;
+            mapItineraryDetails.Center = startPointOverlay.GeoCoordinate;
+
+            mapItineraryDetails.Layers.Add(mapLayer);
 
             //show status
             //hanh trinh moi dc khoi tao
@@ -197,8 +201,8 @@ namespace UberRiding.Customer
             con.Error += Connection_Error;
             HubProxy = con.CreateHubProxy("MyHub");
             //Handle incoming event from server: use Invoke to write to console from SignalR's thread
-            HubProxy.On<string, string>("getPos2", (driver_id, message) =>
-                Dispatcher.BeginInvoke(() => test(message))
+            HubProxy.On<string, string>("getTracking", (driver_id, message) =>
+                Dispatcher.BeginInvoke(() => track(message))
             );
             try
             {
@@ -221,7 +225,7 @@ namespace UberRiding.Customer
             });
         }
 
-        private void test(string message)
+        private void track(string message)
         {
             string[] latlng = message.Split(",".ToCharArray());
             double lat = Double.Parse(latlng[2]);
@@ -260,7 +264,7 @@ namespace UberRiding.Customer
                 //message = customer_id, itinerary_id, 
                 string message = "C" + GlobalData.user_id + "," + GlobalData.selectedItinerary.itinerary_id + "," + args1.Position.Coordinate.Latitude.ToString() + "," + args1.Position.Coordinate.Longitude.ToString();
 
-                HubProxy.Invoke("SendPos2", driver_id, message);
+                HubProxy.Invoke("SendTracking", driver_id, message);
             });
         }
 

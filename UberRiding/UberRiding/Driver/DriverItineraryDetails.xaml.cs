@@ -52,6 +52,10 @@ namespace UberRiding.Driver
                 wayPoints.Add(new GeoCoordinate(GlobalData.selectedItinerary.end_address_lat, GlobalData.selectedItinerary.end_address_long));
                 mapLayer.Add(endPointOverlay);
 
+
+                
+
+
                 //draw route
                 routeQuery = new RouteQuery();
                 //GeocodeQuery Mygeocodequery = null;
@@ -63,8 +67,16 @@ namespace UberRiding.Driver
             }
             else
             {
-
+                startPointOverlay = MarkerDraw.DrawCurrentMapMarker(new GeoCoordinate(GlobalData.selectedItinerary.start_address_lat, GlobalData.selectedItinerary.start_address_long));
+                wayPoints.Add(new GeoCoordinate(GlobalData.selectedItinerary.start_address_lat, GlobalData.selectedItinerary.start_address_long));
+                mapLayer.Add(startPointOverlay);
             }
+
+            //set zoom and center point
+            mapItineraryDetails.ZoomLevel = 14;
+            mapItineraryDetails.Center = startPointOverlay.GeoCoordinate;
+
+            mapItineraryDetails.Layers.Add(mapLayer);
             //show status
             //hanh trinh moi dc khoi tao
             //...............
@@ -124,11 +136,7 @@ namespace UberRiding.Driver
             
             
 
-            //set zoom and center point
-            mapItineraryDetails.ZoomLevel = 14;
-            mapItineraryDetails.Center = startPointOverlay.GeoCoordinate;
-
-            mapItineraryDetails.Layers.Add(mapLayer);         
+                     
 
             //set text 2 points
             txtboxStart.Text = GlobalData.selectedItinerary.start_address;
@@ -158,8 +166,8 @@ namespace UberRiding.Driver
             con.Error += Connection_Error;
             HubProxy = con.CreateHubProxy("MyHub");
             //Handle incoming event from server: use Invoke to write to console from SignalR's thread
-            HubProxy.On<string, string>("getPos2", (driver_id, message) =>
-                Dispatcher.BeginInvoke(() => test(message))
+            HubProxy.On<string, string>("getTracking", (driver_id, message) =>
+                Dispatcher.BeginInvoke(() => track(message))
             );
             try
             {
@@ -182,7 +190,7 @@ namespace UberRiding.Driver
             });
         }
 
-        private void test(string message)
+        private void track(string message)
         {
             string[] latlng = message.Split(",".ToCharArray());
             //double lat = Double.Parse(latlng[0]);
@@ -218,7 +226,7 @@ namespace UberRiding.Driver
                 //message = customer_id, itinerary_id, 
                 string message = "C" + GlobalData.user_id + "," + GlobalData.selectedItinerary.itinerary_id + "," + args1.Position.Coordinate.Latitude.ToString() + "," + args1.Position.Coordinate.Longitude.ToString();
 
-                HubProxy.Invoke("SendPos2", driver_id, message);
+                HubProxy.Invoke("SendTracking", driver_id, message);
             });
         }
 
