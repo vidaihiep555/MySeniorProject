@@ -40,6 +40,31 @@ namespace UberRiding.Driver
         {
             InitializeComponent();
 
+
+            if (!GlobalData.selectedItinerary.end_address.Equals("none"))
+            {
+                //draw 2 points on map
+                startPointOverlay = MarkerDraw.DrawCurrentMapMarker(new GeoCoordinate(GlobalData.selectedItinerary.start_address_lat, GlobalData.selectedItinerary.start_address_long));
+                wayPoints.Add(new GeoCoordinate(GlobalData.selectedItinerary.start_address_lat, GlobalData.selectedItinerary.start_address_long));
+                mapLayer.Add(startPointOverlay);
+
+                endPointOverlay = MarkerDraw.DrawCurrentMapMarker(new GeoCoordinate(GlobalData.selectedItinerary.end_address_lat, GlobalData.selectedItinerary.end_address_long));
+                wayPoints.Add(new GeoCoordinate(GlobalData.selectedItinerary.end_address_lat, GlobalData.selectedItinerary.end_address_long));
+                mapLayer.Add(endPointOverlay);
+
+                //draw route
+                routeQuery = new RouteQuery();
+                //GeocodeQuery Mygeocodequery = null;
+                routeQuery.QueryCompleted += routeQuery_QueryCompleted;
+                routeQuery.TravelMode = TravelMode.Driving;
+                routeQuery.RouteOptimization = RouteOptimization.MinimizeDistance;
+                routeQuery.Waypoints = wayPoints;
+                routeQuery.QueryAsync();
+            }
+            else
+            {
+
+            }
             //show status
             //hanh trinh moi dc khoi tao
             //...............
@@ -96,30 +121,7 @@ namespace UberRiding.Driver
                 txtItineraryInfo.Text = "Itinerary Finished";
             }
 
-            if (!GlobalData.selectedItinerary.end_address.Equals("none"))
-            {
-                //draw 2 points on map
-                startPointOverlay = MarkerDraw.DrawCurrentMapMarker(new GeoCoordinate(GlobalData.selectedItinerary.start_address_lat, GlobalData.selectedItinerary.start_address_long));
-                wayPoints.Add(new GeoCoordinate(GlobalData.selectedItinerary.start_address_lat, GlobalData.selectedItinerary.start_address_long));
-                mapLayer.Add(startPointOverlay);
-
-                endPointOverlay = MarkerDraw.DrawCurrentMapMarker(new GeoCoordinate(GlobalData.selectedItinerary.end_address_lat, GlobalData.selectedItinerary.end_address_long));
-                wayPoints.Add(new GeoCoordinate(GlobalData.selectedItinerary.end_address_lat, GlobalData.selectedItinerary.end_address_long));
-                mapLayer.Add(endPointOverlay);
-
-                //draw route
-                routeQuery = new RouteQuery();
-                //GeocodeQuery Mygeocodequery = null;
-                routeQuery.QueryCompleted += routeQuery_QueryCompleted;
-                routeQuery.TravelMode = TravelMode.Driving;
-                routeQuery.RouteOptimization = RouteOptimization.MinimizeDistance;
-                routeQuery.Waypoints = wayPoints;
-                routeQuery.QueryAsync();
-            }
-            else
-            {
-                
-            }
+            
             
 
             //set zoom and center point

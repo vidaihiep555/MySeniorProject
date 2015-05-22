@@ -224,8 +224,8 @@ namespace UberRiding.Customer
         private void test(string message)
         {
             string[] latlng = message.Split(",".ToCharArray());
-            double lat = Double.Parse(latlng[0]);
-            double lng = Double.Parse(latlng[1]);
+            double lat = Double.Parse(latlng[2]);
+            double lng = Double.Parse(latlng[3]);
 
             if (driverOverlay != null)
             {

@@ -77,7 +77,7 @@ namespace UberRiding.Driver
                 HttpFormUrlEncodedContent updateDataContent = new HttpFormUrlEncodedContent(updateData);
                 var update = await RequestToServer.sendPutRequest("driverbusy", updateDataContent);
 
-                var result = await RequestToServer.sendGetRequest("itinerary/" + x[2]);
+                var result = await RequestToServer.sendGetRequest("itinerary/" + x[1]);
 
                 //set selected itinerary
                 RootObject root = JsonConvert.DeserializeObject<RootObject>(result);
