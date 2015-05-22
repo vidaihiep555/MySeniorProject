@@ -1801,17 +1801,18 @@ $app->get('/staff/customer', 'authenticateStaff', function() {
             $db = new DbHandler();
 
             $response['error'] = false;
-            $response['users'] = array();
+            $response['customers'] = array();
 
             // fetch task
             $result = $db->getListCustomer();
 
             while ($user = $result->fetch_assoc()) {
-                array_push($response['users'], $user);               
+                array_push($response['customers'], $user);               
             }
 
             echoRespnse(200, $response);
         });
+        
 
 /**
  * Get user information
@@ -1827,16 +1828,83 @@ $app->get('/staff/customer/:customer_id', 'authenticateStaff', function($custome
             $result = $db->getCustomerByID($customer_id);
 
             if ($result != NULL) {
-                $response["error"] = false;
+               $response['error'] = false;
                 $response['email'] = $result['email'];
                 $response['apiKey'] = $result['api_key'];
                 $response['fullname'] = $result['fullname'];
                 $response['phone'] = $result['phone'];
                 $response['personalID'] = $result['personalID'];
-                $response['personalID_img'] = $result['personalID_img'];
-                $response['link_avatar'] = $result['link_avatar'];
+                $response['customer_avatar'] = $result['customer_avatar'];
                 $response['created_at'] = $result['created_at'];
                 $response['status'] = $result['status'];
+                echoRespnse(200, $response);
+            } else {
+                $response["error"] = true;
+                $response["message"] = "The requested resource doesn't exists";
+                echoRespnse(404, $response);
+            }
+        });
+           
+        
+/**
+ * Get all driver information
+ * method GET
+ * url /user
+ */
+$app->get('/staff/driver', 'authenticateStaff', function() {
+
+            $response = array();
+            $db = new DbHandler();
+
+            $response['error'] = false;
+            $response['drivers'] = array();
+
+            // fetch task
+            $result = $db->getListDriver();
+
+            while ($user = $result->fetch_assoc()) {
+                array_push($response['drivers'], $user);               
+            }
+
+            echoRespnse(200, $response);
+        });
+
+
+/**
+ * Get user information
+ * method GET
+ * url /staff/user
+ */
+$app->get('/staff/driver/:driver_id', 'authenticateStaff', function($driver_id) {
+
+            $response = array();
+            $db = new DbHandler();
+
+            // fetch task
+            $driver = $db->getDriverByID($driver_id);
+
+            if ($result != NULL) {
+                $response["error"] = false;
+                $response["driver_id"] = $driver["driver_id"];
+                $response['email'] = $driver['email'];
+                $response['fullname'] = $driver['fullname'];
+                $response['phone'] = $driver['phone'];
+                $response['driver_lat'] = $driver['driver_lat'];
+                $response['driver_long'] = $driver['driver_long'];
+                $response['created_at'] = $driver['created_at'];
+                $response['status'] = $driver['status'];
+                $response['busy_status'] = $driver['busy_status'];
+                $response['personalID'] = $driver['personalID'];
+                $response['personalID_img'] = $driver['personalID_img'];
+                $response["driver_avatar"] = $driver["driver_avatar"];
+                $response['driver_license'] = $driver['driver_license'];
+                $response['driver_license_img'] = $driver['driver_license_img'];
+                //rating
+                $driver_id = $response["driver_id"];
+                $response["average_rating"] = $db->getAverageRatingofDriver($driver_id);
+                //$response['driver_license'] = $result['driver_license'];
+                //$response['driver_license_img'] = $result['driver_license_img'];
+                echoRespnse(200, $response);
                 echoRespnse(200, $response);
             } else {
                 $response["error"] = true;
@@ -1890,7 +1958,7 @@ $app->get('/staff/itineraries', 'authenticateStaff', function() {
         });
 
 
-$app->get('/staff/itinerary/:id', function($itinerary_id) {
+$app->get('/staff/itinerary/:id', 'authenticateStaff', function($itinerary_id) {
 
             $response = array();
             $db = new DbHandler();
@@ -1900,25 +1968,20 @@ $app->get('/staff/itinerary/:id', function($itinerary_id) {
 
             if ($result != NULL) {
                 $response["error"] = false;
+                
                 $response["itinerary_id"] = $result["itinerary_id"];
                 $response["driver_id"] = $result["driver_id"];
                 $response["customer_id"] = $result["customer_id"];
                 $response["start_address"] = $result["start_address"];
                 $response["start_address_lat"] = $result["start_address_lat"];
                 $response["start_address_long"] = $result["start_address_long"];
-                $response["pick_up_address"] = $result["pick_up_address"];
-                $response["pick_up_address_lat"] = $result["pick_up_address_lat"];
-                $response["pick_up_address_long"] = $result["pick_up_address_long"];
-                $response["drop_address"] = $result["drop_address"];
-                $response["drop_address_lat"] = $result["drop_address_lat"];
-                $response["drop_address_long"] = $result["drop_address_long"];
                 $response["end_address"] = $result["end_address"];
                 $response["end_address_lat"] = $result["end_address_lat"];
                 $response["end_address_long"] = $result["end_address_long"];
-                $response["leave_date"] = $result["leave_date"];
-                $response["duration"] = $result["duration"];
+                $response["time_start"] = $result["time_start"];
+                //$tmp["duration"] = $result["duration"];
                 $response["distance"] = $result["distance"];
-                $response["cost"] = $result["cost"];
+                //$tmp["cost"] = $result["cost"];
                 $response["description"] = $result["description"];
                 $response["status"] = $result["status"];
                 $response["created_at"] = $result["created_at"];

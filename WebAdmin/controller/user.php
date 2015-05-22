@@ -15,7 +15,7 @@ if ((isset($_GET['act']) && isset($_GET['user_id'])) || (isset($_POST['act']) &&
 
 		$ch = curl_init();
 
-		curl_setopt($ch, CURLOPT_URL, REST_HOST."/RESTFulServer/v1/staff/user/".$user_id);
+		curl_setopt($ch, CURLOPT_URL, REST_HOST."/RESTFulServer/v1/staff/customer/".$user_id);
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 		curl_setopt($ch, CURLOPT_HTTPHEADER,array('Authorization: '.$api_key));
 

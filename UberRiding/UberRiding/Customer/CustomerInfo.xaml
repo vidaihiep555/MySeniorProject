@@ -99,7 +99,7 @@
 					<!--Replace rectangle with image-->
 					<Border BorderThickness="3" Width="99" Height="99" BorderBrush="#FFFFC700" >
 						<!-- Background="#FFFFC700"-->
-						<Image Source="/Assets/avatar/email-blue-icon.png"  Width="99" Height="99" MinWidth="99" MinHeight="99" />
+						<Image Source="/Assets/Account/email-icon.png"  Width="90" Height="90" MinWidth="90" MinHeight="90" />
 					</Border>
 					<StackPanel Width="311" Margin="8,-7,0,0">
 						<TextBlock Text="Email" Foreground="Blue" TextWrapping="Wrap" Margin="10,0" Style="{StaticResource PhoneTextExtraLargeStyle}" FontSize="{StaticResource PhoneFontSizeLarge}" />
@@ -112,7 +112,7 @@
 					<!--Replace rectangle with image-->
 					<Border BorderThickness="3" Width="99" Height="99" BorderBrush="#FFFFC700" >
 						<!-- Background="#FFFFC700"-->
-						<Image Source="/Assets/avatar/Personal.png"  Width="99" Height="99" MinWidth="99" MinHeight="99" />
+						<Image Source="/Assets/Account/contacts-icon.png"  Width="90" Height="90" MinWidth="90" MinHeight="90" />
 					</Border>
 					<StackPanel Width="311" Margin="8,-7,0,0">
 						<TextBlock Text="Personal ID" Foreground="Blue" TextWrapping="Wrap" Margin="10,0" Style="{StaticResource PhoneTextExtraLargeStyle}" FontSize="{StaticResource PhoneFontSizeLarge}" />
@@ -125,7 +125,7 @@
 					<!--Replace rectangle with image-->
 					<Border BorderThickness="3" Width="99" Height="99" BorderBrush="#FFFFC700" >
 						<!-- Background="#FFFFC700"-->
-						<Image Source="/Assets/avatar/phone.png"  Width="99" Height="99" MinWidth="99" MinHeight="99" />
+						<Image Source="/Assets/Account/viber-icon.png" Width="90" Height="90" MinWidth="90" MinHeight="90" />
 					</Border>
 					<StackPanel Width="311" Margin="8,-7,0,0">
 						<TextBlock Text="Phone" Foreground="Blue" TextWrapping="Wrap" Margin="10,0" Style="{StaticResource PhoneTextExtraLargeStyle}" FontSize="{StaticResource PhoneFontSizeLarge}" />
@@ -138,7 +138,7 @@
 					<!--Replace rectangle with image-->
 					<Border BorderThickness="3" Width="99" Height="99" BorderBrush="#FFFFC700" >
 						<!-- Background="#FFFFC700"-->
-						<Image Source="Assets/avatar/Postcard.png"  Width="99" Height="99" MinWidth="99" MinHeight="99" />
+						<Image Source="/Assets/Account/personalID.png"  Width="90" Height="90" MinWidth="90" MinHeight="90"/>
 					</Border>
 					<StackPanel Orientation="Horizontal" Height="105" Width="auto" Margin="8,-7,0,0">
 						<!--1 picure and 2 button -->

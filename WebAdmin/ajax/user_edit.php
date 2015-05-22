@@ -109,18 +109,6 @@
 									</div>
 								</div>
 							</div>
-							<div class="form-group">
-								<label class="col-sm-4 control-label" style="text-align:left">Locked account:</label>
-								<div class="col-sm-6">
-									<div class="toggle-switch toggle-switch-success">
-										<label>
-											<input <?php echo $user['locked']==true?'checked':'' ?> type="checkbox" name="locked">
-											<div class="toggle-switch-inner"></div>
-											<div class="toggle-switch-switch"><i class="fa fa-check"></i></div>
-										</label>
-									</div>
-								</div>
-							</div>
 							<input type='hidden' name='user_id' value='<?php echo $user['user_id'] ?>'/>
 							<input type='hidden' name='act' value='edit'/>
 						</div>

@@ -13,7 +13,7 @@ if (isset($_SESSION["staff_api_key"])) {
 <html>
 	<head>
 		<meta charset="utf-8">
-		<title>RideSharing - <?php echo $lang['LOGINPAGE_TITLE'] ?></title>
+		<title>Administrator System- <?php echo $lang['LOGINPAGE_TITLE'] ?></title>
 		<meta name="description" content="description">
 		<meta name="author" content="Evgeniya">
 		<meta name="keyword" content="keywords">
@@ -39,7 +39,7 @@ if (isset($_SESSION["staff_api_key"])) {
 				<div class="box-content">
 					<form method="post" action="../controller/checkLogin.php">
 						<div class="text-center">
-							<h3 class="page-header">Log on - RideSharing system</h3>
+							<h3 class="page-header">Log on - Administrator system</h3>
 						</div>
 						<div class="form-group">
 							<label class="control-label">Email</label>

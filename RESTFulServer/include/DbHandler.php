@@ -330,7 +330,7 @@ class DbHandler {
     public function updateCustomer($user_id, $fullname, $phone, $personalID, $customer_avatar) {
         $stmt = $this->conn->prepare("UPDATE customer set fullname = ?, phone = ?, personalID = ?,
                                         customer_avatar = ?, status = 3
-                                        WHERE user_id = ?");
+                                        WHERE customer_id = ?");
 
         $stmt->bind_param("ssssi", $fullname, $phone, $personalID, $customer_avatar, $user_id);
         $stmt->execute();
@@ -521,6 +521,19 @@ class DbHandler {
         }
     }
 
+    public function getListDriver($lat, $long) {
+        //$q = "SELECT * FROM driver ";
+        $q = "SELECT driver_id, email, fullname, phone, driver_lat, driver_long, personalID, personalID_img,";
+        $q .= " driver_avatar, driver_license, driver_license_img, status, busy_status, created_at ";
+        $q .= " FROM driver";
+
+        $stmt = $this->conn->prepare($q);
+        //$stmt->bind_param("dd", $lat, $long);
+        $stmt->execute();
+        $itineraries = $stmt->get_result();
+        $stmt->close();
+        return $itineraries;
+    }
 
     public function getAllDriversTopTen($lat, $long) {
         //$q = "SELECT * FROM driver ";
@@ -953,7 +966,7 @@ class DbHandler {
     /* ------------- Feedback table ------------------ */
 
     public function createFeedback($customer_id, $content) {
-        $sql_query = "INSERT INTO feedback(customer_id, content) values(?, ?, ?)";
+        $sql_query = "INSERT INTO feedback(customer_id, content) values(?, ?)";
 
         // insert query
         if ($stmt = $this->conn->prepare($sql_query)) {
