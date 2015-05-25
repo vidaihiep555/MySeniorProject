@@ -10,7 +10,7 @@
 		header('Location: ../index.php#ajax/driver_list.php');
 		die();
 	} else {
-		$user = $_SESSION["driver"];
+		$driver = $_SESSION["driver"];
 	}
 ?>
 
@@ -43,14 +43,14 @@
 							<div class="form-group">
 								<label class="col-sm-4 control-label" style="text-align:left">Fullname:</label>
 								<div class="col-sm-6">
-								<input disabled type="text" class="form-control" placeholder="Full name" value="<?php echo $user['fullname'] ?>"
+								<input disabled type="text" class="form-control" placeholder="Full name" value="<?php echo $driver['fullname'] ?>"
 									data-toggle="tooltip" data-placement="bottom" title="Họ và tên" name="fullname">
 								</div>
 							</div>
 							<div class="form-group">
 								<label class="col-sm-4 control-label" style="text-align:left">Driver license:</label>
 								<div class="col-sm-6">
-									<input disabled type="text" class="form-control" placeholder="Last name" value="<?php echo $user['driver_license'] ?>"
+									<input disabled type="text" class="form-control" placeholder="Last name" value="<?php echo $driver['driver_license'] ?>"
 									data-toggle="tooltip" data-placement="bottom" title="Giấy phép lái xe" name="driver_license">
 								</div>
 							</div>

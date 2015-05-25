@@ -29,6 +29,7 @@ require_once '../include/Config.php';
 						<tr>
 							<th>No.</th>
 							<th>Fullname</th>
+							<th>Email</th>
 							<th>Driver license</th>
 							<th>State</th>
 							<th></th>
@@ -52,31 +53,21 @@ require_once '../include/Config.php';
 						curl_close($ch);
 
 						$json = json_decode($result);
-						$res = $json->{'users'};
+						$res = $json->{'drivers'};
 						$i = 1;
 						foreach ($res as $value) {
 						?>
 						<tr>
 							<td><?php echo $i++ ?></td>
 							<td><?php echo $value->{'fullname'}==NULL?' ':$value->{'fullname'} ?></td>
+							<td><?php echo $value->{'email'}==NULL?' ':$value->{'email'} ?></td>
 							<td><?php echo $value->{'driver_license'}==NULL?' ':$value->{'driver_license'} ?></td>
-							<td><?php 
-									$percent = round($value->{'status'}/2*100);
-									if ($percent <= 50) {
-										$color = 'progress-bar-danger';
-									} else {
-										$color = 'progress-bar-success';
-									}
-								?>		
-								<div class="progress">
-									<div class="progress-bar <?php echo $color ?>" role="progressbar" aria-valuenow="<?php echo $percent ?>" 
-											aria-valuemin="0" aria-valuemax="100" style="width: <?php echo $percent ?>%;">
-										<span><?php echo $percent ?>%</span>
-									</div>
-								</div>
-							</td>
-							<td><a href="controller/driver.php?user_id=<?php echo $value->{'user_id'} ?>&act=view" 
+							<td><?php echo $value->{'status'}==NULL?' ':$value->{'status'} ?></td>
+							
+							<td><a href="controller/driver.php?driver_id=<?php echo $value->{'driver_id'} ?>&act=view" 
 									class="btn btn-warning btn-app-sm btn-circle"><i class="fa fa-edit"></i></a>
+									<a href="controller/driver.php?driver_id=<?php echo $value->{'driver_id'} ?>&act=delete" 
+									class="btn btn-danger btn-app-sm btn-circle"><i class="fa fa-trash-o"></i></a> 
 							</td>
 						</tr>
 						<?php

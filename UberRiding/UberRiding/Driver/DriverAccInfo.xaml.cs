@@ -163,7 +163,7 @@ namespace UberRiding.Driver
 
             HttpFormUrlEncodedContent content =
                 new HttpFormUrlEncodedContent(postData);
-            var result = await RequestToServer.sendPutRequest("user/password", content);
+            var result = await RequestToServer.sendPutRequest("driver/password", content);
 
             JObject jsonObject = JObject.Parse(result);
             MessageBox.Show(jsonObject.Value<string>("message"));
@@ -337,7 +337,7 @@ namespace UberRiding.Driver
 
         private void btnVehicle_Click(object sender, RoutedEventArgs e)
         {
-
+            NavigationService.Navigate(new Uri("/Driver/VehicleManagement.xaml", UriKind.RelativeOrAbsolute));
         }
     }
 }

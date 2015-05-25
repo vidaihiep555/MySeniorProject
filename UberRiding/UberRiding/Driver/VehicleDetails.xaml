@@ -34,7 +34,7 @@
 				Text="{Binding Path=LocalizedResources.title, Source={StaticResource LocalizedStrings}}" FontSize="22"/>
 		</StackPanel>
 
-		<Grid Grid.Row="1" Background="White" Margin="0,0,0,3">
+		<Grid Grid.Row="1" Margin="0,0,0,3">
 			<Grid.RowDefinitions>
 				<RowDefinition Height="3*"/>
 				<RowDefinition Height="*"/>
@@ -56,13 +56,13 @@
 				<!-- select-->
 				<Button Grid.Column="0" Width="90" Height="90" BorderThickness="0">
 					<Image x:Name="btnSelectVehiclePhoto"
-						   Source="/Assets/ic_acc/ic_upload.png"
+						   Source="/Assets/avatar/ic_upload.png"
 						   Tap="btnSelectVehiclePhoto_Tap" />
 				</Button>
 				<!--capture-->
 				<Button Grid.Column="1" Width="90" Height="90" BorderThickness="0">
 					<Image x:Name="btnCaptureVehiclePhoto"
-						   Source="/Assets/ic_acc/ic_image2.png"
+						   Source="/Assets/avatar/ic_image2.png"
 						   Tap="btnCaptureVehiclePhoto_Tap" />
 				</Button>
 			</Grid>
@@ -92,7 +92,7 @@
 						<Image Stretch="Uniform" Source="/Assets/avatar/ic_logo.png"  Width="99" Height="99" MinWidth="99" MinHeight="99" HorizontalAlignment="Left" Margin="0,0" />
 					</Border>
 					<StackPanel Width="380" Margin="0,0,0,0">
-						<TextBlock Text="Type" FontSize="24" FontWeight="Bold" />
+						<TextBlock Text="Type" FontSize="24" FontWeight="Bold" Foreground="Blue"/>
 						<TextBlock x:Name="txtbType" Text="{Binding end_address}" Foreground="Black" TextWrapping="Wrap" Margin="10,-2" Height="60" />
 					</StackPanel>
 				</StackPanel>
@@ -105,7 +105,7 @@
 						<Image Source="/Assets/avatar/ic_plate.jpg"  Width="99" Height="99" MinWidth="99" MinHeight="99" />
 					</Border>
 					<StackPanel Width="380" Margin="0,0,0,0">
-						<TextBlock Text="Vehicle Plate Number" FontSize="24" FontWeight="Bold" />
+						<TextBlock Text="Vehicle Plate Number" FontSize="24" FontWeight="Bold" Foreground="Blue"/>
 						<TextBlock x:Name="txtbVehiclePlate" Text="{Binding end_address}" Foreground="Black" Height="60" TextWrapping="Wrap" Margin="10,-2" FontWeight="Bold"/>
 					</StackPanel>
 				</StackPanel>
@@ -118,7 +118,7 @@
 						<Image Source="/Assets/avatar/ic_motorregister.jpg"  Width="99" Height="99" MinWidth="99" MinHeight="99" />
 					</Border>
 					<StackPanel Width="380" Margin="0,0,0,0">
-						<TextBlock Text="Registration Certificate" FontSize="24" FontWeight="Bold" />
+						<TextBlock Text="Registration Certificate" FontSize="24" FontWeight="Bold" Foreground="Blue" />
 						<TextBlock x:Name="txtbRegistrationCertificate" Text="{Binding end_address}" Foreground="Black" Height="60" TextWrapping="Wrap" Margin="10,-2" FontWeight="Bold"/>
 					</StackPanel>
 				</StackPanel>
@@ -144,12 +144,12 @@
 						</Grid.ColumnDefinitions>
 						<Button Grid.Column="0" Width="90" Height="90" >
 							<Image x:Name="btnSlelectMotorPlate" 
-								   Source="/Assets/ic_acc/ic_upload.png"
+								   Source="/Assets/avatar/ic_upload.png"
 								   Tap="btnSlelectMotorPlate_Tap"/>
 						</Button>
 						<Button Grid.Column="1" Width="90" Height="90">
 							<Image x:Name="btnCaptureMotoPlate" 
-								   Source="/Assets/ic_acc/ic_image2.png"
+								   Source="/Assets/avatar/ic_image2.png"
 								   Tap="btnCaptureMotoPlate_Tap"/>
 						</Button>
 					</Grid>
@@ -179,12 +179,12 @@
 						</Grid.ColumnDefinitions>
 						<Button Grid.Column="0" Width="90" Height="90" >
 							<Image x:Name="btnSelectMotorInsuranceImg" 
-								   Source="/Assets/ic_acc/ic_upload.png"
+								   Source="/Assets/avatar/ic_upload.png"
 								   Tap="btnSelectMotorInsuranceImg_Tap"/>
 						</Button>
 						<Button Grid.Column="1" Width="90" Height="90">
 							<Image x:Name="btnCaptureMotorInsuranceImg" 
-								   Source="/Assets/ic_acc/ic_image2.png"
+								   Source="/Assets/avatar/ic_image2.png"
 								   Tap="btnCaptureMotorInsuranceImg_Tap"/>
 						</Button>
 					</Grid>
@@ -192,7 +192,7 @@
 				</Grid>
 			</ListBoxItem>
 		</ListBox>
-		<Grid Grid.Row="3" Background="White">
+		<Grid Grid.Row="3">
 			<Button x:Name="btnUpdate" Height="70" Width="450" Background="#3DA5E1" Content="Update" Margin="-1,0,1,0" Click="btnUpdate_Click"/>
 		</Grid>
 	</Grid>

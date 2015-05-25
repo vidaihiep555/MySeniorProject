@@ -15,7 +15,7 @@
     mc:Ignorable="d"
     shell:SystemTray.IsVisible="True">
 
-    <Grid x:Name="LayoutRoot" Background="#3DA5E1">
+    <Grid x:Name="LayoutRoot" Background="#36D7B7">
 
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -28,7 +28,7 @@
 
         <StackPanel Height="Auto" Grid.Row="0" Margin="0,0,0,0" Background="#FF20E017">
 
-            <TextBlock Margin="9,0,0,0" Style="{StaticResource PhoneTextTitle1Style}" FontSize="22" Text="Đăng ký hành trình"/>
+            <TextBlock Margin="9,0,0,0" Style="{StaticResource PhoneTextTitle1Style}" FontSize="22" Text="Register Itinerary"/>
         </StackPanel>
 
         <!--ContentPanel - place additional content here-->
@@ -83,15 +83,15 @@
                 <Image x:Name="imgEnd" Stretch="Fill" Source="/Assets/marker/blackend.png" Width="22"/>
             </Button>
         </Grid>
-        <Grid Grid.Row="4">
-            <Button x:Name="btnXn"
-                    Content="Register" HorizontalAlignment="Center"
+        
+            <Button x:Name="btnXn" Grid.Row="4" Width="Auto"
+                    Content="Register"
                     Margin="0,0,0,0" 
                     VerticalAlignment="Top" 
                     Background="#FF2D90F5" 
-                    BorderThickness="0" Width="160" 
+                    BorderThickness="0" 
                     RenderTransformOrigin="0.5,0.5" Height="72" Click="btnXn_Click"/>
-        </Grid>
+        
     </Grid>
 
 </phone:PhoneApplicationPage>

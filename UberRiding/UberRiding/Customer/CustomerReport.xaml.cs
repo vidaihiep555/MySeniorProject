@@ -24,7 +24,7 @@ namespace UberRiding.Customer
         {
             InitializeComponent();
 
-            getCustomerMoneyData();
+            //getCustomerMoneyData();
 
             getCustomerItineraryData();
             //get history list

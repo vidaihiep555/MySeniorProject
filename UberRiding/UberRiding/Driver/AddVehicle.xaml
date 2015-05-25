@@ -39,26 +39,36 @@
 				<RowDefinition Height="*"/>
 				<RowDefinition Height="5*"/>
 			</Grid.RowDefinitions>
-			<Grid Grid.Row="0" Background="White">
+			<Grid Grid.Row="0">
 				<TextBlock  Text="Vehicle Image" HorizontalAlignment="Left" Foreground="black" FontSize="24" FontWeight="Bold"/>
 			</Grid>
-			<ListBoxItem Grid.Row="1"  Background="White" Margin="0,0,0,0">
-				<StackPanel Orientation="Horizontal" Margin="0,0,0,0" Height="181" Width="480">
-					<!--Replace rectangle with image-->
-					<StackPanel Orientation="Horizontal" Width="480" Margin="0,0,0,0">
-						<Image x:Name="imgVehicle" Source="Assets/avatar/ic_personalID.jpg" Margin="10,10,10,10" Height="130" Width="250" Stretch="Fill"/>
-						<Button Width="90" Height="90" >
+			<ListBoxItem Grid.Row="1"   Margin="0,0,0,0">
+				<!--Replace rectangle with image-->
+				<Grid Width="480" Height="150" Margin="0,0,0,0">
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="2*"/>
+						<ColumnDefinition Width="*"/>
+					</Grid.ColumnDefinitions>
+					<Image x:Name="imgVehicle" Grid.Column="0" Source="Assets/avatar/ic_personalID.jpg" Height="130" Width="250"  Stretch="Fill" Margin="10,10,10,10"/>
+					<Grid Grid.Column="1">
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="*"/>
+							<ColumnDefinition Width="*"/>
+						</Grid.ColumnDefinitions>
+						<Button Grid.Column="0" Width="90" Height="90" BorderThickness="0" >
 							<Image x:Name="btnSelectVehicalPhoto" 
-								   Source="/Assets/ic_acc/ic_upload.png"
+								   Source="/Assets/avatar/ic_upload.png"
 								   Tap="btnSelectVehicalPhoto_Tap"/>
 						</Button>
-						<Button Width="90" Height="90">
+						<Button Grid.Column="1" Width="90" Height="90" BorderThickness="0">
 							<Image x:Name="btnCaptureVehicalPhoto" 
-								   Source="/Assets/ic_acc/ic_image2.png"
+								   Source="/Assets/avatar/ic_image2.png"
 								   Tap="btnCaptureVehicalPhoto_Tap"/>
 						</Button>
-					</StackPanel>
-				</StackPanel>
+					</Grid>
+
+				</Grid>
+				
 			</ListBoxItem>
 
 		</Grid>
@@ -78,7 +88,7 @@
 					</Border>
 					<StackPanel Width="380" Margin="0,0,0,0">
 						<TextBlock Text="Type" Foreground="Blue" TextWrapping="Wrap" Margin="10,0" Style="{StaticResource PhoneTextExtraLargeStyle}" FontSize="24" FontWeight="Bold" />
-						<TextBox x:Name="txtbType" Text="{Binding end_address}" Foreground="Black" TextWrapping="Wrap" Margin="10,-2" Height="60" FontSize="20" />
+						<TextBox x:Name="txtbType" Text="" Foreground="Black" TextWrapping="Wrap" Margin="10,-2" Height="60" FontSize="20" BorderBrush="Black" />
 					</StackPanel>
 				</StackPanel>
 			</ListBoxItem>
@@ -91,7 +101,7 @@
 					</Border>
 					<StackPanel Width="380" Margin="0,0,0,0">
 						<TextBlock Text="Plate Number" Foreground="Blue" TextWrapping="Wrap" Margin="10,0" Style="{StaticResource PhoneTextExtraLargeStyle}" FontSize="24" FontWeight="Bold" />
-						<TextBox x:Name="txtbVehiclePlate" Text="{Binding end_address}" Foreground="Black" Height="60" TextWrapping="Wrap" Margin="10,-2" FontWeight="Bold" FontSize="20"/>
+						<TextBox BorderBrush="Black" x:Name="txtbVehiclePlate" Text="{Binding end_address}" Foreground="Black" Height="60" TextWrapping="Wrap" Margin="10,-2" FontWeight="Bold" FontSize="20"/>
 					</StackPanel>
 				</StackPanel>
 			</ListBoxItem>
@@ -104,7 +114,7 @@
 					</Border>
 					<StackPanel Width="380" Margin="0,0,0,0">
 						<TextBlock Text="Registration Certificate" Foreground="Blue" TextWrapping="Wrap" Margin="10,0" Style="{StaticResource PhoneTextExtraLargeStyle}" FontSize="24" FontWeight="Bold" />
-						<TextBox x:Name="txtbRegistrationCertificate" Text="{Binding end_address}" Foreground="Black" Height="60" TextWrapping="Wrap" Margin="10,-2" FontWeight="Bold" FontSize="20"/>
+						<TextBox BorderBrush="Black" x:Name="txtbRegistrationCertificate" Text="{Binding end_address}" Foreground="Black" Height="60" TextWrapping="Wrap" Margin="10,-2" FontWeight="Bold" FontSize="20"/>
 					</StackPanel>
 				</StackPanel>
 			</ListBoxItem>
@@ -121,12 +131,12 @@
 						<Image x:Name="imgLicensePlate" Source="Assets/avatar/ic_personalID.jpg" Margin="10,10,10,10" Height="130" Width="250" Stretch="Fill"/>
 						<Button Width="90" Height="90" >
 							<Image x:Name="btnSlelectMotorPlate" 
-								   Source="/Assets/ic_acc/ic_upload.png"
+								   Source="/Assets/avatar/ic_upload.png"
 								   Tap="btnSlelectMotorPlate_Tap"/>
 						</Button>
 						<Button Width="90" Height="90">
 							<Image x:Name="btnCaptureMotoPlate" 
-								   Source="/Assets/ic_acc/ic_image2.png"
+								   Source="/Assets/avatar/ic_image2.png"
 								   Tap="btnCaptureMotoPlate_Tap"/>
 						</Button>
 					</StackPanel>
@@ -147,12 +157,12 @@
 						<Image x:Name="imgMotorInsurance" Source="Assets/avatar/ic_personalID.jpg" Margin="10,10,10,10" Height="130" Width="250" Stretch="Fill"/>
 						<Button Width="90" Height="90" >
 							<Image x:Name="btnSelectMotorInsuranceImg" 
-								   Source="/Assets/ic_acc/ic_upload.png"
+								   Source="/Assets/avatar/ic_upload.png"
 								   Tap="btnSelectMotorInsuranceImg_Tap"/>
 						</Button>
 						<Button Width="90" Height="90">
 							<Image x:Name="btnCaptureMotorInsuranceImg" 
-								   Source="/Assets/ic_acc/ic_image2.png"
+								   Source="/Assets/avatar/ic_image2.png"
 								   Tap="btnCaptureMotorInsuranceImg_Tap"/>
 						</Button>
 					</StackPanel>
@@ -161,7 +171,7 @@
 		</ListBox>
 
 
-		<StackPanel Grid.Row="3" Background="White">
+		<StackPanel Grid.Row="3">
 			<Button x:Name="btnAddNewVehicle" Height="70" Width="450" Content="Add" Margin="-1,0,1,0" Click="btnAddNewVehicle_Click" Background="#3DA5E1"/>
 		</StackPanel>
 	</Grid>

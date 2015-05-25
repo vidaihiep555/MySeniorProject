@@ -54,19 +54,19 @@
 				</Grid.ColumnDefinitions>
 				<Button Grid.Row="0" Grid.Column="1" Width="90" Height="90" BorderThickness="0">
 					<Image x:Name="btnUpdateProfile" 
-						   Source="Assets/avatar/ic_edit.png"
+						   Source="/Assets/avatar/ic_edit.png"
 						   Tap="btnUpdateProfile_Tap"/>
 				</Button>
 				<!-- select-->
 				<Button Grid.Row="0" Grid.Column="0" Width="90" Height="90" BorderThickness="0">
 					<Image x:Name="btnSelectAvaImg"
-						   Source="Assets/avatar/ic_upload.png"
+						   Source="/Assets/avatar/ic_upload.png"
 						   Tap="btnSelectAvaImg_Tap"/>
 				</Button>
 				<!--capture-->
 				<Button Grid.Row="1" Grid.Column="0" Width="90" Height="90" BorderThickness="0">
 					<Image x:Name="btnCaptureAvaImg"
-						   Source="Assets/avatar/ic_image2.png"
+						   Source="/Assets/avatar/ic_image2.png"
 						   Tap="btnCaptureAvaImg_Tap" />
 				</Button>
 			</Grid>

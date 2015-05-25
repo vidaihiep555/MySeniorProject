@@ -18,18 +18,22 @@ using Microsoft.AspNet.SignalR.Client;
 using System.Net.Http;
 using Windows.Web.Http;
 using UberRiding.Request;
+using Microsoft.Phone.Maps.Services;
 
 namespace UberRiding.Customer
 {
     public partial class CustomerMainMap : PhoneApplicationPage
     {
         MapLayer mainMapLayer = new MapLayer();
+        string start_point = "none";
         //List<MapOverlay> listMainMapOvelay = new List<MapOverlay>();
         DriverRootObject root = null;
         List<Itinerary> itineraries = new List<Itinerary>();
 
         Geocoordinate myGeocoordinate = null;
         GeoCoordinate myGeoCoordinate = null;
+
+        ReverseGeocodeQuery geoQ = null;
 
         List<Driver2> list = new List<Driver2>();
 
@@ -47,10 +51,37 @@ namespace UberRiding.Customer
         {
             base.OnNavigatedTo(e);
             //InitCurrentLocationInfo();
-
+            geoQ = new ReverseGeocodeQuery();
+            geoQ.QueryCompleted += geoQ_QueryCompleted;
+            if (geoQ.IsBusy == true)
+            {
+                geoQ.CancelAsync();
+            }
             ConnectAsync();
             getDrivers();
         }
+
+        void geoQ_QueryCompleted(object sender, QueryCompletedEventArgs<IList<MapLocation>> e)
+        {
+            throw new NotImplementedException();
+        }
+
+        /*void geoQ_QueryCompleted(object sender, QueryCompletedEventArgs<IList<MapLocation>> e)
+        {
+            if (e.Result.Count() > 0)
+            {
+                string showString = e.Result[0].Information.Name;
+                showString = showString + "";
+                showString = showString + "" + e.Result[0].Information.Address.HouseNumber + " " + e.Result[0].Information.Address.Street;
+                showString = showString + "" + e.Result[0].Information.Address.PostalCode + " " + e.Result[0].Information.Address.City;
+                showString = showString + "" + e.Result[0].Information.Address.Country + " " + e.Result[0].Information.Address.CountryCode;
+                //showString = showString + "\nDescription: ";
+                //showString = showString + "\n" + e.Result[0].Information.Description.ToString();
+
+                start_point = showString;
+
+            }
+        }*/
 
         private async void ConnectAsync()
         {
@@ -109,7 +140,9 @@ namespace UberRiding.Customer
 
         public async void InitCurrentLocationInfo()
         {
-            //Task<GeoCoordinate> x = ShowMyCurrentLocationOnTheMap();
+            Task<GeoCoordinate> x = ShowMyCurrentLocationOnTheMap();
+
+
             myGeoCoordinate = await ShowMyCurrentLocationOnTheMap();
         }
 
@@ -168,6 +201,7 @@ namespace UberRiding.Customer
         public async void getDrivers()
         {
             myGeoCoordinate = await ShowMyCurrentLocationOnTheMap();
+            
             mainMapLayer = new MapLayer();
             var result = await Request.RequestToServer.sendGetRequest("drivers/" 
                 + myGeoCoordinate.Latitude.ToString().Trim() + "/" + myGeoCoordinate.Longitude.ToString().Trim());
@@ -181,9 +215,12 @@ namespace UberRiding.Customer
             //Convert json to object
             root = JsonConvert.DeserializeObject<DriverRootObject>(result);
 
-            foreach (Global.Driver i in root.drivers) //chay 1 lan
+            var x = root.drivers.First();
+            GlobalData.calldriver = x.driver_id.ToString().Trim();
+
+            foreach (Global.Driver i in root.drivers) //
             {
-                GlobalData.calldriver = i.driver_id.ToString().Trim();
+                
                 Global.GlobalData.driverList.Add(new Driver2
                 {
                     
@@ -326,9 +363,10 @@ namespace UberRiding.Customer
 
         private async void menuCallDriver_Click(object sender, EventArgs e)
         {
-
+            geoQ.GeoCoordinate = myGeoCoordinate;
+            geoQ.QueryAsync();
             Dictionary<string, string> postData = new Dictionary<string, string>();
-            postData.Add("start_address", "none");
+            postData.Add("start_address", start_point);
             postData.Add("start_address_lat", myGeoCoordinate.Latitude.ToString().Trim());
             postData.Add("start_address_long", myGeoCoordinate.Longitude.ToString().Trim());
             postData.Add("end_address", "none");

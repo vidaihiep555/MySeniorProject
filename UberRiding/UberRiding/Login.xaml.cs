@@ -21,7 +21,8 @@ namespace UberRiding
         {
             InitializeComponent();
 
-            txtbEmail.Text = "vidaihiep555@yahoo.com.vn";
+            //txtbEmail.Text = "vidaihiep555@yahoo.com.vn";
+            txtbEmail.Text = "driver1@yahoo.com";
             txtbPassword.Text = "shenlong1909";
 
             //Auto login
@@ -102,11 +103,12 @@ namespace UberRiding
                     updateData.Add("busy_status", GlobalData.DRIVER_NOT_BUSY.ToString());
                     HttpFormUrlEncodedContent updateDataContent = new HttpFormUrlEncodedContent(updateData);
                     var update = await RequestToServer.sendPutRequest("driverbusy", updateDataContent);
-                    NavigationService.Navigate(new Uri("/Driver/DriverMainMap.xaml", UriKind.Relative));
+                    NavigationService.Navigate(new Uri("/Driver/VehicleManagement.xaml", UriKind.Relative));
                 }
                 else
                 {
-                    NavigationService.Navigate(new Uri("/Customer/CustomerMainMap.xaml", UriKind.RelativeOrAbsolute));
+                    NavigationService.Navigate(new Uri("/Customer/CustomerReport.xaml", UriKind.RelativeOrAbsolute));
+                    //NavigationService.Navigate(new Uri("/Driver/DriverRating.xaml", UriKind.Relative));
                 }
             }
             else

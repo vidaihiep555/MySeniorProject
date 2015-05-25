@@ -37,11 +37,11 @@
 				<form method='POST' action='controller/staff.php' class="form-horizontal" role="form">
 					<div class="form-group">
 						<input type="file" name="fileToUpload" id="fileToUpload">
-						<a href=""><img id="avatar" class="img-rounded col-sm-4" src="data:image/jpeg;base64,<?php echo isset($staff['link_avatar'])?$staff['link_avatar']:'' ?>" alt=""></a>
+						<a href=""><img id="avatar" class="img-rounded col-sm-4" src="data:image/jpeg;base64,<?php echo isset($staff['staff_avatar'])?$staff['staff_avatar']:'' ?>" alt=""></a>
 
 						<div class="col-sm-8">
 							<div class="form-group">
-								<label class="col-sm-4 control-label" style="text-align:left">Họ tên:</label>
+								<label class="col-sm-4 control-label" style="text-align:left">Fullname:</label>
 								<div class="col-sm-6">
 								<input type="text" class="form-control" placeholder="Full name" value="<?php echo isset($staff['fullname'])?$staff['fullname']:'' ?>"
 									data-toggle="tooltip" data-placement="bottom" title="Họ và tên" name="fullname">
@@ -55,9 +55,9 @@
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-sm-4 control-label" style="text-align:left">Chứng minh nhân dân:</label>
+								<label class="col-sm-4 control-label" style="text-align:left">PersonalID:</label>
 								<div class="col-sm-6">
-									<input type="text" class="form-control" placeholder="Chứng minh nhân dân" value="<?php echo isset($staff['personalID'])?$staff['personalID']:'' ?>"
+									<input type="text" class="form-control" placeholder="Personal ID" value="<?php echo isset($staff['personalID'])?$staff['personalID']:'' ?>"
 									data-toggle="tooltip" data-placement="bottom" title="Chứng minh nhân dân" name="personalID">
 								</div>
 							</div>
@@ -65,7 +65,7 @@
 							if (isset($staff['created_at'])) {
 							?>
 							<div class="form-group">
-								<label class="col-sm-4 control-label" style="text-align:left">Ngày tạo tài khoản:</label>
+								<label class="col-sm-4 control-label" style="text-align:left">Date Created:</label>
 								<div class="col-sm-6">
 									<input type="text" class="form-control" value="<?php echo $staff['created_at'] ?>"
 									disabled data-toggle="tooltip" data-placement="bottom" title="Ngày tạo tài khoản">

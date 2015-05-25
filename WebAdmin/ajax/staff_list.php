@@ -58,7 +58,7 @@ require_once '../include/Config.php';
 						?>
 						<tr>
 							<td><?php echo $i++ ?></td>
-							<td><img class="img-rounded" src="data:image/jpeg;base64,<?php echo $value->{'link_avatar'}==NULL?' ':$value->{'link_avatar'} ?>" alt="">
+							<td><img class="img-rounded" src="data:image/jpeg;base64,<?php echo $value->{'staff_avatar'}==NULL?' ':$value->{'link_avatar'} ?>" alt="">
 								<?php echo $value->{'fullname'}==NULL?' ':$value->{'fullname'} ?>
 							</td>
 							<td><?php echo $value->{'email'}==NULL?' ':$value->{'email'} ?></td>

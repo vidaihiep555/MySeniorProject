@@ -73,5 +73,10 @@ namespace UberRiding.Driver
             //navigate sang details
             NavigationService.Navigate(new Uri("/Driver/VehiclesDetails.xaml", UriKind.RelativeOrAbsolute));
         }
+
+        private void btnAddVehicle_Click(object sender, RoutedEventArgs e)
+        {
+            NavigationService.Navigate(new Uri("/Driver/AddVehicle.xaml", UriKind.RelativeOrAbsolute));
+        }
     }
 }

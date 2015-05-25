@@ -268,7 +268,7 @@ class DbHandler {
      * @param String $email User email id
      */
     public function getListCustomer() {
-        $stmt = $this->conn->prepare("SELECT user_id, email, api_key, fullname, phone, personalID, 
+        $stmt = $this->conn->prepare("SELECT customer_id, email, api_key, fullname, phone, personalID, 
                                          customer_avatar, status, created_at FROM customer");
         if ($stmt->execute()) {
             // $user = $stmt->get_result()->fetch_assoc();
@@ -521,7 +521,7 @@ class DbHandler {
         }
     }
 
-    public function getListDriver($lat, $long) {
+    public function getListDriver() {
         //$q = "SELECT * FROM driver ";
         $q = "SELECT driver_id, email, fullname, phone, driver_lat, driver_long, personalID, personalID_img,";
         $q .= " driver_avatar, driver_license, driver_license_img, status, busy_status, created_at ";
@@ -538,11 +538,25 @@ class DbHandler {
     public function getAllDriversTopTen($lat, $long) {
         //$q = "SELECT * FROM driver ";
         $q = "SELECT driver_id, email, fullname, phone, driver_lat, driver_long, personalID, personalID_img,";
-        $q .= " driver_avatar, driver_license, driver_license_img, status, busy_status, created_at, (abs(driver_lat - 100) + abs(driver_long - 100)) AS distance";
+        $q .= " driver_avatar, driver_license, driver_license_img, status, busy_status, created_at, (abs(driver_lat - ?) + abs(driver_long - ?)) AS distance";
+        $q .= " FROM driver WHERE busy_status = 1 ORDER BY distance LIMIT 10";
+
+        $stmt = $this->conn->prepare($q);
+        $stmt->bind_param("dd", $lat, $long);
+        $stmt->execute();
+        $itineraries = $stmt->get_result();
+        $stmt->close();
+        return $itineraries;
+    }
+
+    public function getAllDriversTopOne($lat, $long) {
+        //$q = "SELECT * FROM driver ";
+        $q = "SELECT driver_id, email, fullname, phone, driver_lat, driver_long, personalID, personalID_img,";
+        $q .= " driver_avatar, driver_license, driver_license_img, status, busy_status, created_at, (abs(driver_lat - ?) + abs(driver_long - ?)) AS distance";
         $q .= " FROM driver WHERE busy_status = 1 ORDER BY distance LIMIT 1";
 
         $stmt = $this->conn->prepare($q);
-        //$stmt->bind_param("dd", $lat, $long);
+        $stmt->bind_param("dd", $lat, $long);
         $stmt->execute();
         $itineraries = $stmt->get_result();
         $stmt->close();
@@ -593,6 +607,19 @@ class DbHandler {
                                         WHERE driver_id = ?");
 
         $stmt->bind_param("ii", $busy_status, $driver_id);
+        $stmt->execute();
+
+        $num_affected_rows = $stmt->affected_rows;
+
+        $stmt->close();
+        return $num_affected_rows > 0;
+    }
+
+    public function updateDriverBusyStatusLatLong($driver_id, $busy_status, $driver_lat, $driver_long) {
+        $stmt = $this->conn->prepare("UPDATE driver set busy_status = ?, driver_lat = ?, driver_long = ?   
+                                        WHERE driver_id = ?");
+
+        $stmt->bind_param("iddi", $busy_status,$driver_lat, $driver_long, $driver_id);
         $stmt->execute();
 
         $num_affected_rows = $stmt->affected_rows;
@@ -664,9 +691,9 @@ class DbHandler {
      */
     public function createItinerary($customer_id, $start_address, $start_address_lat,$start_address_long,
              $end_address, $end_address_lat, $end_address_long, $time_start, $description, $distance) {
-        $q = "INSERT INTO itinerary(customer_id, start_address, start_address_lat, start_address_long, 
+        $q = "INSERT INTO itinerary(customer_id, driver_id, start_address, start_address_lat, start_address_long, 
             end_address, end_address_lat, end_address_long, time_start, description, distance, status) ";
-                $q .= " VALUES(?,?,?,?,?,?,?,?,?,?,". ITINERARY_STATUS_CREATED.")";
+                $q .= " VALUES(?,1,?,?,?,?,?,?,?,?,?,". ITINERARY_STATUS_CREATED.")";
         $stmt = $this->conn->prepare($q);
 		
         $stmt->bind_param("isddsddssd",
@@ -795,7 +822,7 @@ class DbHandler {
     }
 
     public function getAllItinerariesWithDriverInfo() {
-        $q = "SELECT * FROM itinerary, driver, user WHERE itinerary.driver_id = driver.user_id AND driver.user_id = user.user_id";
+        $q = "SELECT * FROM itinerary, driver WHERE itinerary.driver_id = driver.driver_id";
         $stmt = $this->conn->prepare($q);
         $stmt->execute();
         $itineraries = $stmt->get_result();
@@ -808,7 +835,7 @@ class DbHandler {
      * Fetching all itineraries of one driver
      * @param Integer $driver_id id of the driver
      */
-    public function getDriverItineraries($driver_id, $order) {
+    public function getDriverItineraries2($driver_id, $order) {
         $q = "SELECT itinerary_id, i.driver_id, i.customer_id, start_address, start_address_lat, start_address_long,
             end_address, end_address_lat, end_address_long, leave_date, duration, distance, cost, description, i.status as itinerary_status, i.created_at,
             driver_license, driver_license_img, u.user_id, u.email, u.fullname, u.phone, personalID, customer_avatar ";
@@ -838,6 +865,22 @@ class DbHandler {
     public function getCustomerItineraries($customer_id, $order) {
 
         $q = "SELECT * FROM itinerary WHERE customer_id = ? ";
+        if(isset($order)){
+            $q .= "ORDER BY " .$order;
+        } else {
+            $q .= "ORDER BY status";
+        }
+        $stmt = $this->conn->prepare($q);
+        $stmt->bind_param("i",$customer_id);
+        $stmt->execute();
+        $itineraries = $stmt->get_result();
+        $stmt->close();
+        return $itineraries;
+    }
+
+    public function getDriverItineraries($customer_id, $order) {
+
+        $q = "SELECT * FROM itinerary WHERE driver_id = ? ";
         if(isset($order)){
             $q .= "ORDER BY " .$order;
         } else {
@@ -908,7 +951,7 @@ class DbHandler {
         $q = "UPDATE itinerary set driver_id = ?, status = 2 
                 WHERE itinerary_id = ?";
         $stmt = $this->conn->prepare($q);
-        echo $driver_id;
+        //echo $driver_id;
         $stmt->bind_param("ii",$driver_id, $itinerary_id);
         $stmt->execute();
         $num_affected_rows = $stmt->affected_rows;
@@ -1072,7 +1115,6 @@ class DbHandler {
     public function statisticCustomerItineraryBy($field, $customer_id) {
         $q = "SELECT DATE_FORMAT(created_at,'%Y-%m') as month, COUNT(DATE_FORMAT(created_at,'%Y-%m')) as number 
                 FROM (SELECT * FROM itinerary WHERE customer_id = ?) as i GROUP BY DATE_FORMAT(created_at,'%Y-%m')";
-        echo $customer_id;
         $stmt = $this->conn->prepare($q);
         if ($stmt->bind_param("i",$customer_id)) {
             $stmt->execute();
@@ -1218,7 +1260,7 @@ class DbHandler {
      * @param String $email User email id
      */
     public function getListVehicle($user_id) {
-        $stmt = $this->conn->prepare("SELECT * FROM vehicle WHERE driver_id_id = ?");
+        $stmt = $this->conn->prepare("SELECT * FROM vehicle WHERE driver_id = ?");
 
         $stmt->bind_param("i", $user_id);
 
@@ -1554,15 +1596,15 @@ class DbHandler {
      * @param String $staff_id Staff id
      */
     public function getStaffByStaffID($staff_id) {
-        $stmt = $this->conn->prepare("SELECT role, email, api_key, fullname, personalID, created_at, staff_avatar 
+        $stmt = $this->conn->prepare("SELECT  email, api_key, fullname, personalID, created_at, staff_avatar 
                                         FROM staff WHERE staff_id = ?");
         $stmt->bind_param("s", $staff_id);
         if ($stmt->execute()) {
             // $user = $stmt->get_result()->fetch_assoc();
-            $stmt->bind_result($role, $email, $api_key, $fullname,$personalID, $created_at, $staff_avatar);
+            $stmt->bind_result( $email, $api_key, $fullname,$personalID, $created_at, $staff_avatar);
             $stmt->fetch();
             $staff = array();
-            $staff["role"] = $role;
+            //$staff["role"] = $role;
             $staff["email"] = $email;
             $staff["api_key"] = $api_key;
             $staff["fullname"] = $fullname;

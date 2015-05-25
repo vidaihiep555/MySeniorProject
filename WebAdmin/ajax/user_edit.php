@@ -39,7 +39,7 @@
 			<div class="box-content">
 				<form method='POST' action='controller/user.php' class="form-horizontal" role="form">
 					<div class="form-group">
-						<img class="img-rounded col-sm-4" src="data:image/jpeg;base64,<?php echo $user['link_avatar'] ?>" alt="">
+						<img class="img-rounded col-sm-4" src="data:image/jpeg;base64,<?php echo $user['customer_avatar'] ?>" alt="">
 						<div class="col-sm-8">
 							<div class="form-group">
 								<label class="col-sm-4 control-label" style="text-align:left">Fullname:</label>
@@ -81,34 +81,7 @@
 									disabled data-toggle="tooltip" data-placement="bottom" title="Ngày tạo tài khoản">
 								</div>
 							</div>
-							<div class="form-group">
-								<label class="col-sm-4 control-label" style="text-align:left">Validated:</label>
-								<div class="col-sm-6">
-									<div class="toggle-switch toggle-switch-success">
-										<label>
-											<input name="status" type="hidden" value="<?php echo $user['status']?>">
-											<input <?php echo $user['status']==4?'checked':'' ?> type="checkbox" name="identify">
-											<div class="toggle-switch-inner"></div>
-											<div class="toggle-switch-switch"><i class="fa fa-check"></i></div>
-										</label>
-									</div>
-								</div>
-							</div>
-							<div class="form-group">
-								<label class="col-sm-4 control-label" style="text-align:left">Level:</label>
-								<div class="col-sm-6">
-									<input type='hidden' name='status' value='<?php echo $user['status'] ?>'/>
-									<?php
-										$percent = round($user['status']/4*100);
-									?>
-									<div class="progress">
-										<div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="<?php echo $percent ?>" 
-											aria-valuemin="0" aria-valuemax="100" style="width: <?php echo $percent ?>%;">
-											<span><?php echo $percent ?>%</span>
-										</div>
-									</div>
-								</div>
-							</div>
+							
 							<input type='hidden' name='user_id' value='<?php echo $user['user_id'] ?>'/>
 							<input type='hidden' name='act' value='edit'/>
 						</div>

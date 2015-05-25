@@ -83,7 +83,7 @@ namespace UberRiding.Global
         public string fullname { get; set; }
         public string phone { get; set; }
         public string personalID { get; set; }
-        public string link_avatar { get; set; }
+        public string driver_avatar { get; set; }
         public int average_rating { get; set; }
     }
 
@@ -111,7 +111,7 @@ namespace UberRiding.Global
         public string fullname { get; set; }
         public string phone { get; set; }
         public string personalID { get; set; }
-        public BitmapImage link_avatar { get; set; }
+        public BitmapImage driver_avatar { get; set; }
         public int average_rating { get; set; }
     }
 

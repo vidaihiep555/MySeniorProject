@@ -15,7 +15,7 @@
 	shell:SystemTray.IsVisible="True">
 
 	<!--LayoutRoot is the root grid where all page content is placed-->
-	<Grid x:Name="LayoutRoot" Background="#FF3DA5E1">
+	<Grid x:Name="LayoutRoot" Background="#36D7B7">
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto"/>
 			<RowDefinition Height="0.25*"/>
@@ -29,13 +29,13 @@
 		<!--TitlePanel contains the name of the application and page title-->
 		<StackPanel Grid.Row="0" Canvas.ZIndex="999"
 			Margin="0,0,0,0" 
-			Background="#FF20E017"
+			Background="#FF3DA5E1"
 			Height="Auto">
 			<TextBlock 
 				Margin="0,0,0,0"
 				HorizontalAlignment="Left"
 				Style="{StaticResource PhoneTextTitle1Style}"
-				Text="RideSharing" FontSize="22"/>
+				Text="Rating" FontSize="22"/>
 		</StackPanel>
 
 		<!--ContentPanel - place additional content here-->
@@ -50,7 +50,7 @@
 			<TextBlock x:Name="txtbDriverName" HorizontalAlignment="Center" FontWeight="Bold"/>
 		</StackPanel>
 		<Grid Grid.Row="4">
-			<toolkit:Rating HorizontalAlignment="Center" Width="300" Height="Auto" x:Name="ratingDriver" RatingItemCount="5" Value="2" Margin="90,10,90,80" Background="#FF3DA5E1" >
+			<toolkit:Rating HorizontalAlignment="Center" Width="300" Height="Auto" x:Name="ratingDriver" RatingItemCount="5" Value="2" Margin="90,10,90,80" Background="#36D7B7" >
 				<toolkit:Rating.FilledItemStyle>
 					<Style TargetType="toolkit:RatingItem">
 						<Setter Property="Background" Value="Yellow" />
@@ -74,7 +74,7 @@
 			</StackPanel>
 
 		</Grid>
-		<Button x:Name="btnSend" Grid.Row="6" Height="80" Content="Send" Click="btnSend_Click"/>
+		<Button x:Name="btnSend" BorderThickness="0" Background="#FF3DA5E1" Grid.Row="6" Height="80" Content="Send" Click="btnSend_Click"/>
 	</Grid>
 
 </phone:PhoneApplicationPage>

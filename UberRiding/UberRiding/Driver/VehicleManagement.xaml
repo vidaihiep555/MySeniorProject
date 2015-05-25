@@ -14,9 +14,10 @@
 	shell:SystemTray.IsVisible="True">
 
 	<!--LayoutRoot is the root grid where all page content is placed-->
-	<Grid x:Name="LayoutRoot" Background="Transparent">
+	<Grid x:Name="LayoutRoot" Background="#3DA5E1" >
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto"/>
+			<RowDefinition Height="7*"/>
 			<RowDefinition Height="*"/>
 		</Grid.RowDefinitions>
 		<StackPanel Grid.Row="0" Canvas.ZIndex="999"
@@ -53,9 +54,10 @@
 					</phone:LongListSelector.ItemTemplate>
 				</phone:LongListSelector>
 			</phone:PivotItem>
-
-
 		</phone:Pivot>
+		<Grid Grid.Row="2">
+			<Button Content="Add Vehicle" x:Name="btnAddVehicle" Click="btnAddVehicle_Click"/>
+		</Grid>
 	</Grid>
 
 </phone:PhoneApplicationPage>

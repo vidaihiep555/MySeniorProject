@@ -6,9 +6,9 @@ if (!isset($_SESSION["staff_api_key"])) {
 	die();
 }
 
-if ((isset($_GET['act']) && isset($_GET['user_id'])) || (isset($_POST['act']) && isset($_POST['user_id']))) {
+if ((isset($_GET['act']) && isset($_GET['driver_id'])) || (isset($_POST['act']) && isset($_POST['driver_id']))) {
 	$act = !isset($_GET['act'])?$_POST['act']:$_GET['act'];
-	$user_id = !isset($_GET['act'])?$_POST['user_id']:$_GET['user_id'];
+	$user_id = !isset($_GET['act'])?$_POST['user_id']:$_GET['driver_id'];
 
 	if ($act == 'view') {
 		$api_key = $_SESSION["staff_api_key"];
@@ -25,7 +25,7 @@ if ((isset($_GET['act']) && isset($_GET['user_id'])) || (isset($_POST['act']) &&
 		// close curl resource to free up system resources
 		curl_close($ch);
 		$user = json_decode($result, true);
-		$user['user_id'] = $user_id;
+		$user['driver_id'] = $user_id;
 
 		if(isset($user)) {
 			$_SESSION['driver'] = $user;

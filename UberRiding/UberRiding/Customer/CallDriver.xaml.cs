@@ -16,6 +16,9 @@ using System.Device.Location;
 using Windows.Devices.Geolocation;
 using UberRiding.Global;
 using Microsoft.Phone.Maps.Services;
+using Microsoft.AspNet.SignalR.Client;
+using System.Net.Http;
+using Newtonsoft.Json;
 
 namespace UberRiding.Customer
 {
@@ -29,6 +32,11 @@ namespace UberRiding.Customer
         Geocoordinate myGeocoordinate = null;
         GeoCoordinate myGeoCoordinate = null;
         ReverseGeocodeQuery geoQ = null;
+
+        private IHubProxy HubProxy { get; set; }
+        const string ServerURI = "http://52.11.206.209:8080/signalr";
+        //const string ServerURI = "http://localhost:8080/signalr";
+        private HubConnection con { get; set; }
 
         public CallDriver()
         {
@@ -50,6 +58,7 @@ namespace UberRiding.Customer
 
             mapMain.Layers.Add(mapLayer);
 
+            ConnectAsync();
             //load thong tin driver
             txtbFullname.Text = Global.GlobalData.selectedDriver.fullname;
             txtbEmail.Text = Global.GlobalData.selectedDriver.email;
@@ -58,6 +67,61 @@ namespace UberRiding.Customer
 
             imgDriver.Source = Global.GlobalData.selectedDriver.driver_avatar;
             
+        }
+
+        private async void ConnectAsync()
+        {
+            con = new HubConnection(ServerURI);
+            con.Closed += Connection_Closed;
+            con.Error += Connection_Error;
+            HubProxy = con.CreateHubProxy("MyHub");
+            //Handle incoming event from server: use Invoke to write to console from SignalR's thread
+            HubProxy.On<string, string>("getPos", (driver_id, message) =>
+                Dispatcher.BeginInvoke(() => test(message))
+            );
+            try
+            {
+                await con.Start();
+            }
+            catch (HttpRequestException)
+            {
+                //No connection: Don't enable Send button or show chat UI
+                //btntrack.Content = "eror";
+            }
+            catch (HttpClientException)
+            {
+                //btntrack.Content = "eror";
+            }
+
+            Dispatcher.BeginInvoke(() =>
+            {
+                string id = "C" + Global.GlobalData.user_id;
+                HubProxy.Invoke("Connect", id);
+            });
+        }
+
+
+        private void test(string message)
+        {
+            string[] latlng = message.Split(",".ToCharArray());
+            //double lat = Double.Parse(latlng[0]);
+            //double lng = Double.Parse(latlng[1]);
+            //addMarkertoMap(new GeoCoordinate(lat, lng));
+            //txtFireBase.Text = message;
+        }
+
+        private void Connection_Error(Exception obj)
+        {
+            //txtFireBase.Text = "error";
+        }
+
+        /// <summary>
+        /// If the server is stopped, the connection will time out after 30 seconds (default), and the 
+        /// Closed event will fire.
+        /// </summary>
+        private void Connection_Closed()
+        {
+            //Deactivate chat UI; show login UI. 
         }
 
         public async void InitCurrentLocationInfo()
@@ -157,7 +221,7 @@ namespace UberRiding.Customer
             HttpFormUrlEncodedContent content =
                 new HttpFormUrlEncodedContent(postData);
             //tao 1 itinerary ongoing
-            var result = await RequestToServer.sendPostRequest("itinerary", content);
+            var result = await RequestToServer.sendPostRequest("calldriveritinerary", content);
 
             JObject jsonObject = JObject.Parse(result);
 
@@ -167,9 +231,47 @@ namespace UberRiding.Customer
             }
             else
             {
-                MessageBox.Show(jsonObject.Value<string>("message"));
+                //set selected itinerary
+                RootObject root = JsonConvert.DeserializeObject<RootObject>(result);
+                foreach (Itinerary i in root.itineraries)
+                {
+                    Itinerary2 i2 = new Itinerary2
+                    {
+                        itinerary_id = i.itinerary_id,
+                        driver_id = i.driver_id,
+                        customer_id = Convert.ToInt32(i.customer_id),
+                        start_address = i.start_address,
+                        start_address_lat = i.start_address_lat,
+                        start_address_long = i.start_address_long,
+                        end_address = i.end_address,
+                        end_address_lat = i.end_address_lat,
+                        end_address_long = i.end_address_long,
+                        distance = i.distance,
+                        description = i.description,
+                        status = i.status,
+                        created_at = i.created_at,
+                        time_start = i.time_start,
+                        //convert base64 to image
+                        //average_rating = i.average_rating
+
+
+                    };
+
+                    GlobalData.selectedItinerary = i2;
+                }
+                Dispatcher.BeginInvoke(() =>
+                {
+                    string driver_id = "D" + GlobalData.calldriver;
+
+                    //message = customer_id, itinerary_id, 
+                    string message = "C" + GlobalData.user_id + "," + GlobalData.selectedItinerary.itinerary_id;
+                    HubProxy.Invoke("SendPos2", driver_id, message);
+
+                    NavigationService.Navigate(new Uri("/Customer/CustomerItineraryDetails.xaml", UriKind.RelativeOrAbsolute));
+                });
+                //MessageBox.Show(jsonObject.Value<string>("message"));
                 //back to trang dau tien
-                NavigationService.Navigate(new Uri("/Customer/CustomerItineraryManagement.xaml", UriKind.RelativeOrAbsolute));
+                //NavigationService.Navigate(new Uri("/Customer/CustomerItineraryManagement.xaml", UriKind.RelativeOrAbsolute));
             }                       
         }
 

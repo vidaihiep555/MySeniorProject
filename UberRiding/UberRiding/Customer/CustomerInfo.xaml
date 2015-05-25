@@ -14,7 +14,7 @@
 	shell:SystemTray.IsVisible="True">
 
 	<!--LayoutRoot is the root grid where all page content is placed-->
-	<Grid x:Name="LayoutRoot" Background="#3DA5E1">
+	<Grid x:Name="LayoutRoot" Background="#36D7B7">
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto"/>
 			<RowDefinition Height="2.5*"/>
@@ -168,14 +168,11 @@
 		</ListBox>
 
 		<StackPanel HorizontalAlignment="Right" Margin="0,5,0,0" Grid.Row="3" Width="246">
-			<Button x:Name="btnUpgrade" Height="68" Content="Upgrade" Margin="-1,0,1,0">
-				<Button.Background>
-					<ImageBrush Stretch="Fill"/>
-				</Button.Background>
+            <Button x:Name="btnUpgrade" Height="68" Content="Upgrade" Margin="-1,0,1,0" BorderThickness="0" Background="#FF3DA5E1">
 			</Button>
 		</StackPanel>
 		<StackPanel HorizontalAlignment="Left" Margin="0,5,0,0" Grid.Row="3" Width="229">
-			<Button x:Name="btnChangePassword" Height="68" Content="Change Password" Margin="-1,0,1,0" Click="btnChangePassword_Click"/>
+            <Button x:Name="btnChangePassword" BorderThickness="0" Background="#FF3DA5E1" Height="68" Content="Change Password" Margin="-1,0,1,0" Click="btnChangePassword_Click"/>
 		</StackPanel>
 	</Grid>
 

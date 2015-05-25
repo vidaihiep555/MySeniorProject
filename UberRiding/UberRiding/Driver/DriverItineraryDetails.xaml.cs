@@ -185,7 +185,7 @@ namespace UberRiding.Driver
 
             Dispatcher.BeginInvoke(() =>
             {
-                string id = "C" + Global.GlobalData.user_id;
+                string id = "D" + Global.GlobalData.user_id;
                 HubProxy.Invoke("Connect", id);
             });
         }
@@ -221,10 +221,10 @@ namespace UberRiding.Driver
 
             Dispatcher.BeginInvoke(() =>
             {
-                string driver_id = "D" + GlobalData.calldriver;
+                string driver_id = "C" + GlobalData.selectedItinerary.customer_id;
 
                 //message = customer_id, itinerary_id, 
-                string message = "C" + GlobalData.user_id + "," + GlobalData.selectedItinerary.itinerary_id + "," + args1.Position.Coordinate.Latitude.ToString() + "," + args1.Position.Coordinate.Longitude.ToString();
+                string message = "D" + GlobalData.user_id + "," + GlobalData.selectedItinerary.itinerary_id + "," + args1.Position.Coordinate.Latitude.ToString() + "," + args1.Position.Coordinate.Longitude.ToString();
 
                 HubProxy.Invoke("SendTracking", driver_id, message);
             });

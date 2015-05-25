@@ -21,7 +21,7 @@ if ((isset($_GET['act']) && isset($_GET['staff_id'])) || (isset($_POST['act']) &
 
 		// execute the request
 		$result = curl_exec($ch);
-
+		//echo $result;
 		// close curl resource to free up system resources
 		curl_close($ch);
 		$staff = json_decode($result, true);

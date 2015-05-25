@@ -6,9 +6,9 @@ if (!isset($_SESSION["staff_api_key"])) {
 	die();
 }
 
-if ((isset($_GET['act']) && isset($_GET['user_id'])) || (isset($_POST['act']) && isset($_POST['user_id']))) {
+if ((isset($_GET['act']) && isset($_GET['customer_id'])) || (isset($_POST['act']) && isset($_POST['customer_id']))) {
 	$act = !isset($_GET['act'])?$_POST['act']:$_GET['act'];
-	$user_id = !isset($_GET['act'])?$_POST['user_id']:$_GET['user_id'];
+	$user_id = !isset($_GET['act'])?$_POST['customer_id']:$_GET['customer_id'];
 
 	if ($act == 'view') {
 		$api_key = $_SESSION["staff_api_key"];

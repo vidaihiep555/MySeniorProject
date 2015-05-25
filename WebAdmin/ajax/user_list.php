@@ -54,7 +54,7 @@ require_once '../include/Config.php';
 						curl_close($ch);
 
 						$json = json_decode($result);
-						$res = $json->{'users'};
+						$res = $json->{'customers'};
 						$i = 1;
 						foreach ($res as $value) {
 						?>
@@ -67,7 +67,7 @@ require_once '../include/Config.php';
 							<td><?php echo $value->{'phone'}==NULL?' ':$value->{'phone'} ?></td>
 							<td><?php echo $value->{'personalID'}==NULL?' ':$value->{'personalID'} ?></td>
 							<td><?php echo $value->{'status'}==NULL?' ':$value->{'status'} ?></td>
-							<td><a href="controller/user.php?user_id=<?php echo $value->{'user_id'} ?>&act=view" 
+							<td><a href="controller/user.php?customer_id=<?php echo $value->{'customer_id'} ?>&act=view" 
 									class="btn btn-warning btn-app-sm btn-circle"><i class="fa fa-edit"></i></a>
 								<a href="controller/user.php?user_id=<?php echo $value->{'user_id'} ?>&act=delete" 
 									class="btn btn-danger btn-app-sm btn-circle"><i class="fa fa-trash-o"></i></a> 

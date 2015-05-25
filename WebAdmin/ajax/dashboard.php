@@ -30,6 +30,6 @@ img.img-responsive { display: table-cell; width: 25%; }
 		<img class="img-responsive" src="img/statis.png">
 	</div>
 	<div class="col-xs-10 col-sm-4 col-md-5">
-		<h1>Ridesharing system</h1>
+		<h1>UberRiding system</h1>
 	</div>
 </div>
