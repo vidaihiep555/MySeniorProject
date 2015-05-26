@@ -21,9 +21,6 @@ namespace UberRiding.Customer
         ItineraryList itinearyOnGoingList = new ItineraryList();
         ItineraryList itinearyFinishedList = new ItineraryList();
 
-
-        
-
         public CustomerItineraryManagement()
         {
             InitializeComponent();
@@ -34,9 +31,7 @@ namespace UberRiding.Customer
             base.OnNavigatedTo(e);
             getItinerariesOfCustomer();
 
-        }
-
-        
+        }     
 
         public async void getItinerariesOfCustomer()
         {

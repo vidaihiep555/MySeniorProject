@@ -408,7 +408,7 @@ $app->put('/customer', 'authenticateCustomer', function() use($app) {
             $response = array();
 
             // updating task
-            $result = $db->updateCustomer($user_id, $fullname, $phone, $personalID, $link_avatar);
+            $result = $db->updateCustomer($user_id, $fullname, $phone, $personalID, $customer_avatar);
             if ($result) {
                 // task updated successfully
                 $response['error'] = false;
@@ -658,11 +658,16 @@ $app->get('/drivers/:lat/:long', 'authenticateUser', function($lat, $long) {
  * params task, status
  * url - /user
  */
-$app->put('/driver', 'authenticateDriver', function() use($app) {
+/*$app->put('/driver', 'authenticateDriver', function() use($app) {
             // check for required params
             verifyRequiredParams(array('driver_license', 'driver_license_img'));
 
-            global $user_id;            
+            global $user_id;
+            $fullname = $app->request->put('fullname');
+            $phone = $app->request->put('phone');
+            $personalID = $app->request->put('personalID');
+            $customer_avatar = $app->request->put('customer_avatar');
+            $fullname = $app->request->put('driver_license');            
             $driver_license = $app->request->put('driver_license');
             $driver_license_img = $app->request->put('driver_license_img');
 
@@ -689,7 +694,7 @@ $app->put('/driver', 'authenticateDriver', function() use($app) {
  * params task, status
  * url - /user
  */
-$app->put('/driverbusy', 'authenticateDriver', function() use($app) {
+/*$app->put('/driverbusy', 'authenticateDriver', function() use($app) {
             // check for required params
             verifyRequiredParams(array('busy_status'));
 
@@ -735,6 +740,38 @@ $app->put('/driverbusylatlong', 'authenticateDriver', function() use($app) {
                 // task failed to update
                 $response["error"] = true;
                 $response["message"] = "Your update is not successful! Please try again.";
+            }
+            echoRespnse(200, $response);
+        });*/
+
+
+
+$app->put('/driver/', 'authenticateDriver', function() use($app) {
+            // check for required params
+            //verifyRequiredParams(array('task', 'status'));
+            global $user_id;
+            $itinerary_fields = array();           
+
+            $request_params = array();
+            $request_params = $_REQUEST;
+            // Handling PUT request params
+            if ($_SERVER['REQUEST_METHOD'] == 'PUT') {
+                $app = \Slim\Slim::getInstance();
+                parse_str($app->request()->getBody(), $request_params);
+            }
+
+            $db = new DbHandler();
+            $response = array();
+            // updating task
+            $result = $db->updateDriver2($request_params, $user_id);
+            if ($result) {
+                // task updated successfully
+                $response["error"] = false;
+                $response["message"] = "Itinerary updated successfully";
+            } else {
+                // task failed to update
+                $response["error"] = true;
+                $response["message"] = "Itinerary failed to update. Please try again!";
             }
             echoRespnse(200, $response);
         });
@@ -1036,7 +1073,7 @@ $app->get('/itineraries/customer/:order', 'authenticateUser', function($order) {
                 $tmp["end_address"] = $itinerary["end_address"];
                 $tmp["end_address_lat"] = $itinerary["end_address_lat"];
                 $tmp["end_address_long"] = $itinerary["end_address_long"];
-                $tmp["time"] = $itinerary["time_start"];
+                $tmp["time_start"] = $itinerary["time_start"];
                 $tmp["distance"] = $itinerary["distance"];
                 $tmp["description"] = $itinerary["description"];
                 $tmp["status"] = $itinerary["status"];
@@ -1193,10 +1230,7 @@ $app->delete('/itinerary/:id', 'authenticateUser', function($itinerary_id) use($
             echoRespnse(200, $response);
         });
 
-
-
-///////////////////////////// FEEDBACK ////////////////////////////////////////////
-
+///////////////////////////// FEEDBACK ///////////////////////////////////////////////
 
 
 $app->post('/feedback', 'authenticateUser', function() use ($app) {
@@ -1286,7 +1320,7 @@ $app->get('/average_rating/:user_id', 'authenticateUser', function($user_id) {
  * method - POST
  * params - 
  */
-$app->post('/rating', 'authenticateUser', function() use ($app) {
+$app->post('/rating', 'authenticateCustomer', function() use ($app) {
             global $user_id;
 
             verifyRequiredParams(array('rating', 'rating_user_id'), $language);
@@ -1294,10 +1328,10 @@ $app->post('/rating', 'authenticateUser', function() use ($app) {
             $response = array();
 
             $rating = $app->request->post('rating');
-            $rating_user_id = $app->request->post('rating_user_id');
+            $driver_id = $app->request->post('driver_id');
 
             $db = new DbHandler();
-            $res = $db->createRating($user_id, $rating, $rating_user_id);
+            $res = $db->createRating($user_id, $driver_id, $rating);
 
             if ($res == c) {
                 $response["error"] = false;
@@ -1438,8 +1472,7 @@ $app->post('/vehicle', 'authenticateDriver', function() use ($app) {
             global $user_id;
 
 
-            verifyRequiredParams(array('type', 'license_plate', 
-                                        'reg_certificate', 'license_plate_img', 'vehicle_img', 'motor_insurance_img'));
+            verifyRequiredParams(array('type', 'license_plate', 'license_plate_img', 'vehicle_img'));
 
             $response = array();
 
@@ -1451,8 +1484,8 @@ $app->post('/vehicle', 'authenticateDriver', function() use ($app) {
             //$motor_insurance_img = $app->request->post('motor_insurance_img');
 
             $db = new DbHandler();
-            $res = $db->createVehicle($user_id, $type, $license_plate, $license_plate_img, $reg_certificate,
-                                        $vehicle_img, $motor_insurance_img);
+            $res = $db->createVehicle($user_id, $type, $license_plate, $license_plate_img,
+                                        $vehicle_img);
 
             if ($res == VEHICLE_CREATED_SUCCESSFULLY) {
                 $response["error"] = false;
@@ -1483,7 +1516,6 @@ $app->get('/vehicles', 'authenticateDriver', function() {
                 while ($vehicle = $result->fetch_assoc()) {
                     array_push($response['vehicles'], $vehicle);               
                 }
-
                 echoRespnse(200, $response);
             } else {
                 $response["error"] = true;
@@ -1508,13 +1540,13 @@ $app->get('/vehicle/:vehicle_id', 'authenticateDriver', function($vehicle_id) {
             if ($vehicle != NULL) {
                 $response["error"] = false;
                 $response['vehicle_id'] = $vehicle["vehicle_id"];
-                $response['user_id'] = $vehicle["user_id"];
+                $response['driver_id'] = $vehicle["driver_id"];
                 $response['type'] = $vehicle["type"];
                 $response['license_plate'] = $vehicle["license_plate"];
-                $response['reg_certificate'] = $vehicle["reg_certificate"];
+                //$response['reg_certificate'] = $vehicle["reg_certificate"];
                 $response['license_plate_img'] = $vehicle["license_plate_img"];
                 $response['vehicle_img'] = $vehicle["vehicle_img"];
-                $response['motor_insurance_img'] = $vehicle["motor_insurance_img"];
+                //$response['motor_insurance_img'] = $vehicle["motor_insurance_img"];
                 $response['status'] = $vehicle["status"];
                 $response['created_at'] = $vehicle["created_at"];
                 echoRespnse(200, $response);
@@ -1535,16 +1567,16 @@ $app->put('/vehicle/:vehicle_id', 'authenticateDriver', function($vehicle_id) us
 
             $type = $app->request->put('type');
             $license_plate = $app->request->put('license_plate');
-            $reg_certificate = $app->request->put('reg_certificate');
+            //$reg_certificate = $app->request->put('reg_certificate');
             $license_plate_img = $app->request->put('license_plate_img');
             $vehicle_img = $app->request->put('vehicle_img');
-            $motor_insurance_img = $app->request->put('motor_insurance_img');
+            //$motor_insurance_img = $app->request->put('motor_insurance_img');
 
             $db = new DbHandler();
             $response = array();
 
             // updating task
-            $result = $db->updateVehicle($vehicle_id, $type, $license_plate, $reg_certificate, $license_plate_img, $vehicle_img, $motor_insurance_img);
+            $result = $db->updateVehicle($vehicle_id, $type, $license_plate, $license_plate_img, $vehicle_img);
             if ($result) {
                 // task updated successfully
                 $response["error"] = false;
@@ -1582,7 +1614,7 @@ $app->delete('/vehicle/:vehicle_id', 'authenticateDriver', function($vehicle_id)
         });
 
 
-/////////////////////////////////////// ADMIN ///////////////////////////////////////////////////
+/////////////////////////////////////// ADMIN //////////////////////////////////////////////////////
 
 
 /**
@@ -1892,8 +1924,6 @@ $app->get('/staff/driver', 'authenticateStaff', function() {
 
             echoRespnse(200, $response);
         });
-
-
 /**
  * Get user information
  * method GET
@@ -2065,8 +2095,6 @@ $app->delete('/staff/itinerary/:id', function($itinerary_id) use($app) {
             }
             echoRespnse(200, $response);
         });
-
-
 
 
 /////////////////////////////////////////////////////////////////////////////////////////////////

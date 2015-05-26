@@ -104,7 +104,7 @@ namespace UberRiding.Driver
             //luu tru tam thoi
             Global.GlobalData.selectedItinerary = selectedItem;
             //navigate sang details
-            NavigationService.Navigate(new Uri("/Customer/CustomerItineraryDetails.xaml", UriKind.RelativeOrAbsolute));
+            NavigationService.Navigate(new Uri("/Driver/DriverItineraryDetails.xaml", UriKind.RelativeOrAbsolute));
         }
 
         private void longlistItinerariesDriverAccepted_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -114,7 +114,7 @@ namespace UberRiding.Driver
             //luu tru tam thoi
             Global.GlobalData.selectedItinerary = selectedItem;
             //navigate sang details
-            NavigationService.Navigate(new Uri("/Customer/CustomerItineraryDetails.xaml", UriKind.RelativeOrAbsolute));
+            NavigationService.Navigate(new Uri("/Driver/DriverItineraryDetails.xaml", UriKind.RelativeOrAbsolute));
         }
 
         private void longlistItinerariesFinished_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -124,7 +124,7 @@ namespace UberRiding.Driver
             //luu tru tam thoi
             Global.GlobalData.selectedItinerary = selectedItem;
             //navigate sang details
-            NavigationService.Navigate(new Uri("/Customer/CustomerItineraryDetails.xaml", UriKind.RelativeOrAbsolute));
+            NavigationService.Navigate(new Uri("/Driver/DriverItineraryDetails.xaml", UriKind.RelativeOrAbsolute));
         }
         #endregion
 

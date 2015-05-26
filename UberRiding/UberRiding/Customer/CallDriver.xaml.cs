@@ -253,15 +253,13 @@ namespace UberRiding.Customer
                         time_start = i.time_start,
                         //convert base64 to image
                         //average_rating = i.average_rating
-
-
                     };
 
                     GlobalData.selectedItinerary = i2;
                 }
                 Dispatcher.BeginInvoke(() =>
                 {
-                    string driver_id = "D" + GlobalData.calldriver;
+                    string driver_id = "D" + GlobalData.selectedDriver.driver_id;
 
                     //message = customer_id, itinerary_id, 
                     string message = "C" + GlobalData.user_id + "," + GlobalData.selectedItinerary.itinerary_id;

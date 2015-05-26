@@ -222,8 +222,7 @@ namespace UberRiding.Customer
             {
                 
                 Global.GlobalData.driverList.Add(new Driver2
-                {
-                    
+                {                   
                     driver_id = i.driver_id,
                     driver_lat = i.driver_lat,
                     driver_long = i.driver_long,
@@ -416,8 +415,6 @@ namespace UberRiding.Customer
                         time_start = i.time_start,
                         //convert base64 to image
                         //average_rating = i.average_rating
-
-                        
                     };
 
                     GlobalData.selectedItinerary = i2;
@@ -432,8 +429,7 @@ namespace UberRiding.Customer
 
                     NavigationService.Navigate(new Uri("/Customer/CustomerItineraryDetails.xaml", UriKind.RelativeOrAbsolute));
                 });
-            }
-            
+            }   
         }
 
         public async void createItinerary()
@@ -473,7 +469,6 @@ namespace UberRiding.Customer
                 NavigationService.Navigate(new Uri("/Customer/CustomerItineraryManagement.xaml", UriKind.RelativeOrAbsolute));
             }        
         }
-
     }
 }
 

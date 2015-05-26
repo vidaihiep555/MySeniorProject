@@ -140,7 +140,7 @@ namespace UberRiding.Driver
 
             HttpFormUrlEncodedContent content =
                 new HttpFormUrlEncodedContent(postData);
-            var result = await RequestToServer.sendPutRequest("user", content);
+            var result = await RequestToServer.sendPutRequest("driver", content);
 
             JObject jsonObject = JObject.Parse(result);
             if (jsonObject.Value<bool>("error"))
@@ -159,11 +159,11 @@ namespace UberRiding.Driver
         public async void updatePassword(string newPassword)
         {
             Dictionary<string, string> postData = new Dictionary<string, string>();
-            postData.Add("value", newPassword);
+            postData.Add("password", newPassword);
 
             HttpFormUrlEncodedContent content =
                 new HttpFormUrlEncodedContent(postData);
-            var result = await RequestToServer.sendPutRequest("driver/password", content);
+            var result = await RequestToServer.sendPutRequest("driver", content);
 
             JObject jsonObject = JObject.Parse(result);
             MessageBox.Show(jsonObject.Value<string>("message"));

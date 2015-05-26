@@ -87,7 +87,7 @@
 				</Image.Clip>
 			</Image>
 			<Grid Grid.Row="1">
-				<TextBlock x:Name="txtbFullname" Grid.Column="1" Text="HKUHKU" HorizontalAlignment="Center"/>
+				<TextBlock x:Name="txtbFullname" Grid.Column="1" HorizontalAlignment="Center"/>
 			</Grid>
 			<TextBlock HorizontalAlignment="Center"/>
 
@@ -168,11 +168,11 @@
 		</ListBox>
 
 		<StackPanel HorizontalAlignment="Right" Margin="0,5,0,0" Grid.Row="3" Width="246">
-            <Button x:Name="btnUpgrade" Height="68" Content="Upgrade" Margin="-1,0,1,0" BorderThickness="0" Background="#FF3DA5E1">
+			<Button x:Name="btnUpgrade" Height="68" Content="Upgrade" Margin="-1,0,1,0" BorderThickness="0" Background="#FF3DA5E1">
 			</Button>
 		</StackPanel>
 		<StackPanel HorizontalAlignment="Left" Margin="0,5,0,0" Grid.Row="3" Width="229">
-            <Button x:Name="btnChangePassword" BorderThickness="0" Background="#FF3DA5E1" Height="68" Content="Change Password" Margin="-1,0,1,0" Click="btnChangePassword_Click"/>
+			<Button x:Name="btnChangePassword" BorderThickness="0" Background="#FF3DA5E1" Height="68" Content="Change Password" Margin="-1,0,1,0" Click="btnChangePassword_Click"/>
 		</StackPanel>
 	</Grid>
 

@@ -12,7 +12,7 @@ namespace UberRiding.Request
         //public static string preServiceURI = "http://localhost/MySeniorProject/RESTFulServer/v1/";
         //public static string preServiceURI = "http://192.168.10.132/RESTFul/v1/";
         //public static string preServiceURI = "http://54.68.126.75/RESTFul/v1/";
-        public static string preServiceURI = "http://52.11.206.209/letrungvi/RESTFulServer/v1/";
+        public static string preServiceURI = "http://52.25.218.73/letrungvi/RESTFulServer/v1/";
 
 
         public static async Task<string> sendGetRequest(string methodName)

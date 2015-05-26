@@ -66,9 +66,6 @@ namespace UberRiding.Customer
             postData.Add("end_address_lat", end_lat.Trim());
             postData.Add("end_address_long", end_long.Trim());
 
-            string date = datePicker.Value.ToString();
-            string time = timePicker.Value.ToString();
-
             string date2 = datePicker.Value.Value.Year + "-" + datePicker.Value.Value.Month + "-" + datePicker.Value.Value.Day;
             string time2 = timePicker.Value.Value.Hour + ":" + timePicker.Value.Value.Minute + ":00";
 
@@ -85,9 +82,6 @@ namespace UberRiding.Customer
 
 
             //set alarm
-
-
-
 
             //back to trang dau tien
             NavigationService.Navigate(new Uri("/Customer/CustomerItineraryManagement.xaml", UriKind.RelativeOrAbsolute));

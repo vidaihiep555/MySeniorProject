@@ -51,11 +51,11 @@ namespace UberRiding.Driver
             Dictionary<string, string> postData = new Dictionary<string, string>();
             postData.Add("type", type);
             postData.Add("license_plate", motorplate);
-            postData.Add("reg_certificate", reg_certificate);
+            //postData.Add("reg_certificate", reg_certificate);
 
             postData.Add("vehicle_img", ImageConvert.convertImageToBase64(imgVehicle));
             postData.Add("license_plate_img", ImageConvert.convertImageToBase64(imgLicensePlate));
-            postData.Add("motor_insurance_img", ImageConvert.convertImageToBase64(imgMotorInsurance));
+            //postData.Add("motor_insurance_img", ImageConvert.convertImageToBase64(imgMotorInsurance));
 
             HttpFormUrlEncodedContent content =
                 new HttpFormUrlEncodedContent(postData);

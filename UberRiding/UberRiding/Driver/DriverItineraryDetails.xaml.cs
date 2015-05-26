@@ -21,6 +21,9 @@ namespace UberRiding.Driver
     {
         MapOverlay startPointOverlay = new MapOverlay();
         MapOverlay endPointOverlay = new MapOverlay();
+
+        MapOverlay drivercurrentOverlay = new MapOverlay();
+
         MapLayer mapLayer = new MapLayer();
         //Geocoordinate myGeocoordinate = null;
         //GeoCoordinate myGeoCoordinate = null;
@@ -51,9 +54,6 @@ namespace UberRiding.Driver
                 endPointOverlay = MarkerDraw.DrawCurrentMapMarker(new GeoCoordinate(GlobalData.selectedItinerary.end_address_lat, GlobalData.selectedItinerary.end_address_long));
                 wayPoints.Add(new GeoCoordinate(GlobalData.selectedItinerary.end_address_lat, GlobalData.selectedItinerary.end_address_long));
                 mapLayer.Add(endPointOverlay);
-
-
-                
 
 
                 //draw route
@@ -112,9 +112,6 @@ namespace UberRiding.Driver
                 gridInfo.Children.Add(btnTracking);
                 Grid.SetRow(btnTracking, 5);
 
-
-
-
                 ConnectAsync();
 
                 myLocator = new Geolocator();
@@ -123,20 +120,13 @@ namespace UberRiding.Driver
                 myLocator.ReportInterval = 500;
                 myLocator.PositionChanged += myGeoLocator_PositionChanged;
 
-
-
-
             }
             //hanh trinh da ket thuc
             else if (GlobalData.selectedItinerary.status.Equals(Global.GlobalData.ITINERARY_STATUS_FINISHED))
             {
                 txtItineraryInfo.Text = "Itinerary Finished";
             }
-
-            
-            
-
-                     
+          
 
             //set text 2 points
             txtboxStart.Text = GlobalData.selectedItinerary.start_address;
@@ -159,6 +149,7 @@ namespace UberRiding.Driver
             //datePicker.Value = GlobalData.selectedItinerary.da
         }
 
+        #region signalR
         private async void ConnectAsync()
         {
             con = new HubConnection(ServerURI);
@@ -212,12 +203,20 @@ namespace UberRiding.Driver
         {
             //Deactivate chat UI; show login UI. 
         }
+        #endregion
+
         private void myGeoLocator_PositionChanged(Geolocator sender, PositionChangedEventArgs args1)
         {
-            //draw on map
+            //draw current driver position on map
 
 
+            if (drivercurrentOverlay != null)
+            {
+                mapLayer.Remove(drivercurrentOverlay);
+            }
 
+            drivercurrentOverlay = Global.MarkerDraw.DrawDriverMarker(new GeoCoordinate(args1.Position.Coordinate.Latitude, args1.Position.Coordinate.Longitude), new Driver2());
+            mapLayer.Add(drivercurrentOverlay);
 
             Dispatcher.BeginInvoke(() =>
             {
@@ -232,7 +231,7 @@ namespace UberRiding.Driver
 
         private void btnTracking_Click(object sender, RoutedEventArgs e)
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
 
 

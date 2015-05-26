@@ -94,9 +94,6 @@
     <Compile Include="AboutUs.xaml.cs">
       <DependentUpon>AboutUs.xaml</DependentUpon>
     </Compile>
-    <Compile Include="AccountInfo.xaml.cs">
-      <DependentUpon>AccountInfo.xaml</DependentUpon>
-    </Compile>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
@@ -141,9 +138,6 @@
     </Compile>
     <Compile Include="Driver\DriverMainMap.xaml.cs">
       <DependentUpon>DriverMainMap.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Driver\DriverRating.xaml.cs">
-      <DependentUpon>DriverRating.xaml</DependentUpon>
     </Compile>
     <Compile Include="Driver\DriverReport.xaml.cs">
       <DependentUpon>DriverReport.xaml</DependentUpon>
@@ -203,10 +197,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="AccountInfo.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Customer\AdvancePostItinerary.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -260,10 +250,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Driver\DriverMainMap.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Driver\DriverRating.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

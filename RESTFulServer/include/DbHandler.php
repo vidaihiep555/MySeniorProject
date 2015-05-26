@@ -327,12 +327,12 @@ class DbHandler {
      * @param String $personalID_img Personal Identification Image
      * @param String $customer_avatar Link Avartar
      */
-    public function updateCustomer($user_id, $fullname, $phone, $personalID, $customer_avatar) {
+    public function updateCustomer($customer_id, $fullname, $phone, $personalID, $customer_avatar) {
         $stmt = $this->conn->prepare("UPDATE customer set fullname = ?, phone = ?, personalID = ?,
                                         customer_avatar = ?, status = 3
                                         WHERE customer_id = ?");
 
-        $stmt->bind_param("ssssi", $fullname, $phone, $personalID, $customer_avatar, $user_id);
+        $stmt->bind_param("ssssi", $fullname, $phone, $personalID, $customer_avatar, $customer_id);
         $stmt->execute();
 
         $num_affected_rows = $stmt->affected_rows;
@@ -358,38 +358,6 @@ class DbHandler {
     ////////////////////////////////////////////////////////////////////////////////////////////////////////
     /* ------------- `DRIVER` table method ------------------ */
     ///////////////////////////////////////////////////////////////////////////////////////////////////////
-    /**
-     * Creating new user
-     * @param String $name User full name
-     * @param String $email User login email id
-     * @param String $password User login password
-     */
-    /*public function createDriver($driver_license, $driver_license_img) {
-        // First check if user already existed in db
-        
-        $sql_query = "INSERT INTO driver(driver_license, driver_license_img) values( ?, ?)";
-
-        // insert query
-        if ($stmt = $this->conn->prepare($sql_query)) {
-            $stmt->bind_param("ss", $driver_license==NULL?'':$driver_license, $driver_license_img==NULL?'':$driver_license_img);
-            $result = $stmt->execute();
-        } else {
-            var_dump($this->conn->error);
-        }
-
-
-        $stmt->close();
-
-        // Check for successful insertion
-        if ($result) {
-            // User successfully inserted
-            return DRIVER_CREATED_SUCCESSFULLY;
-        } else {
-            // Failed to create user
-            return DRIVER_CREATE_FAILED;
-        }
-        
-    }*/
 
 
     public function createDriver($email, $password) {
@@ -628,7 +596,35 @@ class DbHandler {
         return $num_affected_rows > 0;
     }
 
+    /**
+     * Updating itinerary
+     * @param Aray $itinerary_fields properties of the itinerary
+     * @param Integer $itinerary_id id of the itinerary
+     */
+    public function updateDriver2($driver_fields, $driver_id) {
 
+        $q= "UPDATE driver SET ";
+        foreach ($itinerary_fields as $key => $value) {
+            //check whether the value is numeric
+            if(!is_numeric($value)){
+                $q .= "{$key} = '{$value}', ";
+            } else {
+                $q .= "{$key} = {$value}, ";
+            }            
+        }
+
+        $q = trim(($q));
+
+        $nq = substr($q, 0, strlen($q) - 1 );
+
+        $nq .= " WHERE driver_id = {$driver_id} LIMIT 1";
+
+        $stmt = $this->conn->prepare($nq);       
+        $stmt->execute();
+        $num_affected_rows = $stmt->affected_rows;
+        $stmt->close();
+        return $num_affected_rows > 0;
+    }
 
     /**
      * Delete driver
@@ -770,6 +766,12 @@ class DbHandler {
 
     }
 
+    public function findSuitableDriver(){
+        $q = "SELECT * FROM driver as d, busytime as t WHERE  ";
+
+        $q .= " t.day != ? AND t.";
+    }
+
     //not finished yet
     /**
      * Fetching single itinerary
@@ -837,7 +839,7 @@ class DbHandler {
      */
     public function getDriverItineraries2($driver_id, $order) {
         $q = "SELECT itinerary_id, i.driver_id, i.customer_id, start_address, start_address_lat, start_address_long,
-            end_address, end_address_lat, end_address_long, leave_date, duration, distance, cost, description, i.status as itinerary_status, i.created_at,
+            end_address, end_address_lat, end_address_long, leave_date, duration, distance, description, i.status as itinerary_status, i.created_at,
             driver_license, driver_license_img, u.user_id, u.email, u.fullname, u.phone, personalID, customer_avatar ";
         $q .=    "FROM itinerary as i, driver as d, user as u ";
         $q .=     "WHERE i.driver_id = d.user_id AND d.user_id = u.user_id AND driver_id = ? ";
@@ -1221,13 +1223,12 @@ class DbHandler {
 
     /* ------------- `Vehicle` table method ------------------ */
 
-    public function createVehicle($driver_id, $type, $license_plate, $license_plate_img,
-                                        $vehicle_img) {
+    public function createVehicle($driver_id, $type, $license_plate, $license_plate_img, $vehicle_img) {
         // First check if user already existed in db
         if (!$this->isVehicleExists($license_plate)) {
 
             $sql_query = "INSERT INTO vehicle(driver_id, type, license_plate, license_plate_img,
-                                        vehicle_img, status) values(?, ?, ?, ?, ?, ?, ?, 1)";
+                                        vehicle_img, status) values(?, ?, ?, ?, ?, 1)";
 
             // insert query
             if ($stmt = $this->conn->prepare($sql_query)) {
@@ -1382,7 +1383,7 @@ class DbHandler {
 
     /* ------------- `Rating` table method ------------------ */
 
-    public function createRating($customer_id, $rating, $rating_user_id) {
+    public function createRating($customer_id, $driver_id, $rating) {
         // First check if user already existed in db
 
             $sql_query = "INSERT INTO rating(customer_id, driver_id, rating) values(?, ?, ?)";

@@ -47,7 +47,7 @@ namespace UberRiding.Customer
 
         Geolocator myLocator = null;
         private IHubProxy HubProxy { get; set; }
-        const string ServerURI = "http://52.11.206.209:8080/signalr";
+        const string ServerURI = "http://52.25.218.73:8080/signalr";
         //const string ServerURI = "http://localhost:8080/signalr";
         private HubConnection con { get; set; }
 
@@ -136,7 +136,7 @@ namespace UberRiding.Customer
                 btnTracking.Content = "Tracking";
                 btnTracking.Click += btnTracking_Click;
                 gridInfo.Children.Add(btnTracking);
-                Grid.SetRow(btnTracking, 5);
+                Grid.SetRow(btnTracking, 4);
 
 
                 Button btnDriverInfo = new Button();
@@ -149,7 +149,7 @@ namespace UberRiding.Customer
                 btnFinshItinerary.Content = "Finish Itinerary";
                 btnFinshItinerary.Click += btnFinshItinerary_Click;
                 gridInfo.Children.Add(btnFinshItinerary);
-                Grid.SetRow(btnFinshItinerary, 5);
+                Grid.SetRow(btnFinshItinerary, 6);
 
 
                 ConnectAsync();
@@ -171,6 +171,8 @@ namespace UberRiding.Customer
                 txtItineraryInfo.Text = "Itinerary Finished";
 
                 //tao nut ket thuc
+
+
             }
 
             
@@ -270,7 +272,7 @@ namespace UberRiding.Customer
 
         void btnFinshItinerary_Click(object sender, RoutedEventArgs e)
         {
-            throw new NotImplementedException();
+            //update 
         }
 
         void btnDriverInfo_Click(object sender, RoutedEventArgs e)
