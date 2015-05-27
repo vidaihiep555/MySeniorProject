@@ -421,6 +421,8 @@ $app->put('/customer', 'authenticateCustomer', function() use($app) {
             echoRespnse(200, $response);
         });
 
+
+
 /**
  * Deleting user.
  * method DELETE
@@ -845,6 +847,114 @@ $app->post('/itinerary', 'authenticateCustomer', function() use ($app) {
         });
 
 
+$app->post('/zzz', 'authenticateCustomer', function() {
+            global $user_id;
+            verifyRequiredParams(array('start_address','start_address_lat','start_address_long','end_address',
+                'end_address_lat','end_address_long','time_start', 'distance', 'description'));
+
+            $response = array();
+            
+            $start_address = $app->request->post('start_address');
+            $start_address_lat = $app->request->post('start_address_lat');
+            $start_address_long = $app->request->post('start_address_long');
+            $end_address = $app->request->post('end_address');
+            $end_address_lat = $app->request->post('end_address_lat');
+            $end_address_long = $app->request->post('end_address_long');
+            $time_start = $app->request->post('time_start');
+            $description = $app->request->post('description');
+            $distance = $app->request->post('distance');
+
+            $day = $app->request->post('day');
+            $month = $app->request->post('month');
+            $year = $app->request->post('year');
+            $hour = $app->request->post('hour');
+
+            $db = new DbHandler();
+            // fetching all user tasks
+            $result = $db->findSuitableDriver();
+
+            //$response["error"] = false;
+            $drivers = array();
+
+            // looping through result and preparing tasks array
+            while ($x = $result->fetch_assoc()) {
+                $tmp = array();
+
+                //itinerary info
+                $tmp["driver_id"] = $x["driver_id"];
+                $tmp["day"] = $x["day"];
+                $tmp["month"] = $x["month"];
+                $tmp["year"] = $x["year"];
+                
+                array_push($drivers, $tmp);
+            }
+            //$check;
+            $nochooseid = NULL;
+            $chooseid = NULL;
+            //$id = -1;
+            foreach($drivers as $driver){
+                if(isset($nochooseid) && $nochooseid == $driver['driver_id']){
+                    continue;
+                }
+
+                if(isset($chooseid) && $chooseid != $driver['driver_id'] && $nochooseid!= $chooseid){
+                    break;
+                }
+
+                if($day==$driver['day'] && $month==$driver['month'] && $year==$driver['year']){//driver ko thoa man ban ron vao dung thoi diem do
+                    $nochooseid = $driver['driver_id'];
+                } else {//chuyen sang ke tiep
+                    $chooseid = $driver['driver_id'];
+                }
+            }
+
+            if(isset($chooseid)){
+                if(isset($nochooseid)){
+                    if($nochooseid!= $chooseid){
+                        //create itinerary
+
+                        $itinerary = $db->createItinerary($user_id, $chooseid, $start_address, $start_address_lat,$start_address_long,
+                            $end_address, $end_address_lat, $end_address_long, $time_start, $description, $distance);
+
+                        //create busytime for driver
+                        $busytime = $db->createBusytime($driver_id, $day, $month, $year, $from_hour, $to_hour)
+
+
+                        //return driver_id and itinerary_id to customer
+
+                        if ($itinerary != NULL) {
+                            $response["error"] = false;
+                            //$response["itineraries"] = array();
+                            //$tmp = array();
+                            //$response["message"] = "Itinerary created successfully";
+                            $tmp["itinerary_id"] = $itinerary["itinerary_id"];
+                            $tmp["driver_id"] = $itinerary["driver_id"];
+                            //$response["itinerary_id"] = $itinerary_id;
+                            echoRespnse(201, $response);
+                        } else {
+                            $response["error"] = true;
+                            $response["message"] = "Failed to create itinerary. Please try again!";
+                            echoRespnse(200, $response);
+                        }    
+                    } else {
+                        $response["error"] = true;
+                        $response["message"] = "Can't find the siutable driver for you. Please try again!";
+                    }
+                } else {
+                    $response["error"] = true;
+                    $response["message"] = "Can't find the siutable driver for you. Please try again!";
+                }
+            } else {
+                $response["error"] = true;
+                $response["message"] = "Can't find the siutable driver for you. Please try again!";
+            }
+
+            //echo $response;
+            echoRespnse(200, $response);
+
+        });
+
+
 $app->post('/calldriveritinerary', 'authenticateCustomer', function() use ($app) {
             // check for required params
             verifyRequiredParams(array('driver_id','start_address','start_address_lat','start_address_long','end_address',
@@ -1000,6 +1110,7 @@ $app->get('/itineraries', 'authenticateUser', function() {
             echoRespnse(200, $response);
 
         });
+
 
 /**
  * Listing all itineraries of driver

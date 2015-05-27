@@ -10,6 +10,7 @@ using Microsoft.Phone.Shell;
 using Windows.Web.Http;
 using Newtonsoft.Json.Linq;
 using UberRiding.Request;
+using UberRiding.Global;
 
 namespace UberRiding.Customer
 {
@@ -66,22 +67,45 @@ namespace UberRiding.Customer
             postData.Add("end_address_lat", end_lat.Trim());
             postData.Add("end_address_long", end_long.Trim());
 
-            string date2 = datePicker.Value.Value.Year + "-" + datePicker.Value.Value.Month + "-" + datePicker.Value.Value.Day;
-            string time2 = timePicker.Value.Value.Hour + ":" + timePicker.Value.Value.Minute + ":00";
+            int day = datePicker.Value.Value.Day;
+            int month = datePicker.Value.Value.Month;
+            int year = datePicker.Value.Value.Year;
+            int hour = datePicker.Value.Value.Hour;
+            int minute = datePicker.Value.Value.Minute;
+            string date2 = year + "-" + month + "-" + day;
+            string time2 = hour + ":" + minute + ":00";
 
             postData.Add("time_start", date2.Trim() + " " + time2.Trim());
+
+            postData.Add("day", day.ToString());
+            postData.Add("month", month.ToString());
+            postData.Add("year", year.ToString());
+
+            postData.Add("hour", hour.ToString());
             //postData.Add("duration", txtbDistance.Text.Trim());
             HttpFormUrlEncodedContent content =
                 new HttpFormUrlEncodedContent(postData);
 
-            //var result = await RequestToServer.sendGetRequest("itinerary/2", content);
-            var result = await RequestToServer.sendPostRequest("itinerary", content);
-
+            //var result = await RequestToServer.sendPostRequest("itinerary", content);
+            var result = await RequestToServer.sendPostRequest("zzz", content);
             JObject jsonObject = JObject.Parse(result);
-            MessageBox.Show(jsonObject.Value<string>("message"));
 
 
-            //set alarm
+            if (jsonObject.Value<string>("error").Trim().Equals("true"))
+            {
+                MessageBox.Show(jsonObject.Value<string>("message"));
+            }
+            else
+            {
+                //send to driver via signalR
+
+
+
+                //set alarm
+                DateTime datetime = new DateTime(year, month, day, hour, minute, 00);
+                ScheduleReminder.addScheduleReminder("name", "title", "content", datetime.AddHours(-2), datetime);
+
+            }
 
             //back to trang dau tien
             NavigationService.Navigate(new Uri("/Customer/CustomerItineraryManagement.xaml", UriKind.RelativeOrAbsolute));

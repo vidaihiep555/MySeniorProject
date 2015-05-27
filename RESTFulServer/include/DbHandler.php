@@ -342,6 +342,42 @@ class DbHandler {
     }
 
     /**
+     * Updating itinerary
+     * @param Aray $itinerary_fields properties of the itinerary
+     * @param Integer $itinerary_id id of the itinerary
+     */
+    public function updateCustomer2($customer_fields, $customer_id) {
+
+        $q= "UPDATE customer SET ";
+        foreach ($customer_fields as $key => $value) {
+            //check whether the value is numeric
+            if(!is_numeric($value)){
+                if($key == 'password'){
+                    $password_hash = PassHash::hash($value);
+                    $q .= "{$key} = '{$password_hash}', ";
+                } else {
+                    $q .= "{$key} = '{$value}', ";
+                }
+                
+            } else {
+                    $q .= "{$key} = {$value}, ";              
+            }            
+        }
+
+        $q = trim(($q));
+
+        $nq = substr($q, 0, strlen($q) - 1 );
+
+        $nq .= " WHERE customer_id = {$customer_id} LIMIT 1";
+
+        $stmt = $this->conn->prepare($nq);       
+        $stmt->execute();
+        $num_affected_rows = $stmt->affected_rows;
+        $stmt->close();
+        return $num_affected_rows > 0;
+    }
+
+    /**
      * Delete user
      * @param String $user_id id of user
      */
@@ -604,12 +640,18 @@ class DbHandler {
     public function updateDriver2($driver_fields, $driver_id) {
 
         $q= "UPDATE driver SET ";
-        foreach ($itinerary_fields as $key => $value) {
+        foreach ($driver_fields as $key => $value) {
             //check whether the value is numeric
             if(!is_numeric($value)){
-                $q .= "{$key} = '{$value}', ";
+                if($key == 'password'){
+                    $password_hash = PassHash::hash($value);
+                    $q .= "{$key} = '{$password_hash}', ";
+                } else {
+                    $q .= "{$key} = '{$value}', ";
+                }
+                
             } else {
-                $q .= "{$key} = {$value}, ";
+                    $q .= "{$key} = {$value}, ";              
             }            
         }
 
@@ -685,15 +727,15 @@ class DbHandler {
      * @param Integer $driver_id user id to whom itinerary belongs to
      * @param String $start_address, $end_address, $leave_day, $duration, $cost, $description are itinerary's properties
      */
-    public function createItinerary($customer_id, $start_address, $start_address_lat,$start_address_long,
+    public function createItinerary($customer_id, $driver_id, $start_address, $start_address_lat,$start_address_long,
              $end_address, $end_address_lat, $end_address_long, $time_start, $description, $distance) {
         $q = "INSERT INTO itinerary(customer_id, driver_id, start_address, start_address_lat, start_address_long, 
             end_address, end_address_lat, end_address_long, time_start, description, distance, status) ";
                 $q .= " VALUES(?,1,?,?,?,?,?,?,?,?,?,". ITINERARY_STATUS_CREATED.")";
         $stmt = $this->conn->prepare($q);
 		
-        $stmt->bind_param("isddsddssd",
-            $customer_id, $start_address, $start_address_lat, $start_address_long, 
+        $stmt->bind_param("iisddsddssd",
+            $customer_id, $driver_id, $start_address, $start_address_lat, $start_address_long, 
             $end_address, $end_address_lat, $end_address_long, $time_start, $description, $distance);
         
         $result = $stmt->execute();
@@ -703,21 +745,21 @@ class DbHandler {
             $new_itinerary_id = $this->conn->insert_id;
             
             // Itinerary successfully inserted
-            return $new_itinerary_id;
-            
+            $res = $this->getItinerary($new_itinerary_id);
+            return $res;
         } else {
             //echo $q;
             return NULL;
         }
 
         // Check for successful insertion
-        if ($result) {
+        /*if ($result) {
             // Itinerary successfully inserted
             return ITINERARY_CREATED_SUCCESSFULLY;
         } else {
             // Failed to create itinerary
             return ITINERARY_CREATE_FAILED;
-        }
+        }*/
 
     }
 
@@ -756,20 +798,28 @@ class DbHandler {
         }
 
         // Check for successful insertion
-        if ($result) {
+        /*if ($result) {
             // Itinerary successfully inserted
             return ITINERARY_CREATED_SUCCESSFULLY;
         } else {
             // Failed to create itinerary
             return ITINERARY_CREATE_FAILED;
-        }
+        }*/
 
     }
 
     public function findSuitableDriver(){
-        $q = "SELECT * FROM driver as d, busytime as t WHERE  ";
+        $q1 = "SELECT d.driver_id, t.day, t.month, t.year ";
 
-        $q .= " t.day != ? AND t.";
+        $q1 .= " FROM (SELECT * FROM driver WHERE busy_status = ". DRIVER_NOT_BUSY.") as d, busytime as t WHERE ";
+
+        $q1 .= " d.driver_id = t.driver_id ";
+
+        $stmt = $this->conn->prepare($q1);
+        $stmt->execute();
+        $drivers = $stmt->get_result();
+        $stmt->close();
+        return $drivers;
     }
 
     //not finished yet
@@ -785,7 +835,7 @@ class DbHandler {
             $res = array();
             $stmt->bind_result($itinerary_id, $driver_id, $customer_id, $start_address, $start_address_lat, $start_address_long,
                 $end_address, $end_address_lat, $end_address_long,
-                $time, $distance, $description, $status, $created_at);
+                $time_start, $distance, $description, $status, $created_at);
             // TODO
             // $task = $stmt->get_result()->fetch_assoc();
             $stmt->fetch();
@@ -841,8 +891,8 @@ class DbHandler {
         $q = "SELECT itinerary_id, i.driver_id, i.customer_id, start_address, start_address_lat, start_address_long,
             end_address, end_address_lat, end_address_long, leave_date, duration, distance, description, i.status as itinerary_status, i.created_at,
             driver_license, driver_license_img, u.user_id, u.email, u.fullname, u.phone, personalID, customer_avatar ";
-        $q .=    "FROM itinerary as i, driver as d, user as u ";
-        $q .=     "WHERE i.driver_id = d.user_id AND d.user_id = u.user_id AND driver_id = ? ";
+        $q .=    " FROM itinerary as i, driver as d, user as u ";
+        $q .=     " WHERE i.driver_id = d.user_id AND d.user_id = u.user_id AND driver_id = ? ";
 
         if(isset($order)){
             //$q .= "ORDER BY " .$order;
@@ -1006,6 +1056,33 @@ class DbHandler {
         $num_affected_rows = $stmt->affected_rows;
         $stmt->close();
         return $num_affected_rows > 0;
+    }
+
+
+    /* ------------- Busytime table ------------------ */
+
+    /**
+     * Creating new itinerary
+     * @param Integer $driver_id user id to whom itinerary belongs to
+     * @param String $start_address, $end_address, $leave_day, $duration, $cost, $description are itinerary's properties
+     */
+    public function createBusytime($driver_id, $day, $month, $year, $from_hour, $to_hour) {
+        $q = "INSERT INTO itinerary(driver_id, day, month, year, from_hour, to_hour) ";
+                $q .= " VALUES(?,?,?,?,?,?)";
+        $stmt = $this->conn->prepare($q);
+        
+        $stmt->bind_param("iiiiii", $driver_id, $day, $month, $year, $from_hour, $to_hour);
+        
+        $result = $stmt->execute();
+        $stmt->close();
+        //echo $end_address;
+        if ($result) {
+            return $result;
+        } else {
+            //echo $q;
+            return NULL;
+        }
+
     }
 
     /* ------------- Feedback table ------------------ */

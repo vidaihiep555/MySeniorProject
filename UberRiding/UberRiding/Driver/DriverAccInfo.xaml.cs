@@ -135,7 +135,7 @@ namespace UberRiding.Driver
             postData.Add("personalID", personalID);
             postData.Add("phone", phone);
 
-            postData.Add("link_avatar", ImageConvert.convertImageToBase64(imgAvatar));
+            postData.Add("driver_avatar", ImageConvert.convertImageToBase64(imgAvatar));
             postData.Add("personalID_img", ImageConvert.convertImageToBase64(imgAvatar));
 
             HttpFormUrlEncodedContent content =

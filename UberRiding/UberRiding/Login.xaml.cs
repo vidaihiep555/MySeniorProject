@@ -124,7 +124,7 @@ namespace UberRiding
             postData.Add("password", txtbPassword.Text);
             HttpFormUrlEncodedContent content =
                 new HttpFormUrlEncodedContent(postData);
-            var result = await RequestToServer.sendPostRequest("user", content);
+            var result = await RequestToServer.sendPostRequest("customer", content);
 
             JObject jsonObject = JObject.Parse(result);
             MessageBox.Show(jsonObject.Value<string>("message"));
