@@ -19,8 +19,7 @@ namespace UberRiding.Driver
     public partial class DriverMainMap : PhoneApplicationPage
     {
         private IHubProxy HubProxy { get; set; }
-        const string ServerURI = "http://52.11.206.209:8080/signalr";
-        //const string ServerURI = "http://localhost:8080/signalr";
+        const string ServerURI = "http://52.25.218.73:8080/signalr";
         private HubConnection con { get; set; }
         public DriverMainMap()
         {

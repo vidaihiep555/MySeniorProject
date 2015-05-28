@@ -731,7 +731,7 @@ class DbHandler {
              $end_address, $end_address_lat, $end_address_long, $time_start, $description, $distance) {
         $q = "INSERT INTO itinerary(customer_id, driver_id, start_address, start_address_lat, start_address_long, 
             end_address, end_address_lat, end_address_long, time_start, description, distance, status) ";
-                $q .= " VALUES(?,1,?,?,?,?,?,?,?,?,?,". ITINERARY_STATUS_CREATED.")";
+                $q .= " VALUES(?,?,?,?,?,?,?,?,?,?,?,". ITINERARY_STATUS_CREATED.")";
         $stmt = $this->conn->prepare($q);
 		
         $stmt->bind_param("iisddsddssd",
@@ -809,7 +809,7 @@ class DbHandler {
     }
 
     public function findSuitableDriver(){
-        $q1 = "SELECT d.driver_id, t.day, t.month, t.year ";
+        $q1 = "SELECT d.driver_id, t.day, t.month, t.year, t.from_hour, t.to_hour ";
 
         $q1 .= " FROM (SELECT * FROM driver WHERE busy_status = ". DRIVER_NOT_BUSY.") as d, busytime as t WHERE ";
 
@@ -833,7 +833,7 @@ class DbHandler {
         $stmt->bind_param("i",$itinerary_id);
         if ($stmt->execute()) {
             $res = array();
-            $stmt->bind_result($itinerary_id, $driver_id, $customer_id, $start_address, $start_address_lat, $start_address_long,
+            $stmt->bind_result($itinerary_id, $customer_id, $driver_id, $start_address, $start_address_lat, $start_address_long,
                 $end_address, $end_address_lat, $end_address_long,
                 $time_start, $distance, $description, $status, $created_at);
             // TODO
@@ -848,7 +848,7 @@ class DbHandler {
             $res["end_address"] = $end_address;
             $res["end_address_lat"] = $end_address_lat;
             $res["end_address_long"] = $end_address_long;
-            $res["time_start"] = $time;
+            $res["time_start"] = $time_start;
             $res["distance"] = $distance;
             $res["description"] = $description;
             $res["status"] = $status;
@@ -1067,7 +1067,7 @@ class DbHandler {
      * @param String $start_address, $end_address, $leave_day, $duration, $cost, $description are itinerary's properties
      */
     public function createBusytime($driver_id, $day, $month, $year, $from_hour, $to_hour) {
-        $q = "INSERT INTO itinerary(driver_id, day, month, year, from_hour, to_hour) ";
+        $q = "INSERT INTO busytime(driver_id, day, month, year, from_hour, to_hour) ";
                 $q .= " VALUES(?,?,?,?,?,?)";
         $stmt = $this->conn->prepare($q);
         

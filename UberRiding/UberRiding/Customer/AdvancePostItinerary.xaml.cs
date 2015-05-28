@@ -11,23 +11,32 @@ using Windows.Web.Http;
 using Newtonsoft.Json.Linq;
 using UberRiding.Request;
 using UberRiding.Global;
+using Microsoft.AspNet.SignalR.Client;
+using System.Net.Http;
 
 namespace UberRiding.Customer
 {
     public partial class AdvancePostItinerary : PhoneApplicationPage
     {
+        string start = "";
+        string end = "";
+        string start_lat, start_long, end_lat, end_long = "";
+
+        private IHubProxy HubProxy { get; set; }
+        const string ServerURI = "http://52.25.218.73:8080/signalr";
+        //const string ServerURI = "http://localhost:8080/signalr";
+        private HubConnection con { get; set; }
+
         public AdvancePostItinerary()
         {
             InitializeComponent();
         }
 
-        string start = "";
-        string end = "";
-        string start_lat, start_long, end_lat, end_long = "";
-
         protected override void OnNavigatedTo(System.Windows.Navigation.NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
+
+            ConnectAsync();
 
             if (NavigationContext.QueryString.TryGetValue("start", out start))
             {
@@ -49,6 +58,57 @@ namespace UberRiding.Customer
                 NavigationService.GoBack();
             }
 
+        }
+
+        private async void ConnectAsync()
+        {
+            con = new HubConnection(ServerURI);
+            con.Closed += Connection_Closed;
+            con.Error += Connection_Error;
+            HubProxy = con.CreateHubProxy("MyHub");
+            //Handle incoming event from server: use Invoke to write to console from SignalR's thread
+            HubProxy.On<string, string>("getPos", (driver_id, message) =>
+                Dispatcher.BeginInvoke(() => test(message))
+            );
+            try
+            {
+                await con.Start();
+            }
+            catch (HttpRequestException)
+            {
+                //No connection: Don't enable Send button or show chat UI
+                //btntrack.Content = "eror";
+            }
+            catch (HttpClientException)
+            {
+                //btntrack.Content = "eror";
+            }
+
+            Dispatcher.BeginInvoke(() =>
+            {
+                string id = "C" + Global.GlobalData.user_id;
+                HubProxy.Invoke("Connect", id);
+            });
+        }
+
+
+        private void test(string message)
+        {
+            //string[] latlng = message.Split(",".ToCharArray());
+        }
+
+        private void Connection_Error(Exception obj)
+        {
+            //txtFireBase.Text = "error";
+        }
+
+        /// <summary>
+        /// If the server is stopped, the connection will time out after 30 seconds (default), and the 
+        /// Closed event will fire.
+        /// </summary>
+        private void Connection_Closed()
+        {
+            //Deactivate chat UI; show login UI. 
         }
 
         private async void btnRegister_Click(object sender, RoutedEventArgs e)
@@ -81,7 +141,8 @@ namespace UberRiding.Customer
             postData.Add("month", month.ToString());
             postData.Add("year", year.ToString());
 
-            postData.Add("hour", hour.ToString());
+            postData.Add("from_hour", hour.ToString());
+            postData.Add("to_hour", (hour+3).ToString());
             //postData.Add("duration", txtbDistance.Text.Trim());
             HttpFormUrlEncodedContent content =
                 new HttpFormUrlEncodedContent(postData);
@@ -98,7 +159,8 @@ namespace UberRiding.Customer
             else
             {
                 //send to driver via signalR
-
+                string driver_id = jsonObject.Value<string>("driver_id");
+                string itinerary_id = jsonObject.Value<string>("itinerary_id");
 
 
                 //set alarm

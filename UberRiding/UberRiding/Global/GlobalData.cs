@@ -1,9 +1,12 @@
-﻿using System;
+﻿using Microsoft.AspNet.SignalR.Client;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
+using System.Windows.Threading;
 
 namespace UberRiding.Global
 {
@@ -17,8 +20,59 @@ namespace UberRiding.Global
 
         //driver
 
+        public static IHubProxy HubProxy { get; set; }
+        public static const string ServerURI = "http://52.25.218.73:8080/signalr";
+        public static HubConnection con { get; set; }
 
 
+        /*private async void ConnectAsync()
+        {
+            con = new HubConnection(ServerURI);
+            con.Closed += Connection_Closed;
+            con.Error += Connection_Error;
+            HubProxy = con.CreateHubProxy("MyHub");
+            //Handle incoming event from server: use Invoke to write to console from SignalR's thread
+            HubProxy.On<string, string>("getPos2", (driver_id, message) =>
+                Dispatcher.BeginInvoke(() => test(message))
+            );
+            try
+            {
+                await con.Start();
+            }
+            catch (HttpRequestException)
+            {
+                //No connection: Don't enable Send button or show chat UI
+                //btntrack.Content = "eror";
+            }
+            catch (HttpClientException)
+            {
+                //btntrack.Content = "eror";
+            }
+
+            Dispatcher.BeginInvoke(() =>
+            {
+                string id = "D" + Global.GlobalData.user_id;
+                HubProxy.Invoke("Connect", id);
+            });
+        }*/
+
+        public static async void test(string message)
+        {
+
+        }
+
+        public static void Connection_Closed()
+        {
+            //Deactivate chat UI; show login UI. 
+        }
+
+        public static void Connection_Error(Exception obj)
+        {
+            //txtFireBase.Text = "error";
+        }
+        
+        //////////////
+        
         public static ItineraryList itinearyList = new ItineraryList();
         public static Itinerary2 selectedItinerary = new Itinerary2();
 

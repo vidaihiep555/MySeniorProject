@@ -16,7 +16,7 @@ namespace UberRiding
     public partial class App : Application
     {
         private static MainViewModel viewModel = null;
-
+        public static bool InBackground { get; set; }
         /// <summary>
         /// A static ViewModel used by the views to bind against.
         /// </summary>
@@ -254,6 +254,12 @@ namespace UberRiding
 
                 throw;
             }
+        }
+
+        private void PhoneApplicationService_RunningInBackground(object sender, RunningInBackgroundEventArgs e)
+        {
+            Debug.WriteLine("Running in background.");
+            App.InBackground = true;
         }
     }
 }
