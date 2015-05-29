@@ -387,7 +387,7 @@ namespace UberRiding.Customer
 
             if (jsonObject.Value<bool>("error"))
             {
-                MessageBox.Show("");
+                MessageBox.Show(jsonObject.Value<string>("message"));
             }
             else
             {
