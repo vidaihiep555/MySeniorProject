@@ -128,8 +128,8 @@
 								</Border>
 								<StackPanel Width="311" Margin="8,-7,0,0">
 									<TextBlock Text="{Binding fullname}" TextWrapping="Wrap" Margin="10,0" Style="{StaticResource PhoneTextExtraLargeStyle}" FontSize="{StaticResource PhoneFontSizeLarge}" />
-									<TextBlock Text="{}" TextWrapping="Wrap" Margin="10,-2,10,0" Style="{StaticResource PhoneTextSubtleStyle}" />
-									<toolkit:Rating HorizontalAlignment="Center" Width="150" Height="Auto" x:Name="ratingUser" RatingItemCount="5" Value="{Binding average_rating}" Margin="-150,10,0,80" Background="#36D7B7" >
+									<TextBlock Text="{Binding distance_todriver, StringFormat=' {0} km'}" TextWrapping="Wrap" Margin="10,-2,10,0" Style="{StaticResource PhoneTextSubtleStyle}" />
+									<toolkit:Rating ReadOnly="True" HorizontalAlignment="Center" Width="150" Height="Auto" x:Name="ratingUser" RatingItemCount="5" Value="{Binding average_rating}" Margin="-150,10,0,80" Background="#36D7B7" >
 										<toolkit:Rating.FilledItemStyle>
 											<Style TargetType="toolkit:RatingItem">
 												<Setter Property="Background" Value="Yellow" />

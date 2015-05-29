@@ -21,7 +21,7 @@ namespace UberRiding.Global
         //driver
 
         public static IHubProxy HubProxy { get; set; }
-        public static const string ServerURI = "http://52.25.218.73:8080/signalr";
+        //public static const string ServerURI = "http://52.25.218.73:8080/signalr";
         public static HubConnection con { get; set; }
 
 
@@ -211,6 +211,7 @@ namespace UberRiding.Global
         public BitmapImage personalID_img { get; set; }
         public BitmapImage driver_avatar { get; set; }
         public int average_rating { get; set; }
+        public double distance_todriver { get; set; }
     }
 
     public class DriverRootObject

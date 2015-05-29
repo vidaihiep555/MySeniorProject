@@ -53,6 +53,7 @@ namespace UberRiding.Customer
             //InitCurrentLocationInfo();
             geoQ = new ReverseGeocodeQuery();
             geoQ.QueryCompleted += geoQ_QueryCompleted;
+            
             if (geoQ.IsBusy == true)
             {
                 geoQ.CancelAsync();
@@ -63,11 +64,6 @@ namespace UberRiding.Customer
 
         void geoQ_QueryCompleted(object sender, QueryCompletedEventArgs<IList<MapLocation>> e)
         {
-            throw new NotImplementedException();
-        }
-
-        /*void geoQ_QueryCompleted(object sender, QueryCompletedEventArgs<IList<MapLocation>> e)
-        {
             if (e.Result.Count() > 0)
             {
                 string showString = e.Result[0].Information.Name;
@@ -75,14 +71,11 @@ namespace UberRiding.Customer
                 showString = showString + "" + e.Result[0].Information.Address.HouseNumber + " " + e.Result[0].Information.Address.Street;
                 showString = showString + "" + e.Result[0].Information.Address.PostalCode + " " + e.Result[0].Information.Address.City;
                 showString = showString + "" + e.Result[0].Information.Address.Country + " " + e.Result[0].Information.Address.CountryCode;
-                //showString = showString + "\nDescription: ";
-                //showString = showString + "\n" + e.Result[0].Information.Description.ToString();
-
                 start_point = showString;
-
             }
-        }*/
+        }
 
+        #region signalR
         private async void ConnectAsync()
         {
             con = new HubConnection(ServerURI);
@@ -113,8 +106,7 @@ namespace UberRiding.Customer
                 HubProxy.Invoke("Connect", id);
             });
         }
-
-
+        
         private void test(string message)
         {
             string[] latlng = message.Split(",".ToCharArray());
@@ -128,7 +120,7 @@ namespace UberRiding.Customer
         {
             //txtFireBase.Text = "error";
         }
-
+        
         /// <summary>
         /// If the server is stopped, the connection will time out after 30 seconds (default), and the 
         /// Closed event will fire.
@@ -137,11 +129,11 @@ namespace UberRiding.Customer
         {
             //Deactivate chat UI; show login UI. 
         }
+        #endregion
 
         public async void InitCurrentLocationInfo()
         {
             Task<GeoCoordinate> x = ShowMyCurrentLocationOnTheMap();
-
 
             myGeoCoordinate = await ShowMyCurrentLocationOnTheMap();
         }
@@ -199,7 +191,9 @@ namespace UberRiding.Customer
         public async void getDrivers()
         {
             myGeoCoordinate = await ShowMyCurrentLocationOnTheMap();
-            
+            //geoQ.GeoCoordinate = new GeoCoordinate(16.053089, 108.217682);
+            geoQ.GeoCoordinate = myGeoCoordinate;
+            geoQ.QueryAsync();
             mainMapLayer = new MapLayer();
             var result = await Request.RequestToServer.sendGetRequest("drivers/" 
                 + myGeoCoordinate.Latitude.ToString().Trim() + "/" + myGeoCoordinate.Longitude.ToString().Trim());
@@ -207,15 +201,12 @@ namespace UberRiding.Customer
             JObject jsonObject = JObject.Parse(result);
 
             string error = jsonObject.Value<string>("error").Trim();
-
-            //var xlong = jsonObject.SelectToken("itineraries");
-            JArray jsonVal = (JArray)jsonObject.SelectToken("drivers");
             //Convert json to object
             root = JsonConvert.DeserializeObject<DriverRootObject>(result);
 
             var x = root.drivers.First();
             GlobalData.calldriver = x.driver_id.ToString().Trim();
-
+            GlobalData.driverList = new DriverList();
             foreach (Global.Driver i in root.drivers) //
             {
                 
@@ -225,14 +216,14 @@ namespace UberRiding.Customer
                     driver_lat = i.driver_lat,
                     driver_long = i.driver_long,
                     status = i.status,
-                    
                     email = i.email,
                     fullname = i.fullname,
                     phone = i.phone,
                     personalID = i.personalID,
                     personalID_img = ImageConvert.convertBase64ToImage(i.personalID_img),                   
                     driver_avatar = ImageConvert.convertBase64ToImage(i.driver_avatar),
-                    average_rating = i.average_rating
+                    average_rating = i.average_rating,
+                    distance_todriver = Math.Round( Distance.getDistance(i.driver_lat, i.driver_long, myGeoCoordinate.Latitude, myGeoCoordinate.Longitude), 2)
                 });
                 MapOverlay overlay = new MapOverlay();
                 overlay = MarkerDraw.DrawDriverMarker(new GeoCoordinate(Convert.ToDouble(i.driver_lat),
@@ -352,7 +343,6 @@ namespace UberRiding.Customer
         }
         #endregion
 
-
         private void btnAdvanceSearch_Click(object sender, RoutedEventArgs e)
         {
             NavigationService.Navigate(new Uri("/AdvanceSearch.xamll", UriKind.RelativeOrAbsolute));
@@ -360,8 +350,6 @@ namespace UberRiding.Customer
 
         private async void menuCallDriver_Click(object sender, EventArgs e)
         {
-            geoQ.GeoCoordinate = myGeoCoordinate;
-            geoQ.QueryAsync();
             Dictionary<string, string> postData = new Dictionary<string, string>();
             postData.Add("start_address", start_point);
             postData.Add("start_address_lat", myGeoCoordinate.Latitude.ToString().Trim());
@@ -370,7 +358,7 @@ namespace UberRiding.Customer
             postData.Add("end_address_lat", "-1");
             postData.Add("end_address_long", "-1");
             postData.Add("driver_id", Global.GlobalData.calldriver.ToString().Trim());
-            //postData.Add("time_start", "-1"); //now 
+            
             string date2 = DateTime.Now.Year + "-" + DateTime.Now.Month + "-" + DateTime.Now.Day;
             string time2 = DateTime.Now.Hour + ":" + DateTime.Now.Minute + ":00";
             postData.Add("time_start", date2.Trim() + " " + time2.Trim());
@@ -414,14 +402,12 @@ namespace UberRiding.Customer
                         //convert base64 to image
                         //average_rating = i.average_rating
                     };
-
                     GlobalData.selectedItinerary = i2;
                 }
+
                 Dispatcher.BeginInvoke(() =>
                 {
-                    string driver_id = "D" + GlobalData.calldriver;
-
-                    //message = customer_id, itinerary_id, 
+                    string driver_id = "D" + GlobalData.calldriver; 
                     string message = "C" + GlobalData.user_id + "," + GlobalData.selectedItinerary.itinerary_id;
                     HubProxy.Invoke("SendPos2", driver_id, message);
 
@@ -441,7 +427,6 @@ namespace UberRiding.Customer
             postData.Add("end_address_lat", "-1");
             postData.Add("end_address_long", "-1");
             postData.Add("driver_id", Global.GlobalData.calldriver.ToString().Trim());
-            //postData.Add("time_start", "-1"); //now 
             string date2 = DateTime.Now.Year + "-" + DateTime.Now.Month + "-" + DateTime.Now.Day;
             string time2 = DateTime.Now.Hour + ":" + DateTime.Now.Minute + ":00";
             postData.Add("time_start", date2.Trim() + " " + time2.Trim());
@@ -469,22 +454,3 @@ namespace UberRiding.Customer
         }
     }
 }
-
-// check neu customer status  < 3  va isDisplayMessageBox = false  ==> hien thi messagebox
-// neu ko thi ko hien thi
-/*if (GlobalData.customer_status < GlobalData.USER_ACCEPT_UPDATED_PROFILE && GlobalData.isDisplayMessageBox == false)
-{
-    MessageBoxResult result =
-    MessageBox.Show("You need to update your information to use this app!",
-   "Update Account", MessageBoxButton.OKCancel);
-
-    if (result == MessageBoxResult.OK)
-    {
-        GlobalData.isDisplayMessageBox = true;
-        NavigationService.Navigate(new Uri("/AccountInfo.xaml", UriKind.Relative));
-    }
-    else
-    {
-        GlobalData.isDisplayMessageBox = true;
-    }
-}*/

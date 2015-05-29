@@ -434,7 +434,6 @@ class DbHandler {
         }
     }
 
-
     public function isDriverExists($email) {
         $stmt = $this->conn->prepare("SELECT driver_id from driver WHERE email = ?");
         $stmt->bind_param("s", $email);

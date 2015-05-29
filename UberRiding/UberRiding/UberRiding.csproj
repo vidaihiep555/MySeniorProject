@@ -153,6 +153,7 @@
     </Compile>
     <Compile Include="Global\CoordinateConverter.cs" />
     <Compile Include="Global\DatetimeConvert.cs" />
+    <Compile Include="Global\Distance.cs" />
     <Compile Include="Global\GlobalData.cs" />
     <Compile Include="Global\ImageConvert.cs" />
     <Compile Include="Global\Logout.cs" />
@@ -332,6 +333,7 @@
     <Content Include="Assets\avatar\Personal.png" />
     <Content Include="Assets\avatar\phone.png" />
     <Content Include="Assets\avatar\Postcard.png" />
+    <Content Include="Assets\Background\city-street-bike-bike-parking-background-blur-blur-tilt-shift.jpg" />
     <Content Include="Assets\marker\blackEnd.png" />
     <Content Include="Assets\marker\blackStart.png" />
     <Content Include="Assets\marker\ic_marker_driver.png" />

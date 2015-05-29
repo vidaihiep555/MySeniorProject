@@ -131,7 +131,7 @@ namespace UberRiding.Driver
         #region Appbar Menu
         private void menuAccountInfo_Click(object sender, EventArgs e)
         {
-            NavigationService.Navigate(new Uri("/AccountInfo.xaml", UriKind.RelativeOrAbsolute));
+            NavigationService.Navigate(new Uri("/Driver/DriverAccInfo.xaml", UriKind.RelativeOrAbsolute));
         }
 
         private void menuAboutUs_Click(object sender, EventArgs e)
