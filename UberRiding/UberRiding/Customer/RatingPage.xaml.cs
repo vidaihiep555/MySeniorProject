@@ -25,8 +25,7 @@ namespace UberRiding.Customer
             Dictionary<string, string> postData = new Dictionary<string, string>();
             postData.Add("rating", ratingDriver.Value.ToString());
             postData.Add("driver_id", Global.GlobalData.calldriver);
-            HttpFormUrlEncodedContent content =
-                new HttpFormUrlEncodedContent(postData);
+            HttpFormUrlEncodedContent content = new HttpFormUrlEncodedContent(postData);
 
             var result = await RequestToServer.sendPostRequest("rating", content);
 

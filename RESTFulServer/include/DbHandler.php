@@ -680,7 +680,6 @@ class DbHandler {
         return $num_affected_rows > 0;
     }
 
-    //not finished yet
     /**
      * Fetching all itineraries
      */
@@ -720,7 +719,6 @@ class DbHandler {
     /* ------------- `ITINERARY` table method ------------------ */
     ///////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    //not finished yet
     /**
      * Creating new itinerary
      * @param Integer $driver_id user id to whom itinerary belongs to
@@ -763,7 +761,6 @@ class DbHandler {
     }
 
 
-    //not finished yet
     /**
      * Creating new itinerary
      * @param Integer $driver_id user id to whom itinerary belongs to
@@ -795,25 +792,12 @@ class DbHandler {
             //echo $q;
             return NULL;
         }
-
-        // Check for successful insertion
-        /*if ($result) {
-            // Itinerary successfully inserted
-            return ITINERARY_CREATED_SUCCESSFULLY;
-        } else {
-            // Failed to create itinerary
-            return ITINERARY_CREATE_FAILED;
-        }*/
-
     }
 
     public function findSuitableDriver(){
         $q1 = "SELECT d.driver_id, t.day, t.month, t.year, t.from_hour, t.to_hour ";
-
         $q1 .= " FROM (SELECT * FROM driver WHERE busy_status = ". DRIVER_NOT_BUSY.") as d, busytime as t WHERE ";
-
         $q1 .= " d.driver_id = t.driver_id ";
-
         $stmt = $this->conn->prepare($q1);
         $stmt->execute();
         $drivers = $stmt->get_result();
@@ -821,7 +805,6 @@ class DbHandler {
         return $drivers;
     }
 
-    //not finished yet
     /**
      * Fetching single itinerary
      * @param Integer $itinerary_id id of the itinerary
@@ -859,7 +842,6 @@ class DbHandler {
         }
     }
 
-    //not finished yet
     /**
      * Fetching all itineraries
      */
@@ -881,12 +863,11 @@ class DbHandler {
         return $itineraries;
     }
 
-    //not finished yet
     /**
      * Fetching all itineraries of one driver
      * @param Integer $driver_id id of the driver
      */
-    public function getDriverItineraries2($driver_id, $order) {
+    /*public function getDriverItineraries2($driver_id, $order) {
         $q = "SELECT itinerary_id, i.driver_id, i.customer_id, start_address, start_address_lat, start_address_long,
             end_address, end_address_lat, end_address_long, leave_date, duration, distance, description, i.status as itinerary_status, i.created_at,
             driver_license, driver_license_img, u.user_id, u.email, u.fullname, u.phone, personalID, customer_avatar ";
@@ -906,21 +887,24 @@ class DbHandler {
         $itineraries = $stmt->get_result();
         $stmt->close();
         return $itineraries;
-    }
+    }*/
 
-    //not finished yet
     /**
      * Fetching all itineraries of one customer
      * @param Integer $customer_id id of the customer
      */
     public function getCustomerItineraries($customer_id, $order) {
-
-        $q = "SELECT * FROM itinerary WHERE customer_id = ? ";
-        if(isset($order)){
-            $q .= "ORDER BY " .$order;
-        } else {
-            $q .= "ORDER BY status";
-        }
+        $q = "SELECT itinerary_id, i.driver_id, i.customer_id, start_address, start_address_lat, start_address_long,
+            end_address, end_address_lat, end_address_long, time_start, distance, description, i.status as itinerary_status, i.created_at,
+            d.driver_avatar ";
+        $q .=    " FROM itinerary as i, driver as d ";
+        $q .=     " WHERE i.driver_id = d.driver_id AND i.customer_id = ?  ";
+        //$q = "SELECT * FROM itinerary as i, driver as d WHERE i.driver_id = d.driver_id AND i.customer_id = ? ";
+        //if(isset($order)){
+        //    $q .= "ORDER BY " .$order;
+        //} else {
+        //    $q .= "ORDER BY status";
+        //}
         $stmt = $this->conn->prepare($q);
         $stmt->bind_param("i",$customer_id);
         $stmt->execute();
@@ -929,23 +913,26 @@ class DbHandler {
         return $itineraries;
     }
 
-    public function getDriverItineraries($customer_id, $order) {
+    public function getDriverItineraries($driver_id, $order) {
 
-        $q = "SELECT * FROM itinerary WHERE driver_id = ? ";
-        if(isset($order)){
-            $q .= "ORDER BY " .$order;
-        } else {
-            $q .= "ORDER BY status";
-        }
+        $q = "SELECT itinerary_id, i.driver_id, i.customer_id, start_address, start_address_lat, start_address_long,
+            end_address, end_address_lat, end_address_long, time_start, distance, description, i.status as itinerary_status, i.created_at,
+            c.customer_avatar ";
+        $q .=    " FROM itinerary as i, customer as c ";
+        $q .=     " WHERE i.customer_id = c.customer_id AND i.driver_id = ?  ";
+        //if(isset($order)){
+        //    $q .= "ORDER BY " .$order;
+        //} else {
+        //    $q .= "ORDER BY status";
+        //}
         $stmt = $this->conn->prepare($q);
-        $stmt->bind_param("i",$customer_id);
+        $stmt->bind_param("i",$driver_id);
         $stmt->execute();
         $itineraries = $stmt->get_result();
         $stmt->close();
         return $itineraries;
     }
 
-    //not finished yet
     /**
      * Updating itinerary
      * @param Aray $itinerary_fields properties of the itinerary
@@ -1109,7 +1096,6 @@ class DbHandler {
         }
     }
 
-
     /* ------------- Statistic ------------------ */
 
     //number of users created per month
@@ -1190,7 +1176,7 @@ class DbHandler {
 
     //Customer staticstic 
     //number of itineraries creted per month
-    public function statisticCustomerItineraryBy($field, $customer_id) {
+    public function statisticCustomerItineraryBy($customer_id) {
         $q = "SELECT DATE_FORMAT(created_at,'%Y-%m') as month, COUNT(DATE_FORMAT(created_at,'%Y-%m')) as number 
                 FROM (SELECT * FROM itinerary WHERE customer_id = ?) as i GROUP BY DATE_FORMAT(created_at,'%Y-%m')";
         $stmt = $this->conn->prepare($q);
@@ -1218,7 +1204,7 @@ class DbHandler {
     }
 
     //total money come frome itineraries per month
-    public function statisticCustomerMoneyBy($field, $customer_id) {
+    public function statisticCustomerMoneyBy($customer_id) {
         $q = "SELECT DATE_FORMAT(created_at,'%Y-%m') as month, SUM(cost) as total_money 
                 FROM (SELECT * FROM itinerary WHERE customer_id = ?) as i GROUP BY DATE_FORMAT(created_at,'%Y-%m') ";
         
@@ -1227,8 +1213,7 @@ class DbHandler {
             $stmt->execute();
         } else {
             var_dump($this->db->error);
-        }
-        
+        }       
         $results = $stmt->get_result();
 
         $stats = array();
@@ -1248,7 +1233,7 @@ class DbHandler {
 
     //Driver Staticstic
     //number of itineraries creted per month
-    public function statisticDriverItineraryBy($field, $driver_id) {
+    public function statisticDriverItineraryBy($driver_id) {
         $q = "SELECT DATE_FORMAT(created_at,'%Y-%m') as month, COUNT(DATE_FORMAT(created_at,'%Y-%m')) as number 
                 FROM (SELECT * FROM itinerary WHERE driver_id = ?) as i GROUP BY DATE_FORMAT(created_at,'%Y-%m')";
         
@@ -1261,10 +1246,8 @@ class DbHandler {
         // looping through result and preparing tasks array
         while ($stat = $results->fetch_assoc()) {
             $tmp = array();
-
             $tmp["month"] = $stat["month"];
             $tmp["number"] = $stat["number"];
-
             array_push($stats, $tmp);
         }
 
@@ -1273,7 +1256,7 @@ class DbHandler {
     }
 
     //total money come frome itineraries per month
-    public function statisticDriverMoneyBy($field, $driver_id) {
+    public function statisticDriverMoneyBy($driver_id) {
         $q = "SELECT DATE_FORMAT(created_at,'%Y-%m') as month, SUM(cost) as total_money 
                 FROM (SELECT * FROM itinerary WHERE driver_id = ?) as i GROUP BY DATE_FORMAT(created_at,'%Y-%m')";
         
@@ -1463,7 +1446,6 @@ class DbHandler {
         // First check if user already existed in db
 
             $sql_query = "INSERT INTO rating(customer_id, driver_id, rating) values(?, ?, ?)";
-
             // insert query
             if ($stmt = $this->conn->prepare($sql_query)) {
                 $stmt->bind_param("iii", $customer_id, $driver_id, $rating);
@@ -1484,7 +1466,7 @@ class DbHandler {
             }
     }
 
-    public function getAverageRatingofDriver($user_id){
+    public function getAverageRatingofDriver($driver_id){
         $q = "SELECT AVG(rating) AS average_rating FROM rating WHERE driver_id = ?";
         $stmt = $this->conn->prepare($q);
         $stmt->bind_param("i",$driver_id);
@@ -1504,37 +1486,26 @@ class DbHandler {
      * Fetching user by email
      * @param String $email User email id
      */
-    public function getRating($user_id, $rating_user_id) {
-        $stmt = $this->conn->prepare("SELECT rating FROM rating WHERE user_id = ? AND rating_user_id = ?");
-
-        $stmt->bind_param("ii", $user_id, $rating_user_id);
+    public function getRating($user_id, $driver_id) {
+        $stmt = $this->conn->prepare("SELECT COUNT(rating) as num, AVG(rating) as average FROM rating WHERE customer_id = ? AND driver_id = ?");
+        $stmt->bind_param("ii", $user_id, $driver_id);
 
         if ($stmt->execute()) {
 
-            $stmt->bind_result($rating);
-            $stmt->close();
-            if($rating == null){
-                return 0;
+            $stmt->bind_result($num, $average);
+            $stmt->fetch();
+            $rating = array();
+            $rating['num'] = $num;       
+            if($num == 0){
+                $rating['average'] = 0;
             } else {
-                return $rating;
+                $rating['average'] = $average;
             }
+            $stmt->close();
+            return $rating;
         } else {
             return NULL;
         }
-    }
-
-
-    /**
-     * Delete driver
-     * @param String $user_id id of user
-     */
-    public function deleteRating($rating_id) {
-        $stmt = $this->conn->prepare("DELETE FROM rating WHERE rating_id = ?");
-        $stmt->bind_param("i", $rating_id);
-        $stmt->execute();
-        $num_affected_rows = $stmt->affected_rows;
-        $stmt->close();
-        return $num_affected_rows > 0;
     }
 
     /* ------------- `staff` table method ------------------ */

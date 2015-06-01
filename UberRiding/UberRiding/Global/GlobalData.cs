@@ -24,38 +24,6 @@ namespace UberRiding.Global
         //public static const string ServerURI = "http://52.25.218.73:8080/signalr";
         public static HubConnection con { get; set; }
 
-
-        /*private async void ConnectAsync()
-        {
-            con = new HubConnection(ServerURI);
-            con.Closed += Connection_Closed;
-            con.Error += Connection_Error;
-            HubProxy = con.CreateHubProxy("MyHub");
-            //Handle incoming event from server: use Invoke to write to console from SignalR's thread
-            HubProxy.On<string, string>("getPos2", (driver_id, message) =>
-                Dispatcher.BeginInvoke(() => test(message))
-            );
-            try
-            {
-                await con.Start();
-            }
-            catch (HttpRequestException)
-            {
-                //No connection: Don't enable Send button or show chat UI
-                //btntrack.Content = "eror";
-            }
-            catch (HttpClientException)
-            {
-                //btntrack.Content = "eror";
-            }
-
-            Dispatcher.BeginInvoke(() =>
-            {
-                string id = "D" + Global.GlobalData.user_id;
-                HubProxy.Invoke("Connect", id);
-            });
-        }*/
-
         public static async void test(string message)
         {
 
@@ -138,6 +106,7 @@ namespace UberRiding.Global
         public string phone { get; set; }
         public string personalID { get; set; }
         public string driver_avatar { get; set; }
+        public string customer_avatar { get; set; }
         public int average_rating { get; set; }
     }
 
@@ -166,6 +135,7 @@ namespace UberRiding.Global
         public string phone { get; set; }
         public string personalID { get; set; }
         public BitmapImage driver_avatar { get; set; }
+        public BitmapImage customer_avatar { get; set; }
         public int average_rating { get; set; }
     }
 

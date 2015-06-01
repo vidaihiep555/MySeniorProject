@@ -58,13 +58,13 @@
 		</Grid.RowDefinitions>
 		<StackPanel Grid.Row="0" Canvas.ZIndex="999"
 			Margin="0,0,0,0" 
-			Background="#FF20E017"
+			Background="#3DA5E1"
 			Height="Auto">
 			<TextBlock 
 				Margin="0,0,0,0"
 				HorizontalAlignment="Left"
 				Style="{StaticResource PhoneTextTitle1Style}"
-				Text="Ride Sharing Application" FontSize="22"/>
+				Text="Itinerary Management" FontSize="22"/>
 		</StackPanel>
 		<!--Pivot Control-->
 		<phone:Pivot Grid.Row="1" Margin="0,-30,0,0" Background="#3DA5E1">
@@ -82,7 +82,7 @@
 								<!--Replace rectangle with image-->
 								<Border BorderThickness="3" Width="99" Height="99" BorderBrush="#FFFFC700" >
 									<!-- Background="#FFFFC700"-->
-									<Image Source="{Binding link_avatar}"  Width="99" Height="99" MinWidth="99" MinHeight="99" />
+									<Image Source="{Binding customer_avatar}"  Width="99" Height="99" MinWidth="99" MinHeight="99" />
 								</Border>
 								<StackPanel Width="311" Margin="8,-7,0,0">
 									<TextBlock Text="{Binding start_address}" TextWrapping="Wrap" Margin="10,0" Style="{StaticResource PhoneTextExtraLargeStyle}" FontSize="{StaticResource PhoneFontSizeLarge}" />
@@ -104,7 +104,7 @@
 								<!--Replace rectangle with image-->
 								<Border BorderThickness="3" Width="99" Height="99" BorderBrush="#FFFFC700" >
 									<!-- Background="#FFFFC700"-->
-									<Image Source="{Binding link_avatar}"  Width="99" Height="99" MinWidth="99" MinHeight="99" />
+									<Image Source="{Binding customer_avatar}"  Width="99" Height="99" MinWidth="99" MinHeight="99" />
 								</Border>
 								<StackPanel Width="311" Margin="8,-7,0,0">
 									<TextBlock Text="{Binding start_address}" TextWrapping="Wrap" Margin="10,0" Style="{StaticResource PhoneTextExtraLargeStyle}" FontSize="{StaticResource PhoneFontSizeLarge}" />
@@ -126,7 +126,7 @@
 								<!--Replace rectangle with image-->
 								<Border BorderThickness="3" Width="99" Height="99" BorderBrush="#FFFFC700" >
 									<!-- Background="#FFFFC700"-->
-									<Image Source="{Binding link_avatar}"  Width="99" Height="99" MinWidth="99" MinHeight="99" />
+									<Image Source="{Binding customer_avatar}"  Width="99" Height="99" MinWidth="99" MinHeight="99" />
 								</Border>
 								<StackPanel Width="311" Margin="8,-7,0,0">
 									<TextBlock Text="{Binding start_address}" TextWrapping="Wrap" Margin="10,0" Style="{StaticResource PhoneTextExtraLargeStyle}" FontSize="{StaticResource PhoneFontSizeLarge}" />

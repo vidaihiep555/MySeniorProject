@@ -60,13 +60,13 @@
 		</Grid.RowDefinitions>
 		<StackPanel Grid.Row="0" Canvas.ZIndex="999"
 			Margin="0,0,0,0" 
-			Background="#FF20E017"
+			Background="#3DA5E1"
 			Height="Auto">
 			<TextBlock 
 				Margin="0,0,0,0"
 				HorizontalAlignment="Left"
 				Style="{StaticResource PhoneTextTitle1Style}"
-				Text="Ride Sharing Application" FontSize="22"/>
+				Text="Itinerary Management" FontSize="22"/>
 		</StackPanel>
 		<!--Pivot Control #36D7B7-->
 		<phone:Pivot Grid.Row="1" Margin="0,-30,0,0" Background="#36D7B7">

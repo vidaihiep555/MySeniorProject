@@ -34,7 +34,6 @@ namespace UberRiding.Request
             httpClient.Dispose();
             request.Dispose();
             return returnString;
-
         }
 
         public static async Task<string> sendPostRequest(string methodName, Windows.Web.Http.IHttpContent content)
@@ -47,13 +46,11 @@ namespace UberRiding.Request
             if (Global.GlobalData.APIkey == null)
             {
                 request.Headers.Authorization = Windows.Web.Http.Headers.HttpCredentialsHeaderValue.Parse("xnull");
-
             }
             else
             {
                 request.Headers.Authorization = Windows.Web.Http.Headers.HttpCredentialsHeaderValue.Parse(Global.GlobalData.APIkey);
             }
-
             request.Content = content;
 
             HttpResponseMessage response = await httpClient.SendRequestAsync(request);
@@ -69,7 +66,6 @@ namespace UberRiding.Request
             request.Method = HttpMethod.Put;
             request.RequestUri = new Uri(ServiceURI);
             request.Headers.Authorization = Windows.Web.Http.Headers.HttpCredentialsHeaderValue.Parse(Global.GlobalData.APIkey);
-
             request.Content = content;
 
             HttpResponseMessage response = await httpClient.SendRequestAsync(request);

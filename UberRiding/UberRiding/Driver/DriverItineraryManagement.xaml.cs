@@ -55,6 +55,7 @@ namespace UberRiding.Driver
                     status = i.status,
                     created_at = i.created_at,
                     time_start = i.time_start,
+                    customer_avatar = ImageConvert.convertBase64ToImage(i.customer_avatar),
                     //convert base64 to image
                     //average_rating = i.average_rating
                 };

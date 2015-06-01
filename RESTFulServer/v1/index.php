@@ -324,8 +324,6 @@ $app->get('/active/:activation_code', function($activation_code) {
             echoRespnse(200, $response);
         });
 
-
-
 $app->get('/forgotpass/:email', function($email) {
             $response = array();
 
@@ -421,8 +419,6 @@ $app->put('/customer', 'authenticateCustomer', function() use($app) {
             echoRespnse(200, $response);
         });
 
-
-
 /**
  * Deleting user.
  * method DELETE
@@ -450,34 +446,6 @@ $app->delete('/customer', 'authenticateUser', function() {
 
 
 /////////////////////////////////////// DRIVER ////////////////////////////////////////////////////////////
-
-/**
- * Driver Registration
- * url - /driver
- * method - POST
- * params - driver
- */
-/*$app->post('/driver', function() use ($app) {
-            verifyRequiredParams(array('driver_license', 'driver_license_img'));
-            $response = array();
-
-            // reading post params
-            $driver_license = $app->request->post('driver_license');
-            $driver_license_img = $app->request->post('driver_license_img');
-
-            $db = new DbHandler();
-            $res = $db->createDriver($driver_license, $driver_license_img);
-
-            if ($res == DRIVER_CREATED_SUCCESSFULLY) {
-                $response["error"] = false;
-                $response["message"] = "Registration is successful!.";
-            } else if ($res == DRIVER_CREATE_FAILED) {
-                $response["error"] = true;
-                $response["message"] = "Sorry! Registration is missing.";
-            }
-            // echo json response
-            echoRespnse(201, $response);
-        });*/
 
 /**
  * Driver Registration
@@ -746,8 +714,6 @@ $app->put('/driverbusylatlong', 'authenticateDriver', function() use($app) {
             echoRespnse(200, $response);
         });*/
 
-
-
 $app->put('/driver/', 'authenticateDriver', function() use($app) {
             // check for required params
             //verifyRequiredParams(array('task', 'status'));
@@ -805,8 +771,6 @@ $app->delete('/driver', 'authenticateDriver', function() {
 
 
 /////////////////////////////////// ITINERARY /////////////////////////////////////////////////////////
-
-
 
 $app->post('/itinerary', 'authenticateCustomer', function() use ($app) {
             // check for required params
@@ -972,7 +936,7 @@ $app->post('/zzz', 'authenticateCustomer', function() use ($app){
                 }
             } else {
                 $response["error"] = true;
-                $response["message"] = "3Can't find the siutable driver for you. Please try again!";
+                $response["message"] = "Can't find the siutable driver for you. Please try again!";
             }
 
             //echo $response;
@@ -998,9 +962,6 @@ $app->post('/calldriveritinerary', 'authenticateCustomer', function() use ($app)
             $time_start = $app->request->post('time_start');
             $description = $app->request->post('description');
             $distance = $app->request->post('distance');
-
-
-            //echo $start_address;
 
             global $user_id;
             $db = new DbHandler();
@@ -1041,7 +1002,6 @@ $app->post('/calldriveritinerary', 'authenticateCustomer', function() use ($app)
             }            
         });
 
-
 /**
  * Listing single task of particual user
  * method GET
@@ -1052,7 +1012,6 @@ $app->get('/itinerary/:id', function($itinerary_id) {
             global $user_id;
             $response = array();
             $db = new DbHandler();
-
             // fetch task
             $result = $db->getItinerary($itinerary_id);
 
@@ -1106,7 +1065,6 @@ $app->get('/itineraries', 'authenticateUser', function() {
             // looping through result and preparing tasks array
             while ($itinerary = $result->fetch_assoc()) {
                 $tmp = array();
-
                 //itinerary info
                 $tmp["itinerary_id"] = $itinerary["itinerary_id"];
                 $tmp["driver_id"] = $itinerary["driver_id"];
@@ -1130,13 +1088,8 @@ $app->get('/itineraries', 'authenticateUser', function() {
                 array_push($response["itineraries"], $tmp);
             }
 
-            //print_r($response);
-
-            //echo $response;
             echoRespnse(200, $response);
-
         });
-
 
 /**
  * Listing all itineraries of driver
@@ -1171,11 +1124,10 @@ $app->get('/itineraries/driver/:order', 'authenticateUser', function($order) {
                 $tmp["distance"] = $itinerary["distance"];
                 //$tmp["cost"] = $itinerary["cost"];
                 $tmp["description"] = $itinerary["description"];
-                $tmp["status"] = $itinerary["status"];
+                $tmp["status"] = $itinerary["itinerary_status"];
                 $tmp["created_at"] = $itinerary["created_at"];
-
+                $tmp["customer_avatar"] = $itinerary["customer_avatar"];
                 array_push($response["itineraries"], $tmp);
-
                 //echoRespnse(200, $itinerary);
             }
 
@@ -1186,7 +1138,7 @@ $app->get('/itineraries/driver/:order', 'authenticateUser', function($order) {
  * method GET
  * url /itineraries          
  */
-$app->get('/itineraries/customer/:order', 'authenticateUser', function($order) {
+$app->get('/itineraries/customer/:order', 'authenticateCustomer', function($order) {
             global $user_id;
             $response = array();
             $db = new DbHandler();
@@ -1213,16 +1165,13 @@ $app->get('/itineraries/customer/:order', 'authenticateUser', function($order) {
                 $tmp["time_start"] = $itinerary["time_start"];
                 $tmp["distance"] = $itinerary["distance"];
                 $tmp["description"] = $itinerary["description"];
-                $tmp["status"] = $itinerary["status"];
+                $tmp["status"] = $itinerary["ititnerary_status"];
                 $tmp["created_at"] = $itinerary["created_at"];
+                $tmp["driver_avatar"] = $itinerary["driver_avatar"];
                 array_push($response["itineraries"], $tmp);
             }
-
-            //print_r($response);
             echoRespnse(200, $response);
         });
-
-//not finished yet: updated when accepted
 /**
  * Updating existing itinerary
  * method PUT
@@ -1342,8 +1291,6 @@ $app->put('/update_finished_itinerary/:id', 'authenticateUser', function($itiner
             echoRespnse(200, $response);
         });
 
-//not finished 
-//not finished yet: bi phat sau khi delete khi da duoc accepted
 /**
  * Deleting itinerary. Users can delete only their itineraries
  * method DELETE
@@ -1369,12 +1316,10 @@ $app->delete('/itinerary/:id', 'authenticateUser', function($itinerary_id) use($
 
 ///////////////////////////// FEEDBACK ///////////////////////////////////////////////
 
-
 $app->post('/feedback', 'authenticateUser', function() use ($app) {
             global $user_id;
             // check for required params
             verifyRequiredParams(array('content'));
-
             $response = array();
 
             // reading post params
@@ -1399,29 +1344,23 @@ $app->post('/feedback', 'authenticateUser', function() use ($app) {
 
 ///////////////////////////////////// RATING ////////////////////////////////////////////////////
 
-
-$app->get('/rating/:user_id/:rating_user_id', 'authenticateUser', function($user_id, $rating_user_id) {
+$app->get('/rating/:driver_id', 'authenticateCustomer', function($driver_id) {
+            global $user_id;
             $response = array();
             $db = new DbHandler();
 
-            if ($db->isUserExists1($user_id)) {
+            $rating = $db->getRating($user_id, $driver_id);          
+            if ($rating != NULL) {
                 $response['error'] = false;
-                $rating = $db->getRating($user_id, $rating_user_id);
-                
-                if ($rating != NULL) {
-                    $response['rating'] = $rating["rating"];;
-                    echoRespnse(200, $response);
-                } else {
-                    $response["message"] = "The link you request is not existing!";
-                    echoRespnse(404, $response);
-                }
+                $response['num'] = $rating["num"];
+                $response['rating'] = $rating["average"];
                 echoRespnse(200, $response);
-
             } else {
                 $response['error'] = true;
-                $response['message'] = "The link you request is not existing!";
+                $response["message"] = "The link you request is not existing!";
                 echoRespnse(404, $response);
             }
+            //echoRespnse(200, $response);           
         });
 
 /**
@@ -1429,15 +1368,12 @@ $app->get('/rating/:user_id/:rating_user_id', 'authenticateUser', function($user
  * method GET
  * url /driver
  */
-$app->get('/average_rating/:user_id', 'authenticateUser', function($user_id) {
-
-            $language = "en";
-
+$app->get('/average_rating/:driver_id', 'authenticateUser', function($driver_id) {
             $response = array();
             $db = new DbHandler();
 
             // fetch task
-            $average_rating = $db->getAverageRatingofDriver($user_id);
+            $average_rating = $db->getAverageRatingofDriver($driver_id);
 
             if ($average_rating != NULL) {
                 $response["error"] = false;
@@ -1450,7 +1386,6 @@ $app->get('/average_rating/:user_id', 'authenticateUser', function($user_id) {
             }
         });
 
-
 /**
  * Comment creation
  * url - /comment
@@ -1460,7 +1395,7 @@ $app->get('/average_rating/:user_id', 'authenticateUser', function($user_id) {
 $app->post('/rating', 'authenticateCustomer', function() use ($app) {
             global $user_id;
 
-            verifyRequiredParams(array('rating', 'rating_user_id'), $language);
+            verifyRequiredParams(array('rating', 'driver_id'));
 
             $response = array();
 
@@ -1470,9 +1405,9 @@ $app->post('/rating', 'authenticateCustomer', function() use ($app) {
             $db = new DbHandler();
             $res = $db->createRating($user_id, $driver_id, $rating);
 
-            if ($res == c) {
+            if ($res == RATING_CREATED_SUCCESSFULLY) {
                 $response["error"] = false;
-                $response["message"] = "The link you request is not existing!";
+                $response["message"] = "Rating created succesSfully";
             } else if ($res == RATING_CREATE_FAILED) {
                 $response["error"] = true;
                 $response["message"] = "The link you request is not existing!";
@@ -1481,77 +1416,18 @@ $app->post('/rating', 'authenticateCustomer', function() use ($app) {
             echoRespnse(201, $response);
         });
 
-
-/**
- * Deleting user.
- * method DELETE
- * url /user
- */
-$app->delete('/rating/:rating_id', 'authenticateUser', function($rating_id) {
-            global $user_id;
-
-
-            $db = new DbHandler();
-            $response = array();
-
-            $result = $db->deleteRating($rating_id);
-
-            if ($result) {
-                // user deleted successfully
-                $response["error"] = false;
-                $response["message"] = "Delete vehicle is successful";
-            } else {
-                // task failed to delete
-                $response["error"] = true;
-                $response["message"] = "Delete vehicle is not successful";
-            }
-            echoRespnse(200, $response);
-        });
-
-
-
 ///////////////////////////////////// STATISTICS ////////////////////////////////////////////////
 
-//Staticstic for admin
-$app->get('/statistic/:field', 'authenticateStaff', function($field) {
-            $response = array();
-            $db = new DbHandler();
-
-            if ($field == 'user'){
-                $result = $db->statisticUserBy("123");
-            } else if ($field == 'itinerary'){
-                $result = $db->statisticItineraryBy("123");
-            } else if ($field == 'total_money'){
-                $result = $db->statisticMoneyBy("123");
-            } else {
-
-            }
-
-            if (isset($result)) {
-                $response['error'] = false;
-                $response['stats'] = $result;
-
-                echoRespnse(200, $response);
-
-            } else {
-                $response['error'] = true;
-                $response['message'] = "The link you request is not existing!";
-                echoRespnse(404, $response);
-            }
-        });
-
-
 //staticstic for customer
-$app->get('/statistic_customer/:field', 'authenticateUser', function($field) {
+$app->get('/statistic_customer/:field', 'authenticateCustomer', function($field) {
             global $user_id;
-
             $response = array();
             $db = new DbHandler();
 
             if ($field == 'itinerary'){
-                $result = $db->statisticCustomerItineraryBy("123", $user_id);
+                $result = $db->statisticCustomerItineraryBy($user_id);
             } else if ($field == 'total_money'){
-                $result = $db->statisticCustomerMoneyBy("123", $user_id);
+                $result = $db->statisticCustomerMoneyBy($user_id);
             } else {
 
             }
@@ -1559,9 +1435,7 @@ $app->get('/statistic_customer/:field', 'authenticateUser', function($field) {
             if (isset($result)) {
                 $response['error'] = false;
                 $response['stats'] = $result;
-
                 echoRespnse(200, $response);
-
             } else {
                 $response['error'] = true;
                 $response['message'] = "The link you request is not existing!";
@@ -1569,16 +1443,16 @@ $app->get('/statistic_customer/:field', 'authenticateUser', function($field) {
             }
         });
 
-$app->get('/statistic_driver/:field', 'authenticateUser', function($field) {
+$app->get('/statistic_driver/:field', 'authenticateDriver', function($field) {
             global $user_id;
 
             $response = array();
             $db = new DbHandler();
 
             if ($field == 'itinerary'){
-                $result = $db->statisticDriverItineraryBy("123", $user_id);
+                $result = $db->statisticDriverItineraryBy($user_id);
             } else if ($field == 'total_money'){
-                $result = $db->statisticDriverMoneyBy("123", $user_id);
+                $result = $db->statisticDriverMoneyBy($user_id);
             } else {
 
             }
@@ -1586,9 +1460,7 @@ $app->get('/statistic_driver/:field', 'authenticateUser', function($field) {
             if (isset($result)) {
                 $response['error'] = false;
                 $response['stats'] = $result;
-
                 echoRespnse(200, $response);
-
             } else {
                 $response['error'] = true;
                 $response['message'] = "The link you request is not existing!";
@@ -1598,7 +1470,6 @@ $app->get('/statistic_driver/:field', 'authenticateUser', function($field) {
 
 /////////////////////////////////////// VEHICLE /////////////////////////////////////////////////
 
-
 /**
  * Vehicle Registration
  * url - /vehicle
@@ -1607,8 +1478,6 @@ $app->get('/statistic_driver/:field', 'authenticateUser', function($field) {
  */
 $app->post('/vehicle', 'authenticateDriver', function() use ($app) {
             global $user_id;
-
-
             verifyRequiredParams(array('type', 'license_plate', 'license_plate_img', 'vehicle_img'));
 
             $response = array();
@@ -1621,8 +1490,7 @@ $app->post('/vehicle', 'authenticateDriver', function() use ($app) {
             //$motor_insurance_img = $app->request->post('motor_insurance_img');
 
             $db = new DbHandler();
-            $res = $db->createVehicle($user_id, $type, $license_plate, $license_plate_img,
-                                        $vehicle_img);
+            $res = $db->createVehicle($user_id, $type, $license_plate, $license_plate_img, $vehicle_img);
 
             if ($res == VEHICLE_CREATED_SUCCESSFULLY) {
                 $response["error"] = false;
@@ -1717,7 +1585,7 @@ $app->put('/vehicle/:vehicle_id', 'authenticateDriver', function($vehicle_id) us
             if ($result) {
                 // task updated successfully
                 $response["error"] = false;
-                $response["message"] = "Your update is successful!.";
+                $response["message"] = "Your update is successful!";
             } else {
                 // task failed to update
                 $response["error"] = true;
@@ -1741,19 +1609,16 @@ $app->delete('/vehicle/:vehicle_id', 'authenticateDriver', function($vehicle_id)
             if ($result) {
                 // user deleted successfully
                 $response["error"] = false;
-                $response["message"] = "";
+                $response["message"] = "Your vehicle deleted successfully";
             } else {
                 // task failed to delete
                 $response["error"] = true;
-                $response["message"] = "";
+                $response["message"] = "Failed to delete your vehicle";
             }
             echoRespnse(200, $response);
         });
 
-
 /////////////////////////////////////// ADMIN //////////////////////////////////////////////////////
-
-
 /**
  * Staff Registration
  * url - /staff
@@ -1763,7 +1628,7 @@ $app->delete('/vehicle/:vehicle_id', 'authenticateDriver', function($vehicle_id)
 $app->post('/staff', function() use ($app) {
 
             // check for required params
-            verifyRequiredParams(array('email'), $language);
+            verifyRequiredParams(array('email'));
 
             $response = array();
 
@@ -1774,7 +1639,7 @@ $app->post('/staff', function() use ($app) {
             $personalID = $app->request->post('personalID');
 
             // validating email address
-            validateEmail($email, $language);
+            validateEmail($email);
 
             $db = new DbHandler();
             $res = $db->createStaff($role, $email, $fullname, $personalID);
@@ -2233,9 +2098,37 @@ $app->delete('/staff/itinerary/:id', function($itinerary_id) use($app) {
             echoRespnse(200, $response);
         });
 
+        /////////////////////////////
+
+//Staticstic for admin
+$app->get('/staff/statistic/:field', 'authenticateStaff', function($field) {
+            $response = array();
+            $db = new DbHandler();
+
+            if ($field == 'user'){
+                $result = $db->statisticUserBy("123");
+            } else if ($field == 'itinerary'){
+                $result = $db->statisticItineraryBy("123");
+            } else if ($field == 'total_money'){
+                $result = $db->statisticMoneyBy("123");
+            } else {
+
+            }
+
+            if (isset($result)) {
+                $response['error'] = false;
+                $response['stats'] = $result;
+
+                echoRespnse(200, $response);
+
+            } else {
+                $response['error'] = true;
+                $response['message'] = "The link you request is not existing!";
+                echoRespnse(404, $response);
+            }
+        });
 
 /////////////////////////////////////////////////////////////////////////////////////////////////
-
 
 /**
  * Verifying required params posted or not

@@ -22,7 +22,7 @@
                 <Setter.Value>
                     <ControlTemplate TargetType="Toolkit:MenuItem">
                         <StackPanel>
-                            <TextBlock Margin="5,0,0,0" Foreground="Black" Text="{Binding start_address}" 
+                            <TextBlock Margin="5,0,0,0" Foreground="Black" Text="{Binding fullname}" 
                                        TextWrapping="Wrap" 
                                        FontSize="26"
                                        FontWeight="Bold"/>

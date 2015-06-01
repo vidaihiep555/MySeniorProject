@@ -58,10 +58,10 @@ namespace UberRiding.Customer
                     status = i.status,
                     created_at = i.created_at,
                     time_start = i.time_start,
+                    driver_avatar = ImageConvert.convertBase64ToImage(i.driver_avatar),
                     //convert base64 to image
                     //average_rating = i.average_rating
                 };
-                //itinearyList.Add(i2);
                 if (i2.status == GlobalData.ITINERARY_STATUS_CREATED)
                 {
                     itinearyCreatedList.Add(i2);
@@ -83,9 +83,7 @@ namespace UberRiding.Customer
                     //null
                 }
             }
-            //binding vao list
 
-            //longlistItineraries.ItemsSource = itinearyList;
             longlistItinerariesCreated.ItemsSource = itinearyCreatedList;
             longlistItinerariesAccepted.ItemsSource = itinearyAcceptedList;
             longlistItinerariesOnGoing.ItemsSource = itinearyOnGoingList;

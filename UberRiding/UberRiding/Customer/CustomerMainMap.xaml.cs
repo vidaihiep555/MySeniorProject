@@ -39,7 +39,7 @@ namespace UberRiding.Customer
 
         private IHubProxy HubProxy { get; set; }
         const string ServerURI = "http://52.25.218.73:8080/signalr";
-        //const string ServerURI = "http://localhost:8080/signalr";
+
         private HubConnection con { get; set; }
 
         public CustomerMainMap()
@@ -208,8 +208,7 @@ namespace UberRiding.Customer
             GlobalData.calldriver = x.driver_id.ToString().Trim();
             GlobalData.driverList = new DriverList();
             foreach (Global.Driver i in root.drivers) //
-            {
-                
+            {               
                 Global.GlobalData.driverList.Add(new Driver2
                 {                   
                     driver_id = i.driver_id,
@@ -228,8 +227,6 @@ namespace UberRiding.Customer
                 MapOverlay overlay = new MapOverlay();
                 overlay = MarkerDraw.DrawDriverMarker(new GeoCoordinate(Convert.ToDouble(i.driver_lat),
                     Convert.ToDouble(i.driver_long)), Global.GlobalData.driverList.Last());
-                //chua su dung
-                //listMainMapOvelay.Add(overlay);
 
                 mainMapLayer.Add(overlay);
             }
@@ -366,8 +363,7 @@ namespace UberRiding.Customer
             postData.Add("distance", "-1");
             postData.Add("status", GlobalData.ITINERARY_STATUS_ONGOING.ToString());
 
-            HttpFormUrlEncodedContent content =
-                new HttpFormUrlEncodedContent(postData);
+            HttpFormUrlEncodedContent content = new HttpFormUrlEncodedContent(postData);
             //tao 1 itinerary ongoing
             var result = await RequestToServer.sendPostRequest("calldriveritinerary", content);
 
@@ -399,8 +395,6 @@ namespace UberRiding.Customer
                         status = i.status,
                         created_at = i.created_at,
                         time_start = i.time_start,
-                        //convert base64 to image
-                        //average_rating = i.average_rating
                     };
                     GlobalData.selectedItinerary = i2;
                 }

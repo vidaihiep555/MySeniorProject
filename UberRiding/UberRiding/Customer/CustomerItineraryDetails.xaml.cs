@@ -160,10 +160,6 @@ namespace UberRiding.Customer
                 myLocator.ReportInterval = 500;
                 myLocator.PositionChanged += myGeoLocator_PositionChanged;
 
-
-
-
-
             }
             //hanh trinh da ket thuc
             else if (GlobalData.selectedItinerary.status.Equals(Global.GlobalData.ITINERARY_STATUS_FINISHED))
@@ -174,8 +170,6 @@ namespace UberRiding.Customer
 
 
             }
-
-            
 
             //set text 2 points
             txtboxStart.Text = GlobalData.selectedItinerary.start_address;

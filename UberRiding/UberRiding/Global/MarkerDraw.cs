@@ -82,6 +82,34 @@ namespace UberRiding.Global
             return overlay;
         }
 
+        private static void _tooltipDriver_Tapimg(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+            try
+            {
+                Image item = (Image)sender;
+                string selecteditem = item.Tag.ToString().Trim();
+                var selectedparkdata = Global.GlobalData.driverList.Where(s => s.driver_id.ToString().Trim().Equals(selecteditem)).ToList();
+
+                if (selectedparkdata.Count > 0)
+                {
+                    foreach (var items in selectedparkdata)
+                    {
+                        ContextMenu contextMenu =
+                        ContextMenuService.GetContextMenu(item);
+                        contextMenu.DataContext = items;
+                        if (contextMenu.Parent == null)
+                        {
+                            contextMenu.IsOpen = true;
+                        }
+                        break;
+                    }
+                }
+            }
+            catch
+            {
+            }
+        }
+
         private static void MenuitemDriver_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -109,34 +137,6 @@ namespace UberRiding.Global
                         //navigate to Details page
                         (Application.Current.RootVisual as PhoneApplicationFrame).Navigate(new Uri("/Customer/CallDriver.xaml", UriKind.RelativeOrAbsolute));
                         //NavigationService.Navigate(new Uri("/Customer/ItineraryDetails.xaml", UriKind.RelativeOrAbsolute));
-                        break;
-                    }
-                }
-            }
-            catch
-            {
-            }
-        }
-
-        private static void _tooltipDriver_Tapimg(object sender, System.Windows.Input.GestureEventArgs e)
-        {
-            try
-            {
-                Image item = (Image)sender;
-                string selecteditem = item.Tag.ToString();
-                var selectedparkdata = Global.GlobalData.driverList.Where(s => s.driver_id.ToString().Equals(selecteditem)).ToList();
-
-                if (selectedparkdata.Count > 0)
-                {
-                    foreach (var items in selectedparkdata)
-                    {
-                        ContextMenu contextMenu =
-                        ContextMenuService.GetContextMenu(item);
-                        contextMenu.DataContext = items;
-                        if (contextMenu.Parent == null)
-                        {
-                            contextMenu.IsOpen = true;
-                        }
                         break;
                     }
                 }
