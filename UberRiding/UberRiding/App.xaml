@@ -5,6 +5,7 @@
     xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
     xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
     xmlns:Toolkit= "clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
+    xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
     xmlns:sys="clr-namespace:System;assembly=mscorlib">
 
     <!--Application Resources-->
@@ -26,11 +27,22 @@
                                        TextWrapping="Wrap" 
                                        FontSize="26"
                                        FontWeight="Bold"/>
-                            <TextBlock  Foreground="Black"  Text="{Binding Distance}" 
+                            <TextBlock  Foreground="Black"  Text="{Binding distance_todriver, StringFormat=' {0} km'}" 
                                        TextTrimming="WordEllipsis" 
                                        Margin="5,0" 
                                        FontSize="22"/>
-
+                            <toolkit:Rating ReadOnly="True" HorizontalAlignment="Center" Width="150" Height="Auto" x:Name="ratingUser" RatingItemCount="5" Value="{Binding average_rating}" Margin="0,10,0,10" Background="#36D7B7" >
+                                <toolkit:Rating.FilledItemStyle>
+                                    <Style TargetType="toolkit:RatingItem">
+                                        <Setter Property="Background" Value="Yellow" />
+                                    </Style>
+                                </toolkit:Rating.FilledItemStyle>
+                                <toolkit:Rating.UnfilledItemStyle>
+                                    <Style TargetType="toolkit:RatingItem">
+                                        <Setter Property="Background" Value="White" />
+                                    </Style>
+                                </toolkit:Rating.UnfilledItemStyle>
+                            </toolkit:Rating>
                         </StackPanel>
                     </ControlTemplate>
                 </Setter.Value>
@@ -41,7 +53,7 @@
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate>
-                        <Border CornerRadius="8" Margin="12,0,12,0" 
+                        <Border CornerRadius="0" Margin="12,0,12,0" 
                                BorderBrush="Blue" BorderThickness="2">
                             <Border.Background>
                                 <LinearGradientBrush 

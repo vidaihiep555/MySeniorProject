@@ -33,7 +33,7 @@
             <TextBlock Grid.Row="1" HorizontalAlignment="Center" Text="Your Happiness moment" FontWeight="Bold" FontFamily="MV Boli" />
         </Grid>
         <toolkit:PhoneTextBox x:Name="txtbEmail" Hint="Email:" Grid.Row="1" Background="White" Width="Auto" Height="Auto" />
-        <toolkit:PhoneTextBox  x:Name="txtbPassword" Hint="PassWord:" Grid.Row="2" Background="White" Width="Auto" />
+        <PasswordBox  x:Name="txtbPassword" Grid.Row="2" Background="White" Width="Auto" />
         <Button x:Name="btnLogin" Grid.Row="3" Content="Logon"  Width="Auto" FontWeight="Bold" BorderThickness="0" Background="#FF3DA5E1" Click="btnLogin_Click"/>
         <Button x:Name="btnRegister" Grid.Row="4" Content="Register"  Width="Auto" FontWeight="Bold" BorderThickness="0" Background="#FF3DA5E1" Click="btnRegister_Click"/>
         <HyperlinkButton x:Name="linkForgotPass"  Grid.Row="5" Content="Forgot password" Click="linkForgotPass_Click"/>

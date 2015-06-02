@@ -23,7 +23,7 @@ namespace UberRiding
 
             txtbEmail.Text = "letrungvi@outlook.com";
             //txtbEmail.Text = "driver1@gmail.com";
-            txtbPassword.Text = "shenlong1909";
+            txtbPassword.Password = "shenlong1909";
 
             //Auto login
             /*Loaded += (s, e) =>
@@ -58,7 +58,7 @@ namespace UberRiding
         {
             Dictionary<string, string> postData = new Dictionary<string, string>();
             postData.Add("email", txtbEmail.Text.Trim());
-            postData.Add("password", txtbPassword.Text);
+            postData.Add("password", txtbPassword.Password);
             HttpFormUrlEncodedContent content =
                 new HttpFormUrlEncodedContent(postData);
 
@@ -107,7 +107,7 @@ namespace UberRiding
                 }
                 else
                 {
-                    NavigationService.Navigate(new Uri("/Customer/CustomerMainMap.xaml", UriKind.RelativeOrAbsolute));
+                    NavigationService.Navigate(new Uri("/Customer/CustomerItineraryManagement.xaml", UriKind.RelativeOrAbsolute));
                     //NavigationService.Navigate(new Uri("/Driver/DriverRating.xaml", UriKind.Relative));
                 }
             }
@@ -121,7 +121,7 @@ namespace UberRiding
         {
             Dictionary<string, string> postData = new Dictionary<string, string>();
             postData.Add("email", txtbEmail.Text.Trim());
-            postData.Add("password", txtbPassword.Text);
+            postData.Add("password", txtbPassword.Password);
             HttpFormUrlEncodedContent content =
                 new HttpFormUrlEncodedContent(postData);
             var result = await RequestToServer.sendPostRequest("customer", content);

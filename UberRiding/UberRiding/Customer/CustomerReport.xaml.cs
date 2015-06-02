@@ -55,8 +55,6 @@ namespace UberRiding.Customer
                     description = i.description,
                     status = i.status,
                     time_start = i.time_start,
-                    //convert base64 to image
-                    //average_rating = i.average_rating
                 };
                 //itinearyList.Add(i2);
                 if (i2.status == GlobalData.ITINERARY_STATUS_FINISHED)
@@ -68,9 +66,6 @@ namespace UberRiding.Customer
                     //null
                 }
             }
-            //binding vao list
-
-            //longlistItineraries.ItemsSource = itinearyList;
             
             longlistItinerariesFinished.ItemsSource = itinearyFinishedList;
         }

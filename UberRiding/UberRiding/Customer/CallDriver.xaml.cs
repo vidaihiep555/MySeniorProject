@@ -35,7 +35,6 @@ namespace UberRiding.Customer
 
         private IHubProxy HubProxy { get; set; }
         const string ServerURI = "http://52.25.218.73:8080/signalr";
-        //const string ServerURI = "http://localhost:8080/signalr";
         private HubConnection con { get; set; }
 
         public CallDriver()
@@ -104,10 +103,6 @@ namespace UberRiding.Customer
         private void test(string message)
         {
             string[] latlng = message.Split(",".ToCharArray());
-            //double lat = Double.Parse(latlng[0]);
-            //double lng = Double.Parse(latlng[1]);
-            //addMarkertoMap(new GeoCoordinate(lat, lng));
-            //txtFireBase.Text = message;
         }
 
         private void Connection_Error(Exception obj)
@@ -144,27 +139,10 @@ namespace UberRiding.Customer
                 showString = showString + "" + e.Result[0].Information.Address.HouseNumber + " " + e.Result[0].Information.Address.Street;
                 showString = showString + "" + e.Result[0].Information.Address.PostalCode + " " + e.Result[0].Information.Address.City;
                 showString = showString + "" + e.Result[0].Information.Address.Country + " " + e.Result[0].Information.Address.CountryCode;
-                //showString = showString + "\nDescription: ";
-                //showString = showString + "\n" + e.Result[0].Information.Description.ToString();
 
                 txtboxStart.Text = showString;
-                //MessageBox.Show(showString);
-                /*if (nameOfTxtbox.Equals("Start"))
-                {
-                    txtboxStart.Text = showString;
-                    nameOfTxtbox = "End";
-                }
-                else
-                {
-                    txtboxEnd.Text = showString;
-                }*/
-                //txtboxStart.Text = showString;
-                //return showString;
 
             }
-            //this.Cursor = Cursors.None;
-            //return "null";
-            //mapPostItinerary.IsEnabled = true;
         }
 
         private async Task<GeoCoordinate> ShowMyCurrentLocationOnTheMap()
@@ -251,8 +229,6 @@ namespace UberRiding.Customer
                         status = i.status,
                         created_at = i.created_at,
                         time_start = i.time_start,
-                        //convert base64 to image
-                        //average_rating = i.average_rating
                     };
 
                     GlobalData.selectedItinerary = i2;
