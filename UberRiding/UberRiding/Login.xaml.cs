@@ -99,15 +99,15 @@ namespace UberRiding
                     //update driver status to not busy
                     // update lat long current cua driver
 
-                    Dictionary<string, string> updateData = new Dictionary<string, string>();
-                    updateData.Add("busy_status", GlobalData.DRIVER_NOT_BUSY.ToString());
-                    HttpFormUrlEncodedContent updateDataContent = new HttpFormUrlEncodedContent(updateData);
-                    var update = await RequestToServer.sendPutRequest("driverbusy", updateDataContent);
+                    //Dictionary<string, string> updateData = new Dictionary<string, string>();
+                    //updateData.Add("busy_status", GlobalData.DRIVER_NOT_BUSY.ToString());
+                    //HttpFormUrlEncodedContent updateDataContent = new HttpFormUrlEncodedContent(updateData);
+                    //var update = await RequestToServer.sendPutRequest("driverbusy", updateDataContent);
                     NavigationService.Navigate(new Uri("/Driver/DriverItineraryManagement.xaml", UriKind.Relative));
                 }
                 else
                 {
-                    NavigationService.Navigate(new Uri("/Customer/CustomerItineraryManagement.xaml", UriKind.RelativeOrAbsolute));
+                    NavigationService.Navigate(new Uri("/Customer/CustomerMainMap.xaml", UriKind.RelativeOrAbsolute));
                     //NavigationService.Navigate(new Uri("/Driver/DriverRating.xaml", UriKind.Relative));
                 }
             }
