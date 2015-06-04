@@ -71,7 +71,7 @@ namespace UberRiding.Driver
             //luu tru tam thoi
             Global.GlobalData.selectedVehicle = selectedItem;
             //navigate sang details
-            NavigationService.Navigate(new Uri("/Driver/VehiclesDetails.xaml", UriKind.RelativeOrAbsolute));
+            NavigationService.Navigate(new Uri("/Driver/VehicleDetails.xaml", UriKind.RelativeOrAbsolute));
         }
 
         private void btnAddVehicle_Click(object sender, RoutedEventArgs e)

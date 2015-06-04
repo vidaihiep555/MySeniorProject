@@ -21,8 +21,8 @@ namespace UberRiding
         {
             InitializeComponent();
 
-            txtbEmail.Text = "letrungvi@outlook.com";
-            //txtbEmail.Text = "driver1@gmail.com";
+            //txtbEmail.Text = "letrungvi@outlook.com";
+            txtbEmail.Text = "driver1@gmail.com";
             txtbPassword.Password = "shenlong1909";
 
             //Auto login
@@ -103,11 +103,12 @@ namespace UberRiding
                     //updateData.Add("busy_status", GlobalData.DRIVER_NOT_BUSY.ToString());
                     //HttpFormUrlEncodedContent updateDataContent = new HttpFormUrlEncodedContent(updateData);
                     //var update = await RequestToServer.sendPutRequest("driverbusy", updateDataContent);
-                    NavigationService.Navigate(new Uri("/Driver/DriverItineraryManagement.xaml", UriKind.Relative));
+                    //NavigationService.Navigate(new Uri("/Driver/DriverItineraryManagement.xaml", UriKind.Relative));
+                    NavigationService.Navigate(new Uri("/Driver/VehicleManagement.xaml", UriKind.Relative));
                 }
                 else
                 {
-                    NavigationService.Navigate(new Uri("/Customer/CustomerMainMap.xaml", UriKind.RelativeOrAbsolute));
+                    NavigationService.Navigate(new Uri("/Customer/CustomerItineraryManagement.xaml", UriKind.RelativeOrAbsolute));
                     //NavigationService.Navigate(new Uri("/Driver/DriverRating.xaml", UriKind.Relative));
                 }
             }
@@ -122,8 +123,7 @@ namespace UberRiding
             Dictionary<string, string> postData = new Dictionary<string, string>();
             postData.Add("email", txtbEmail.Text.Trim());
             postData.Add("password", txtbPassword.Password);
-            HttpFormUrlEncodedContent content =
-                new HttpFormUrlEncodedContent(postData);
+            HttpFormUrlEncodedContent content = new HttpFormUrlEncodedContent(postData);
             var result = await RequestToServer.sendPostRequest("customer", content);
 
             JObject jsonObject = JObject.Parse(result);

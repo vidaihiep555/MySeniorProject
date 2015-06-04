@@ -68,6 +68,14 @@ namespace SignalRSelfHost
             }
         }
 
+        public void SendPostItinerary(string driver_id, string pos)
+        {
+            if (users.ContainsKey(driver_id))
+            {
+                Clients.Client(users[driver_id]).getPostItinerary(driver_id, pos);
+            }
+        }
+
         public void SetItineraryStatus(string driver_id, string customer_id, string pos)
         {
             if (users.ContainsKey(customer_id))

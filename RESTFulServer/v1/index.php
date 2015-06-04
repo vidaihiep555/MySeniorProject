@@ -1165,7 +1165,7 @@ $app->get('/itineraries/customer/:order', 'authenticateCustomer', function($orde
                 $tmp["time_start"] = $itinerary["time_start"];
                 $tmp["distance"] = $itinerary["distance"];
                 $tmp["description"] = $itinerary["description"];
-                $tmp["status"] = $itinerary["ititnerary_status"];
+                $tmp["status"] = $itinerary["itinerary_status"];
                 $tmp["created_at"] = $itinerary["created_at"];
                 $tmp["driver_avatar"] = $itinerary["driver_avatar"];
                 array_push($response["itineraries"], $tmp);

@@ -59,8 +59,6 @@ namespace UberRiding.Customer
                     created_at = i.created_at,
                     time_start = i.time_start,
                     driver_avatar = ImageConvert.convertBase64ToImage(i.driver_avatar),
-                    //convert base64 to image
-                    //average_rating = i.average_rating
                 };
                 if (i2.status == GlobalData.ITINERARY_STATUS_CREATED)
                 {
