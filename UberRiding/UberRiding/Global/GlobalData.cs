@@ -1,12 +1,18 @@
 ﻿using Microsoft.AspNet.SignalR.Client;
+using Microsoft.Phone.Controls;
+using Microsoft.Phone.Scheduler;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
+using UberRiding.Request;
+using Windows.Web.Http;
 
 namespace UberRiding.Global
 {
@@ -19,14 +25,153 @@ namespace UberRiding.Global
 
 
         //driver
+        public static PeriodicTask periodicTask;
+        ResourceIntensiveTask resourceIntensiveTask;
+        public static string periodicTaskName = "PeriodicAgent";
+        public static string resourceIntensiveTaskName = "ResourceIntensiveAgent";
+        public static bool agentsAreEnabled = true;
+
+        public static void StartPeriodicAgent()
+        {
+
+            agentsAreEnabled = true;
+            periodicTask = ScheduledActionService.Find(periodicTaskName) as PeriodicTask;
+            if (periodicTask != null)
+            {
+                RemoveAgent(periodicTaskName);
+            }
+            periodicTask = new PeriodicTask(periodicTaskName);
+            periodicTask = new PeriodicTask(periodicTaskName);
+            periodicTask.Description = "This demonstrates a periodic task.";
+            // Place the call to add in a try block in case the user has disabled agents.
+            try
+            {
+                ScheduledActionService.Add(periodicTask);
+                //PeriodicStackPanel.DataContext = periodicTask;
+                // If debugging is enabled , use LaunchForTest to launch the agent in one minutes
+                //#if (DEBUG_AGENT)
+                ScheduledActionService.LaunchForTest(periodicTaskName, TimeSpan.FromSeconds(5));
+                //#endif
+            }
+            catch (InvalidOperationException exception)
+            {
+                if (exception.Message.Contains("BNS Error: The action is disabled"))
+                {
+                    MessageBox.Show("Bakcground agents for this application have been disabled by the user.");
+                    agentsAreEnabled = false;
+                    //PeriodicCheckBox.IsChecked = false;
+                }
+                if (exception.Message.Contains("BNS Error: The maximum number of ScheduledActions of this type have already been added."))
+                {
+                    // No user action required.
+                }
+                //PeriodicCheckBox.IsChecked = false;
+            }
+            catch (SchedulerServiceException)
+            {
+                // PeriodicCheckBox.IsChecked = false;
+            }
+        }
+
+        public static void RemoveAgent(string name)
+        {
+            try
+            {
+                ScheduledActionService.Remove(name);
+            }
+            catch (Exception)
+            {
+            }
+        }
 
         public static IHubProxy HubProxy { get; set; }
-        //public static const string ServerURI = "http://52.25.218.73:8080/signalr";
+        public static string ServerURI = "http://52.25.218.73:8080/signalr";
         public static HubConnection con { get; set; }
+
+        public static async void ConnectDriverAsync()
+        {
+            GlobalData.con = new HubConnection(GlobalData.ServerURI);
+            GlobalData.con.Closed += GlobalData.Connection_Closed;
+            GlobalData.con.Error += GlobalData.Connection_Error;
+            GlobalData.HubProxy = GlobalData.con.CreateHubProxy("MyHub");
+            //Handle incoming event from server: use Invoke to write to console from SignalR's thread
+            GlobalData.HubProxy.On<string, string>("getPos2", (driver_id, message) =>
+                Deployment.Current.Dispatcher.BeginInvoke(() => test(message))
+            );
+            try
+            {
+                await GlobalData.con.Start();
+            }
+            catch (HttpRequestException)
+            {
+                //No connection: Don't enable Send button or show chat UI
+                //btntrack.Content = "eror";
+            }
+            catch (HttpClientException)
+            {
+                //btntrack.Content = "eror";
+            }
+
+            Deployment.Current.Dispatcher.BeginInvoke(() =>
+            {
+                string id = "D" + Global.GlobalData.user_id;
+                GlobalData.HubProxy.Invoke("Connect", id);
+            });
+
+
+        }
 
         public static async void test(string message)
         {
+            //show message box
+            var resultMessageBox = MessageBox.Show("Do it now");
 
+            if (resultMessageBox == MessageBoxResult.OK)
+            {
+                string[] x = message.Split(',');
+                //send message
+
+                Dictionary<string, string> updateData = new Dictionary<string, string>();
+                updateData.Add("busy_status", GlobalData.DRIVER_BUSY.ToString());
+                HttpFormUrlEncodedContent updateDataContent = new HttpFormUrlEncodedContent(updateData);
+                var update = await RequestToServer.sendPutRequest("driverbusy", updateDataContent);
+
+                var result = await RequestToServer.sendGetRequest("itinerary/" + x[1]);
+
+                //set selected itinerary
+                RootObject root = JsonConvert.DeserializeObject<RootObject>(result);
+                foreach (Itinerary i in root.itineraries)
+                {
+                    Itinerary2 i2 = new Itinerary2
+                    {
+                        itinerary_id = i.itinerary_id,
+                        driver_id = i.driver_id,
+                        customer_id = Convert.ToInt32(i.customer_id),
+                        start_address = i.start_address,
+                        start_address_lat = i.start_address_lat,
+                        start_address_long = i.start_address_long,
+                        end_address = i.end_address,
+                        end_address_lat = i.end_address_lat,
+                        end_address_long = i.end_address_long,
+                        distance = i.distance,
+                        description = i.description,
+                        status = i.status,
+                        created_at = i.created_at,
+                        time_start = i.time_start,
+                        //convert base64 to image
+                        //average_rating = i.average_rating
+                    };
+
+                    GlobalData.selectedItinerary = i2;
+                }
+
+                (Application.Current.RootVisual as PhoneApplicationFrame).Navigate(new Uri("/Driver/DriverItineraryDetails.xaml", UriKind.RelativeOrAbsolute));
+            }
+            //string[] latlng = message.Split(",".ToCharArray());
+            //double lat = Double.Parse(latlng[0]);
+            //double lng = Double.Parse(latlng[1]);
+            //addMarkertoMap(new GeoCoordinate(lat, lng));
+            //txtFireBase.Text = message;
         }
 
         public static void Connection_Closed()

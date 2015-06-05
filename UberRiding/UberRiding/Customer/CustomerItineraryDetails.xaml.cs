@@ -18,6 +18,7 @@ using Microsoft.Phone.Maps.Controls;
 using Windows.Devices.Geolocation;
 using Microsoft.AspNet.SignalR.Client;
 using System.Net.Http;
+using UberRiding.Request;
 
 namespace UberRiding.Customer
 {
@@ -264,9 +265,21 @@ namespace UberRiding.Customer
             });
         }
 
-        void btnFinshItinerary_Click(object sender, RoutedEventArgs e)
+        async void btnFinshItinerary_Click(object sender, RoutedEventArgs e)
         {
-            //update 
+            //update ititnerary
+            Dictionary<string, string> postData = new Dictionary<string, string>();
+            HttpFormUrlEncodedContent content = new HttpFormUrlEncodedContent(postData);
+            var result = await RequestToServer.sendPutRequest("update_finished_itinerary/" + GlobalData.selectedItinerary.itinerary_id, content);
+
+            JObject jsonObject = JObject.Parse(result);
+
+
+            //send to
+
+
+            //navigate to rating
+            NavigationService.Navigate(new Uri("Customer/RatingPage.xaml", UriKind.RelativeOrAbsolute));
         }
 
         void btnDriverInfo_Click(object sender, RoutedEventArgs e)

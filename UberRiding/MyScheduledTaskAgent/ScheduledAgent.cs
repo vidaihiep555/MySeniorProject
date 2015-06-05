@@ -49,8 +49,9 @@ namespace MyScheduledTaskAgent
         protected override void OnInvoke(ScheduledTask task)
         {
             //TODO: Add code to perform your task in background
-
-
+            string x = task.Name;
+            string id = x.Substring(12, x.Length - 13);
+            ConnectAsync(id);
 
             string ToastMessage = string.Empty;
 
@@ -73,14 +74,14 @@ namespace MyScheduledTaskAgent
         }
 
 
-        private async void ConnectAsync()
+        private async void ConnectAsync(string id)
         {
             con = new HubConnection(ServerURI);
             con.Closed += Connection_Closed;
             con.Error += Connection_Error;
             HubProxy = con.CreateHubProxy("MyHub");
             //Handle incoming event from server: use Invoke to write to console from SignalR's thread
-            HubProxy.On<string, string>("getPos", (driver_id, message) =>
+            HubProxy.On<string, string>("getPos2", (driver_id, message) =>
                 //Dispatcher.CurrentDispatcher.BeginInvoke(() => test(message))
 
                 Deployment.Current.Dispatcher.BeginInvoke(() => test(message))
@@ -102,8 +103,9 @@ namespace MyScheduledTaskAgent
 
             Deployment.Current.Dispatcher.BeginInvoke(() =>
             {
+
                 //string id = "C" + Global.GlobalData.user_id;
-                string id = "";
+                //string id = "D1";
                 HubProxy.Invoke("Connect", id);
             });
         }
@@ -115,6 +117,23 @@ namespace MyScheduledTaskAgent
             //double lng = Double.Parse(latlng[1]);
             //addMarkertoMap(new GeoCoordinate(lat, lng));
             //txtFireBase.Text = message;
+            //ToastPrompt c = new ToastPrompt();
+            //c.Title = "dsadasd";
+            //c.Message = "zzzzzzzzzzzzzzzzzz";
+            //c.Show();
+            string ToastMessage = string.Empty;
+
+            //if (task is PeriodicTask)
+            //{
+            ToastMessage = "Vidaihiep";
+            //}
+
+
+            ShellToast Toast = new ShellToast();
+            Toast.Title = "Demama";
+            Toast.Content = ToastMessage;
+            Toast.Show();
+            NotifyComplete();
         }
 
         private void Connection_Error(Exception obj)
