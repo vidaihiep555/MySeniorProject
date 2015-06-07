@@ -51,7 +51,10 @@
 		</shell:ApplicationBar>
 	</phone:PhoneApplicationPage.ApplicationBar>
 	<!--LayoutRoot is the root grid where all page content is placed-->
-	<Grid x:Name="LayoutRoot" Background="Transparent">
+	<Grid x:Name="LayoutRoot">
+		<Grid.Background>
+			<ImageBrush Stretch="Fill" ImageSource="/Assets/Background/flow_purple.png"/>
+		</Grid.Background>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto"/>
 			<RowDefinition Height="*"/>
@@ -67,7 +70,7 @@
 				Text="Itinerary Management" FontSize="22"/>
 		</StackPanel>
 		<!--Pivot Control-->
-		<phone:Pivot Grid.Row="1" Margin="0,-30,0,0" Background="#3DA5E1">
+		<phone:Pivot Grid.Row="1" Margin="0,-30,0,0" Background="Transparent">
 			<!--Pivot item one-->
 
 			<!--Pivot item two-->

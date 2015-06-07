@@ -15,7 +15,10 @@
     mc:Ignorable="d"
     shell:SystemTray.IsVisible="True">
 
-    <Grid x:Name="LayoutRoot" Background="#36D7B7">
+    <Grid x:Name="LayoutRoot">
+        <Grid.Background>
+            <ImageBrush Stretch="Fill" ImageSource="/Assets/Background/flow_blue.png"/>
+        </Grid.Background>
 
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -65,7 +68,7 @@
             <Button Grid.Column="1" Background="White" x:Name="btnStart" BorderBrush="Black" BorderThickness="2" Height="80" Width="80"  Canvas.Left="380" Canvas.Top="400" Click="btnStart_Click">
                 <Image x:Name="imgStart" Stretch="Fill" Source="/Assets/marker/blackstart.png"/>
             </Button>
-            
+
         </Grid>
 
         <Grid Grid.Row="3" HorizontalAlignment="Center" Width="480">
@@ -83,15 +86,15 @@
                 <Image x:Name="imgEnd" Stretch="Fill" Source="/Assets/marker/blackend.png" Width="22"/>
             </Button>
         </Grid>
-        
-            <Button x:Name="btnXn" Grid.Row="4" Width="Auto"
+
+        <Button x:Name="btnXn" Grid.Row="4" Width="Auto"
                     Content="Register"
                     Margin="0,0,0,0" 
                     VerticalAlignment="Top" 
                     Background="#FF2D90F5" 
                     BorderThickness="0" 
                     RenderTransformOrigin="0.5,0.5" Height="72" Click="btnXn_Click"/>
-        
+
     </Grid>
 
 </phone:PhoneApplicationPage>

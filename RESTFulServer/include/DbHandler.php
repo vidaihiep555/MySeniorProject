@@ -1045,6 +1045,17 @@ class DbHandler {
     }
 
 
+    /*public function isCustomerExists($email) {
+        $stmt = $this->conn->prepare("SELECT customer_id from customer WHERE email = ?");
+        $stmt->bind_param("s", $email);
+        $stmt->execute();
+        $stmt->store_result();
+        $num_rows = $stmt->num_rows;
+        $stmt->close();
+        return $num_rows > 0;
+    }*/
+
+
     /* ------------- Busytime table ------------------ */
 
     /**
@@ -1471,13 +1482,15 @@ class DbHandler {
         $stmt = $this->conn->prepare($q);
         $stmt->bind_param("i",$driver_id);
         $stmt->execute();
-        $stmt->fetch();
         $stmt->bind_result($average_rating);
+        $stmt->fetch();
+        
         $stmt->close();
-
+        //echo ";" .$average_rating;
         if($average_rating == null){
             return 0;
         } else {
+
             return $average_rating;
         }
     }

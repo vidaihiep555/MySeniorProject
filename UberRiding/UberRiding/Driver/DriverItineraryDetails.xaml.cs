@@ -35,10 +35,10 @@ namespace UberRiding.Driver
 
         MapOverlay driverOverlay = new MapOverlay();
         Geolocator myLocator = null;
-        private IHubProxy HubProxy { get; set; }
-        const string ServerURI = "http://52.25.218.73:8080/signalr";
+        //private IHubProxy HubProxy { get; set; }
+        //const string ServerURI = "http://52.25.218.73:8080/signalr";
         //const string ServerURI = "http://localhost:8080/signalr";
-        private HubConnection con { get; set; }
+        //private HubConnection con { get; set; }
         public DriverItineraryDetails()
         {
             InitializeComponent();
@@ -106,13 +106,7 @@ namespace UberRiding.Driver
                 txtItineraryInfo.Text = "Itinerary Ongoing";
                 // tracking
 
-                Button btnTracking = new Button();
-                btnTracking.Content = "Tracking";
-                btnTracking.Click += btnTracking_Click;
-                gridInfo.Children.Add(btnTracking);
-                Grid.SetRow(btnTracking, 5);
-
-                ConnectAsync();
+                //ConnectAsync();
 
                 myLocator = new Geolocator();
                 myLocator.DesiredAccuracy = PositionAccuracy.High;
@@ -150,7 +144,7 @@ namespace UberRiding.Driver
         }
 
         #region signalR
-        private async void ConnectAsync()
+        /*private async void ConnectAsync()
         {
             con = new HubConnection(ServerURI);
             con.Closed += Connection_Closed;
@@ -202,7 +196,7 @@ namespace UberRiding.Driver
         private void Connection_Closed()
         {
             //Deactivate chat UI; show login UI. 
-        }
+        }*/
         #endregion
 
         private void myGeoLocator_PositionChanged(Geolocator sender, PositionChangedEventArgs args1)
@@ -218,20 +212,15 @@ namespace UberRiding.Driver
             drivercurrentOverlay = Global.MarkerDraw.DrawDriverMarker(new GeoCoordinate(args1.Position.Coordinate.Latitude, args1.Position.Coordinate.Longitude), new Driver2());
             mapLayer.Add(drivercurrentOverlay);
 
-            Dispatcher.BeginInvoke(() =>
+            Deployment.Current.Dispatcher.BeginInvoke(() =>
             {
                 string driver_id = "C" + GlobalData.selectedItinerary.customer_id;
 
                 //message = customer_id, itinerary_id, 
                 string message = "D" + GlobalData.user_id + "," + GlobalData.selectedItinerary.itinerary_id + "," + args1.Position.Coordinate.Latitude.ToString() + "," + args1.Position.Coordinate.Longitude.ToString();
 
-                HubProxy.Invoke("SendTracking", driver_id, message);
+                GlobalData.HubProxy.Invoke("SendTracking", driver_id, message);
             });
-        }
-
-        private void btnTracking_Click(object sender, RoutedEventArgs e)
-        {
-            //throw new NotImplementedException();
         }
 
 

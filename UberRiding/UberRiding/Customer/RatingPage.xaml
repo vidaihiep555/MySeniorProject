@@ -14,8 +14,11 @@
 	mc:Ignorable="d"
 	shell:SystemTray.IsVisible="True">
 
-	<!--LayoutRoot is the root grid where all page content is placed-->
-	<Grid x:Name="LayoutRoot" Background="#36D7B7">
+	<!--LayoutRoot is the #36D7B7 root grid where all page content is placed-->
+	<Grid x:Name="LayoutRoot">
+		<Grid.Background>
+			<ImageBrush Stretch="Fill" ImageSource="/Assets/Background/flow_blue.png"/>
+		</Grid.Background>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto"/>
 			<RowDefinition Height="0.25*"/>
@@ -40,9 +43,9 @@
 
 		<!--ContentPanel - place additional content here-->
 		<Grid x:Name="ContentPanel" Grid.Row="2" Margin="0,0,0,0">
-			<Image x:Name="imgAvatar" HorizontalAlignment="Center" Source="Assets/avatar/ic_author_truman.png">
+			<Image x:Name="imgAvatar" HorizontalAlignment="Center" Source="Assets/avatar/ic_author_vidal.png">
 				<Image.Clip>
-					<EllipseGeometry Center="90,80" RadiusX="90" RadiusY="90"/>
+					<EllipseGeometry Center="90,90" RadiusX="90" RadiusY="90"/>
 				</Image.Clip>
 			</Image>
 		</Grid>
@@ -50,7 +53,7 @@
 			<TextBlock x:Name="txtbDriverName" HorizontalAlignment="Center" FontWeight="Bold"/>
 		</StackPanel>
 		<Grid Grid.Row="4">
-			<toolkit:Rating HorizontalAlignment="Center" Width="300" Height="Auto" x:Name="ratingDriver" RatingItemCount="5" Value="2" Margin="90,10,90,80" Background="#36D7B7" >
+			<toolkit:Rating HorizontalAlignment="Center" Width="300" Height="Auto" x:Name="ratingDriver" RatingItemCount="5" Value="2" Margin="90,10,90,80" Background="Transparent" >
 				<toolkit:Rating.FilledItemStyle>
 					<Style TargetType="toolkit:RatingItem">
 						<Setter Property="Background" Value="Yellow" />

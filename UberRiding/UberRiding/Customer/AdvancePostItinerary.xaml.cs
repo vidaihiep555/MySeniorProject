@@ -22,10 +22,8 @@ namespace UberRiding.Customer
         string end = "";
         string start_lat, start_long, end_lat, end_long = "";
 
-        private IHubProxy HubProxy { get; set; }
-        const string ServerURI = "http://52.25.218.73:8080/signalr";
-        //const string ServerURI = "http://localhost:8080/signalr";
-        private HubConnection con { get; set; }
+        //private IHubProxy HubProxy { get; set; }
+        //private HubConnection con { get; set; }
 
         public AdvancePostItinerary()
         {
@@ -36,7 +34,7 @@ namespace UberRiding.Customer
         {
             base.OnNavigatedTo(e);
 
-            ConnectAsync();
+            GlobalData.ConnectCustomerAsync();
 
             if (NavigationContext.QueryString.TryGetValue("start", out start))
             {
@@ -60,7 +58,8 @@ namespace UberRiding.Customer
 
         }
 
-        private async void ConnectAsync()
+        #region signalR
+        /*private async void ConnectAsync()
         {
             con = new HubConnection(ServerURI);
             con.Closed += Connection_Closed;
@@ -109,7 +108,8 @@ namespace UberRiding.Customer
         private void Connection_Closed()
         {
             //Deactivate chat UI; show login UI. 
-        }
+        }*/
+        #endregion
 
         private async void btnRegister_Click(object sender, RoutedEventArgs e)
         {
@@ -159,13 +159,21 @@ namespace UberRiding.Customer
             else
             {
                 //send to driver via signalR
-                string driver_id = jsonObject.Value<string>("driver_id");
+                string post_driver_id = jsonObject.Value<string>("driver_id");
                 string itinerary_id = jsonObject.Value<string>("itinerary_id");
 
+                Deployment.Current.Dispatcher.BeginInvoke(() =>
+                {
+                    string driver_id = "D" + post_driver_id;
+                    string message = "C" + GlobalData.user_id + "," + itinerary_id;
+                    GlobalData.HubProxy.Invoke("SendPostItinerary", driver_id, message);
+
+                    //NavigationService.Navigate(new Uri("/Customer/CustomerItineraryDetails.xaml", UriKind.RelativeOrAbsolute));
+                });
 
                 //set alarm
-                DateTime datetime = new DateTime(year, month, day, hour, minute, 00);
-                ScheduleReminder.addScheduleReminder("name", "title", "content", datetime.AddHours(-2), datetime);
+                //DateTime datetime = new DateTime(year, month, day, hour, minute, 00);
+                //ScheduleReminder.addScheduleReminder("name", "title", "content", datetime.AddHours(-2), datetime);
 
             }
 

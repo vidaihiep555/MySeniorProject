@@ -536,7 +536,7 @@ $app->get('/driver', 'authenticateDriver', function() {
         });
 
 
-$app->get('/customergetdriver/:driver_id', 'authenticateDriver', function($driver_id) {
+$app->get('/customergetdriver/:driver_id', 'authenticateCustomer', function($driver_id) {
             //global $user_id;
             $response = array();
             $db = new DbHandler();

@@ -53,23 +53,6 @@ namespace MyScheduledTaskAgent
             string id = x.Substring(12, x.Length - 13);
             ConnectAsync(id);
 
-            string ToastMessage = string.Empty;
-
-            if (task is PeriodicTask)
-            {
-                ToastMessage = "Vidaihiep";
-            }
-
-
-            ShellToast Toast = new ShellToast();
-            Toast.Title = "Demama";
-            Toast.Content = ToastMessage;
-            Toast.Show();
-            NotifyComplete();
-
-            #if DEBUG_AGENT
-                        ScheduledActionService.LaunchForTest(task.Name, TimeSpan.FromSeconds(60));
-            #endif
             
         }
 
@@ -127,8 +110,6 @@ namespace MyScheduledTaskAgent
             //{
             ToastMessage = "Vidaihiep";
             //}
-
-
             ShellToast Toast = new ShellToast();
             Toast.Title = "Demama";
             Toast.Content = ToastMessage;

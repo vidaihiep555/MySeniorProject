@@ -53,7 +53,10 @@
 		</shell:ApplicationBar>
 	</phone:PhoneApplicationPage.ApplicationBar>
 	<!--LayoutRoot is the root grid where all page content is placed-->
-	<Grid x:Name="LayoutRoot" Background="#36D7B7">
+	<Grid x:Name="LayoutRoot">
+		<Grid.Background>
+			<ImageBrush Stretch="Fill" ImageSource="/Assets/Background/flow_blue.png"/>
+		</Grid.Background>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto"/>
 			<RowDefinition Height="*"/>
@@ -69,14 +72,14 @@
 				Text="Itinerary Management" FontSize="22"/>
 		</StackPanel>
 		<!--Pivot Control #36D7B7-->
-		<phone:Pivot Grid.Row="1" Margin="0,-30,0,0" Background="#36D7B7">
+		<phone:Pivot Grid.Row="1" Margin="0,-30,0,0" Background="Transparent">
 			<!--Pivot item one-->
 
 			<!--Pivot item two-->
 			<phone:PivotItem Header="Created">
 				<!--Double line list with image placeholder and text wrapping using a floating header that scrolls with the content-->
 				<phone:LongListSelector x:Name="longlistItinerariesCreated" Margin="0,-38,-22,2" SelectionChanged="longlistItinerariesCreated_SelectionChanged">
-					
+
 					<phone:LongListSelector.ItemTemplate>
 						<DataTemplate>
 							<StackPanel Orientation="Horizontal" Margin="12,2,0,4" Height="105" Width="432">
@@ -98,7 +101,7 @@
 			<phone:PivotItem Header="Accepted">
 				<!--Double line list with image placeholder and text wrapping using a floating header that scrolls with the content-->
 				<phone:LongListSelector x:Name="longlistItinerariesAccepted" Margin="0,-38,-22,2" SelectionChanged="longlistItinerariesCustomerAccepted_SelectionChanged">
-					
+
 					<phone:LongListSelector.ItemTemplate>
 						<DataTemplate>
 							<StackPanel Orientation="Horizontal" Margin="12,2,0,4" Height="105" Width="432">
@@ -120,7 +123,7 @@
 			<phone:PivotItem Header="OnGoing">
 				<!--Double line list with image placeholder and text wrapping using a floating header that scrolls with the content-->
 				<phone:LongListSelector x:Name="longlistItinerariesOnGoing" Margin="0,-38,-22,2" SelectionChanged="longlistItinerariesDriverAccepted_SelectionChanged" >
-					
+
 					<phone:LongListSelector.ItemTemplate>
 						<DataTemplate>
 							<StackPanel Orientation="Horizontal" Margin="12,2,0,4" Height="105" Width="432">
@@ -142,7 +145,7 @@
 			<phone:PivotItem Header="Finished">
 				<!--Double line list with image placeholder and text wrapping using a floating header that scrolls with the content-->
 				<phone:LongListSelector x:Name="longlistItinerariesFinished" Margin="0,-38,-22,2" SelectionChanged="longlistItinerariesFinished_SelectionChanged">
-					
+
 					<phone:LongListSelector.ItemTemplate>
 						<DataTemplate>
 							<StackPanel Orientation="Horizontal" Margin="12,2,0,4" Height="105" Width="432">

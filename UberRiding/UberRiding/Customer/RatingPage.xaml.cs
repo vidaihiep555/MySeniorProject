@@ -9,6 +9,8 @@ using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using Windows.Web.Http;
 using UberRiding.Request;
+using UberRiding.Global;
+using Newtonsoft.Json.Linq;
 
 namespace UberRiding.Customer
 {
@@ -17,6 +19,21 @@ namespace UberRiding.Customer
         public RatingPage()
         {
             InitializeComponent();
+
+            //Global.GlobalData.sel
+            customerGetUserInfo();
+            
+        }
+
+        public async void customerGetUserInfo()
+        {
+            var result = await RequestToServer.sendGetRequest("customergetdriver/" + GlobalData.calldriver);
+
+            JObject jsonObject = JObject.Parse(result);
+
+            txtbDriverName.Text = jsonObject.Value<string>("fullname");
+            //set Image
+            imgAvatar.Source = ImageConvert.convertBase64ToImage(jsonObject.Value<string>("driver_avatar").Trim());
         }
 
         private async void btnSend_Click(object sender, RoutedEventArgs e)

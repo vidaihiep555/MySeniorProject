@@ -31,7 +31,7 @@
                                        TextTrimming="WordEllipsis" 
                                        Margin="5,0" 
                                        FontSize="22"/>
-                            <toolkit:Rating ReadOnly="True" HorizontalAlignment="Center" Width="150" Height="Auto" x:Name="ratingUser" RatingItemCount="5" Value="{Binding average_rating}" Margin="0,10,0,10" Background="#36D7B7" >
+                            <toolkit:Rating ReadOnly="True" HorizontalAlignment="Center" Width="150" Height="Auto" x:Name="ratingUser" RatingItemCount="5" Value="{Binding average_rating}" Margin="0,10,0,10" Background="Transparent" >
                                 <toolkit:Rating.FilledItemStyle>
                                     <Style TargetType="toolkit:RatingItem">
                                         <Setter Property="Background" Value="Yellow" />

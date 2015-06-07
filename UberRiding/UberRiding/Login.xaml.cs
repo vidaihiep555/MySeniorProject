@@ -21,8 +21,8 @@ namespace UberRiding
         {
             InitializeComponent();
 
-            //txtbEmail.Text = "letrungvi@outlook.com";
-            txtbEmail.Text = "driver1@gmail.com";
+            txtbEmail.Text = "letrungvi@outlook.com";
+            //txtbEmail.Text = "driver1@gmail.com";
             txtbPassword.Password = "shenlong1909";
 
             //Auto login
@@ -104,11 +104,11 @@ namespace UberRiding
                     //HttpFormUrlEncodedContent updateDataContent = new HttpFormUrlEncodedContent(updateData);
                     //var update = await RequestToServer.sendPutRequest("driverbusy", updateDataContent);
                     //NavigationService.Navigate(new Uri("/Driver/DriverItineraryManagement.xaml", UriKind.Relative));
-                    NavigationService.Navigate(new Uri("/Driver/VehicleManagement.xaml", UriKind.Relative));
+                    NavigationService.Navigate(new Uri("/Driver/DriverMainMap.xaml", UriKind.Relative));
                 }
                 else
                 {
-                    NavigationService.Navigate(new Uri("/Customer/CustomerItineraryManagement.xaml", UriKind.RelativeOrAbsolute));
+                    NavigationService.Navigate(new Uri("/Customer/CustomerMainMap.xaml", UriKind.RelativeOrAbsolute));
                     //NavigationService.Navigate(new Uri("/Driver/DriverRating.xaml", UriKind.Relative));
                 }
             }

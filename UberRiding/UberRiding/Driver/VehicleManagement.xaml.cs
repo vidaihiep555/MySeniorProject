@@ -25,7 +25,7 @@ namespace UberRiding.Driver
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
-
+            GlobalData.ConnectDriverAsync();
             getListOfVehicles();
         }
 

@@ -18,17 +18,15 @@ namespace UberRiding.Driver
 {
     public partial class DriverMainMap : PhoneApplicationPage
     {
-        private IHubProxy HubProxy { get; set; }
-        const string ServerURI = "http://52.25.218.73:8080/signalr";
-        private HubConnection con { get; set; }
+        //private IHubProxy HubProxy { get; set; }
+        //private HubConnection con { get; set; }
         public DriverMainMap()
         {
             InitializeComponent();
-
-            ConnectAsync();
+            GlobalData.ConnectDriverAsync();
         }
 
-        private async void ConnectAsync()
+        /*private async void ConnectAsync()
         {
             con = new HubConnection(ServerURI);
             con.Closed += Connection_Closed;
@@ -126,6 +124,6 @@ namespace UberRiding.Driver
         private void Connection_Closed()
         {
             //Deactivate chat UI; show login UI. 
-        }
+        }*/
     }
 }

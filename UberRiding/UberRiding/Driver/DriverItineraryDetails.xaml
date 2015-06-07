@@ -31,10 +31,13 @@
 				Margin="0,0,0,0"
 				HorizontalAlignment="Left"
 				Style="{StaticResource PhoneTextTitle1Style}"
-				Text="Ride Sharing Application" FontSize="22"/>
+				Text="Driver Itinerary Details" FontSize="22"/>
 		</StackPanel>
 		<!--Pivot Control-->
-		<phone:Pivot Grid.Row="1" Margin="0,-30,0,0" Background="#3DA5E1">
+		<phone:Pivot Grid.Row="1" Margin="0,-30,0,0">
+			<phone:Pivot.Background>
+				<ImageBrush Stretch="Fill" ImageSource="/Assets/Background/flow_purple.png"/>
+			</phone:Pivot.Background>
 			<!--Pivot item one-->
 			<phone:PivotItem Header="Map" Margin="0,0,0,0">
 				<Grid>
@@ -86,7 +89,7 @@
 
 			<!--Pivot item two-->
 			<phone:PivotItem Header="Info" Margin="0,0,0,0">
-				<Grid x:Name="gridInfo" Background="#3DA5E1">
+				<Grid x:Name="gridInfo" Background="Transparent">
 					<Grid.RowDefinitions>
 						<RowDefinition Height="2*"/>
 						<RowDefinition Height="*"/>

@@ -37,10 +37,9 @@ namespace UberRiding.Customer
 
         List<Driver2> list = new List<Driver2>();
 
-        private IHubProxy HubProxy { get; set; }
-        const string ServerURI = "http://52.25.218.73:8080/signalr";
+        //private IHubProxy HubProxy { get; set; }
 
-        private HubConnection con { get; set; }
+        //private HubConnection con { get; set; }
 
         public CustomerMainMap()
         {
@@ -58,7 +57,7 @@ namespace UberRiding.Customer
             {
                 geoQ.CancelAsync();
             }
-            ConnectAsync();
+            GlobalData.ConnectCustomerAsync();
             getDrivers();
         }
 
@@ -76,7 +75,7 @@ namespace UberRiding.Customer
         }
 
         #region signalR
-        private async void ConnectAsync()
+        /*private async void ConnectAsync()
         {
             con = new HubConnection(ServerURI);
             con.Closed += Connection_Closed;
@@ -128,7 +127,7 @@ namespace UberRiding.Customer
         private void Connection_Closed()
         {
             //Deactivate chat UI; show login UI. 
-        }
+        }*/
         #endregion
 
         public async void InitCurrentLocationInfo()
@@ -399,11 +398,11 @@ namespace UberRiding.Customer
                     GlobalData.selectedItinerary = i2;
                 }
 
-                Dispatcher.BeginInvoke(() =>
+                Deployment.Current.Dispatcher.BeginInvoke(() =>
                 {
                     string driver_id = "D" + GlobalData.calldriver; 
                     string message = "C" + GlobalData.user_id + "," + GlobalData.selectedItinerary.itinerary_id;
-                    HubProxy.Invoke("SendPos2", driver_id, message);
+                    GlobalData.HubProxy.Invoke("SendPos2", driver_id, message);
 
                     NavigationService.Navigate(new Uri("/Customer/CustomerItineraryDetails.xaml", UriKind.RelativeOrAbsolute));
                 });

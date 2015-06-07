@@ -16,7 +16,10 @@
 
 
 	<!--LayoutRoot is the root grid where all page content is placed-->
-	<Grid x:Name="LayoutRoot" Background="Transparent">
+	<Grid x:Name="LayoutRoot">
+		<Grid.Background>
+			<ImageBrush Stretch="Fill" ImageSource="/Assets/Background/flow_blue.png"/>
+		</Grid.Background>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto"/>
 			<RowDefinition Height="*"/>
@@ -32,7 +35,7 @@
 				Text="Customer Report" FontSize="22"/>
 		</StackPanel>
 		<!--Pivot Control-->
-		<phone:Pivot Grid.Row="1" Margin="0,-30,0,0" Background="#36D7B7">
+		<phone:Pivot Grid.Row="1" Margin="0,-30,0,0" Background="Transparent">
 			<!--Pivot item one-->
 			<phone:PivotItem Header="Itinerary Chart">
 				<amCharts:SerialChart 
@@ -71,7 +74,7 @@
 
 					<amCharts:SerialChart.Graphs>
 						<amCharts:ColumnGraph ValueMemberPath="val1" Title="Itinerary" Brush="Orange" ColumnWidthAllocation="0.4" />
-					</amCharts:SerialChart.Graphs> 
+					</amCharts:SerialChart.Graphs>
 				</amCharts:SerialChart>
 			</phone:PivotItem>
 

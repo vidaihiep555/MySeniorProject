@@ -15,7 +15,10 @@
     shell:SystemTray.IsVisible="True">
 
     <!--LayoutRoot is the root grid where all page content is placed-->
-    <Grid x:Name="LayoutRoot" Background="#36D7B7">
+    <Grid x:Name="LayoutRoot" >
+        <Grid.Background>
+            <ImageBrush Stretch="UniformToFill" ImageSource="/Assets/Background/city-street-bike-bike-parking-background-blur-blur-tilt-shift.jpg"/>
+        </Grid.Background>
         <Grid.RowDefinitions>
             <RowDefinition Height="6*"/>
             <RowDefinition Height="1.5*"/>
@@ -29,45 +32,13 @@
                 <RowDefinition Height="4*"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-            <Image Grid.Row="0" Source="Assets/avatar/ic_logo.png"/>
+            <Image Grid.Row="0" Source="Assets/avatar/ic_logo2.png"/>
             <TextBlock Grid.Row="1" HorizontalAlignment="Center" Text="Your Happiness moment" FontWeight="Bold" FontFamily="MV Boli" />
         </Grid>
         <toolkit:PhoneTextBox x:Name="txtbEmail" Hint="Email:" Grid.Row="1" Background="White" Width="Auto" Height="Auto" />
         <PasswordBox  x:Name="txtbPassword" Grid.Row="2" Background="White" Width="Auto" />
-        <Button x:Name="btnLogin" Grid.Row="3" Content="Logon"  Width="Auto" FontWeight="Bold" BorderThickness="0" Background="#FF3DA5E1" Click="btnLogin_Click"/>
+        <Button x:Name="btnLogin" Grid.Row="3" Content="Login"  Width="Auto" FontWeight="Bold" BorderThickness="0" Background="#FF3DA5E1" Click="btnLogin_Click"/>
         <Button x:Name="btnRegister" Grid.Row="4" Content="Register"  Width="Auto" FontWeight="Bold" BorderThickness="0" Background="#FF3DA5E1" Click="btnRegister_Click"/>
         <HyperlinkButton x:Name="linkForgotPass"  Grid.Row="5" Content="Forgot password" Click="linkForgotPass_Click"/>
     </Grid>
-    <!--<Grid x:Name="LayoutRoot" Background="White">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
-        <StackPanel Grid.Row="0" Margin="12,17,0,28">
-            
-            <TextBlock Text="Login Page" Foreground="Black" FontSize="40"/>
-
-            
-            <TextBlock Text=" Email:" Foreground="Black" FontSize="30"/>
-            <TextBox  BorderBrush="LightGray" 
-                      x:Name="txtbEmail"/>
-
-            
-            <TextBlock  Foreground="Black" Text="Password:" Margin="9,-7,0,0" FontSize="30"/>
-            <PasswordBox BorderBrush="LightGray" 
-                         x:Name="txtbPassword"/>
-
-            
-            <Button Content="Login" Background="#FF30DABB" 
-                    x:Name="btnLogin" Click="btnLogin_Click" Margin="4,0,0,0" />
-
-            
-            <Button Content="Registration" Background="#FF30DABB" x:Name="btnRegister" Click="btnRegister_Click"/>
-            
-        </StackPanel>
-        <Image x:Name="myImg" Grid.Row="1">
-            
-        </Image>
-    </Grid>-->
-
 </phone:PhoneApplicationPage>

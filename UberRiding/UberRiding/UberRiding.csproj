@@ -329,6 +329,7 @@
     <Content Include="Assets\AppBar\ic_map.png" />
     <Content Include="Assets\AppBar\ic_router.png" />
     <Content Include="Assets\AppBar\ic_search.png" />
+    <Content Include="Assets\avatar\ic_logo2.png" />
     <Content Include="Assets\avatar\email-blue-icon.png" />
     <Content Include="Assets\avatar\ic_author_vidal.png" />
     <Content Include="Assets\avatar\ic_driver_license .jpg" />
@@ -342,6 +343,10 @@
     <Content Include="Assets\avatar\phone.png" />
     <Content Include="Assets\avatar\Postcard.png" />
     <Content Include="Assets\Background\city-street-bike-bike-parking-background-blur-blur-tilt-shift.jpg" />
+    <Content Include="Assets\Background\flow_blue.png" />
+    <Content Include="Assets\Background\flow_green.png" />
+    <Content Include="Assets\Background\flow_purple.png" />
+    <Content Include="Assets\marker\atv.png" />
     <Content Include="Assets\marker\blackEnd.png" />
     <Content Include="Assets\marker\blackStart.png" />
     <Content Include="Assets\marker\ic_marker_driver.png" />

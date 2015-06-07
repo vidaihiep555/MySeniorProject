@@ -13,7 +13,10 @@
 	mc:Ignorable="d"
 	shell:SystemTray.IsVisible="True">
 
-	<Grid x:Name="LayoutRoot" Background="#3DA5E1">
+	<Grid x:Name="LayoutRoot">
+		<Grid.Background>
+			<ImageBrush Stretch="Fill" ImageSource="/Assets/Background/flow_purple.png"/>
+		</Grid.Background>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto"/>
 			<RowDefinition Height="2.5*"/>
@@ -68,7 +71,7 @@
 					</Grid>
 
 				</Grid>
-				
+
 			</ListBoxItem>
 
 		</Grid>
@@ -172,7 +175,7 @@
 
 
 		<StackPanel Grid.Row="3">
-			<Button x:Name="btnAddNewVehicle" Height="70" Width="450" Content="Add" Margin="-1,0,1,0" Click="btnAddNewVehicle_Click" Background="#3DA5E1"/>
+			<Button x:Name="btnAddNewVehicle" BorderThickness="0" Height="70" Width="450" Content="Add" Margin="-1,0,1,0" Click="btnAddNewVehicle_Click" Background="#3DA5E1"/>
 		</StackPanel>
 	</Grid>
 

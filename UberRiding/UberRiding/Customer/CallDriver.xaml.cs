@@ -33,9 +33,9 @@ namespace UberRiding.Customer
         GeoCoordinate myGeoCoordinate = null;
         ReverseGeocodeQuery geoQ = null;
 
-        private IHubProxy HubProxy { get; set; }
-        const string ServerURI = "http://52.25.218.73:8080/signalr";
-        private HubConnection con { get; set; }
+        //private IHubProxy HubProxy { get; set; }
+        //const string ServerURI = "http://52.25.218.73:8080/signalr";
+        //private HubConnection con { get; set; }
 
         public CallDriver()
         {
@@ -57,7 +57,7 @@ namespace UberRiding.Customer
 
             mapMain.Layers.Add(mapLayer);
 
-            ConnectAsync();
+            GlobalData.ConnectCustomerAsync();
             //load thong tin driver
             txtbFullname.Text = Global.GlobalData.selectedDriver.fullname;
             txtbEmail.Text = Global.GlobalData.selectedDriver.email;
@@ -68,7 +68,7 @@ namespace UberRiding.Customer
             
         }
 
-        private async void ConnectAsync()
+        /*private async void ConnectAsync()
         {
             con = new HubConnection(ServerURI);
             con.Closed += Connection_Closed;
@@ -117,7 +117,7 @@ namespace UberRiding.Customer
         private void Connection_Closed()
         {
             //Deactivate chat UI; show login UI. 
-        }
+        }*/
 
         public async void InitCurrentLocationInfo()
         {
@@ -233,13 +233,14 @@ namespace UberRiding.Customer
 
                     GlobalData.selectedItinerary = i2;
                 }
-                Dispatcher.BeginInvoke(() =>
+
+                Deployment.Current.Dispatcher.BeginInvoke(() =>
                 {
                     string driver_id = "D" + GlobalData.selectedDriver.driver_id;
 
                     //message = customer_id, itinerary_id, 
                     string message = "C" + GlobalData.user_id + "," + GlobalData.selectedItinerary.itinerary_id;
-                    HubProxy.Invoke("SendPos2", driver_id, message);
+                    GlobalData.HubProxy.Invoke("SendPos2", driver_id, message);
 
                     NavigationService.Navigate(new Uri("/Customer/CustomerItineraryDetails.xaml", UriKind.RelativeOrAbsolute));
                 });

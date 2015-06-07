@@ -10,6 +10,7 @@ using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using UberRiding.Resources;
 using UberRiding.ViewModels;
+using UberRiding.Global;
 
 namespace UberRiding
 {
@@ -106,6 +107,11 @@ namespace UberRiding
         private void Application_Deactivated(object sender, DeactivatedEventArgs e)
         {
             // Ensure that required application state is persisted here.
+            if (GlobalData.periodicTask != null)
+            {
+                GlobalData.RemoveAgent(GlobalData.periodicTaskName);
+            }
+            GlobalData.StartPeriodicAgent();
         }
 
         // Code to execute when the application is closing (eg, user hit Back)

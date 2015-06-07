@@ -30,10 +30,10 @@ namespace UberRiding.Customer
 
 
         //marker for tracking
-        MapOverlay driverOverlay = new MapOverlay();
+        public static MapOverlay driverOverlay = new MapOverlay();
 
 
-        MapLayer mapLayer = new MapLayer();
+        public static MapLayer mapLayer = new MapLayer();
         //Geocoordinate myGeocoordinate = null;
         //GeoCoordinate myGeoCoordinate = null;
         ReverseGeocodeQuery geoQ = null;
@@ -47,10 +47,8 @@ namespace UberRiding.Customer
 
 
         Geolocator myLocator = null;
-        private IHubProxy HubProxy { get; set; }
-        const string ServerURI = "http://52.25.218.73:8080/signalr";
-        //const string ServerURI = "http://localhost:8080/signalr";
-        private HubConnection con { get; set; }
+        //private IHubProxy HubProxy { get; set; }
+        //private HubConnection con { get; set; }
 
 
 
@@ -75,8 +73,6 @@ namespace UberRiding.Customer
                 endPointOverlay = MarkerDraw.DrawCurrentMapMarker(new GeoCoordinate(GlobalData.selectedItinerary.end_address_lat, GlobalData.selectedItinerary.end_address_long));
                 wayPoints.Add(new GeoCoordinate(GlobalData.selectedItinerary.end_address_lat, GlobalData.selectedItinerary.end_address_long));
                 mapLayer.Add(endPointOverlay);
-
-                
 
                 //draw route
                 routeQuery = new RouteQuery();
@@ -121,23 +117,11 @@ namespace UberRiding.Customer
             {
                 txtItineraryInfo.Text = "Itinerary Accepted";
 
-                //tracking  ==> tuong tu nhu call driver
-                Button btnTracking = new Button();
-                btnTracking.Content = "Tracking";
-                btnTracking.Click += btnTracking_Click;
-                gridInfo.Children.Add(btnTracking);
-                Grid.SetRow(btnTracking, 5);
             }
             //hanh trinh ongoing
             else if (GlobalData.selectedItinerary.status.Equals(Global.GlobalData.ITINERARY_STATUS_ONGOING))
             {
                 txtItineraryInfo.Text = "Itinerary Ongoing";
-                // tracking
-                Button btnTracking = new Button();
-                btnTracking.Content = "Tracking";
-                btnTracking.Click += btnTracking_Click;
-                gridInfo.Children.Add(btnTracking);
-                Grid.SetRow(btnTracking, 4);
 
 
                 Button btnDriverInfo = new Button();
@@ -152,8 +136,7 @@ namespace UberRiding.Customer
                 gridInfo.Children.Add(btnFinshItinerary);
                 Grid.SetRow(btnFinshItinerary, 6);
 
-
-                ConnectAsync();
+                GlobalData.ConnectCustomerAsync();
 
                 myLocator = new Geolocator();
                 myLocator.DesiredAccuracy = PositionAccuracy.High;
@@ -191,7 +174,8 @@ namespace UberRiding.Customer
             timePicker.Value = datetime;
         }
 
-        private async void ConnectAsync()
+        #region signalR
+        /*private async void ConnectAsync()
         {
             con = new HubConnection(ServerURI);
             con.Closed += Connection_Closed;
@@ -250,18 +234,19 @@ namespace UberRiding.Customer
         private void Connection_Closed()
         {
             //Deactivate chat UI; show login UI. 
-        }
+        }*/
+        #endregion
 
         private void myGeoLocator_PositionChanged(Geolocator sender, PositionChangedEventArgs args1)
         {
-            Dispatcher.BeginInvoke(() =>
+            Deployment.Current.Dispatcher.BeginInvoke(() =>
             {
-                string driver_id = "D" + GlobalData.calldriver;
+                string driver_id = "D" + GlobalData.selectedItinerary.driver_id;
 
                 //message = customer_id, itinerary_id, 
                 string message = "C" + GlobalData.user_id + "," + GlobalData.selectedItinerary.itinerary_id + "," + args1.Position.Coordinate.Latitude.ToString() + "," + args1.Position.Coordinate.Longitude.ToString();
 
-                HubProxy.Invoke("SendTracking", driver_id, message);
+                GlobalData.HubProxy.Invoke("SendTracking", driver_id, message);
             });
         }
 
@@ -276,20 +261,18 @@ namespace UberRiding.Customer
 
 
             //send to
-
+            GlobalData.calldriver = GlobalData.selectedItinerary.driver_id.ToString().Trim();
 
             //navigate to rating
-            NavigationService.Navigate(new Uri("Customer/RatingPage.xaml", UriKind.RelativeOrAbsolute));
+            NavigationService.Navigate(new Uri("/Customer/RatingPage.xaml", UriKind.RelativeOrAbsolute));
         }
 
         void btnDriverInfo_Click(object sender, RoutedEventArgs e)
         {
             //get selected driver id variable calldriver
+            GlobalData.calldriver = GlobalData.selectedItinerary.driver_id.ToString().Trim();
 
-
-
-
-            NavigationService.Navigate(new Uri("Driver/DriverAccInfo.xaml", UriKind.RelativeOrAbsolute));
+            NavigationService.Navigate(new Uri("/Driver/DriverAccInfo.xaml", UriKind.RelativeOrAbsolute));
         }      
 
         void routeQuery_QueryCompleted(object sender, QueryCompletedEventArgs<Route> e)
@@ -429,11 +412,6 @@ namespace UberRiding.Customer
                 // refresh lai trang
                 NavigationService.Navigate(new Uri("/RefreshPage.xaml", UriKind.RelativeOrAbsolute));
             }
-        }
-
-        void btnTracking_Click(object sender, RoutedEventArgs e)
-        {
-            //NavigationService.Navigate(new Uri("/RefreshPage.xaml", UriKind.RelativeOrAbsolute));
         }
 
         private void mapItineraryDetails_Tap(object sender, System.Windows.Input.GestureEventArgs e)

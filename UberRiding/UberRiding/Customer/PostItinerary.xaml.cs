@@ -36,6 +36,12 @@ namespace UberRiding.Customer
         {
             InitializeComponent();
 
+            
+        }
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
             mapPostItinerary.IsEnabled = false;
             //this.Cursor = Cursors.Wait;
             //RevCode for current Location and show on Start TextBox

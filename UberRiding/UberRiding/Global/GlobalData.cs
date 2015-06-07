@@ -4,6 +4,7 @@ using Microsoft.Phone.Scheduler;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Device.Location;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
@@ -11,6 +12,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
+using UberRiding.Customer;
 using UberRiding.Request;
 using Windows.Web.Http;
 
@@ -26,7 +28,6 @@ namespace UberRiding.Global
 
         //driver
         public static PeriodicTask periodicTask;
-        ResourceIntensiveTask resourceIntensiveTask;
         public static string periodicTaskName = "PeriodicAgent";
         public static string resourceIntensiveTaskName = "ResourceIntensiveAgent";
         public static bool agentsAreEnabled = true;
@@ -90,89 +91,205 @@ namespace UberRiding.Global
 
         public static async void ConnectDriverAsync()
         {
-            GlobalData.con = new HubConnection(GlobalData.ServerURI);
-            GlobalData.con.Closed += GlobalData.Connection_Closed;
-            GlobalData.con.Error += GlobalData.Connection_Error;
-            GlobalData.HubProxy = GlobalData.con.CreateHubProxy("MyHub");
-            //Handle incoming event from server: use Invoke to write to console from SignalR's thread
-            GlobalData.HubProxy.On<string, string>("getPos2", (driver_id, message) =>
-                Deployment.Current.Dispatcher.BeginInvoke(() => test(message))
-            );
             try
             {
-                await GlobalData.con.Start();
-            }
-            catch (HttpRequestException)
-            {
-                //No connection: Don't enable Send button or show chat UI
-                //btntrack.Content = "eror";
-            }
-            catch (HttpClientException)
-            {
-                //btntrack.Content = "eror";
-            }
+                GlobalData.con = new HubConnection(GlobalData.ServerURI);
+                GlobalData.con.Closed += GlobalData.Connection_Closed;
+                GlobalData.con.Error += GlobalData.Connection_Error;
+                GlobalData.HubProxy = GlobalData.con.CreateHubProxy("MyHub");
+                //Handle incoming event from server: use Invoke to write to console from SignalR's thread
+                GlobalData.HubProxy.On<string, string>("getPos2", (driver_id, message) =>
+                    Deployment.Current.Dispatcher.BeginInvoke(() => testDriver(message))
+                );
+                GlobalData.HubProxy.On<string, string>("getPostItinerary", (driver_id, message) =>
+                    Deployment.Current.Dispatcher.BeginInvoke(() => test2Driver(message))
+                );
+                GlobalData.HubProxy.On<string, string>("getFinishItinerary", (driver_id, message) =>
+                    Deployment.Current.Dispatcher.BeginInvoke(() => finishItineraryDriver(message))
+                );
+                try
+                {
+                    await GlobalData.con.Start();
+                }
+                catch (HttpRequestException)
+                {
+                    //No connection: Don't enable Send button or show chat UI
+                    //btntrack.Content = "eror";
+                }
+                catch (HttpClientException)
+                {
+                    //btntrack.Content = "eror";
+                }
 
-            Deployment.Current.Dispatcher.BeginInvoke(() =>
+                Deployment.Current.Dispatcher.BeginInvoke(() =>
+                {
+                    string id = "D" + Global.GlobalData.user_id;
+                    GlobalData.HubProxy.Invoke("Connect", id);
+                });
+            }
+            catch (Exception)
             {
-                string id = "D" + Global.GlobalData.user_id;
-                GlobalData.HubProxy.Invoke("Connect", id);
-            });
+                
+                //throw;
+            }
+        }
+
+        private static async void testDriver(string message)
+        {
+            //show message box
+            try
+            {
+                var resultMessageBox = MessageBox.Show("Do it now");
+
+                if (resultMessageBox == MessageBoxResult.OK)
+                {
+                    string[] x = message.Split(',');
+                    //send message
+
+                    Dictionary<string, string> updateData = new Dictionary<string, string>();
+                    updateData.Add("busy_status", GlobalData.DRIVER_BUSY.ToString());
+                    HttpFormUrlEncodedContent updateDataContent = new HttpFormUrlEncodedContent(updateData);
+                    var update = await RequestToServer.sendPutRequest("driverbusy", updateDataContent);
+
+                    var result = await RequestToServer.sendGetRequest("itinerary/" + x[1]);
+
+                    //set selected itinerary
+                    RootObject root = JsonConvert.DeserializeObject<RootObject>(result);
+                    foreach (Itinerary i in root.itineraries)
+                    {
+                        Itinerary2 i2 = new Itinerary2
+                        {
+                            itinerary_id = i.itinerary_id,
+                            driver_id = i.driver_id,
+                            customer_id = Convert.ToInt32(i.customer_id),
+                            start_address = i.start_address,
+                            start_address_lat = i.start_address_lat,
+                            start_address_long = i.start_address_long,
+                            end_address = i.end_address,
+                            end_address_lat = i.end_address_lat,
+                            end_address_long = i.end_address_long,
+                            distance = i.distance,
+                            description = i.description,
+                            status = i.status,
+                            created_at = i.created_at,
+                            time_start = i.time_start,
+                        };
+                        GlobalData.selectedItinerary = i2;
+                    }
+                    (Application.Current.RootVisual as PhoneApplicationFrame).Navigate(new Uri("/Driver/DriverItineraryDetails.xaml", UriKind.RelativeOrAbsolute));
+                }
+            }
+            catch (Exception)
+            {
+                
+                //throw;
+            }
+        }
+
+
+        private static void test2Driver(string message)
+        {
+            var resultMessageBox = MessageBox.Show("Check Itinerary management");
+            if (resultMessageBox == MessageBoxResult.OK)
+            {
+                //set alarm
+
+                (Application.Current.RootVisual as PhoneApplicationFrame).Navigate(new Uri("/Driver/DriverItineraryManagement.xaml", UriKind.RelativeOrAbsolute));
+            }
+        }
+
+        private static void finishItineraryDriver(string message)
+        {
+            var resultMessageBox = MessageBox.Show("Check Itinerary management");
+            if (resultMessageBox == MessageBoxResult.OK)
+            {
+                //set alarm
+
+                (Application.Current.RootVisual as PhoneApplicationFrame).Navigate(new Uri("/Driver/DriverItineraryManagement.xaml", UriKind.RelativeOrAbsolute));
+            }
+        }
+
+        public static async void ConnectCustomerAsync()
+        {
+            try
+            {
+                GlobalData.con = new HubConnection(GlobalData.ServerURI);
+                GlobalData.con.Closed += GlobalData.Connection_Closed;
+                GlobalData.con.Error += GlobalData.Connection_Error;
+                GlobalData.HubProxy = GlobalData.con.CreateHubProxy("MyHub");
+                //Handle incoming event from server: use Invoke to write to console from SignalR's thread
+                GlobalData.HubProxy.On<string, string>("getPos2", (driver_id, message) =>
+                    Deployment.Current.Dispatcher.BeginInvoke(() => testCustomer(message))
+                );
+                GlobalData.HubProxy.On<string, string>("getPostItinerary", (driver_id, message) =>
+                    Deployment.Current.Dispatcher.BeginInvoke(() => test2Customer(message))
+                );
+                GlobalData.HubProxy.On<string, string>("getTracking", (driver_id, message) =>
+                    Deployment.Current.Dispatcher.BeginInvoke(() => trackCustomer(message))
+                );
+                try
+                {
+                    await GlobalData.con.Start();
+                }
+                catch (HttpRequestException)
+                {
+                    //No connection: Don't enable Send button or show chat UI
+                    //btntrack.Content = "eror";
+                }
+                catch (HttpClientException)
+                {
+                    //btntrack.Content = "eror";
+                }
+
+                Deployment.Current.Dispatcher.BeginInvoke(() =>
+                {
+                    string id = "C" + Global.GlobalData.user_id;
+                    GlobalData.HubProxy.Invoke("Connect", id);
+                });
+            }
+            catch (Exception)
+            {
+                
+                //throw;
+            }
 
 
         }
 
-        public static async void test(string message)
+        private static async void testCustomer(string message)
         {
-            //show message box
-            var resultMessageBox = MessageBox.Show("Do it now");
-
-            if (resultMessageBox == MessageBoxResult.OK)
-            {
-                string[] x = message.Split(',');
-                //send message
-
-                Dictionary<string, string> updateData = new Dictionary<string, string>();
-                updateData.Add("busy_status", GlobalData.DRIVER_BUSY.ToString());
-                HttpFormUrlEncodedContent updateDataContent = new HttpFormUrlEncodedContent(updateData);
-                var update = await RequestToServer.sendPutRequest("driverbusy", updateDataContent);
-
-                var result = await RequestToServer.sendGetRequest("itinerary/" + x[1]);
-
-                //set selected itinerary
-                RootObject root = JsonConvert.DeserializeObject<RootObject>(result);
-                foreach (Itinerary i in root.itineraries)
-                {
-                    Itinerary2 i2 = new Itinerary2
-                    {
-                        itinerary_id = i.itinerary_id,
-                        driver_id = i.driver_id,
-                        customer_id = Convert.ToInt32(i.customer_id),
-                        start_address = i.start_address,
-                        start_address_lat = i.start_address_lat,
-                        start_address_long = i.start_address_long,
-                        end_address = i.end_address,
-                        end_address_lat = i.end_address_lat,
-                        end_address_long = i.end_address_long,
-                        distance = i.distance,
-                        description = i.description,
-                        status = i.status,
-                        created_at = i.created_at,
-                        time_start = i.time_start,
-                        //convert base64 to image
-                        //average_rating = i.average_rating
-                    };
-
-                    GlobalData.selectedItinerary = i2;
-                }
-
-                (Application.Current.RootVisual as PhoneApplicationFrame).Navigate(new Uri("/Driver/DriverItineraryDetails.xaml", UriKind.RelativeOrAbsolute));
-            }
-            //string[] latlng = message.Split(",".ToCharArray());
+            string[] latlng = message.Split(",".ToCharArray());
             //double lat = Double.Parse(latlng[0]);
             //double lng = Double.Parse(latlng[1]);
             //addMarkertoMap(new GeoCoordinate(lat, lng));
             //txtFireBase.Text = message;
         }
+
+        private static async void test2Customer(string message)
+        {
+            string[] latlng = message.Split(",".ToCharArray());
+            //double lat = Double.Parse(latlng[0]);
+            //double lng = Double.Parse(latlng[1]);
+            //addMarkertoMap(new GeoCoordinate(lat, lng));
+            //txtFireBase.Text = message;
+        }
+
+        private static async void trackCustomer(string message)
+        {
+            string[] latlng = message.Split(",".ToCharArray());
+            double lat = Double.Parse(latlng[2]);
+            double lng = Double.Parse(latlng[3]);
+
+            if (CustomerItineraryDetails.driverOverlay != null)
+            {
+                CustomerItineraryDetails.mapLayer.Remove(CustomerItineraryDetails.driverOverlay);
+            }
+            CustomerItineraryDetails.driverOverlay = Global.MarkerDraw.DrawDriverMarker(new GeoCoordinate(lat, lng), new Driver2());
+            CustomerItineraryDetails.mapLayer.Add(CustomerItineraryDetails.driverOverlay);
+            //addMarkertoMap(new GeoCoordinate(lat, lng));
+            //txtFireBase.Text = message;
+        }
+
 
         public static void Connection_Closed()
         {
@@ -310,7 +427,7 @@ namespace UberRiding.Global
         public string personalID { get; set; }
         public string personalID_img { get; set; }
         public string driver_avatar { get; set; }
-        public int average_rating { get; set; }
+        public float average_rating { get; set; }
     }
 
     public class Driver2
@@ -325,7 +442,7 @@ namespace UberRiding.Global
         public string personalID { get; set; }
         public BitmapImage personalID_img { get; set; }
         public BitmapImage driver_avatar { get; set; }
-        public int average_rating { get; set; }
+        public float average_rating { get; set; }
         public double distance_todriver { get; set; }
     }
 
